@@ -1,0 +1,7770 @@
+body, p, span, a, li, h1, h2, h3, h4, h5, h6{
+	font-family: "PT Sans",Arial,Helvetica,sans-serif !important;	
+}
+
+body #wrapper{
+	color: #000000 !important;
+}
+
+pre{
+	float: left;
+	width: 100%;
+}
+
+body.wait *, body.wait
+{
+    cursor: progress !important;
+}
+
+#header,
+body #header.sticky-header .sticky-shadow {
+	background-color: #151a1d !important;
+}
+
+#nav ul a, #sticky-nav ul a {
+    border-color: #151a1d !important;
+	color: #ffffff !important;
+}
+
+.header-v1 .logo{
+	margin: 11px 0px !important;	
+}
+
+.header-v1 .avada-row,
+.sticky-shadow .avada-row{
+    max-width: 90% !important;
+}
+
+#main {
+    padding-top: 20px !important;
+}
+
+.body_id_timesheet #main .avada-row{
+	max-width: 95%;
+}
+
+.body_id_staff-timesheet #main .avada-row{
+	max-width: 95%;
+}
+
+.body_id_dashboard #main .avada-row{
+	max-width: 95%;
+}
+
+.body_id_add-checklists #main .avada-row{
+	max-width: 95%;
+}
+
+.body_id_inventory  #main .avada-row{
+    max-width: 95%;
+}
+
+.body_id_detailed-time #main .avada-row{
+    max-width: 1145px !important;
+}
+
+#main{	
+	min-height: 220px;
+}
+
+.page-id-4 .avada-row{
+	max-width: 100% !important;
+}
+
+.page-id-4 .column{	
+	width: 13%;	
+	float: left;	
+	margin-right: 10px;
+}
+
+li{	
+	list-style: none;
+}
+
+p{	
+	margin: 0px;
+}
+
+.inner_padding{
+    padding: 10px !important;
+}
+
+.display_button{	
+	float: left !important;    
+	height: 10px !important;    
+	line-height: 10px !important;
+}
+
+.padding_button{	
+	padding: 5px 12px !important;
+}
+
+.float_left{	
+	float: left !important;	
+	margin-right: 5px !important;
+}
+
+.float_right{	
+	float: right !important;
+}
+
+.last{
+	clear: right;
+    margin-right: 0 !important;
+}
+
+.button_1{
+	background-color: #4CAD1E;
+	background: -moz-linear-gradient(center bottom , #2E8D11 0%, #72C152 70%) repeat scroll 0 0 rgba(0, 0, 0, 0);	
+	background:	-webkit-gradient(linear, 0% 100%, 0% 0%, color-stop(0, #2e8d11), color-stop(0.7, #72c152));    
+	border: 1px solid #2E8D11;    
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;    
+	color: #FFFFFF;    
+	font-weight: bold;    
+	text-shadow: 0 0 2px #2E8D11;	
+	border-radius: 4px;	
+	cursor: pointer;    
+	display: inline-block;    
+	font-family: "Helvetica Neue",Arial,Verdana,"Nimbus Sans L",sans-serif !important;    
+	font-size: 11px !important;    
+	height: 25px;    
+	line-height: 25px;    
+	margin: 0 3px 0 0;    
+	outline: medium none;    
+	padding: 0 12px;    
+	text-align: center;    
+	text-decoration: none;    
+	white-space: nowrap;	
+	width: auto !important;
+}
+
+.project_check{
+	background-image: url("img/check.png");
+    background-repeat: no-repeat;
+    background-size: 15px auto;
+    height: 15px;
+    width: 15px;
+	left: 170px;
+    margin: 0;
+    position: absolute;
+    top: 3px;
+}
+
+.check_button{
+	background-image: url("img/check.png");
+	background-size: 20px auto;
+	float: left;
+	height: 20px;
+	margin-left: 10px;
+	width: 20px;
+}
+
+.button_1:hover{	
+	background: -moz-linear-gradient(center bottom , #3EA60B 0%, #72C152 70%) repeat scroll 0 0 rgba(0, 0, 0, 0);	
+	background:	-webkit-gradient(linear, 0% 100%, 0% 0%, color-stop(0, #3EA60B), color-stop(0.7, #72C152));	
+	color: #ffffff;
+}
+
+.wide_button{	
+	width: 13% !important;
+}
+
+.button_2{	
+	background: -moz-linear-gradient(center bottom , #D4D4D4 0%, #F4F4F4 70%) repeat scroll 0 0 rgba(0, 0, 0, 0);	
+	background:	-webkit-gradient(linear, 0% 100%, 0% 0%, color-stop(0, #D4D4D4), color-stop(0.7, #F4F4F4));    
+	border: 1px solid #AAAAAA;    
+	border-radius: 5px;    
+	box-shadow: 0 1px 0 #FFFFFF inset;    
+	color: #888888;    
+	cursor: pointer;    
+	font-family: "Helvetica Neue",Arial,Verdana,"Nimbus Sans L",sans-serif;    
+	font-size: 11px;    
+	font-weight: bold;    
+	height: 25px;    
+	line-height: 25px;    
+	margin: 0 5px 0 0;    
+	outline: medium none;    
+	overflow: visible;    
+	padding: 5px 12px;    
+	text-align: center;    
+	text-decoration: none;    
+	text-shadow: 0 1px 0 #F4F4F4;    
+	white-space: nowrap;    
+	width: auto;
+}
+
+.button_2:hover{	
+	background: -moz-linear-gradient(center bottom , #DDDDDD 0%, #EEEEEE 70%) repeat scroll 0 0 rgba(0, 0, 0, 0);	
+	background:	-webkit-gradient(linear, 0% 100%, 0% 0%, color-stop(0, #DDDDDD), color-stop(0.7, #EEEEEE));	
+	color: #A0CE4E;}
+	
+.section{		
+	float: left;    
+	margin-bottom: 15px;    
+	width: 100%;
+}
+
+.left{	
+	float: left;    
+	width: 20%;
+}
+
+.right{	
+	float: left;	
+	width: 80%;
+}
+
+.text_red{
+	color: #FF0000;
+}
+
+.text_green{
+	color: #2b8d00;
+}
+
+.text_black{
+	color: black;
+}
+
+.red_bg{	
+	background-color: #D15252;
+	color: #fff;	
+	text-align: center;
+}
+
+.green_bg{	
+	background-color: #a0ce4e;	
+	color: #fff;	
+	text-align: center;
+}
+
+.small_input{
+	float: left;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.small_input .right,
+.small_input .left{
+	width: 27%;	
+}
+
+.small_input .left .label{
+	margin-right: 35px;
+}
+
+.small_input .right .label{
+	margin-right: 10px;
+}
+
+.small_input .label{
+	float: left;
+}
+
+.small_input input{
+	width: 40%;
+}
+
+.border_separator{	
+	border-bottom: 1px solid #D3D2D2;    
+	float: left;    
+	margin-bottom: 10px;    
+	width: 100%;
+}
+
+p.label{	
+	color: #000000;    
+	font-weight: bold;	
+	margin: 0px;
+	font-size: 12px;
+}
+
+p.notes{	
+	color: #888888;    
+	float: left;    
+	font-size: 11px;    
+	line-height: 16px;    
+	margin: 0;
+}
+
+p.hours{	
+	float: left;    
+	margin-top: 0;    
+	width: 60%;
+}
+
+p.message{	
+	font-weight: bold;
+}
+
+span.span_bold{
+	font-weight: bold;
+}
+
+select.budget_select{	
+	width: 30%;	
+	float:left;	
+	margin-right: 10px;
+}
+
+select.client_select,input{	
+	width: 30%;
+}
+
+input.project_code,input.budget_hour{	
+	float: left;	
+	margin-right: 10px;
+}
+
+input.budget_hour{	
+	width: 5%;
+}
+
+input.radio{	
+	margin: 0px 5px 0px 0px;
+}
+
+input.checkbox{	
+	float: left;
+}
+
+input.radio, 
+input.checkbox{	
+	width: 13px;	
+}
+
+input.input_float_left{	
+	float: left;	
+	margin-right: 5px;
+}
+
+textarea.textarea_wide{	
+	float: left;    
+	height: 120px;    
+	width: 75%;
+}
+
+p.right_label{	
+	float: left;	
+	margin: 0px 5px 0px 0px;
+}
+
+.full_width{	
+	width: 100% !important;	
+	float: left;	
+	margin-bottom: 10px;
+}
+
+/* MANAGE PAGE */
+.page-id-22 #main{	padding-top: 0px !important;	padding-right: 0px !important;	padding-left: 0px !important;}
+.page-id-22  #main .avada-row{	max-width: 100% !important;}
+.page-id-22 .full_width{	background: url("img/div_bg.png")}	
+.page-id-22 .tab-holder{	border: 0px none;}
+.page-id-22 .tab-holder .tabs{	width: 75% !important;	margin: 0 auto;	height: 40px !important;}
+.page-id-22 .tabs-container{	width: 75% !important;	margin: 20px auto;}
+.page-id-22 .tab-holder .tabs li{	border-right: 0px none !important;	height: 40px !important;}
+.page-id-22 .tab-holder .tabs li a{	font-weight: bold !important;	font-size: 15px !important;        line-height: 40px !important;    padding: 0 15px !important;	border-width: 0px !important;}
+.tabs_li.active{	/* background: url("img/arrow.png") no-repeat scroll 50% 100% rgba(0, 0, 0, 0); */	}
+
+.tabs_li a{    
+	background: linear-gradient(to bottom, #FFFFFF, #EEEEEE) repeat scroll 0 0 rgba(0, 0, 0, 0);    
+	border: 1px solid #CCCCCC;    
+	box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2) inset;    
+	color: #888888;    
+	display: block;    
+	font-size: 13px;    
+	font-weight: bold;    
+	height: 45px;    
+	line-height: normal;    
+	outline: medium none;    
+	padding: 6px 15px;    
+	text-shadow: 0 1px 0 #FFFFFF;    
+}
+
+.tab-holder .tabs li.active a{	 border-color: #EAEAEA !important;}
+
+.tabs_li.active a{		
+	background: none repeat scroll 0 0 #EAEAEA;    
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1) inset;    
+	color: #999999;    
+	cursor: default;	
+	border: 1px solid #CCCCCC;	
+	display: block;    
+	font-size: 13px;   
+	font-weight: bold;    
+	height: 45px;    
+	line-height: normal;    
+	outline: medium none;    
+	padding: 6px 15px;    
+	text-shadow: 0 1px 0 #FFFFFF;
+}
+
+.tab-holder .tabs li:last-child a {    
+	width: auto !important;
+}
+
+.tab-holder .tabs li.active:last-child a {    
+	width: auto !important;
+}
+
+/* Display */
+.display_main{	
+	float: left;    
+	margin-top: 20px;    
+	width: 100%;
+}
+.display_section{	float: left;    width: 100%;}
+.display_list{	float: left;    padding: 20px 10px;    width: 97.9%;	cursor: pointer;}
+.display_list:hover{	background: #ECF7FF;}
+h2.display_title{	
+	background: #dddddd none repeat scroll 0 0;
+    border-top: 1px solid #d5d5d5;
+    float: left;
+    font-size: 1em;
+    margin: 0 !important;
+    padding: 5px 10px;
+    width: 98%;
+}
+h3.display_subtitle{	margin: 0px 5px 0px 0px;	float: left;}
+.display_separator{	border-bottom: 1px solid #D3D2D2;    float: left;    width: 100%;}
+.display_hourly_rate,.display_permission{	margin: 0px 5px 0px 0px;	float: left;}
+.display_permission{	margin-right: 0px;	font-size: 8px;    padding: 3px 5px;	background: none repeat scroll 0 0 #EEEEEE;    border-radius: 3px;    color: #999999;    cursor: default;    display: inline-block;    font-weight: bold;    line-height: normal;    text-decoration: none;    text-transform: uppercase;    vertical-align: middle;    white-space: nowrap;}
+.display_bg{	background: none repeat scroll 0 0 #F6F6F6;    border-top: 1px solid #D5D5D5;    font-size: 0.9em;    font-weight: normal;    padding: 5px 10px;	margin: 0px;	float: left;	width: 97.9%;}
+
+#dialog_form_archive_people{
+	height: auto !important;
+}
+
+#archive_person{
+	margin: 20px 0;
+}
+
+#archive_person .archive_person{
+	height: 20px;
+	line-height: 20px;
+}
+
+#archive_person .loader{
+	float: right;
+    margin: 3px 0 0;
+}
+
+#archive_person p{
+	float: left;
+    margin-right: 10px;
+}
+
+#dialog_form_unarchive_people{
+	height: auto !important;
+}
+
+#unarchive_person{
+	margin: 20px 0;
+}
+
+#unarchive_person .archive_person{
+	height: 20px;
+	line-height: 20px;
+}
+
+#unarchive_person .loader{
+	float: right;
+    margin: 3px 0 0;
+}
+
+#unarchive_person p{
+	float: left;
+    margin-right: 10px;
+}
+
+.edit_person .section .right img.person_image{	
+	width: 15%;	height: 15%;	
+}
+
+.person_left{	
+	width: 20%;	
+	float: left;
+}
+
+.person_right{	
+	border-left: 1px solid #D3D2D2;    
+	float: left;    
+	padding-left: 20px;    
+	width: 77%;
+}
+
+.person_right h1{	
+	margin-top: 0px;
+}
+
+.person_right .tabs_li{
+	width: 24.8%;
+}
+
+.person_right .tabs_li .title{
+	line-height: 20px;
+    margin: 0;
+	text-align: center;
+}
+
+figure.person_image{	
+	margin: 0px 10px 0px 0px;
+}
+
+.person_info{	float: left;}
+.person_info h3{	margin: 0px;}
+.info_project figure.person_image{	float: left;	width: 50%;}
+
+.timesheet .import_message p{
+	float: right;
+    margin-right: 10px;   
+}
+
+.timesheet .import_message .loader{
+	margin-left: 15px;
+    margin-top: 3px;
+}
+
+.timesheet .left_div{
+    float: left;
+    margin-right: 20px;
+    width: 20%;
+}
+
+.timesheet .right_div {
+    float: left;
+    width: 78%;
+}
+
+.timesheet .left_div .staff_timesheet_form .label {
+    float: left;
+    margin-right: 10px;
+}
+
+.timesheet .left_div .staff_timesheet_form .choose_person {
+    float: left;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.timesheet .left_div .staff_timesheet_form .person_name {
+    width: 135px;
+	float: left;
+}
+
+.timesheet .left_div .staff_timesheet_form #week_number_calendar {
+    float: left;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.timesheet .left_div .staff_timesheet_search {
+    float: right;
+    width: 15%;
+	margin: 0px;
+}
+
+.timesheet .left_div .loader{
+    float: right;
+	margin: 0px;
+}
+
+.timesheet .left_div .ui-datepicker {
+	width:98%;
+}
+
+.timesheet .left_div .month_stat {
+	border: 1px solid #d3d2d2;
+    float: left;
+    padding: 20px;
+    width: 84%;
+}
+
+.timesheet .left_div .month_stat h1{
+	margin-top: 0;
+    text-align: center;
+}
+
+.timesheet .left_div .month_stat p.label{
+	float: left;
+}
+
+.timesheet .left_div .month_stat .month_details{
+	float: left;
+	width: 100%;
+}
+
+.timesheet .left_div .month_stat p.hours{
+	float: right;
+	width: auto;
+}
+
+.timesheet .tabs_li{	
+	text-align: center;
+}
+
+.timesheet li.monday.tabs_li:hover div.monday_date{	
+	display: block;
+}
+
+.timesheet .top_nav{	
+	float: left;	
+	width: 100%;
+}
+
+.timesheet .top_nav .week_section{	
+	float: left;    
+	line-height: 0;    
+	width: 35%;
+}
+
+.timesheet .info_div{
+    width: 96%;
+}
+
+.timesheet .header_titles{
+    margin: 0px 20px;
+}
+
+.timesheet .data_title.header_titles{
+    margin: 0px;
+}
+
+.timesheet .right_div .tab-holder .tabs-container .info_div{
+	border-bottom: 1px solid #d3d2d2;
+	padding: 10px 0;
+	margin: 0px 20px;
+}
+
+.timesheet .right_div .header_person_name h1{
+	margin-top: 0px;
+}
+
+.timesheet .right_div .tab-holder .tabs-container .info_div:last-child{
+	border-bottom: 0px;
+}
+
+.timesheet .right_div .tab-holder .tabs-container .header_titles .first_column, 
+.timesheet .right_div .tab-holder .tabs-container .info_div .first_column, 
+.timesheet .right_div .tab-holder .tabs-container .info_div_total .first_column{
+	float: left;
+	width: 20%;
+}
+
+.timesheet .right_div .tab-holder .tabs-container .header_titles .second_column,
+.timesheet .right_div .tab-holder .tabs-container .info_div .second_column,
+.timesheet .right_div .tab-holder .tabs-container .info_div_total .second_column{
+	float: left;
+	width: 9%;
+}
+
+.timesheet .right_div .tab-holder .tabs-container .header_titles .third_column, 
+.timesheet .right_div .tab-holder .tabs-container .info_div .third_column, 
+.timesheet .right_div .tab-holder .tabs-container .info_div_total .third_column{
+    float: left;
+    width: 12%;
+}
+
+.timesheet .right_div .tab-holder .tabs-container .header_titles .fourth_column,
+.timesheet .right_div .tab-holder .tabs-container .info_div .fourth_column,
+.timesheet .right_div .tab-holder .tabs-container .info_div_total .fourth_column{
+	float: left;
+	width: 14%;
+}
+
+.timesheet .right_div .tab-holder .tabs-container .header_titles .fifth_column,
+.timesheet .right_div .tab-holder .tabs-container .info_div .fifth_column,
+.timesheet .right_div .tab-holder .tabs-container .info_div_total .fifth_column{
+	float: left;
+	width: 35%;
+}
+
+.timesheet .right_div .tab-holder .tabs-container .info_div.same_user .fifth_column{
+	width: 26%;
+}
+
+.timesheet .right_div .tab-holder .tabs-container .header_titles .sixth_column,
+.timesheet .right_div .tab-holder .tabs-container .info_div .sixth_column,
+.timesheet .right_div .tab-holder .tabs-container .info_div_total .sixth_column{
+	float: left;
+    width: 7%;
+	margin-right: 5px;
+}
+
+.timesheet .right_div .tab-holder .tabs-container .info_div.same_user .sixth_column .button_1 {
+    width: 50%;
+}
+
+.timesheet .right_div .tab-holder .tabs-container .info_div .sixth_column .button_1{
+	width: 60%;
+}
+
+.timesheet .right_div .tab-holder .tabs-container .header_titles .seventh_column,
+.timesheet .right_div .tab-holder .tabs-container .info_div .seventh_column,
+.timesheet .right_div .tab-holder .tabs-container .info_div_total .seventh_column{
+	float: left;
+    width: 7%;
+}
+
+.timesheet .right_div .tab-holder .tabs-container .info_div.same_user .seventh_column{
+    width: 5%;
+}
+
+.timesheet .right_div .tab-holder .tabs-container .info_div .seventh_column .button_1{
+	width: 60%;
+}
+
+.timesheet .right_div .tab-holder .tabs-container .header_titles .first_column, 
+.timesheet .right_div .tab-holder .tabs-container .header_titles .second_column, 
+.timesheet .right_div .tab-holder .tabs-container .header_titles .third_column, 
+.timesheet .right_div .tab-holder .tabs-container .header_titles .fourth_column,
+.timesheet .right_div .tab-holder .tabs-container .info_div .first_column, 
+.timesheet .right_div .tab-holder .tabs-container .info_div .second_column, 
+.timesheet .right_div .tab-holder .tabs-container .info_div .third_column, 
+.timesheet .right_div .tab-holder .tabs-container .info_div .fourth_column,
+.timesheet .right_div .tab-holder .tabs-container .info_div_total .first_column, 
+.timesheet .right_div .tab-holder .tabs-container .info_div_total .second_column, 
+.timesheet .right_div .tab-holder .tabs-container .info_div_total .third_column, 
+.timesheet .right_div .tab-holder .tabs-container .info_div_total .fourth_column {
+    margin-right: 10px;
+}
+
+.timesheet .right_div .tab-holder .tabs-container .info_div .fifth_column span.arrow{
+	float: right !important;
+}
+
+.timesheet .right_div .tab-holder .tabs-container .info_div h5.toggle a{
+	border-bottom: 0px;
+	 padding: 0;
+}
+
+.timesheet .right_div .tab-holder .tabs-container .info_div .toggle-content{
+	 background-color: #ebeaea;
+    border: 1px solid #d3d2d2;
+    max-height: 150px;
+    overflow-y: auto;
+    padding: 10px;
+    position: absolute;
+    width: 20%;
+    word-wrap: break-word;
+    z-index: 1;
+}
+
+.timesheet .right_div .month_summary{
+	border: 1px solid #d3d2d2;
+    float: left;
+    margin-top: 10px;
+    padding: 20px;
+    width: 96%;
+}
+
+.timesheet .right_div .column{
+	float: left;
+    margin-right: 20px;
+    width: 100%;
+}
+.timesheet .right_div .column .label{
+     float: left;
+    margin: 0 50px 0 0 !important;
+    width: 165px;
+}
+
+.timesheet .right_div .month_summary h1{
+	margin-top: 0px;
+	text-align: center;
+}
+
+.timesheet .right_div .month_summary h3{
+	margin-top: 0px;
+}
+
+.timesheet .right_div.full_width .tabs_li{
+	width: 14.21% !important;
+}
+
+.timesheet .right_div.full_width .tabs_li a{
+	padding: 0 15% !important;
+}
+
+.timesheet .right_div .tabs_li{
+	width: 14.19% !important;
+}
+
+.timesheet .right_div .tabs_li a{
+	padding: 0 !important;
+}
+
+.timesheet .tabs_li{
+	position: relative;
+}
+
+.timesheet .tabs_li .day_date{
+	color: #000000;
+    font-size: 10px;
+    position: absolute;
+    right: 3px;
+    top: -12px;
+	display: none;
+	font-weight: 100 !important;
+	font-size: 0.9em;
+}
+
+.timesheet .tabs_li:hover .day_date{
+	display: block;
+}
+
+.top_loader{
+	margin: 5px 10px 0px 0px ! important;
+}
+
+.action_message{
+	right: 30%;
+    top: 200px !important;
+}
+
+.status_message.timesheet_message{
+	right: 30%;
+    top: 185px;
+}
+
+.status_message.timesheet_message .loader{
+	position: absolute;
+    right: 95px;
+    top: 30px;
+}
+
+.no_task{
+	float: left;
+    font-size: 18px;
+    margin: 50px 0;
+    text-align: center;
+    width: 100%;
+}
+
+.no_task span{
+	float: left;
+    font-size: 12px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.navigation_button{	float: right;}
+.navigation_button #prev,.navigation_button #next{	float: left;	width: 50px;}
+.tab-holder{	float: left;	width: 100%;}
+
+.import_button {
+    float: right;
+    margin-left: 25px;
+    margin-right: 0;
+    width: 98%;
+}
+
+.import_button .button_import{
+	float: left;
+	margin: 0;
+}
+
+.import_button .import_kanban_task{
+	margin-right: 15px;
+}
+
+.button_import{	
+	margin: 20px 20px 0 15px;	
+	width: 50px;
+}
+
+.search-loading{	
+	background: url('img/loader.gif');	
+	width: 16px;	
+	height: 16px;	
+	float: left;	
+	margin: 15px 0px 0px 15px;
+}
+
+.task_name{	
+	float: left;	
+	width: 12%;
+
+/*	margin-left: 25px !important;
+*/}
+.task-complete{
+	float: left;
+	width: 2%;
+	margin-left: -2px;
+
+}
+.task-complete li{
+	list-style: none outside none;
+	padding: 14px 0;
+	float: left;
+	width: 100%;
+	position: relative;
+}
+.task-complete .complete_button_timesheet,.task-complete .edit_button{
+	height: 24px;    
+	line-height: 25px;
+	padding: 0px 5px;
+}
+.task-complete li{
+	margin-top: 0px !important;
+}
+.task-complete li:last-child{
+	border-bottom: none !important;
+	margin-top: -2px;
+}
+.task-complete h3{
+	margin: 15px 0; 	
+}
+.task-complete .info_help{	
+	background-image: url("img/info_button.png");
+    float: right;
+    height: 15px;
+    width: 15px;
+	margin-top: -13px;
+}
+.task_name li{	
+	/*border-bottom: 1px solid #D3D2D2;    */
+	list-style: none outside none;    
+	padding: 10px 0;
+}
+
+.task_name li:last-child{	
+	border-bottom: 0px none;
+}
+.task_name .new_entry_taskname_1 select{
+	width:100px;
+}
+.task_hour{	
+	float: left;    
+	width: 7%;
+	/*padding-left: 13px;*/
+}
+
+.task_hour li{	
+	/*border-bottom: 1px solid #D3D2D2; */   
+	list-style: none outside none;    
+	padding: 10px 0px;
+	width: 100px	;
+}
+.task_hour li input[type=text]{
+	height: 14px;
+	width: 33%;
+}
+.task_hour li:last-child{	
+	border-bottom: 0px none;
+}
+
+
+.task_hour_billable{	
+	float: left;    
+	width: 8%;
+}
+.task_user{	
+	float: left;    
+	width: 8%;
+}
+.task_hour_billable li {
+    border-bottom: 1px solid #d3d2d2;
+    list-style: outside none none;
+    padding: 10px 0;
+}
+
+
+.task_hour_billable li:last-child{	
+	border-bottom: 0px none;
+}
+
+.task_label{	
+	float: left;    
+	width: 14.5%;
+	margin-left: 25px !important;
+
+}
+
+.task_label li{	
+	/*border-bottom: 1px solid #D3D2D2; */   
+	list-style: none outside none;    
+	padding: 10px 0;
+}
+.task_label li input[type=text]{
+	width: 100%;
+}
+.task_label li:last-child{	
+	border-bottom: 0px none;
+}
+.task_label .new_entry_client_1 select{
+	width: 135px;
+}
+.task_color{	
+	float: left;    
+	width: 10%;
+}
+
+.task_color li{	
+	/*border-bottom: 1px solid #D3D2D2; */   
+	list-style: none outside none;    
+	padding: 10px 0;
+}
+
+.task_color li:last-child{	
+	border-bottom: 0px none;
+}
+
+.task_person{	
+	float: left;    
+	width: 12%;
+}
+.task_person li{	
+	/*border-bottom: 1px solid #D3D2D2; */   
+	list-style: none outside none;    
+	padding: 10px 0;
+}
+
+.task_person li:last-child{	
+	border-bottom: 0px none;
+}
+
+.task_description{	
+	float: left;    
+	width: 32%;
+}
+.task_description div input[type=text]{
+	height: 14px;
+	width: 18%;
+	margin-top: 1px;
+}
+.task_description .accordian, .task_description .accordian_input{	
+	/*border-bottom: 1px solid #D3D2D2; */   
+	list-style: none outside none;    
+	padding: 9px 0;	
+}
+
+.task_description .accordian:last-child, .task_description .accordian_input:last-child{	
+	border-bottom: 0px none;
+}
+
+.task_description .accordian h5 li, .task_description .accordian_input h5 li{	
+	color: #747474 !important;
+	padding: 1px 0px 1px;
+}
+
+.task_description .accordian input, .task_description .accordian_input input{
+	width: 80% !important;
+}
+
+.task_description .accordian .toggle-content, .task_description .accordian_input .toggle-content{	
+	border: 1px solid #d3d2d2;
+    width: 20%;
+    padding: 10px;
+    position: absolute;
+    word-wrap: break-word;
+	background-color: #ebeaea;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1;
+}
+
+.task_description a{	
+	padding: 0px !important;
+	border-bottom: 0 none !important;
+}
+
+.task_description .arrow{	
+	float: right !important;
+    margin-right: 10px !important;
+}
+
+.ordernumber{
+	float: left;
+	width: 9%;
+}
+
+.ordernumber li{
+	list-style: none outside none;
+	padding: 10px 0;
+}
+.ordernumber .new_entry_ordernumber_1 input[type="text"] {
+	height: 14px;
+	width: 50px;
+}
+.kilometer{
+	float: left;
+	width: 7%;	
+}
+.kilometer li{
+	/*margin: 12px 0px;*/
+	list-style: none outside none;    
+	padding: 10px 0;
+}
+.kilometer .new_entry_kilometer_1 input{
+	/*margin: 12px 0px;*/
+	height: 14px;
+	width: 30%;
+}
+.task_delete{	
+	float: left;
+    width: 2%;
+}
+.task_delete li{	
+	/*border-bottom: 1px solid #D3D2D2; */   
+	list-style: none outside none;    
+	padding: 7px 0;
+	width: 100%;
+}
+
+.task_delete li:last-child{	
+	border-bottom: none !important;
+}
+
+.task_delete .delete_button {     
+	height: 24px;	 
+	line-height: 25px;
+	padding: 0px 5px;
+}
+
+.task_edit{	
+	float: left;
+    width: 2%;
+}
+.task_edit .save_row{
+	height: 24px;
+	line-height: 25px;
+	padding: 0px 5px;
+}
+.task_delete .cancel_row{
+	height: 24px;
+	line-height: 25px;
+	padding: 0px 5px;
+}
+.task_edit .top_label,	
+.task_delete .top_label{	
+	margin: 15px 0;
+}
+
+.task_edit .top_label{
+	position: relative;
+}
+
+.task_edit .top_label .loader{		
+    position: absolute;
+    top: 0;
+}
+
+.task_edit .edit_button{
+	height: 24px;    
+	line-height: 25px;
+	padding: 0px 5px;
+}
+
+.task_edit li{	
+	/*border-bottom: 1px solid #D3D2D2; */
+	list-style: none outside none;    
+	padding: 7px 0;
+	float: left;
+	width: 100%;	
+}
+.task_edit li:last-child{
+	border-bottom: none !important;
+}
+
+/*.task_edit li:last-of-type{	
+	border-bottom: 0px none;
+}
+*/
+.task_done_today{	
+	float: left;
+	width: 8%;
+	position: relative;
+}
+
+.task_done_today h5{	
+	margin: 15px 0;
+	float: left;	
+}
+
+.task_done_today .button_help{	
+	background-image: url("img/help_button.png");
+    float: right;
+    height: 15px;
+    width: 15px;
+	margin-top: 2px;
+}
+
+.task_done_today .help_note{	
+	background-color: #fff;
+    border: 1px solid #d3d2d2;
+    border-radius: 5px;
+    bottom: 40px;
+    padding: 10px;
+    position: absolute;
+    right: 0;
+    width: 200px;
+}
+
+.task-complete .edit_note{	
+	background-color: #fff;
+    border: 1px solid #d3d2d2;
+    border-radius: 5px;
+    bottom: 40px;
+    padding: 10px;
+    position: absolute;
+    right: 0;
+    width: 200px;
+}
+
+.task_done_today .done_today_button{
+	height: 24px;    
+	line-height: 25px;
+	padding: 0px 5px;
+}
+
+.task_done_today li{	
+	/*border-bottom: 1px solid #D3D2D2; */
+	list-style: none outside none;    
+	padding: 7px 0;
+	float: left;
+	width: 100%;	
+}
+
+.task_done_today li:last-of-type{	
+	border-bottom: 0px none;
+}
+
+#dialog_form_timesheet_done_today{
+	height: auto !important;
+}
+
+#done_today_form h3.task_hour{
+	float: left;
+	width: 100%;
+	margin: 5px 0px;
+}
+
+#done_today_form textarea{	
+	width: 100%;
+}
+
+#done_today_form textarea.task_done_today_hours {
+    display: block;
+    font-size: 15px !important;
+    font-weight: 500;
+    height: 56px;
+    line-height: 38px;
+    padding: 0;
+    text-align: center;
+}
+
+#done_today_form .add_more_done_today {
+    float: left;
+    height: 10px;
+    line-height: 10px;
+}
+
+#done_today_form .done_today_action_button {
+    float: left;
+    height: 10px;
+    line-height: 10px;
+    padding: 5px;
+    width: auto !important;
+}
+
+#done_today_form .one_half,
+#done_today_form .one_fourth{
+	margin-bottom: 0px;
+}
+
+#done_today_form .check_edit{
+	background-image: url("img/check.png");
+	background-size: 20px auto;
+	float: left;
+	height: 20px;
+	margin-left: 10px;
+	width: 20px;
+}
+
+#done_today_form .add_task_done_today{
+	float: right;
+}
+
+#done_today_form .loader{
+	float: right;
+    margin: 5px 5px 0 0;
+}
+
+.loader_div{
+    border-bottom: 1px solid #d3d2d2;
+    float: left;
+    width: 70px;
+}
+
+.timesheet_loader{
+	margin: 0px !important;
+}
+
+.timesheet_action_buttons{
+	float:left;
+	width: 20%;
+}
+
+
+.total_hours{	
+	border-top: 1px solid #d3d2d2;
+    float: right;
+    margin: 0 6px;
+    padding: 7px 0;
+    width: 97%;
+}
+
+.total_hours h3{	
+	margin: 0px;
+}
+
+.total_hours .task_total{	
+	width: 43.5%;	
+	float: left;
+}
+
+.total_hours .task_total_hour{	width: 18%;	float: left;}
+.import_function{	float: left;}
+
+.body_id_time  .avada-row,	
+.page-id-52  .avada-row{	
+	max-width: 1145px !important;
+}
+
+.import_edit .section .left{	margin-right: 20px;}
+.import_edit select.client_select, .import_edit input {    width: 40%;}
+.import_edit .right {    float: left;    width: 82%;}
+.import_edit .update_button {    width: 7%;}
+
+#report_table{	
+	float: left;
+	width: 100%;
+}
+
+#report_table  .tab_content .info_div:last-child,
+#report_table  .tab_content .info_div_total:last-child{	
+	border-bottom: 0px none;
+}
+
+.report_container{	
+	width: 100%;
+}
+
+.report_container .border_separator{
+    margin-top: 10px;
+}
+
+.report_container  .tab_content .info_div,
+.report_container  .tab_content .info_div_total{	
+	border-bottom: 1px solid #D3D2D2;   
+	list-style: none outside none;   
+	padding: 10px 0;
+}
+
+
+.report_container .report_total{
+	font-weight: bold;
+}
+
+.report_container .top_navi{
+    float: left;
+    width: 100%;
+}
+
+.report_container .top_navi .left{
+	width: 55%;
+}
+
+.report_container .top_navi .right{
+	float: left;
+	width: 45%;
+}
+
+.report_container .top_navi .left .timeframe_navigation{
+	float: left;
+    width: 18%;
+}
+
+.report_container .top_navi .left .timeframe_navigation .loader{
+	margin-left: 5px;
+    margin-top: 5px;
+}
+
+.report_container .top_navi .left .report_top_label{
+	float: left;
+    margin: 3px 0;
+}
+
+.report_container .top_navi .left .report_top_label h1{
+	margin: 0;
+}
+
+.report_container .top_navi .left .button_2{
+	float: left;
+    padding: 0;
+    width: 33px;
+}
+
+.report_container .top_navi .left .month_previous,
+.report_container .top_navi .left .month_next,
+.report_container .top_navi .left .nav_previous,
+.report_container .top_navi .left .nav_next{
+	background-position: center center;
+    background-repeat: no-repeat;
+	padding: 5px 11px;
+    width: 11px;
+    height: 16px;
+}
+
+.report_container .top_navi .left .month_previous,
+.report_container .top_navi .left .nav_previous{
+	background-image: url(img/previous.png);
+}
+
+.report_container .top_navi .left .month_next,
+.report_container .top_navi .left .nav_next{
+	background-image: url(img/next.png);
+}
+
+.report_container .top_navi .right #custom_filter{
+	float: right;
+    padding: 5px 10px;
+    width: 20%;
+}
+
+.report_container .top_navi .right .custom_date_filter{
+	float: right;
+    width: 65%;	
+}
+
+.report_container .top_navi .right .custom_date_filter p.label{
+	float: left;
+	margin: 3px 10px 0px 0px;
+}
+
+.report_container .top_navi .right .custom_date_filter input{
+	padding: 5px 10px;
+    width: 25%;
+	float: left;
+	margin-right: 10px;
+}
+
+.report_container .top_navi .right .custom_date_filter .button_2{
+	float: left;
+    height: 20px;
+    padding: 0;
+    width: 20px;
+	margin-top: 3px;
+}
+
+.report_container .top_navi .right .custom_date_filter .custom_date_filter_go{
+	background-image: url(img/next.png);
+	background-position: center center;
+    background-repeat: no-repeat;
+	padding: 2px 5px;
+    width: 11px;
+    height: 16px;
+}
+
+.body_id_time .ui-datepicker{
+	top: 290px !important;
+}
+
+.report_container .left_div{
+	width: 25%;	
+	float: left;
+}
+
+.report_container .left_div #report_time_search {
+	float: left;	
+}
+
+.report_container .left_div #report_time_search #week_number_calendar{
+	margin-bottom: 10px;	
+}
+
+.report_container .left_div #report_time_search .select_choices{
+	float: left;
+	margin-right: 10px;
+}
+
+.report_container .left_div #report_time_search .select_choices:last-child{
+	margin-right: 0px;
+}
+
+.report_container .left_div #report_time_search .custom_date_range input{
+	float: left;
+}
+
+.report_container .left_div #report_time_search .custom_date_range input.custom_date_range_from{
+	margin-right: 10px;
+}
+
+.report_container .left_div #report_time_search .label{
+	float: left;
+	margin-right: 10px;
+}
+
+.report_container .left_div #report_time_search #search_mode{
+	width: 76%;
+}
+
+.report_container .left_div #report_time_search .filter_option{
+	float: left;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.report_container #get_week_number{	
+	width: 30% !important;	
+	margin-top: 10px;	
+	float: left;
+}
+
+.report_container .right_div{	
+	float: left;  
+	width: 70%;
+}
+
+.report_container .right_div .header_titles{	
+	float: left;
+	width: 100%;
+}
+
+.report_container{
+	float: left;
+	width: 100%;
+}
+
+.report_container .tab-holder{
+	width: 100%;
+	border-radius: 5px 5px 0px 0px;
+}	
+
+.report_container ul.tabs{
+	background: -moz-linear-gradient(center bottom , #CCCCCC 0%, #EEEEEE 70%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background:	-webkit-gradient(linear, 0% 100%, 0% 0%, color-stop(0, #CCCCCC), color-stop(0.7, #EEEEEE));	padding-top: 10px;
+}
+
+.report_container .tab-holder .tabs li{
+	border-radius: 5px 5px 0px 0px;
+	margin: 0px 2px;
+	background: -moz-linear-gradient(center bottom , #D4D4D4 0%, #F0F0F0 80%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background:	-webkit-gradient(linear, 0% 100%, 0% 0%, color-stop(0, #D4D4D4), color-stop(0.7, #F0F0F0));	
+}
+
+.report_container .tab-holder .tabs li a{
+	border-radius: 5px 5px 0px 0px;
+	border: 1px solid #bbbbbb !important;
+	box-shadow: 0px 0px 0px !important;
+	background: -moz-linear-gradient(center bottom , #D4D4D4 0%, #F0F0F0 80%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background:	-webkit-gradient(linear, 0% 100%, 0% 0%, color-stop(0, #D4D4D4), color-stop(0.7, #F0F0F0));
+}
+
+.report_container .tab-holder .tabs li a .loader{
+	float: right;
+    margin: 10px 0 0 10px;
+}
+
+.report_container .tab-holder .tabs li.active{	
+	border-radius: 5px 5px 0px 0px;
+	background-color: #FFFFFF !important;
+}
+
+.report_container .tab-holder .tabs li.active a{
+	border-radius: 5px 5px 0px 0px;
+	background: #FFFFFF !important;
+	border: 1px solid #bbbbbb !important;
+	box-shadow: 0px;
+}
+
+.report_container .tabs-container{	
+	float: left; 
+	padding: 10px;  
+	width: 97.5%;
+}
+
+.report_container #result_table .header_titles h3{
+	 margin: 0;
+	 float: left;
+}
+
+.report_container #result_table #projects .project_client_sort_container {
+    border-bottom: 1px solid #d3d2d2;
+    float: left;
+    width: 100%;
+}
+
+.report_container #result_table .project_hour_sort_container {
+    border-bottom: 1px solid #d3d2d2;
+    float: left;
+    width: 100%;
+}
+
+.report_container #result_table #projects .third_column,
+.report_container #result_table #projects .fourth_column,
+.report_container #result_table #projects .fifth_column,
+.report_container #result_table #projects .sixth_column,
+.report_container #result_table #projects .seventh_column{
+
+    width: 13.5% !important;
+	float: left;
+}
+
+.info_div,.info_div_total{
+	float: left;
+	width: 100%;
+}
+
+.info_div .first_column,
+.info_div .second_column,
+.info_div .third_column,
+.info_div .fourth_column,
+.info_div .fifth_column,
+.info_div .sixth_column,
+.info_div .seventh_column,
+.info_div .eighth_column,
+.info_div .ninth_column,
+.info_div .tenth_column,
+.info_div .eleventh_column,
+.info_div_total .first_column,
+.info_div_total .second_column,
+.info_div_total .third_column,
+.info_div_total .fourth_column,
+.info_div_total .fifth_column,
+.info_div_total .sixth_column,
+.info_div_total .seventh_column,
+.info_div_total .eighth_column,
+.info_div_total .ninth_column,
+.info_div_total .tenth_column,
+.info_div_total .eleventh_column{	
+	float: left;	
+	width: 16.7%;
+}
+
+.header_titles .first_column,
+.header_titles .second_column,
+.header_titles .third_column,
+.header_titles .fourth_column,
+.header_titles .fifth_column,
+.header_titles .sixth_column,
+.header_titles .seventh_column,
+.header_titles .eighth_column,
+.header_titles .ninth_column,
+.header_titles .tenth_column,
+.header_titles .eleventh_column{	
+	float: left;
+	width: 16%;
+}
+
+.report_container #result_table #staff .first_column{
+	width: 16%;
+}
+
+.report_container #result_table #staff .second_column,
+.report_container #result_table #staff .third_column,
+.report_container #result_table #staff .fourth_column,
+.report_container #result_table #staff .fifth_column,
+.report_container #result_table #staff .sixth_column,
+.report_container #result_table #staff .seventh_column,
+.report_container #result_table #staff .eight_column,
+.report_container #result_table #staff .ninth_column,
+.report_container #result_table #staff .tenth_column,
+.report_container #result_table #staff .eleventh_column{
+    width: 8% !important;
+	float: left;
+}
+
+.ui-widget-overlay{	background: #000000 !important;}
+
+.ui-dialog{    
+	left: 425px !important;    
+	width: 455px !important;
+}
+
+div[aria-describedby='dialog_form_timesheet_delete']{
+	left: 515px !important;
+    width: 285px !important;
+	height: 150px !important;
+}
+
+div[aria-describedby='dialog_form_timesheet_delete_not_current']{
+	left: 515px !important;
+    width: 285px !important;
+	height: 150px !important;
+}
+
+#dialog_form_timesheet_delete_task{
+	height: auto !important;
+}
+
+div[aria-describedby='dialog_form_timesheet_delete_task']{
+	left: 515px !important;
+    width: 320px !important;
+	height: auto !important;
+}
+
+.confirm_delete_buttons{
+	float: right;
+	width: 49%;
+}
+
+.confirm_delete_buttons .loader{
+	margin: 5px 10px 0px 0px;
+}
+
+.confirm_delete_buttons .delete_confirm{
+	float: right;
+	width: 20%;
+}
+
+.confirm_delete_buttons .delete_cancel{
+	float: right;
+    height: 15px;
+    line-height: 15px;
+}
+
+.confirm_delete_buttons .delete_confirm_not_current{
+	float: right;
+	width: 20%;
+}
+
+#add_project_client_confirm .add_project_client{
+	float: right;
+	width: 10%;
+}
+
+#dialog_form_add_project_client #submit_project_client .section.one_input .left{
+	width: auto;
+	margin-right: 10px;
+}
+
+#dialog_form_add_project_client #submit_project_client .section.one_input .left .add_website_url{
+	height: 10px;
+    line-height: 10px;
+	width: auto;
+}
+
+#dialog_form_add_project_client #submit_project_client .section.two_input input{
+	width: 90%;
+}
+
+#dialog_form_add_project_client #submit_project_client .section.two_input .left{
+	margin-right: 5px;
+    width: auto;
+}
+
+#dialog_form_add_project_client #submit_project_client .section.two_input .right{	
+    width: 30%;
+	margin-right: 10px;
+}
+
+#dialog_form_add_project_client #submit_project_client .section.two_input .right select{	
+    width: 100%;
+}
+
+#dialog_form_add_project_client #submit_project_client .section.two_input .left:last-child{
+	margin: 0px;
+}
+
+#dialog_form_add_project_client #submit_project_client .section.three_input select{
+	width: 95%;
+}
+
+#dialog_form_add_project_client #submit_project_client .section.three_input input{
+	width: 90%;
+}
+
+#dialog_form_add_project_client #submit_project_client .section.three_input input.project_invoice_method{
+	width: 10%;
+}
+
+#dialog_form_add_project_client #submit_project_client .section.three_input .left{
+	width: 32%;
+}
+
+#dialog_form_add_project_client #submit_project_client .section.four_input .left{
+	margin-right: 12px;
+    width: 22%;
+}
+
+#dialog_form_add_project_client #submit_project_client .section .left{
+    width: 100%;
+}
+
+#dialog_form_add_project_client #submit_project_client .section .left textarea{
+    height: 40px;
+    width: 93%;
+}
+
+#dialog_form_add_project_client #submit_project_client .section.four_input .left .project_hour,
+#dialog_form_add_project_client #submit_project_client .section.four_input .left .project_minute{
+	width: 25%;
+}
+
+#dialog_form_add_project_client #submit_project_client .section.four_input .left input{
+    width: 100%;
+}
+
+#dialog_form_add_project_client #submit_project_client .save_project_buttons{
+    float: right;
+    width: 100%;
+}
+
+#dialog_form_add_project_client #submit_project_client .save_project_buttons div{
+    float: right;
+}
+
+#dialog_form_add_project_client #submit_project_client .save_project_buttons .button_2{
+	height: 15px;
+    line-height: 15px;
+}
+
+#dialog_form_add_project_client #submit_project_client .loader{
+	margin: 5px 10px 0 0;
+}
+
+.body_id_submit-kb-task .dialog_form_website_add{
+	top: 75px !important;
+}
+
+#add_project_client_confirm .cancel_add_project_client{
+	float: right;
+    height: 15px;
+    line-height: 15px;
+}
+
+#add_project_client_confirm .loader{
+	float: right;
+    margin: 5px 10px 0 0;
+}
+
+#dialog_form_timesheet_add{	
+	height: auto !important;
+}
+
+#dialog_form_timesheet_edit{
+	height: 235px !important;
+}
+
+#update_timesheet .loader{
+	float: right;
+    margin: 5px 5px 0 0;
+}
+
+#update_timesheet .update_button{
+	float: right;
+}
+
+.ui-dialog-titlebar {   
+	background: linear-gradient(to bottom, #FAFAFA, #EAEAEA) repeat scroll 0 0 rgba(0, 0, 0, 0) !important;	
+	background: -moz-linear-gradient(center bottom , #FAFAFA 0%, #EAEAEA 80%) repeat scroll 0 0 rgba(0, 0, 0, 0) !important;	
+	background:	-webkit-gradient(linear, 0% 100%, 0% 0%, color-stop(0, #FAFAFA), color-stop(0.7, #EAEAEA)) !important;
+	border-bottom: 1px solid #BBBBBB !important;    
+	border-radius: 7px 7px 0 0 !important;    
+	color: #555555 !important;    
+	font-size: 15px !important;    
+	line-height: 35px !important;   
+	margin: -5px !important;    
+	text-align: center!important;    
+	text-shadow: 0 1px 0 #FFFFFF !important;
+}
+
+.modal_label,
+.modal_select,
+.modal_input{	
+	float: left;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.modal_label_project{
+	width: auto;
+}
+
+.modal_form{	width: 54px;	padding: 0 10px;}
+#modal_save{	float: right;	margin: 0px;}
+.textareas{	margin-bottom: 20px;	float: left;	width: 100%;}
+
+.modal_textarea1,
+.modal_textarea2{
+	float: left;    
+	width: 100%;
+}
+
+.dialog_form_timesheet_edit_task .modal_input {
+    width: 98%;
+}
+
+#dialog_form_timesheet_edit_task .modal_textarea1{
+	width: 70.5%;
+	margin-right: 10px;
+}
+
+#dialog_form_timesheet_edit_task .modal_textarea2{
+    width: 25%;
+}
+
+.timesheet_task_description{
+	float: left;
+    margin-right: 10px;
+    width: 48%;
+}
+
+.timesheet_task_description textarea{
+	width: 97%;
+}
+
+.timesheet_task_hour_worked{
+	margin-right: 10px;
+}
+
+.timesheet_task_hour{
+	float: left;
+    width: 22%;
+}
+
+.modal_textarea2{    
+	display: block;    
+	font-size: 15px !important;    
+	font-weight: 500;    
+	height: 56px;    
+	line-height: 38px;    
+	padding: 0;    
+	text-align: center;
+}
+
+.timesheet_task_name,
+.timesheet_task_color{
+	margin-right: 10px;
+}
+
+.timesheet_task_name,
+.timesheet_task_suffix,
+.timesheet_task_label,
+.timesheet_task_color,
+.timesheet_task_person{
+	float: left;
+	width: 48%;
+}
+
+.timesheet_task_suffix .modal_input{
+	width: 97%;
+}
+
+.save_add_button{
+	float: right;
+	margin: 0px;
+}
+
+.clear_add_buttons{
+	float: right;
+	margin: 0px 10px 20px 0px;
+}
+
+.clear_add_buttons .button_import{
+	margin: 0px 12px 0px 0px;
+	width: 67px;
+}
+
+.import_message{
+	float: right;
+    font-size: 15px;
+    margin-top: 3px;
+    text-align: center;
+    width: 40%;
+	color: #a0ce4e;
+	font-weight: bold;
+}
+
+.ui-dialog .ui-dialog-title{	width: 97% !important;}
+.modal_header{	float: left;    width: 95%;}
+.modal_header .modal_title{	float: left;    text-align: right;    width: 65%;}
+.modal_header .modal_date{	float: right;    font-size: 12px;    text-align: right;    width: 35%;}
+.show{	opacity: 1 !important;	display: block !important;}
+
+.add_project select.project_client{	
+	height: 131px;
+}
+
+.add_project select.project_name{	
+	float: left;
+}
+
+.add_project .add_project_name{
+	float: left;
+    height: 20px;
+    line-height: 20px;
+    margin-left: 10px;
+    padding: 0 10px;
+    width: 12%;
+}
+
+.add_project .add_project_category_color{
+	float: left;
+    width: 100%;
+}
+
+.add_project .add_project_category_color input {
+    display: block;
+    width: 30%;
+}
+
+.add_project .add_project_category_color .project_color {
+	float: left;
+}
+
+.add_project .add_project_category_color .button_1 {
+	float: left;
+    height: 20px;
+    line-height: 20px;
+    margin-left: 10px;
+    width: 3% !important;
+}
+
+.add_project .project_site_url {
+	float: left;
+}
+
+.add_project .add_website_url {
+	float: left;
+    height: 20px;
+    line-height: 20px;
+    margin-left: 10px;
+    padding: 0 10px;
+    width: 12%;
+}
+
+.add_project input.project_hour,
+.add_project input.project_minute,
+.edit_project input.project_hour,
+.edit_project input.project_minute{	
+	width: 10%;
+}
+
+.edit_project select.project_name {
+    float: left;
+}
+
+.edit_project .add_project_name {
+    float: left;
+    margin-left: 10px;
+    padding: 0 10px;
+    width: 17%;
+}
+
+.edit_project .add_project_category_color {
+    float: left;
+    width: 100%;
+}
+
+.edit_project .add_project_category_color .button_1 {
+    float: left;
+    margin-left: 140px;
+    margin-top: 10px;
+}
+
+.edit_project .add_project_category_color input {
+    display: block;
+    width: 30%;
+}
+
+.edit_project .add_website_url {
+    float: left;
+    margin-left: 10px;
+    padding: 0 10px;
+    width: 12%;
+}
+
+.edit_project .project_site_url {
+	float: left;
+}
+
+.dialog_form_website_add{
+	top: 695px !important;
+	width: 635px !important;
+	left: 400px !important;
+	top: 465px !important;
+}
+
+#dialog_form_website_add{
+	height: auto !important;
+}
+
+#dialog_form_website_add .first_section.section{
+	margin: 5px 0px;
+}
+
+#dialog_form_website_add .section.three_column{
+	margin-right: 15px;
+	margin-bottom: 10px;
+	width: 30%;
+}
+
+#dialog_form_website_add .section.three_column select,
+#dialog_form_website_add .section.three_column input{
+	width: 100%;
+}
+
+#dialog_form_website_add .section.four_column{
+	margin-right: 15px;
+	margin-bottom: 10px;
+	width: 23%;
+}
+
+#dialog_form_website_add .section.four_column input{
+	width: 100%;
+}
+
+#dialog_form_website_add .section.two_column{
+	margin-bottom: 5px;
+    margin-right: 15px;
+    width: 47%;
+}
+
+#dialog_form_website_add .section.two_column select{	
+    width: 62%;
+}
+
+#dialog_form_website_add .section.two_column .left{
+	width: 100%;
+}
+
+#dialog_form_website_add .section.two_column input{
+	margin-bottom: 5px;
+    width: 95%;
+}
+
+#dialog_form_website_add .error_message{
+	margin: 0px;
+	font-size: 12px;
+    position: absolute;
+    top: 33px;
+}
+
+#dialog_form_website_add .site_url {
+    width: 49%;
+}
+
+#dialog_form_website_add .get_details_buttons{
+	width: 47%;
+}
+
+#dialog_form_website_add .get_theme_details.button_1 {
+    font-size: 10px !important;
+    padding: 0 5px;
+    width: 46%;
+	line-height: 18px;
+	height: 20px
+}
+
+#dialog_form_website_add .get_wp_details.button_1 {
+    font-size: 10px !important;
+    padding: 0 5px;
+    width: 38%;
+	line-height: 18px;
+	height: 20px
+}
+
+#dialog_form_website_add .add_url_details {
+    float: left;
+    width: 100%;
+}
+
+#dialog_form_website_add .save_hosting_url,
+#dialog_form_website_add .save_domain_url {
+	float: right;
+    width: 16%;
+}
+
+#dialog_form_website_add .hosting_domain_input{
+	float: left;
+    margin-right: 3px;
+    width: 48.9%;
+}
+
+#dialog_form_website_add .add_website_buttons {
+    float: left;
+    margin-top: 10px;
+    width: 100%;
+}
+
+#dialog_form_website_add .add_website_buttons .save_website{
+    float: right;
+    width: 100px;
+}
+
+#dialog_form_website_add .add_website_buttons a{
+    padding: 4px 12px;
+}
+
+#dialog_form_website_add .loader {
+    margin: 3px 0 0;
+    position: absolute;
+    right: 0;
+}
+
+#dialog_form_website_add .section.wp_version{
+   width: 30%;
+   margin-right: 15px;
+}
+
+
+#dialog_form_website_add .section.wp_version .border_separator {
+    padding-right: 15px;
+}
+
+#dialog_form_website_add .section.wp_version .left{
+    width: 100%;
+}
+
+#dialog_form_website_add .section.wp_version .right input{
+    width: 100%;
+}
+
+#dialog_form_website_add .section.theme_details{
+     width: 66.8%;
+}
+
+#dialog_form_website_add .section.theme_details .theme_name{
+     width: 50%;
+}
+
+#dialog_form_website_add .section.theme_details .theme_name .left{
+     width: 100%;
+}
+
+#dialog_form_website_add .section.theme_details .theme_name .right input{
+     width: 100%;
+}
+
+#dialog_form_website_add .section.theme_details .theme_version{
+	float: left;
+    width: 50%;
+}
+
+#dialog_form_website_add .section.theme_details .theme_version .left{
+     width: 100%;
+}
+
+#dialog_form_website_add .section.theme_details .theme_version .right input{
+     width: 100%;
+}
+
+#dialog_form_website_add .section .theme_name {
+    margin-bottom: 0px;
+}
+
+/* ADD WEBSITE */
+.website_style .site_url{	
+	display: block;
+    float: left;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.website_style .get_theme_details.button_1{
+	width: 13%;
+	float: left;
+}
+
+.website_style .get_wp_details.button_1{
+	width: 13%;
+	float: left;
+}
+
+.website_style .section .theme_name{
+	float: left;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.website_style .section.wp_version{
+	margin: 0px;
+}
+
+.website_style .section.wp_version .border_separator{
+	margin-top: 10px;
+}
+
+.website_style .section.theme_details{
+	margin: 0px;
+}
+
+.website_style .section.theme_details .border_separator{
+	margin-top: 10px;
+}
+
+.website_style .error_message{
+	color: #FF0000;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.website_style .input_error_message{
+	display: none !important;
+}
+
+.website_style .loader{
+	margin: 5px 0 0 10px;
+}
+
+.website_style .site_platform{
+    float: left;
+}
+
+.website_style .add_other_platform{
+    float: left;
+	margin-left: 10px;
+}
+
+.website_style .add_other_platform .other_platform{
+    width: 100%;
+}
+
+.website_style .get_details_buttons{
+	display: block;
+    float: left;
+    width: 100%;
+}
+
+.website_style .site_hosting_name{
+	float: left;
+}
+
+.website_style .site_domain_name{
+	float: left;
+}
+
+.website_style .add_url_details{
+	float: left;
+	width: 50%;
+}
+
+.website_style .add_url_details .left{
+	width: 45%;
+	margin-right: 10px;
+}
+.website_style .add_url_details .left .button_1{
+	float: right;
+    margin-right: 0;
+    margin-top: 10px;
+}
+
+.website_style .add_hosting_domain_input{
+	 width: 97%;
+}
+
+.website_style .add_other_hosting_domain{
+	float: left;
+	height: 10px;
+    line-height: 10px;
+	margin-left: 10px;
+}
+
+.website_style .add_hosting_domain_div{
+	float: left;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.website_style .save_hosting_domain_url{
+	height: 20px;
+    line-height: 20px;
+    margin-left: 5px;
+    width: 10% !important;
+}
+
+.website_style .add_site_loader{
+	float: right;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+.add_website.website_style .section.wp_version .site_wp_version{
+	width: 30% !important;
+}
+
+.edit_website .site_theme_name{
+	display: block;
+}
+
+.edit_website .edit_get_wp_details.button_1 {
+    float: none;
+    margin-left: 10px;
+}
+
+.edit_website .theme_name .right {
+	width: 26%;
+}
+
+.edit_website .theme_name .right .site_theme_name {
+	width: 98%;
+}
+
+.edit_website .edit_get_theme_details.button_1 {
+    float: left;
+    width: 19%;
+}
+.edit_website .get_details_buttons{
+	display: block;
+    float: left;
+    margin-left: 15px;
+    width: 57%;
+}
+.edit_website .theme_version{
+	float: left;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.edit_website .wp_details_loader,
+.edit_website .theme_details_loader{
+	display: inline-block;
+    float: none;
+	margin: 0 0 0 10px;
+}
+
+.edit_website .section.wp_version {
+    margin-bottom: 10px;
+}
+
+.edit_website .wp_note {
+	display: inline-block;
+	color: #FF0000;	
+}
+
+.edit_website .wp_theme_note {
+	float: right;
+    line-height: 16px;
+    margin-top: -5px;
+    width: 73%;
+	color: #FF0000;	
+}
+
+.body_id_websites .avada-row{
+	max-width: 98% !important;
+}
+
+.websites .site_type_filter_section{    
+    float: right; 
+	margin-top: 10px;	
+}
+
+.websites .site_type_filter_section .site_type_filter{    
+    padding: 5px 10px;    
+}
+
+.websites .bulk_action_select_website{
+    float: left;
+    margin-top: 10px;
+}
+
+.websites .bulk_action_select_website .website_bulk_actions{
+    float: left;
+    padding: 5px 10px; 	
+}
+
+.websites .bulk_action_select_website .apply_bulk_action_website{
+    float: left;
+    height: 16px;
+    line-height: 16px;
+    margin-left: 10px;	
+}
+
+.websites .check_all_container_website,
+.websites .info_div .bulk_action_column{
+	float: left;
+    text-align: center;
+    width: 3%;
+}
+
+.websites .site_type_filter_section .loader{
+    display: block;
+    float: right;
+    margin: 5px 5px 0px 0px;
+}
+
+.websites .website_button_note {
+	background: #ffffff;
+    border: 1px solid #d3d2d2;
+    border-radius: 5px;
+    box-shadow: 0 3px 7px -5px;
+    margin-top: 0;
+    max-width: 50%;
+    padding: 5px;
+    position: absolute;
+    right: 120px;
+    top: 0;
+	color: #888888;    
+	float: left;    
+	font-size: 11px;    
+	line-height: 16px;    
+	margin: 0;
+	width: 30px;
+	text-align: center;
+}
+
+.websites #seo_stats .website_button_note {
+    right: 125px;
+}
+
+.websites .website_button_note:after, 
+.websites .website_button_note:before {
+	left: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.websites .website_button_note:after {
+	border-color: rgba(255, 255, 255, 0);
+	border-left-color: #ffffff;
+	border-width: 5px;
+	margin-top: -5px;
+}
+.websites .website_button_note:before {
+	border-color: rgba(211, 210, 210, 0);
+	border-left-color: #d3d2d2;
+	border-width: 6px;
+	margin-top: -6px;
+}
+
+.websites .info_div{
+	border-bottom: 1px solid #d3d2d2;
+    padding: 3px 5px;
+    width: 98.5%;
+	position: relative;
+}
+
+.websites .info_div:last-child{
+	margin-bottom: 0px;
+}
+
+
+.websites .info_div:hover{
+	background: #ecf7ff;
+}
+
+.websites .header_titles h3{
+	margin: 0px;
+	float: left;
+}
+
+.websites .header_titles .loader{
+	margin-left: 5px;
+	float: left;
+}
+
+.websites .header_titles{
+	float: left;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 0 5px;
+    width: 98.5%;
+}
+
+.websites .info_div .column{
+	word-wrap: break-word;
+}
+
+.websites .header_titles .first_column,
+.websites .info_div .first_column{
+	width: 13%;
+	margin-right: 10px;
+}
+
+.websites .header_titles .second_column,
+.websites .info_div .second_column{
+	width: 11%;
+	margin-right: 10px;
+}
+
+.websites .header_titles .third_column,
+.websites .info_div .third_column,
+.websites .header_titles .fourth_column,
+.websites .info_div .fourth_column,
+.websites .header_titles .sixth_column,
+.websites .info_div .sixth_column{
+	width: 8%;
+	margin-right: 10px;
+	float: left;
+}
+
+.websites .header_titles .fifth_column,
+.websites .info_div .fifth_column,
+.websites .header_titles .seventh_column,
+.websites .info_div .seventh_column{
+	width: 6.99%;
+	float: left;
+	margin-right: 10px;
+}
+
+.websites .header_titles .eighth_column,
+.websites .info_div .eighth_column,
+.websites .header_titles .ninth_column,
+.websites .info_div .ninth_column{
+	width: 10%;
+	float: left;
+	margin-right: 10px;
+}
+
+.websites .header_titles .tenth_column,
+.websites .info_div .tenth_column{
+	width: 8%;
+	float: left;
+}
+
+.websites #seo_stats .header_titles .first_column,
+.websites #seo_stats .info_div .first_column{
+	width: 12%;
+	margin-right: 10px;
+}
+
+.websites #seo_stats .header_titles .second_column,
+.websites #seo_stats .info_div .second_column{
+	width: 15%;
+	margin-right: 10px;
+}
+
+.websites #seo_stats .header_titles .third_column,
+.websites #seo_stats .info_div .third_column{
+	width: 8%;
+	margin-right: 10px;
+}
+
+.websites #seo_stats .header_titles .fourth_column,
+.websites #seo_stats .info_div .fourth_column{
+	width: 9.8%;
+	margin-right: 10px;
+	float: left;
+}
+
+.websites #seo_stats .header_titles .fifth_column,
+.websites #seo_stats .info_div .fifth_column,
+.websites #seo_stats .header_titles .sixth_column,
+.websites #seo_stats .info_div .sixth_column,
+.websites #seo_stats .header_titles .seventh_column,
+.websites #seo_stats .info_div .seventh_column,
+.websites #seo_stats .header_titles .eighth_column,
+.websites #seo_stats .info_div .eighth_column,
+.websites #seo_stats .header_titles .ninth_column,
+.websites #seo_stats .info_div .ninth_column{
+	width: 8%;
+	margin-right: 10px;
+	float: left;
+}
+
+.websites #seo_stats .header_titles .tenth_column,
+.websites #seo_stats .info_div .tenth_column{
+	width: 8%;
+	margin-right: 0px;
+	float: left;
+}
+
+.websites #seo_stats .header_titles .ninth_column .bulk_get_metrix_button .bulk_get_metrix{
+	margin-right: 30px;
+}
+
+.websites #seo_stats .header_titles .ninth_column .bulk_get_metrix_button .bulk_get_metrix_loader{
+	margin: 2px 5px 2px 2px;
+}
+
+.websites #seo_stats .info_div .ninth_column .get_metrix_button .loader{
+	margin: 2px;
+}
+
+.websites .display_button {
+    padding: 5px;
+}
+
+.websites a.display_button,
+.websites div.display_button{
+    margin-right: 1px;
+}
+
+.websites .ajax_action_buttons {
+    float: left;
+    margin-top: 0px;
+}
+
+.websites .website_action_loader{
+	margin: 0px;
+}
+
+
+/* Login */.login_box #wplb_main{	background: none repeat scroll 0 0 #FFFFFF;    border: 1px solid #E5E5E5;    box-shadow: 0 4px 10px -1px rgba(200, 200, 200, 0.7);    font-weight: 400;    margin-left: 8px;    padding: 26px 24px 46px;	border-radius: 3px;	width: 37%;	margin: 0 auto;	float: none;	min-width: 270px;}
+.login_box .wplb_text{	color: #777777 !important;	font-size: 12px !important;	line-height: 19px !important;	float: none !important;}
+.login_box #wplb_wrap .wplb_field{	background: none repeat scroll 0 0 #FBFBFB;    border: 1px solid #E5E5E5;    box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.2) inset;    color: #555555;    font-size: 24px;    font-weight: 200;    line-height: 1;    margin-bottom: 16px;    margin-right: 6px;    margin-top: 2px;    outline: 0 none;    padding: 3px;    width: 100%;}
+.login_box #wplb_wrap .wplb_check{	margin-top: 0px;	}
+.login_box #wplb_wrap .wplb_field,.login_box #wplb_wrap .wplb_check{	clear: both;	float: none;}
+.login_box #wplb_wrap .wplb_button{	float: right;	height: 30px;    line-height: 28px;    padding: 0 12px 2px;	background-color: #21759B;    background-image: linear-gradient(to bottom, #2A95C5, #21759B);    border-color: #21759B #21759B #1E6A8D;    box-shadow: 0 1px 0 rgba(120, 200, 230, 0.5) inset;    color: #FFFFFF;    text-decoration: none;    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);	-moz-box-sizing: border-box;    border-radius: 3px;    border-style: solid;    border-width: 1px;    cursor: pointer;    display: inline-block;    font-size: 12px;	margin: 0;	white-space: nowrap;}
+.login_box #wplb_wrap .wplb_button:hover{	background-color: #278AB7;    background-image: linear-gradient(to bottom, #2E9FD2, #21759B);    border-color: #1B607F;    box-shadow: 0 1px 0 rgba(120, 200, 230, 0.6) inset;    color: #FFFFFF;    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);}
+.login_box #wplb_wrap p.unpw{	color: #777777;    font-size: 14px;	margin: 0px;}
+.login_box #wplb_wrap #rememberme{	width: 3%}
+/* Archive Modal Form */
+.body_id_projects .ui-dialog,	
+.page-id-28 .ui-dialog{	
+	height: auto !important;    
+	left: 510px !important;    
+	width: 430px !important;
+}
+
+.body_id_projects .display_list,	
+.page-id-28 .display_list{	
+	position: relative
+}
+ 
+.body_id_projects .display_list .project_notes,	
+.page-id-28 .display_list .project_notes{	
+	background-color: #f5f5f5;    
+	border: 1px solid #d3d2d2;    
+	border-radius: 5px;    
+	box-shadow: 0 3px 7px -5px;    
+	left: 250px;    
+	margin-top: -10px;  
+	padding: 10px;    
+	position: absolute;	
+	max-width: 50%;
+}
+
+.body_id_projects .loader,
+.page-id-28 .loader{
+	margin: 4px 10px 0 0;
+}
+
+#archive_form{	height: 78% !important; }
+#archive_form .full_width{	margin-top: 15px;}
+#archive_form input{	float: right;    width: 55%;}
+#archive_form input.archive_save{	float: right;    width: 25%;}
+/* Project Management */
+.body_id_project-management .avada-row,
+.page-id-116 .avada-row{	
+	max-width: 90% !important;
+}
+
+.project_management{	
+	float: left;	
+	width: 100%;
+}
+
+.project_management .tab_content{
+	padding: 10px;
+}
+
+.project_management .display_main{	
+	margin-top: 0px;
+}
+
+.project_management .display_list{	
+	cursor: default;	
+	padding: 0px;	
+	width: 100%;
+}
+
+.project_management .display_list{	
+	position: relative
+}
+
+.project_management .display_list .project_notes{	
+	background-color: #f5f5f5;    
+	border: 1px solid #d3d2d2;    
+	border-radius: 5px;    
+	bottom: -8px;    
+	box-shadow: 0 3px 7px -5px;   
+	left: 384px;    
+	margin-top: 0;    
+	max-width: 50%;    
+	padding: 10px;    
+	position: absolute;    
+	z-index: 1;	
+}
+
+.project_management .display_list .info_div{	
+	border-bottom: 1px solid #d3d2d2;
+}
+
+.project_management h3,
+.project_management h4,
+.project_management h5{	
+	margin: 0px;
+}
+
+.project_management .client_name_holder{	
+	float: left;	
+	width: 100%;
+}
+
+.project_management .header_subtitle{	
+	float: left;    
+	width: 100%;
+}
+
+.project_management .header_subtitle h3.column{	
+	width: 8%;	
+	float: left;	
+	margin-bottom: 10px;
+}
+
+.project_management .completed_webdev_container,
+  .completed_webdev_totals{ ;
+    margin-top: 10px; ;
+}
+
+.project_management .completed_webdev_container .no_found{
+	width: 100%;
+	float: left;
+	font-weight: bold;
+	text-align: center;
+}
+
+.project_management #seo .column{
+	margin-right: 10px;
+}
+
+.project_management #seo .header_subtitle .first_column,
+.project_management #seo .info_div .first_column{	
+	width: 15% !important;
+}
+
+.project_management #seo .header_subtitle .second_column,
+.project_management #seo .header_subtitle .third_column,
+.project_management #seo .info_div .second_column,
+.project_management #seo .info_div .third_column{
+	text-align: center;
+    width: 8% !important;
+}
+
+.project_management #seo .header_subtitle .fourth_column,
+.project_management #seo .header_subtitle .fifth_column,
+.project_management #seo .header_subtitle .sixth_column,
+.project_management #seo .header_subtitle .seventh_column,
+.project_management #seo .header_subtitle .eighth_column,
+.project_management #seo .header_subtitle .ninth_column,
+.project_management #seo .header_subtitle .tenth_column,
+.project_management #seo .info_div .fourth_column,
+.project_management #seo .info_div .fifth_column,
+.project_management #seo .info_div .sixth_column,
+.project_management #seo .info_div .seventh_column,
+.project_management #seo .info_div .eighth_column,
+.project_management #seo .info_div .ninth_column,
+.project_management #seo .info_div .tenth_column{
+	width: 8.7% !important;
+	text-align: center;
+}
+
+.project_management .header_subtitle .first_column,
+.project_management .header_subtitle .second_column,
+.project_management .info_div .first_column,
+.project_management .info_div .second_column{	
+	width: 13% !important;
+}
+
+.project_management .header_subtitle .third_column,
+.project_management .completed_webdev_totals .third_column,
+.project_management .header_subtitle .fourth_column,
+.project_management .completed_webdev_totals .fourth_column,
+.project_management .info_div .third_column,
+.project_management .info_div .fourth_column{	
+	width: 8% !important;
+}
+
+.project_management .current .seventh_column{	
+	margin-right: 10px;
+}
+
+.project_management .header_subtitle .ninth_column,
+.project_management .info_div .ninth_column{
+	width: 10% !important;
+}
+
+.project_management .completed .first_column,
+.project_management .completed .completed_webdev_totals .first_column,
+.project_management .completed .second_column,
+.project_management .completed .completed_webdev_totals .second_column{	
+	width: 13% !important;
+}
+
+.project_management .completed .ninth_column,
+.project_management .completed .completed_webdev_totals .ninth_column{
+	margin-right: 10px;
+}
+
+.project_management .completed .completed_webdev_totals .ninth_column{
+	text-align: center;
+}
+
+.project_management .completed .eleventh_column,
+.project_management .completed .completed_webdev_totals .eleventh_column{
+	width: 7% !important;
+}
+
+.project_management .completed .tenth_column,
+.project_management .completed .completed_webdev_totals .tenth_column{
+	width: 11% !important;
+}
+
+.project_management .completed .ninth_column,
+.project_management .completed .completed_webdev_totals .ninth_column {
+	width: 7% !important;
+}
+
+.project_management .completed .fourth_column,
+.project_management .completed .completed_webdev_totals .fourth_column {	
+	width: 4% !important;
+}
+
+.project_management .completed .eighth_column,	
+.project_management .completed .completed_webdev_totals .eighth_column {	
+	width: 5% !important;
+}
+
+.project_management .project_detail{	
+	float: left;    
+	padding: 10px 0 10px 20px;    
+	width: 76.8%;
+}
+
+.project_management .project_detail h3.project_detail_title{	
+	margin: 0 0 10px 0px;
+}
+
+.project_management .completed_webdev_totals p.column,	
+.project_management .display_list p.column{	
+	width: 8%;	
+	float: left;
+}
+
+.project_management .completed_webdev_totals p.column{
+	font-weight: bold;
+}
+
+.project_management .section.completed .completed_webdev_totals .totals{
+	width: 7% !important;
+}
+
+.project_management .display_list:hover{	
+	background: #ffffff;
+}
+
+.project_management .project_detail .project_detail_column{	
+	width: 16.6%;	
+	float: left;
+}
+
+.project_management .project_detail .project_detail_title{	
+	color: #000000;
+}
+
+.project_management .buttons,
+.project_management h3.button_header{	
+	width: 7% !important;	
+	float: left;
+}
+
+.project_management .buttons .loader{
+	float: left;
+    margin-left: 3px;
+    margin-top: 3px;
+}
+
+.project_management .section.completed .buttons,
+.project_management .section.completed h3.button_header{	
+	width: 7% !important;
+}
+
+.project_management .section .fifth_column{	
+	margin-right: 10px;
+    text-align: center;
+    width: 7% !important;
+}
+
+.project_management .buttons .button_2{	
+	float: left;    
+	height: 10px;    
+	line-height: 9px;   
+	margin: 0 3px 0px 0px;   
+	padding: 5px;
+}
+
+.project_management .section h1{
+	float: left;
+	width: 30%;
+}
+
+.project_management .top_navi{
+	float: right;
+    margin-top: 10px;
+    width: auto;
+}
+
+.project_management .pm_filter{
+	float: right;
+}
+
+.project_management .top_navi .loader{
+	float: left;
+    margin: 7px;
+}
+
+.project_management .top_navi .button_2{
+	float: left;
+    padding: 0;
+    width: 33px;
+}
+
+.project_management .top_navi .nav_buttons{
+	background-position: center center;
+    background-repeat: no-repeat;
+    height: 16px;
+    padding: 5px 11px;
+    width: 11px;
+}
+
+.project_management .top_navi .previous_arrow{
+	background-image: url("img/previous.png");
+}
+
+.project_management .top_navi .next_arrow{
+	background-image: url("img/next.png");
+}
+
+.project_management .top_navi .default_arrow_container,
+.project_management .top_navi .arrow_container{
+	float: left;
+}
+
+.project_management .top_navi .pm_filter select{
+	float: right;
+	padding: 5px 10px;
+	width: auto;
+}
+
+.project_management .top_navi .report_top_label{
+	float: left;
+    margin: 5px 0 0;
+}
+
+.project_management .top_navi .report_top_label h1 {
+	margin: 0;
+	width: auto;
+	float: left;
+    margin-right: 10px;
+}
+
+
+#dialog_form_edit_archive_project_management{
+	height: auto !important;
+}
+
+.dialog_form_project_management .input_div{	
+	float: left;    
+	margin-top: 5px;    
+	width: 100%;
+}
+
+.dialog_form_project_management .input_div input{	
+	float: right;	
+	width: 70%;
+}
+
+.dialog_form_project_management .input_div select{	
+	width: 72%;	
+	float: right;
+}
+
+#dialog_form_edit_archive_project_management .input_div select{
+	width: 68%;
+}
+
+.dialog_form_project_management .action_button{	
+	margin: 10px;	
+	float: right;
+}
+
+.dialog_form_project_management .modal_cancel_button{	
+	float: right;	
+	padding: 0 15px;	
+	margin-top: 10px;
+}
+
+.dialog_form_project_management .loader{	
+	margin: 15px 15px 0 0;	
+	float: right;
+}
+
+.dialog_form_project_management h4{	
+	margin: 0px;
+}
+
+.dialog_form_project_management .archive_modal_project_management .input_div {    
+	width: 89%;
+}
+
+.dialog_form_project_management .archive_modal_project_management .input_div .modal_label{	
+	float: left;    
+	margin: 0;    
+	width: 32%;
+}
+
+.dialog_form_project_management .archive_modal_project_management .input_div input {    
+	width: 66%;
+}
+
+.dialog_form_project_management .archive_modal_project_management .input_div input.modal_project_hour,
+.dialog_form_project_management .archive_modal_project_management .input_div input.modal_project_minute {    
+	float: left;    
+	width: 27%;
+}
+
+.dialog_form_project_management .archive_modal_project_management .input_div .time_label{	
+	float: left;    
+	margin-right: 10px;
+	margin-left: 2px;
+}
+
+.dialog_form_project_management .archive_modal_project_management .input_div .time_label:last-child{    
+	margin-right: 0px;
+}
+
+.dialog_form_project_management .archive_modal_project_management .current_expense {    
+	float: left;	
+	margin-left: 5px;
+}
+
+#dialog_form_archive_project_management{	
+	height: auto !important;
+}
+
+#dialog_form_archive_project_management .save_modal_button{	
+	margin-right: 8px;
+}
+
+#dialog_form_delete_project_management{	
+	height: 175px !important;
+}
+
+.dialog_form_project_management #edit_modal_project_management .input_div input.modal_project_hour, 
+.dialog_form_project_management #edit_modal_project_management .input_div input.modal_project_minute {    
+	float: left;    
+	width: 28%;
+}
+
+.dialog_form_project_management #edit_modal_project_management .input_div .modal_label{	
+	float: left;    
+	margin: 0;    
+	width: 28%;
+}
+
+.dialog_form_project_management #edit_modal_project_management .input_div .time_label{	
+	float: left;    
+	margin-right: 9px;	
+	margin-left: 2px;
+}
+
+#dialog_form_edit_project_management{
+	height: 305px !important;
+}
+
+/* Project Management (old) */
+.project_management_old{	float: left;	width: 100%;}
+.project_management_old .display_main{	margin-top: 0px;}
+.project_management_old .display_list{	cursor: default;}
+.project_management_old h4,.project_management_old h5{	margin: 0px;}
+.project_management_old .client_name_holder{	float: left;	width: 20%;	margin-left: 10px;}
+.project_management_old .header_subtitle{	float: left;    width: 100%;	padding-top: 10px;}
+.project_management_old .header_subtitle h4.first_column,.project_management_old .header_subtitle h4.second_column{	width: 50%;}
+.project_management_old .header_subtitle .first_column,.project_management_old .header_subtitle .second_column,.project_management_old .header_subtitle .third_column,.project_management_old .header_subtitle .fourth_column{	float: left;	width: 20%;}
+.project_management_old .project_detail{	float: left;    padding: 10px 0 10px 20px;    width: 76.8%;}
+.project_management_old .project_detail h3.project_detail_title{	margin: 0 0 10px 0px;}
+.project_management_old .display_list{	padding: 0px;	width: 100%;}
+.project_management_old .display_list .first_column,.project_management_old .display_list .second_column{	width: 50%;}
+.project_management_old .display_list:hover{	background: #ffffff;}
+.project_management_old .project_detail .project_detail_column{	width: 16.6%;	float: left;}
+.project_management_old .project_detail .project_detail_title{	color: #000000;}
+/* Submit Task */
+.body_id_submit-kb-task #main .avada-row,
+.body_id_project-management #main .avada-row,
+.page-id-120 #main .avada-row{	
+	max-width: 1300px !important;
+}
+
+.submit_task .submit_section{	
+	float: left;	
+	width: 100%;	
+	margin-bottom: 15px;
+}
+
+
+.submit_task .submit_left{	
+	float: left;	
+	width: 30%;	
+	margin-right: 20px;
+}
+
+.submit_task .submit_right{	
+	float: left;	
+	width: 30%;
+}
+
+.submit_task input,.submit_task select{	
+	width: 100%;
+}
+
+.submit_task .submit_button{	
+	width: 10%;	
+	float: left;
+}
+
+.submit_task .loader{	
+	margin: 5px 0px 0px 10px;
+}
+
+.submit_task  input.time{
+	width: 15%;
+}
+
+.submit_task textarea{
+	width: 62%;
+}
+
+.submit_task .board{
+	float: left;	
+	margin-bottom: 5%;	
+	width:100%;
+}
+
+.submit_task .header_titles p{
+	font-weight: bold;
+}
+
+.submit_task .header_titles,
+.submit_task .column_cells{
+	float: left;	
+	min-width: 100%;	
+	border-bottom: 1px solid #d3d2d2;	
+	padding: 5px 0px;	
+	min-height: 20x;	
+	position: relative;
+}
+
+.submit_task .column_cells:hover{
+	background-color: #ecf7ff;
+}
+
+.submit_task .header_titles{
+	min-height: 25px;
+}
+
+.submit_task .board .column{
+	width: 10%;	
+	float: left;
+}
+
+.submit_task .board .bulk_action_column{	
+	width: 5%;	
+	text-align: center;
+}
+.submit_task .board .bulk_action_column .bulk_delete,
+.submit_task .board .bulk_action_column .check_all{
+	width: 25%;
+}
+
+.submit_task .board .bulk_action_column .bulk_action_delete_button,
+.submit_task .board .bulk_action_column .bulk_action_delete_paused_button{	
+	width: 60%;	
+	padding: 5px;	
+	line-height: 10px;	
+	height: 10px;	
+	margin: 0 auto;
+}
+
+.submit_task .board .first_column{	
+	width: 20%;
+	margin: 0px !important;
+}
+
+.submit_task .board .third_column{	
+	width: 15%;
+}
+
+.submit_task .board .fifth_column{	
+	width: 8%;
+}
+
+.submit_task .board .sixth_column{	
+	width: 12%;
+}
+
+.submit_task .board .seventh_column{	
+	width: 7%;
+}
+
+.submit_task .board .eighth_column {
+    float: left;
+    width: 11%;
+}
+
+.submit_task .board .eighth_column .loader {
+	float: left;
+    margin: 2px 0 0 10px;
+}
+
+.submit_task form#submit_task_form{	
+	float: left;
+}
+
+.submit_task .submit_task_note{	
+	background-color: #f5f5f5;   
+	border: 1px solid #d3d2d2;    
+	border-radius: 5px;    
+	box-shadow: 0 3px 7px -5px;    
+	left: 425px;    
+	margin-top: 0;    
+	max-width: 50%;   
+	padding: 10px;   
+	position: absolute;	
+	bottom: 0;
+}
+
+.submit_task .submit_right .submit_date,.submit_task .submit_left .submit_date,.submit_task .submit_right .submit_hour,.submit_task .submit_left .submit_hour,.submit_task .submit_right .submit_minute,.submit_task .submit_left .submit_minute{	float: left;	margin-right: 10px;}
+.submit_task .submit_right .submit_date,.submit_task .submit_left .submit_date{	width: 30%;	}
+.submit_task .submit_right .submit_hour,.submit_task .submit_left .submit_hour,.submit_task .submit_right .submit_minute,.submit_task .submit_left .submit_minute{	width: 15%;}
+.submit_task .submit_right .submit_hour input,.submit_task .submit_left .submit_hour input,.submit_task .submit_right .submit_minute input,.submit_task .submit_left .submit_minute input{	width: 100%;}
+
+.submit_task .paused_task{
+	width: 100%;
+	float: left;
+}
+
+.submit_task .paused_task h5 a{
+	float: left;
+	width: auto;
+}
+
+.submit_task .paused_task .schedule_start_task_loader{
+	margin-top: 10px;
+}
+
+.submit_task .paused_task h5.toggle a,
+.submit_task .paused_task .toggle-content{
+	border: 0px none !important;
+}
+
+.submit_task .submitted_task{
+	width: 100%;
+	float: left;
+}
+
+.submit_task .submitted_task h5 a{
+	float: left;
+	width: auto;
+}
+
+.submit_task .submitted_task .schedule_start_task_loader{
+	margin-top: 10px;
+}
+
+.submit_task .submitted_task h5.toggle a,
+.submit_task .submitted_task .toggle-content{
+	border: 0px none !important;
+}
+
+.submit_task .check_all_container{
+	width: 5% !important;
+}
+
+.submit_task .bulk_action_select{	
+	width: 20% !important;
+	margin-top: 10px;
+}
+
+.submit_task .bulk_action_select .submit_bulk_actions{
+    float: left;
+    padding: 5px 10px;
+    width: 55%;
+	margin-right: 10px;
+}
+
+.submit_task .bulk_action_select .apply_bulk_action {
+    float: left;
+    height: 15px;
+    line-height: 15px;
+    width: 15%;
+}
+
+.submit_task .eighth_column .action_buttons.button_2 {
+    float: left;
+    height: 10px;
+    line-height: 9px;
+    margin: 0 3px 0 0;
+    padding: 5px;
+}
+
+#dialog_form_bulk_action_task{
+	height: auto !important;
+}
+
+#dialog_form_bulk_action_task .detail_list ul{
+	margin: 0px;
+	padding: 0px;
+	max-height: 200px;
+    overflow-y: auto;
+}
+
+#dialog_form_bulk_action_task .detail_list ul li .task_client{
+	font-weight: bold;
+}
+
+#dialog_form_bulk_action_task .confirm_bulk_action_buttons .button_1,
+#dialog_form_bulk_action_task .confirm_bulk_action_buttons .button_2{
+    float: right;
+}
+
+#dialog_form_bulk_action_task .confirm_bulk_action_buttons{
+    float: right;
+    margin-top: 10px;
+    width: 32%;
+}
+
+#dialog_form_bulk_action_task .confirm_bulk_action_buttons .loader{
+    margin: 5px 10px 0 0px;
+}
+
+#dialog_form_bulk_action_task .confirm_bulk_action_buttons .bulk_action_cancel{	
+    height: 15px;
+    line-height: 15px;
+}
+
+#dialog_form_bulk_action_task .edit_options{
+	margin-top: 10px;
+	float: left;
+	width: 100%;
+}
+
+#dialog_form_bulk_action_task .submit_schedule_each{
+	margin-right: 10px;
+	width: 48%
+}
+
+#dialog_form_bulk_action_task .submit_starting_date{
+	width: 48%
+}
+
+div[aria-describedby='dialog_form_delete_task']{
+	left: 515px !important;
+    width: 285px !important;
+	height: 150px !important;
+}
+
+#dialog_form_delete_task{
+    height: 95px !important;
+    width: 260px !important;
+}
+
+.asc_button{
+	background: url(img/up.png);
+	cursor: pointer;
+    float: left;
+    height: 8px;
+    margin-left: 5px;
+    margin-top: 6px;
+    width: 11px;
+}
+
+.desc_button{
+	background: url(img/down.png);
+	cursor: pointer;
+    float: left;
+    height: 8px;
+    margin-left: 5px;
+    margin-top: 6px;
+    width: 11px;
+}
+.header_titles .first_column .table_header,
+.header_titles .sixth_column .table_header,
+.header_titles .second_column .table_header{
+	float: left;
+}
+
+.hour_help{	background-color: #fff0ff;    border: 1px solid #ffa6c9;    border-radius: 3px;    float: left;    font-size: 10px;    margin-top: 3px;    padding: 2px;    width: 98px;}
+/* Checklist */
+
+.manage_checklist_template_category_items .display_section.template .display_list{
+    border-bottom: 1px solid #d3d2d2;
+}
+
+.manage_checklist_template_category_items .display_section.template .display_list:last-child{
+    border-bottom: 0px none;
+}
+
+.manage_checklist_template_category_items .template_display{
+    float: left;    
+    width: 15%;
+}
+
+.manage_checklist_template_category_items .checklist_template_loader{
+	float: left;
+    margin: 3px 0 0;
+}
+
+.manage_checklist_template_category_items .custom_accordian .toggle_display{
+    float: left;
+    padding: 20px 0 20px 10px;
+    width: 15%;
+}
+
+.manage_checklist_template_category_items .category_name_container{
+    float: left;
+    width: 100%;
+}
+
+.manage_checklist_template_category_items .category_name_container:hover{
+    background: #ecf7ff none repeat scroll 0 0;
+}
+
+.manage_checklist_template_category_items .checklist_display_list:hover{
+    background: #ecf7ff none repeat scroll 0 0;
+}
+
+.manage_checklist_template_category_items .custom_accordian .custom_toggle{
+    margin: 0px;
+}
+
+.manage_checklist_template_category_items .custom_accordian .custom_toggle .display_list {
+	padding: 20px 10px 20px 0px;
+}
+
+.manage_checklist_template_category_items .custom_accordian .arrow{
+   float: right;
+}
+
+.manage_checklist_template_category_items .custom_accordian .checklist_category_name{
+	border: 0 none !important;
+    float: left;
+    padding: 0;
+    width: 94%;
+	color: #000000;
+}
+
+.manage_checklist_template_category_items ul#category_sort_priority{
+	margin: 0px;
+	padding: 0px;
+}
+
+.manage_checklist_template_category_items ul#category_sort_priority li{
+	border-top: 0px solid #d3d2d2 ;
+	border-right: 0px solid #d3d2d2 ;
+	border-bottom: 1px solid #d3d2d2 ;
+	border-left: 0px solid #d3d2d2 ;
+	float: left;
+	width: 99.9%;
+}
+
+.manage_checklist_template_category_items ul#category_sort_priority .display_list{
+	width: 81.8%;
+	position: relative;
+}
+
+.manage_checklist_template_category_items ul#category_sort_priority .display_list .custom_toggle{
+	float:right;
+}
+
+.manage_checklist_template_category_items ul#category_sort_priority .display_list .custom_toggle a{
+	padding: 0px;
+	border: 0px none;
+}
+
+.manage_checklist_template_category_items .custom_accordian .custom_toggle_content{
+    padding: 0;
+	border: 0px none !important;
+}
+
+.manage_checklist_template_category_items .custom_accordian .custom_toggle_content .display_list{
+    width: 97.9% !important;
+	cursor: default;
+}
+
+.manage_checklist_template_category_items .custom_accordian .custom_toggle_content .display_list .display_subtitle{
+    color: #000000;
+}
+
+.last_accordian_content{
+    border-bottom: 3px solid #d3d2d2;
+}
+
+.manage_checklist_template_category_items .checklist_category_loader{
+	float: left;
+    margin: 3px 0 0;
+}
+
+.manage_checklist_template_category_items .checklist_description_display {
+    background-color: #f5f5f5;
+    border: 1px solid #d3d2d2;
+    border-radius: 5px;
+    box-shadow: 0 3px 7px -5px;
+    left: 35%;
+    max-width: 100%;
+    padding: 10px;
+    position: absolute;
+    top: 10px;
+    z-index: 1;
+	color: #000000;
+}
+
+.manage_checklist_template_category_items .checklist_description_display a{   
+	color: #333333 !important;
+}
+
+.manage_checklist_template_category_items .checklist_description_display a:hover{   
+	color: #a0ce4e !important;
+}
+
+.manage_checklist_template_category_items .checklist_loader {
+    margin: 1px 0px 0px 5px;
+}
+
+.client_select_checklist{    
+	margin-bottom: 20px;
+}
+
+.client_select_checklist h3.select_client{	
+	float: left;    
+	margin: 0px 10px 0px 0px;
+}
+
+.checklist{
+	float: left;
+}
+
+.checklist #check_list{
+	float: left;	
+}
+
+#check_list .checklist_items_section{
+	float:left;
+	width: 100%;
+	margin: 0px;	
+}
+
+#check_list .checklist_items_section .section{
+	margin: 0px;	
+}
+
+#check_list .checklist_items_section .list_name_header,
+#check_list .checklist_items_section .list_description_header,
+#check_list .checklist_items_section .checklist_name_display,
+#check_list .checklist_items_section .checklist_description_display{
+	float: left;
+    width: 48%;
+}
+
+#check_list .checklist_items_section .checklist_name_display,
+#check_list .checklist_items_section .list_name_header{
+	margin-right: 10px;
+}
+
+#check_list .checklist_items_section .left {
+    float: left;
+    width: 80% !important;
+}
+
+#check_list .checklist_items_section .right {
+    width: 17% !important;
+}
+
+#check_list .checklist_items_section .right .checklist_delete{
+    margin-right: 0px;
+}
+
+#check_list .add_checklist_item .right .add_checklist_delete{
+    margin-right: 0px;
+}
+
+#check_list .add_checklist_item{
+	width: 100%;
+	float: left;
+}
+
+#check_list .add_checklist_item .left{
+	width: 20%;
+	margin-right: 10px;
+}
+
+#check_list .add_checklist_item .right{
+	width: 70%;
+}
+
+#check_list .add_checklist_item .right input,
+#check_list .add_checklist_item .right textarea{
+	float: right;
+    margin: 0;
+    width: 98%;
+	resize: vertical;
+}
+
+.checklist .checklist_category{
+	float: left;    
+}
+
+.checklist .add_checklist_category{
+	float: left;
+    height: 10px;
+    line-height: 10px;
+    margin-left: 10px;
+    width: auto;
+}
+
+.checklist .checklist_select_loader{
+	margin: 3px 0 0 5px;
+}
+
+.checklist .category_checklist_items ul{
+	margin: 0px;
+	padding: 0px;
+}
+
+.checklist .category_checklist_items input,
+.checklist .category_checklist_items textarea{
+	width: 46%;
+}
+
+.checklist .category_checklist_items textarea{
+	resize: vertical;
+}
+
+
+.checklist .category_checklist_items ul li{
+	border-bottom: 1px solid #d3d2d2;
+    float: left;
+    margin-top: 5px;
+    padding-bottom: 5px;
+    width: 100%;
+}
+
+.checklist .category_checklist_items ul li:last-child{
+	border-bottom: 0px none;
+}
+
+.checklist .category_checklist_items ul li p{
+	float: left;
+}
+
+.checklist .category_checklist_items ul li .action_buttons{
+	float: right;
+}
+
+.checklist .category_checklist_items .action_buttons .loader{
+	margin: 3px 5px 0 0;
+	float:right;
+}
+
+.checklist .category_checklist_items .action_buttons .check_button{
+	float: right;
+}
+
+.checklist .add_category{
+	height: 20px;
+    line-height: 20px;
+    margin-left: 10px;
+    width: auto;
+}
+
+.checklist .checklist_category_div{
+	float: right;
+    margin-top: 10px;
+    width: 85%;
+}
+
+.checklist .one_third{
+	margin-bottom: 10px;
+}
+
+.checklist .checklist_input input,
+.checklist .checklist_input textarea{
+	width: 100%;
+}
+
+.checklist .add_more_list{
+	float: right;
+    height: 10px;
+    line-height: 10px;
+    margin-right: 0;
+    margin-top: 10px;
+}
+
+.checklist .checklist_action_button{
+	float: right;
+    height: 10px;
+    line-height: 10px;
+    padding: 5px;
+    width: auto !important;
+}
+
+.checklist .three_fourth,
+.checklist .one_third,
+.checklist .one_fourth{
+	margin-bottom: 0px;
+}
+
+.checklist .checklist_container{
+    float: left;
+    width: 100%;
+}
+
+.checklist .checklist_container .checklist_list{
+    border-bottom: 1px solid #d3d2d2;
+	float:left;
+	width: 100%;
+}
+
+.checklist .checklist_container .checklist_list:last-of-type{
+    border-bottom: 0px;
+}
+
+.checklist .checklist_container .checklist_list .section{
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.checklist .checklist_container .left{
+    float: left;
+    width: 85% !important;
+}
+
+.checklist .checklist_container .right{
+    float: left;
+    width: 12% !important;
+}
+
+.checklist .checklist_container .right .checklist_delete{
+    margin: 0px;
+}
+
+.checklist .checklist_container .checklist_add_items_section{
+	margin-bottom: 0px; 
+}
+.checklist .checklist_container .left .list_name_header,
+.checklist .checklist_container .left .list_name,
+.checklist .checklist_container .left .list_description_header,
+.checklist .checklist_container .left .list_description{
+	float: left;
+    width: 48%;
+}
+
+.checklist .checklist_container .left .list_name_header,
+.checklist .checklist_container .left .list_name{
+	margin-right: 10px;
+}
+
+.checklist .checklist_container .edit_div{
+	display: block;
+    float: left;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.checklist .checklist_container .edit_div input,
+.checklist .checklist_container .edit_div textarea{
+	width: 46%;
+}
+
+.checklist .checklist_container .edit_div input{
+	margin-right: 10px;
+}
+
+.checklist .checklist_container .edit_div textarea{
+	resize: vertical;
+}
+
+.checklist .checklist_container .add_check_edit{
+	background-image: url("img/check.png");
+    background-size: 20px auto;
+    float: left;
+    height: 20px;
+    margin-left: 10px;
+    width: 20px;
+}
+
+.checklist .checklist_name{
+	float:left;
+	margin-right: 10px;
+}
+
+.checklist .add_checklist_item_form{
+	margin-top: 20px;
+	float: left;
+	width: 100%;
+}
+
+.checklist .checklist_container .section .left{
+	width: 83%;
+	margin-right: 16px;
+}
+
+.checklist .checklist_container .section .right {
+    float: right;
+    width: auto;
+}
+
+.body_id_checklists .display_list{	
+	position: relative;
+}
+
+.body_id_checklists .display_list .checklist_details{	
+	background-color: #f5f5f5;    
+	border: 1px solid #d3d2d2;    
+	border-radius: 5px;    
+	box-shadow: 0 3px 7px -5px;    
+	left: 250px;    
+	margin-top: 0px;    
+	padding: 10px;    
+	position: absolute;	
+	max-width: 50%;
+	top: 0;
+}
+
+#dialog_form_delete_checklist{
+	height: auto !important;
+}
+
+#dialog_form_delete_checklist .loader{
+	float: right;
+    margin: 5px;
+}
+
+#edit_checklist_template_form {
+	margin-top: 20px;
+}
+
+#edit_checklist_template_form .label{
+	float: left;
+	margin-right: 20px;
+}
+
+#edit_checklist_template_form .update_template_name{
+	float: right;	
+}
+
+#edit_checklist_template_form .checklist_template_name{
+	float: left;
+    margin-right: 10px;
+    width: 45%;
+}
+
+#edit_checklist_template_form .update_checklist_template{
+	float: left;
+    height: 21px;
+    line-height: 21px;
+}
+
+#edit_checklist_template_form .edit_checklist_template_loader{
+	float: left;
+    margin: 3px 0 0 3px;
+}
+
+#delete_checklist_template_form {
+	margin-top: 20px;
+}
+
+#delete_checklist_template_form .label{
+	float: left;
+    font-size: 14px;
+    font-weight: normal;
+    margin-right: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+#delete_checklist_template_form .delete_template_name{
+	float: right;	
+}
+
+#delete_checklist_template_form .checklist_template_name{
+	 margin-left: 10px;
+	 font-weight: bold;
+	 color: #333333;
+}
+
+#delete_checklist_template_form .delete_checklist_template{
+	float: right;
+	margin-top: 20px;
+}
+
+#delete_checklist_template_form .delete_checklist_template_loader{
+	display: block;
+    float: right;
+    margin-right: 10px;
+    margin-top: 25px;
+}
+
+#delete_checklist_template_form .confimation {
+    float: left;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+#dialog_form_edit_checklist{
+	height: auto !important;
+}
+
+#edit_modal_checklist {
+	margin-top: 20px;
+}
+
+#edit_modal_checklist .input_div{
+	float:left;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+#edit_modal_checklist .label {
+    float: left;
+    margin-right: 20px;
+}
+
+#edit_modal_checklist .modal_label{
+	width: auto;
+	margin-right: 10px;
+	float: left;
+}
+
+#edit_modal_checklist input,
+#edit_modal_checklist textarea {
+	float: right;
+    margin-right: 0px;
+    width: 65%;
+}
+
+
+#edit_modal_checklist .modal_save_edit_checklist {
+    float: right;
+    height: 21px;
+    line-height: 21px;	
+}
+
+#edit_modal_checklist .loader{
+	float: right;
+    margin: 3px 5px 0 0;
+}
+
+
+#delete_modal_checklist .input_div{
+	margin-bottom: 10px;
+    text-align: center;
+}
+
+#delete_modal_checklist .modal_save_delete_checklist{
+	float: right;
+}
+
+#edit_checklist_category_form {
+	margin-top: 20px;
+}
+
+#edit_checklist_category_form .label{
+	float: left;
+	margin-right: 20px;
+}
+
+#edit_checklist_category_form .update_category_name{
+	float: right;	
+}
+
+#edit_checklist_category_form .checklist_category_name{
+	float: left;
+    margin-right: 10px;
+    width: 45%;
+}
+
+#edit_checklist_category_form .update_checklist_category{
+	float: left;
+    height: 21px;
+    line-height: 21px;
+}
+
+#edit_checklist_category_form .edit_checklist_category_loader{
+	float: left;
+    margin: 3px 0 0 3px;
+}
+
+#delete_checklist_category_form{
+	float: left;
+    margin-top: 20px;
+    width: 100%;
+}
+
+#delete_checklist_category_form .label{
+	float: left;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+    width: 100%;
+}
+
+#delete_checklist_category_form .checklist_category_name{
+	color: #333;
+    font-weight: bold;
+}
+
+#delete_checklist_category_form .confimation{
+	float: left;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+#delete_checklist_category_form .delete_checklist_category{
+	float: right;
+    margin-top: 20px;
+}
+#delete_checklist_category_form .delete_checklist_category_loader{
+	float: right;
+	margin: 25px 5px 0px 0px;
+}
+/* ADD CHECKLIST TEMPLATE */
+
+.checklist_template_section select.checklist_template{
+	float: left;
+}
+
+.checklist_template_section .add_checklist_template{
+    float: left;
+    height: 10px;
+    line-height: 10px;
+    margin-left: 10px;
+    width: auto;
+}
+
+.checklist_template_section .checklist_template_div {
+    float: right;
+    margin-top: 10px;
+    width: 85%;
+}
+
+.checklist_template_section .add_template {
+    height: 20px;
+    line-height: 20px;
+    margin-left: 10px;
+    width: auto;
+	float: left;
+}
+
+.checklist_template_section .add_checklist_template_input {
+	float: left;
+}
+
+.checklist_template_section .add_template_loader {
+	float: left;
+	margin: 3px 0px 0px 5px;
+}
+.checklist_template_section .template_exist_note{	
+    float: right;
+    width: 55%;
+}
+
+.checklist_template_section .add_checklist_template_loader{	
+    margin: 3px 0px 0px 5px;
+}
+	
+.checklist_template_section.two_third .checklist {
+    width: 100%;
+}	
+
+.checklist_template_section .clear_checkboxes{
+	float: left;
+    height: 15px;
+    line-height: 15px;
+}
+
+.checklist_template_section .add_button{
+	float: left;
+    height: 27px;
+    line-height: 15px;
+}
+
+.checklist_template_section .checklist_item_display{	
+	cursor: default;
+    float: left;
+    padding: 0;
+    position: relative;
+    width: 100%;
+}
+
+.checklist_template_section .checklist_item_display:hover{	
+	background: #ecf7ff none repeat scroll 0 0;
+}
+
+.checklist_template_section .checklist_description_display{
+	background-color: #f5f5f5;
+    border-radius: 5px;
+    box-shadow: 0 3px 7px -5px;
+    left: 0;
+    margin-top: 0;
+    max-width: 100%;
+    padding: 10px;
+    position: absolute;
+    top: 20px;
+    width: 93%;
+    z-index: 999;
+}
+.has_description,
+.completed_has_description{
+	float: right;
+    height: 15px;
+    width: 15px;
+	display: block;
+	margin-top: 3px;
+}
+
+.has_description.closed,
+.completed_has_description.closed{
+	background: #333333 url("images/toggle_plus.png") no-repeat scroll center center;    
+}
+
+.has_description.open,
+.completed_has_description.open {  
+	background: #a0ce4e url("images/toggle_minus.png") no-repeat scroll center center; 
+}
+
+.checklist_task {
+	float: left;
+}
+
+.checklist_task .checklist_item_display{	
+	cursor: default;
+    float: left;
+    padding: 0;
+    position: relative;
+    width: 100%;
+}
+
+.checklist_task .checklist_item_display:hover{	
+	background: #ecf7ff none repeat scroll 0 0;
+}
+
+.checklist_task .checklist_description_display{
+	background-color: #f5f5f5;
+    border-radius: 5px;
+    bottom: 22px;
+    box-shadow: 0 3px 7px -5px;
+    left: 3px;
+    margin-top: 0;
+    max-width: 100%;
+    padding: 10px;
+    position: absolute;
+    width: 92%;
+    z-index: 1;
+}
+
+.completed_checklist .checklist_item_container{
+	cursor: default;
+    float: left;
+    padding: 0;
+    position: relative;
+    width: 100%;
+}
+
+.completed_checklist .completed_checklist_description_display{
+	background-color: #f5f5f5;
+    border-radius: 5px;
+    bottom: 20px;
+    box-shadow: 0 3px 7px -5px;
+    left: 3px;
+    margin-top: 0;
+    max-width: 100%;
+    padding: 10px;
+    position: absolute;
+    width: 92%;
+    z-index: 1;
+}
+
+.checklist_task .checklist_class_labels{
+	float: left;
+	width: 100%;
+}
+
+.checklist_task .checklist_class_labels .chekclist_project,
+.checklist_task .checklist_class_labels .chekclist_client{
+	float: left;
+	margin-right: 10px;
+}
+
+.checklist_task .checklist_class_labels .chekclist_project span,
+.checklist_task .checklist_class_labels .chekclist_client span{
+	color: #000000;
+}
+
+.checklist_task .checklist{
+	float: left;
+	width: 100%;
+}
+
+.checklist_task .checklist_template,
+.checklist_task .checklist_person{
+	float: left;
+}
+
+.checklist_task .loader{
+	margin-left: 5px;
+    margin-top: 2px;
+}
+
+.checklist_task .left {    
+    width: auto;
+	margin-right: 10px;
+}
+
+.checklist_task .right{    
+	float: left;
+	width: 22%;
+}
+
+.checklist_task .completed_checklist {    
+   float: left;
+   width: 100%;
+   margin-top: 5%;
+}
+
+.checklist_task .completed_checklist .toggle-content{
+	float: left;
+	width: 100%;
+	padding: 0px;
+}
+
+.checklist_task .completed_checklist .header_titles{
+	margin-bottom: 10px
+}
+
+.checklist_task .completed_checklist .header_titles,
+.checklist_task .completed_checklist .info_div{
+    float: left;
+    width: 100%;
+}
+
+.checklist_task .completed_checklist .info_div{
+	border-bottom: 1px solid #d3d2d2;
+	padding: 4px 0;
+}
+
+.checklist_task .completed_checklist .info_div_last{
+	border-bottom: 0px none;
+}
+
+.checklist_task .completed_checklist .header_titles .column,
+.checklist_task .completed_checklist .info_div .column{
+    float: left;
+    width: 15%;
+}
+
+.checklist_task .completed_checklist .header_titles .first_column,
+.checklist_task .completed_checklist .info_div .first_column{
+    float: left;
+    width: 25%;
+}
+
+.checklist_task .completed_checklist .header_titles .sixth_column,
+.checklist_task .completed_checklist .info_div .sixth_column{
+    float: left;
+    width: 2.5%;
+}
+
+.checklist_task .completed_checklist .header_titles .seventh_column,
+.checklist_task .completed_checklist .info_div .seventh_column{
+    float: left;
+    width: 6%;
+	margin-left: 10px;
+}
+
+.make_pdf{
+	height: 10px;
+    line-height: 10px;
+}
+
+.checklist_task .completed_checklist .header_titles p {
+    font-weight: bold;
+}
+
+.checklist_task .completed_checklist .custom_accordian{
+    float: left;
+}
+
+.checklist_task .completed_checklist .custom_accordian .custom_toggle{
+    float:left;
+	margin: 0px;
+}
+
+.checklist_task .completed_checklist .custom_accordian .custom_toggle span{
+	margin: 0px;
+}
+
+.checklist_task .completed_checklist .completed_items{
+    float:left;
+	width: 30%;
+	margin-right: 20px;
+}
+
+.checklist_task .completed_checklist .custom_toggle_content{
+	float: left;
+    width: 100%;
+	border-bottom: 3px solid #d3d2d2;
+}
+
+.checklist_task .completed_checklist .custom_toggle_content_last{
+	border-top: 1px solid #d3d2d2;
+}
+
+.checklist_task .completed_checklist .checklist_items_container{
+	float: left;
+    width: 100%;
+	margin: 5px 0px;
+}
+
+.checklist_task .completed_checklist .completed_items:last-child{
+    margin-right: 0px;
+}
+
+.checklist_task .completed_checklist .completed_items .category{
+    float:left;
+	width:100%;
+	font-weight: bold;
+}
+
+.checklist_task .completed_checklist .completed_items .completed_checklist_items{
+    float:left;
+	width:90%;
+}
+
+h5.custom_toggle span.arrow {
+    background-color: #333333;
+}
+h5.custom_toggle span.arrow {
+    background: #333333 url("images/toggle_plus.png") no-repeat scroll center center;
+    display: block;
+    float: left;
+    height: 22px;
+    margin-right: 18px;
+    width: 22px;
+}
+
+h5.custom_toggle.active span.arrow {
+    background-color: #a0ce4e;
+    background-image: url("images/toggle_minus.png");
+}
+
+.checklist .columns{	
+	margin: 0px;
+}
+
+.checklist .columns .column{	
+	float: left;	
+	width: 100%;
+}
+
+.checklist .columns .column .check_group .group_title h1{	
+	margin-top: 0px;	
+	margin-bottom: 10px;
+}
+
+.checklist .columns .column .check_group{	
+	float: left;
+    margin-bottom: 20px;
+    width: 31.7%;
+	margin-right: 20px;
+}
+
+.checklist .columns .column .check_group:last-child{	
+	margin-right: 0px;
+}
+
+.checklist .columns .column .check_group .checkboxes label{	
+	float: left;	
+	width: 93%;
+}
+
+.checklist .columns .column .check_group .checkboxes input{	
+	float: left;
+    width: auto;
+}
+
+.checklist .columns .column .check_group .checklist_label{	
+	float: left;
+    width: 85%;
+    word-wrap: break-word;
+}
+/* END ADD CHECKLIST TO PROJECT */
+
+/* PROJECT CHECKLIST */
+.project_checklist .one_fourth .left {    
+    width: 100%;
+	margin-right: 10px;
+}
+
+.project_checklist .one_fourth .right {    
+    width: auto;
+}
+
+.project_checklist .checklist .columns{	
+	margin: 0px;
+}
+
+.project_checklist .one_fourth select{	
+	float: left;
+}
+
+
+.project_checklist .one_fourth .loader{	
+	margin-left: 10px;
+}
+
+.project_checklist .checklist .columns .column{	
+	float: left;	
+	width: 33%;
+}
+
+.project_checklist .checklist .columns .column .check_group .group_title h1{	
+	margin-top: 0px;	
+	margin-bottom: 10px;
+}
+
+.project_checklist .checklist .columns .column .check_group{	
+	float: left;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.project_checklist .checklist .columns .column .check_group .checkboxes label{	
+	float: left;	
+	width: 100%;
+}
+
+.project_checklist .checklist .columns .column .check_group .checkboxes input{	
+	width: 4%;
+}
+
+.body_id_project-checklist .dialog_form_website_add{
+    top: 65px !important;
+}
+/* END PROJECT CHECKLIST */
+
+
+/* SUBMIT NEW TASK */
+.status_message,
+.action_message{	
+	background-color: #ebeaea;    
+	border-radius: 5px;    
+	opacity: 2;    
+	padding: 10px;    
+	position: absolute;    
+	text-align: center;    
+	top: 183px;    
+	width: 25%;
+}
+
+.body_id_submit-kb-task .status_message,
+.body_id_submit-kb-task .action_message{
+	left: 40%;
+}
+
+.loader,
+.schedule_task_loader,
+.ead_loader,
+.schedule_start_task_loader,
+.add_site_loader{	
+	background: url('img/loader.gif');	
+	width: 16px;	
+	height: 16px;	
+	float: left;	
+	margin-left: 30px;
+}
+
+#dialog_form_project_management .loader{    
+	float: right;	
+	margin: 15px 10px 0px 0px;
+}
+
+.input_error{	
+	border: 1px solid #f4a1a1;
+}
+
+.input_error_message {    
+	clear: both;    
+	float: right;    
+	font-family: sans-serif;    
+	font-size: 10px;
+}
+
+.dialog_form_add_subtask .submit_task_input{
+	float: left;	
+	width: 100%;	
+	margin-bottom: 20px;
+}
+
+.dialog_form_add_subtask .submit_task_input:first-child{	
+	margin-top: 20px;
+}
+
+.dialog_form_add_subtask .submit_task_input select,
+.dialog_form_add_subtask .submit_task_input textarea{	
+	float: right;
+}
+
+.dialog_form_add_subtask .submit_task_input textarea{	
+	width: 74.5%;
+}
+
+.dialog_form_add_subtask .submit_button{	
+	width: 30%;	float: left;
+}
+
+.dialog_form_add_subtask .loader{	
+	margin: 5px 0px 0px 5px;
+}
+
+.schedule_task_loader{	
+	margin: 6px 0px 0px 10px;	
+	width: 15px !important
+}
+
+.submit_task_buttons{	
+	float: left;	
+	width: 100%;
+	margin-top: 10px;
+}
+
+.submit_task_cells .action_buttons{
+	float: left;
+	margin-right: 5px;
+	cursor: pointer;
+}
+
+.temp_container .action_buttons{
+	float: left;
+	margin-right: 5px;
+	color: #000000;
+	cursor: pointer;
+}
+
+.submit_task_buttons div,.submit_task_buttons input,.submit_task_buttons a{	float: left;	width: 20%;}
+div[aria-describedby='dialog_form_add_task']{	top: 80px !important;}
+.submit_task_buttons a.button_2{	height: 15px;    line-height: 15px;}
+.submit_task_buttons input.button_1{	height: 27px;    line-height: 23px;}
+.page-id-120 .input_error_message{	display: none;}
+
+#dialog_form_add_task{	
+	height: auto !important;
+}
+
+#dialog_form_add_task .tab-holder,
+#dialog_form_add_task .tabs_li{	
+	border: 0 none !important;
+}
+
+#dialog_form_add_task .tabs_li a{	
+	background: none !important;
+	width: 60px !important;
+}
+
+#dialog_form_add_task .tabs_li.active a{	
+	background: none !important;
+	box-shadow: none !important;
+	color: #72C152 !important;
+}
+
+#dialog_form_add_task .submit_inputs,
+#dialog_form_add_task .tab_content{	
+	float: left;
+	width: 100%;
+}
+
+#dialog_form_add_task #submit_task_form .submit_inputs{	
+	float: left;
+    min-height: 320px;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section{	
+	float: left;	
+	width: 100%;	
+	margin-bottom: 10px;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section:first-child{	
+	margin-top: 10px;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section:last-child{	
+	margin-bottom: 0px;
+}
+
+
+#dialog_form_add_task #submit_task_form .submit_section .submit_left{	
+	float: left;	
+	width: 49%;	
+}
+
+#dialog_form_add_task #submit_task_form .submit_section .submit_left input,
+#dialog_form_add_task #submit_task_form .submit_section .submit_left select{	
+	width: 100%;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section .submit_right{	
+	float: right;	
+	width: 49%;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section .submit_right input,
+#dialog_form_add_task #submit_task_form .submit_section .submit_right select,
+#dialog_form_add_task #submit_task_form .submit_section textarea{	
+	width: 100%;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section .submit_select_client{	
+	position: relative;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section .submit_select_client .loader{	
+	left: 170px;
+    margin: 0;
+    position: absolute;
+    top: 3px;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section textarea{
+	width: 97%;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section h3{	
+	width: 100%;	
+	margin: 0px 0px 10px 0px;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section .submit_right .submit_hour input,
+#dialog_form_add_task #submit_task_form .submit_section .submit_right .submit_minute input{	
+	width: 21%;	
+	float: left;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section input.submit_time_estimate_minute,
+#dialog_form_add_task #submit_task_form .submit_section input.submit_time_estimate_hour{	
+	width: 23%;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section .estimated_time p{	
+	width: 100%;
+	margin: 0px !important;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section .estimated_time .label{	
+	float: left;    
+	font-size: 12px;    
+	margin-right: 10px;    
+	margin-top: 2px;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section .include_checklist {
+    margin-top: 5px;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section .include_checklist .submit_checklist {
+    float: left;
+    margin: 0 5px 0 0;
+    width: 10px;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section .include_checklist .label {
+    float: left;
+    font-size: 12px;
+    line-height: 12px;
+    margin: 1px 0 0;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section .schedule_today_div{	
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section .schedule_today_div .label{	
+	float: left;    
+	font-size: 12px;      
+	margin: 1px 0px 0px 0px;
+	line-height: 12px;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section .schedule_today_div .schedule_today{	
+	float: left;
+    margin: 0 5px 0 0;
+    width: 10px;
+}
+
+
+#dialog_form_add_task #submit_task_form .submit_section.add_task_checklist .include_checklist{	
+	float: left;
+	margin-right: 10px;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section.add_task_checklist .submit_checklist_div{	
+	float: left;
+	width: 70%;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section.add_task_checklist .submit_checklist_div .submit_add_template_name{	
+	float: left;
+    margin-right: 10px;
+    width: 44.6%;
+}
+#dialog_form_add_task #submit_task_form .submit_section.add_task_checklist .submit_checklist_div .add_template_note{	
+	background: #ffffff none repeat scroll 0 0;
+    border: 1px solid #d3d2d2;
+    border-radius: 3px;
+    bottom: 160px;
+    display: block;
+    font-size: 10px;
+    left: 60px;
+    padding: 3px;
+    position: absolute;
+    width: 77%;
+}
+
+#dialog_form_add_task #submit_task_form .add_checklist_template{
+    float: right;
+    height: 10px;
+    line-height: 10px;
+    margin-left: 10px;
+    margin-right: 0;
+    width: auto;
+}
+
+#dialog_form_add_task #submit_task_form .checklist_template_div{
+    float: left;
+    margin-top: 10px;
+    width: 100%;
+}
+
+#dialog_form_add_task #submit_task_form .checklist_template_div .add_template{
+    float: right;
+    height: 20px;
+    line-height: 20px;
+}
+
+#dialog_form_add_task #submit_task_form .checklist_template_div .add_checklist_template_input{
+    float: right;
+    margin-right: 10px;
+    width: 46%;
+}
+
+#dialog_form_add_task #submit_task_form .checklist_template_div .add_checklist_template_loader{    
+    margin-left: 15px;
+    margin-top: 3px;
+}
+
+#dialog_form_add_task #submit_task_form .checklist_template_div .add_template_loader{    
+	float: right;
+    margin-right: 10px;
+    margin-top: 3px;
+}
+
+#dialog_form_add_task #submit_task_form .checklist_template_div .template_exist_note{
+	font-size: 12px;
+	margin-bottom: 0px;
+}
+
+#dialog_form_add_task #submit_task_form .checklist_template_div .template_exist_note.full_width{
+    margin-top: 5px;
+    text-align: center;
+}
+
+#dialog_form_add_task #submit_task_form .submit_section.add_task_checklist .submit_checklist_div .submit_checklist_template{	
+	float: right;
+    width: 50%;
+}
+
+#dialog_form_add_task #submit_task_form .submit_task_input .sub_task {	
+	float: left;
+    height: 22px;
+    width: 77%;
+}
+
+#dialog_form_add_task #submit_task_form .submit_task_input .add_subtask_button {	
+	float: left;
+    height: 15px;
+    line-height: 15px;
+    margin-left: 10px;
+    margin-right: 0;
+    padding: 5px;
+}
+
+#dialog_form_add_task #submit_task_form  .subtask_action_button{	
+	float: right;
+    height: 10px;
+    line-height: 10px;
+    padding: 5px;
+}
+
+#dialog_form_add_task #submit_task_form  .subtask_list{	
+	float: left;
+    width: 100%;
+	margin-bottom: 5px;
+}
+
+#dialog_form_add_task #submit_task_form  .subtask_list p{	
+	float: left;
+}
+
+#dialog_form_add_task #submit_task_form  .subtask_container{
+	float: left;
+    max-height: 300px;
+    overflow: auto;
+	width: 100%;
+}
+
+#dialog_form_add_task #submit_task_form  .subtask_container .edit_div{	
+	width: 100%;
+	float: left;
+	margin-bottom: 5px;
+}
+
+#dialog_form_add_task #submit_task_form  .subtask_container .edit_div input{	
+	width: 77%;
+	float: left;
+}
+
+#dialog_form_add_task #submit_task_form  .subtask_container .edit_div .check_edit{	
+	background-image: url("img/check.png");
+    background-size: 20px auto;
+    float: left;
+    height: 20px;
+    margin-left: 10px;
+    width: 20px;
+}
+
+.body_id_cron-events .avada-row{	
+	max-width: 1125px !important;
+}
+.cron_events .header_titles{	float: left; 	width: 180px; 	font-weight: bold;}
+.cron_events .detail_row{	float: left;    width: 100%;	border-bottom: 1px solid #d3d2d2;	}
+.cron_events .detail_row:last-child{	border-bottom: 0px none;}
+.cron_events .detail_column{	float: left; 	width: 180px; }
+.cron_events input.detail_column{	float: left; 	width: 50px;	background: 0;	border: 0px none;}
+.cron_events input.detail_column:hover{	color: #a0ce4e;}
+
+div[aria-describedby='dialog_form_start_task']{	top: 80px !important;}
+
+#dialog_form_start_task{	
+	height: 415px !important;
+}
+
+#dialog_form_start_task .tab-holder,
+#dialog_form_start_task .tabs_li{	
+	border: 0 none !important;
+}
+
+#dialog_form_start_task .tabs_li{	
+	background: none !important;
+	width: 60px !important;
+}
+
+#dialog_form_start_task .tabs_li.active{	
+	background: none !important;
+	box-shadow: none !important;
+	color: #72C152 !important;
+}
+
+#dialog_form_start_task .submit_inputs,
+#dialog_form_start_task .tab_content{	
+	float: left;
+	width: 100%;
+}
+
+#dialog_form_start_task #submit_start_task_form .submit_inputs{	
+	float: left;
+    min-height: 320px;
+}
+
+#dialog_form_start_task #submit_start_task_form .submit_section{	
+	float: left;	
+	width: 100%;	
+	margin-bottom: 10px;
+}
+
+#dialog_form_start_task #submit_start_task_form .submit_section:first-child{	
+	margin-top: 10px;
+}
+
+#dialog_form_start_task #submit_start_task_form .submit_section:last-child{	
+	margin-bottom: 0px;
+}
+
+
+#dialog_form_start_task #submit_start_task_form .submit_section .submit_left{	
+	float: left;	
+	width: 49%;	
+}
+
+#dialog_form_start_task #submit_start_task_form .submit_section .submit_left input,
+#dialog_form_start_task #submit_start_task_form .submit_section .submit_left select{	
+	width: 100%;
+}
+
+#dialog_form_start_task #submit_start_task_form .submit_section .submit_right{	
+	float: right;	
+	width: 49%;
+}
+
+#dialog_form_start_task #submit_start_task_form .submit_section .submit_right input,
+#dialog_form_start_task #submit_start_task_form .submit_section .submit_right select,
+#dialog_form_start_task #submit_start_task_form .submit_section textarea{	
+	width: 100%;
+}
+
+#dialog_form_start_task #submit_start_task_form .submit_section textarea{
+	width: 97%;
+}
+
+#dialog_form_start_task #submit_start_task_form .submit_section h3{	
+	width: 100%;	
+	margin: 0px 0px 10px 0px;
+}
+
+#dialog_form_start_task #submit_start_task_form .submit_section .submit_right .submit_hour input,
+#dialog_form_start_task #submit_start_task_form .submit_section .submit_right .submit_minute input{	
+	width: 21%;	
+	float: left;
+}
+
+#dialog_form_start_task #submit_start_task_form .submit_section input.submit_time_estimate_minute,
+#dialog_form_start_task #submit_start_task_form .submit_section input.submit_time_estimate_hour{	
+	width: 23%;
+}
+
+#dialog_form_start_task #submit_start_task_form .submit_section .estimated_time p{	
+	width: 100%;
+	margin: 0px !important;
+}
+
+#dialog_form_start_task #submit_start_task_form .submit_section .estimated_time .label{	
+	float: left;    
+	font-size: 12px;    
+	margin-right: 10px;    
+	margin-top: 2px;
+}
+
+#dialog_form_start_task #submit_start_task_form .submit_task_input .sub_task {	
+	float: left;
+    height: 22px;
+    width: 77%;
+}
+
+#dialog_form_start_task #submit_start_task_form .submit_task_input .add_subtask_button {	
+	float: left;
+    height: 15px;
+    line-height: 15px;
+    margin-left: 10px;
+    margin-right: 0;
+    padding: 5px;
+}
+
+#dialog_form_start_task #submit_start_task_form  .subtask_action_button{	
+	float: right;
+    height: 10px;
+    line-height: 10px;
+    padding: 5px;
+}
+
+#dialog_form_start_task #submit_start_task_form  .subtask_list{	
+	float: left;
+    width: 100%;
+	margin-bottom: 5px;
+}
+
+#dialog_form_start_task #submit_start_task_form  .subtask_list p{	
+	float: left;
+}
+
+#dialog_form_start_task #submit_start_task_form  .subtask_container{
+	float: left;
+    max-height: 300px;
+    overflow: auto;
+	width: 100%;
+}
+
+#dialog_form_start_task #submit_start_task_form  .subtask_container .edit_div{	
+	width: 100%;
+	float: left;
+	margin-bottom: 5px;
+}
+
+#dialog_form_start_task #submit_start_task_form  .subtask_container .edit_div input{	
+	width: 77%;
+	float: left;
+}
+
+#dialog_form_start_task #submit_start_task_form  .subtask_container .edit_div .check_edit{	
+	background-image: url("img/check.png");
+    background-size: 20px auto;
+    float: left;
+    height: 20px;
+    margin-left: 10px;
+    width: 20px;
+}
+
+div[aria-describedby='dialog_form_edit_task']{	top: 80px !important;}
+
+#dialog_form_edit_task{	
+	height: 415px !important;
+}
+
+#dialog_form_edit_task .tab-holder,
+#dialog_form_edit_task .tabs_li{	
+	border: 0 none !important;
+}
+
+#dialog_form_edit_task .tabs_li{	
+	background: none !important;
+	width: 60px !important;
+}
+
+#dialog_form_edit_task .tabs_li.active{	
+	background: none !important;
+	box-shadow: none !important;
+	color: #72C152 !important;
+}
+
+#dialog_form_edit_task .submit_inputs,
+#dialog_form_edit_task .tab_content{	
+	float: left;
+	width: 100%;
+}
+
+#dialog_form_edit_task #submit_edit_task_form .submit_inputs{	
+	float: left;
+    min-height: 320px;
+}
+
+#dialog_form_edit_task #submit_edit_task_form .submit_section{	
+	float: left;	
+	width: 100%;	
+	margin-bottom: 10px;
+}
+
+#dialog_form_edit_task #submit_edit_task_form .submit_section:first-child{	
+	margin-top: 10px;
+}
+
+#dialog_form_edit_task #submit_edit_task_form .submit_section:last-child{	
+	margin-bottom: 0px;
+}
+
+
+#dialog_form_edit_task #submit_edit_task_form .submit_section .submit_left{	
+	float: left;	
+	width: 49%;	
+}
+
+#dialog_form_edit_task #submit_edit_task_form .submit_section .submit_left input,
+#dialog_form_edit_task #submit_edit_task_form .submit_section .submit_left select{	
+	width: 100%;
+}
+
+#dialog_form_edit_task #submit_edit_task_form .submit_section .submit_right{	
+	float: right;	
+	width: 49%;
+}
+
+#dialog_form_edit_task #submit_edit_task_form .submit_section .submit_right input,
+#dialog_form_edit_task #submit_edit_task_form .submit_section .submit_right select,
+#dialog_form_edit_task #submit_edit_task_form .submit_section textarea{	
+	width: 100%;
+}
+
+#dialog_form_edit_task #submit_edit_task_form .submit_section textarea{
+	width: 97%;
+}
+
+#dialog_form_edit_task #submit_edit_task_form .submit_section h3{	
+	width: 100%;	
+	margin: 0px 0px 10px 0px;
+}
+
+#dialog_form_edit_task #submit_edit_task_form .submit_section .submit_right .submit_hour input,
+#dialog_form_edit_task #submit_edit_task_form .submit_section .submit_right .submit_minute input{	
+	width: 21%;	
+	float: left;
+}
+
+#dialog_form_edit_task #submit_edit_task_form .submit_section input.submit_time_estimate_minute,
+#dialog_form_edit_task #submit_edit_task_form .submit_section input.submit_time_estimate_hour{	
+	width: 23%;
+}
+
+#dialog_form_edit_task #submit_edit_task_form .submit_section .estimated_time p{	
+	width: 100%;
+	margin: 0px !important;
+}
+
+#dialog_form_edit_task #submit_edit_task_form .submit_section .estimated_time .label{	
+	float: left;    
+	font-size: 12px;    
+	margin-right: 10px;    
+	margin-top: 2px;
+}
+
+#dialog_form_edit_task #submit_edit_task_form .submit_task_input .sub_task {	
+	float: left;
+    height: 22px;
+    width: 77%;
+}
+
+#dialog_form_edit_task #submit_edit_task_form .submit_task_input .add_subtask_button {	
+	float: left;
+    height: 15px;
+    line-height: 15px;
+    margin-left: 10px;
+    margin-right: 0;
+    padding: 5px;
+}
+
+#dialog_form_edit_task #submit_edit_task_form  .subtask_action_button{	
+	float: right;
+    height: 10px;
+    line-height: 10px;
+    padding: 5px;
+}
+
+#dialog_form_edit_task #submit_edit_task_form  .subtask_list{	
+	float: left;
+    width: 100%;
+	margin-bottom: 5px;
+}
+
+#dialog_form_edit_task #submit_edit_task_form  .subtask_list p{	
+	float: left;
+}
+
+#dialog_form_edit_task #submit_edit_task_form  .subtask_container{
+	float: left;
+    max-height: 300px;
+    overflow: auto;
+	width: 100%;
+}
+
+#dialog_form_edit_task #submit_edit_task_form  .subtask_container .edit_div{	
+	width: 100%;
+	float: left;
+	margin-bottom: 5px;
+}
+
+#dialog_form_edit_task #submit_edit_task_form  .subtask_container .edit_div input{	
+	width: 77%;
+	float: left;
+}
+
+#dialog_form_edit_task #submit_edit_task_form  .subtask_container .edit_div .check_edit{	
+	background-image: url("img/check.png");
+    background-size: 20px auto;
+    float: left;
+    height: 20px;
+    margin-left: 10px;
+    width: 20px;
+}
+
+/* GETHERVEST */
+.body_id_getharvest .avada-row{
+	max-width: 98% !important;
+}
+
+.getharvest #table_results{
+	float: left;
+	width: 100%;
+}
+
+.getharvest #tablePagination{
+	margin-bottom: 20px;
+	float: left;
+	width: 100%;
+}
+
+.getharvest #tablePagination #tablePagination_perPage{
+	float: right;
+}
+
+.getharvest #tablePagination #tablePagination_perPage #tablePagination_rowsPerPage{
+	margin-right: 10px;
+}
+
+.getharvest #tablePagination #tablePagination_paginater{
+	float: right;
+	width: 20%;
+}
+
+.getharvest #tablePagination #tablePagination_paginater #tablePagination_currPage{
+	margin: 0px 10px;
+}
+
+.getharvest #tablePagination #tablePagination_paginater #tablePagination_prevPage{
+	margin-right: 10px;
+}
+
+.getharvest #tablePagination #tablePagination_paginater #tablePagination_nextPage{
+	margin-left: 10px;
+}
+
+.getharvest #table_results .table_head{
+	font-weight: bold;
+	border-bottom: 1px solid #d3d2d2;
+}
+
+.getharvest #table_results .table_head td{
+	padding: 0 20px 0 0;
+}
+
+.getharvest #table_results .table_head td.two_rows{
+	width: 10px;
+}
+
+.getharvest #table_results .table_data{
+	border-bottom: 1px solid #d3d2d2;
+}
+
+.getharvest #table_results .table_data td{
+	padding: 0 20px 0 0;
+	height: 30px;
+}
+
+.getharvest .table_data{
+	position: relative;	
+}
+
+.getharvest .task_note{	
+	background-color: #f5f5f5;   
+	border: 1px solid #d3d2d2;    
+	border-radius: 5px;    
+	box-shadow: 0 3px 7px -5px;    
+	left: 425px;    
+	margin-top: 0;    
+	max-width: 50%;   
+	padding: 10px !important;
+	height: auto !important;
+	position: absolute;	
+	bottom: 0;
+}
+
+.login_note,
+.login_url{
+	text-align: center;
+}
+
+.add_monthly_plan .monthly_checkbox{
+	float: left;
+	width: 18px;
+	margin: 0px 5px 0px 0px;
+}
+
+.add_monthly_plan .checkbox_label{
+	float: left;
+    line-height: 13px;
+    margin-bottom: 5px;
+    width: 45%;
+}
+
+.add_monthly_plan .button_1{
+	width: 13%;
+	line-height: 21px;
+}
+
+.add_monthly_plan .monthly_plan_container.right{
+	line-height: 21px;
+    width: 50%;
+}
+
+.edit_monthly_plan .monthly_checkbox{
+	float: left;
+	width: 10px;
+	margin: 0px 5px 0px 0px;
+}
+
+.edit_monthly_plan .checkbox_label{
+	float: left;
+    line-height: 13px;
+    margin-bottom: 5px;
+    width: 45%;
+}
+
+.edit_monthly_plan .button_1{
+	width: 13%;
+	line-height: 21px;
+}
+
+.edit_monthly_plan .monthly_plan_container.right{
+	line-height: 21px;
+    width: 50%;
+}
+
+.info_monthly_plan ul{
+	padding: 0px;
+	margin: 0px;
+}
+
+.staff_timesheet .left_div{
+	width: 20%;
+	float: left;
+	margin-right: 20px;
+}
+
+.staff_timesheet .left_div .staff_timesheet_form .choose_person{
+	float: left;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.staff_timesheet .left_div .staff_timesheet_form .label{
+	float: left;
+	margin-right: 10px;
+}
+
+.staff_timesheet .left_div .staff_timesheet_form .person_name{
+	width: 65%;	
+}
+
+.staff_timesheet .left_div .staff_timesheet_form #week_number_calendar{
+	float: left;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.staff_timesheet .left_div .staff_timesheet_search{
+	float: right;
+	width: 15%;
+}
+
+.staff_timesheet .right_div{
+	width: 78%;
+	float: left;
+}
+
+.staff_timesheet .right_div .top_nav{
+	width: 100%;
+	float: left;
+}
+
+.staff_timesheet .right_div .top_nav .week_section{
+	float: left;
+}
+
+.staff_timesheet .right_div .tab-holder .full_width .tabs .tabs_li{
+	width: 14.19%;
+}
+
+.staff_timesheet .right_div .tab-holder .full_width .tabs .tabs_li a{
+	padding: 0 !important;
+    text-align: center;
+    width: 100%;	
+}
+
+.staff_timesheet .right_div .tab-holder .tabs li:last-child a {
+    width: 100% !important;
+}
+
+.staff_timesheet .right_div .tab-holder .tabs-container{
+	padding: 0px 20px;
+}
+
+.staff_timesheet .right_div .tab-holder .tabs-container{
+	float: left;
+	width: 96%;
+}
+
+.staff_timesheet .right_div .tab-holder .tabs-container .tab_content,
+.staff_timesheet .right_div .tab-holder .tabs-container .tab_content .person_task,
+.staff_timesheet .right_div .tab-holder .tabs-container .tab_content .person_task .header_titles{
+	float: left;
+	width: 100%;
+}
+
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div{
+	border-bottom: 1px solid #d3d2d2;
+	padding: 10px 0;
+}
+
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div:last-child{
+	border-bottom: 0px;
+}
+
+.staff_timesheet .right_div .tab-holder .tabs-container .header_titles .first_column, 
+.staff_timesheet .right_div .tab-holder .tabs-container .header_titles .third_column, 
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div .first_column, 
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div .third_column, 
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div_total .first_column, 
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div_total .third_column{
+    float: left;
+    width: 15%;
+}
+
+.staff_timesheet .right_div .tab-holder .tabs-container .header_titles .second_column,
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div .second_column,
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div_total .second_column{
+	float: left;
+	width: 20%;
+}
+
+.staff_timesheet .right_div .tab-holder .tabs-container .header_titles .fourth_column,
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div .fourth_column,
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div_total .fourth_column{
+	float: left;
+	width: 10%;
+}
+
+.staff_timesheet .right_div .tab-holder .tabs-container .header_titles .fifth_column,
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div .fifth_column,
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div_total .fifth_column{
+	float: left;
+	width: 35%;
+}
+
+.staff_timesheet .right_div .tab-holder .tabs-container .header_titles .first_column, 
+.staff_timesheet .right_div .tab-holder .tabs-container .header_titles .second_column, 
+.staff_timesheet .right_div .tab-holder .tabs-container .header_titles .third_column, 
+.staff_timesheet .right_div .tab-holder .tabs-container .header_titles .fourth_column,
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div .first_column, 
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div .second_column, 
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div .third_column, 
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div .fourth_column,
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div_total .first_column, 
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div_total .second_column, 
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div_total .third_column, 
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div_total .fourth_column {
+    margin-right: 10px;
+}
+
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div .fifth_column span.arrow{
+	float: right !important;
+}
+
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div h5.toggle a{
+	border-bottom: 0px;
+	 padding: 0;
+}
+
+.staff_timesheet .right_div .tab-holder .tabs-container .info_div h5.toggle.active + .toggle-content{
+	border-bottom: 0px;
+}
+
+.staff_timesheet .tabs-container .total_hours{
+	border-top: 0px;
+	width: 100%;
+}
+.staff_timesheet .tabs-container .total_hours .task_total{
+	width: 53%;
+}
+
+.add_hosting_domain_button{
+	width: 15% !important;
+}
+
+.add_hosting_domain .option_add{
+	margin: 0 5px 0 0;
+    width: 1%;
+}
+
+.add_hosting_domain .option_add.domain{
+	margin: 0 5px 0 10px;
+    width: 1%;
+}
+
+.hosting_domain h2.display_title {
+    float: left;
+}
+
+.person_email_notification,
+.person_time_track{
+	margin-right: 5px;
+    width: 1%;
+}
+
+textarea.person_address{
+	width: 30%;
+}
+
+.detailed_time .header_titles p {
+    font-weight: bold;
+}
+
+.detailed_time .header_titles .column,
+.detailed_time .info_div .column{
+    margin-right: 10px;
+}
+
+.detailed_time .header_titles .column:last-child,
+.detailed_time .info_div .column:last-child{
+    margin-right: 0px;
+}
+
+.detailed_time .header_titles .first_column,
+.detailed_time .info_div .first_column{
+    width: 16%;
+}
+
+.detailed_time .header_titles .third_column,
+.detailed_time .info_div .third_column,
+.detailed_time .header_titles .second_column,
+.detailed_time .info_div .second_column{
+    float: left;
+    width: 12%;
+}
+
+.detailed_time .header_titles .fifth_column,
+.detailed_time .info_div .fifth_column{
+    float: left;
+    width: 22%;
+}
+.detailed_time .info_div .fifth_column{
+	margin-right: 0px;
+}
+.detailed_time .header_titles .sixth_column,
+.detailed_time .info_div .sixth_column{
+    float: left;
+    width: 15%;
+}
+.detailed_time .info_div .sixth_column{
+	margin-right: 0px;
+}
+.detailed_time .header_titles .seventh_column,
+.detailed_time .info_div .seventh_column{
+    float: left;
+    width: 10%;
+}
+.detailed_time .info_div .seventh_column{
+	margin-right: 0px;
+	padding-left: 10px;
+}
+.detailed_time .header_titles .eighth_column,
+.detailed_time .info_div .eighth_column{
+    float: left;
+    width: 2%;
+}
+.detailed_time .info_div .eighth_column{
+	margin-right: 0px;
+	padding-left: 10px;
+}
+.detailed_time .date_header{
+	background-color: #e1e1e1;
+    float: left;
+    padding: 5px;
+    width: 99%;
+	font-weight: bold;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.detailed_time .date_header p{
+	float: left;
+}
+
+.detailed_time .date_header .total_day_hour{
+	float: right;
+	width: 18%;
+}
+
+.detailed_time .info_div {
+    /*border-bottom: 1px solid #d3d2d2;*/
+    list-style: outside none none;
+    padding: 5px 0;
+}
+
+.detailed_time .column_group{
+    float: left;
+    width: 80%;
+}
+
+.detailed_time .info_div .column_group .task_description p{
+    color: #a0a0a0;
+    font-style: italic;
+    margin: 10px 0 0;
+}
+
+.detailed_time .top_navi{
+    float: left;
+    width: 100%;
+}
+
+.detailed_time .top_navi .left{
+	width: 55%;
+}
+
+.detailed_time .top_navi .right{
+	float: left;
+	width: 45%;
+}
+
+.detailed_time .top_navi .left .timeframe_navigation{
+	float: left;
+    width: 18%;
+}
+
+.detailed_time .top_navi .loader{	
+    float: right;
+    margin-left: 0;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+.detailed_time .top_navi .left .report_top_label{
+	float: left;
+    margin: 3px 0;
+}
+
+.detailed_time .top_navi .left .report_top_label h1{
+	margin: 0;
+}
+
+.detailed_time .top_navi .left .button_2{
+	float: left;
+    padding: 0;
+    width: 33px;
+}
+
+.detailed_time .top_navi .left .detailed_time_nav_previous,
+.detailed_time .top_navi .left .detailed_time_nav_next{
+	background-position: center center;
+    background-repeat: no-repeat;
+	padding: 5px 11px;
+    width: 11px;
+    height: 16px;
+}
+
+.detailed_time .top_navi .left .detailed_time_nav_previous{
+	background-image: url(img/previous.png);
+}
+
+.detailed_time .top_navi .left .month_next,
+.detailed_time .top_navi .left .detailed_time_nav_next{
+	background-image: url(img/next.png);
+}
+
+.detailed_time .top_navi .right #detailed_time_custom_filter, .detailed_time .top_navi .right #filter_category_type, .detailed_time .top_navi .right #type_data_lists, .detailed_time .top_navi .right #filter_sorting_type{
+	/*float: right;*/
+    padding: 5px 10px;
+    /*width: 20%;*/
+}
+.top-menu-filter{
+	float: right;
+}
+.top-menu-filter li{
+	display: inline-block;
+	float: left;
+	margin-right: 5px;
+	/*width: 100%;*/
+}
+
+.detailed_time .top_navi .right .custom_date_filter{
+	float: left;
+	width: 100%;
+}
+
+.detailed_time .top_navi .right .custom_date_filter .one_half,
+.detailed_time .top_navi .right .custom_date_filter .two_third,
+.detailed_time .top_navi .right .custom_date_filter .one_third{
+	margin-bottom: 0px;
+}
+
+.detailed_time .top_navi .right .custom_date_filter .filter_date_inputs{
+    float: left;
+    width: 85%;
+}
+
+.detailed_time .top_navi .right .custom_date_filter .filter_date_container{
+	float: left;
+    width: 95%;
+}
+
+.detailed_time .top_navi .right .custom_date_filter select{
+    width:100%;
+}
+
+.detailed_time .top_navi .right .custom_date_filter input{
+	float: right;
+    width: 65%;
+}
+
+.detailed_time .top_navi .right .custom_date_filter .button_2 {
+    float: left;
+    height: 20px;
+    margin-top: 3px;
+    padding: 0;
+    width: 20px;
+}
+
+.detailed_time .top_navi .right .custom_date_filter .custom_date_filter_go {
+    background-image: url("img/next.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 16px;
+    padding: 2px 5px;
+    width: 11px;
+}
+
+.detailed_time .top_navi .right .custom_date_filter .label{
+	float: left;
+	margin-right: 3px;
+}
+
+.detailed_time .border_separator {
+    margin-top: 10px;
+}
+
+.detailed_time .task_done_today_display a {
+	border: 0 none;
+    padding: 0;
+}
+
+.detailed_time .task_done_today_display{
+	margin: 0px;
+}
+
+.detailed_time .task_done_today_display .toggle-content {
+	border: 0 none !important;
+    float: left;
+    padding: 0;
+	margin-left: 40px;
+    width: 95.7%;
+}
+
+.detailed_time .task_done_today_display .toggle-content .full_width{
+	margin-bottom: 0px;
+}
+
+.detailed_time .task_done_today_display .toggle-content .task_done_today_display_container .task_done_today_border{
+	margin-bottom: 0px;	
+	float: left;
+	width: 100%;
+	border-bottom: 1px solid #d3d2d2;
+}
+
+.detailed_time .task_done_today_display .toggle-content .task_done_today_display_container .task_done_today_border:last-child{
+	border-bottom: 0px none;
+}
+
+.detailed_time .task_done_today_display .toggle-content .three_fourth,
+.detailed_time .task_done_today_display .toggle-content .one_fourth{
+	margin-bottom: 5px;
+}
+
+.detailed_time .edit_project_name .check_edit_project_name{	
+	background-image: url("img/check.png");
+    background-size: 20px auto;
+    float: left;
+    height: 20px;
+    margin-left: 10px;
+    width: 20px;
+}
+
+.detailed_time .edit_project_name p{	
+	cursor: pointer;
+}
+
+.detailed_time .edit_project_name .project_name_edit_container{	
+	width: 95%;
+}
+
+.detailed_time .edit_project_name .loader{		
+	float: left;
+    margin: 3px 0 0 5px;
+}
+
+.detailed_time .edit_project_name .project_name_edit_container .project_name_edit{	
+	width: 75%;
+	float: left;
+}
+
+.detailed_time .edit_client_name .check_edit_client_name{	
+	background-image: url("img/check.png");
+    background-size: 20px auto;
+    float: left;
+    height: 20px;
+    margin-left: 10px;
+    width: 20px;
+}
+
+.detailed_time .edit_client_name p{	
+	cursor: pointer;
+}
+
+.detailed_time .edit_client_name .client_name_edit_container{	
+	width: 95%;
+}
+
+.detailed_time .edit_client_name .loader{		
+	float: left;
+    margin: 3px 0 0 5px;
+}
+
+.detailed_time .edit_client_name .client_name_edit_container .client_name_edit{	
+	width: 80%;
+	float: left;
+}
+
+.dashboard_current_user{
+	text-align: center;
+	width: 100%;
+}
+
+.dashboard_current_user h3{
+	font-size: 18px !important;
+    font-weight: bold;
+}
+
+.dashboard .dashboard_column .two_third{
+	width: 76%;
+}
+
+.dashboard .dashboard_column .one_third{
+	width: 20%;
+}
+
+.dashboard .data_container.message .tabs_li {
+    width: 32.8%;
+}
+
+.dashboard .data_container.message .tabs_li h3{
+    line-height: 30px;
+}
+
+.dashboard .data_container.message .tab_content p.label{	
+    float: left;
+    margin-right: 5px;
+}
+
+.dashboard .data_container.message .tab_content p{	
+    font-size: 12px;
+}
+
+.dashboard .data_container{	
+    float: left;
+    width: 100%;
+}
+
+.dashboard .data_container .data_title{
+	padding: 10px;
+	background-color: #30AD23;
+	border-radius: 5px 5px 0 0;
+}
+
+.dashboard .data_container .tabs_li.active .data_title{
+	background-color: #11772D;
+}
+
+.dashboard .data_container .title{    
+    color: #ffffff;
+    height: auto !important;
+    line-height: 16px;
+    margin: 0;
+    width: 100%;
+}
+
+.dashboard .data_container .data_content{
+	border: 1px solid #d3d2d2;
+    clear: both;
+	height: auto !important;
+    min-height: 100px;
+    overflow: hidden;
+}
+
+.dashboard .data_container .data_content .custom_message,
+.dashboard .data_container .data_content .custom_goal{
+    min-height: 100px;
+}
+
+.dashboard .data_container .tab-holder{
+	border: 0px none;
+}
+
+
+.dashboard .data_container .tab-holder .data_title {
+    padding: 3px 10px;
+	min-height: 30px;
+	text-align: center;		
+}
+
+.dashboard .data_container .tab-holder .full_width{
+	height: 35px !important;
+    margin: 0;
+}
+
+.dashboard .data_container #tabs {
+    height: auto !important;
+}
+
+.dashboard .data_container .tabs_li {
+    border: 0 none !important;
+    height: auto;
+    margin: 0 4px 0 0;
+    width: 24.5%;
+}
+
+.dashboard .data_container .tabs_li:last-child{
+	margin-right: 0px;
+	float: right;
+}
+
+.dashboard .data_container .tabs_li a{
+	padding: 0px !important;
+	text-shadow: none !important;
+	border-radius: 5px 5px 0 0;
+	background: none !important;
+	border: 0px none !important;
+	height: auto !important;
+}
+
+.dashboard .data_container .tabs_li .title{
+	width: 100%;
+}
+
+.dashboard .data_container .goals_checkbox{
+	width: 20px;
+}
+
+.dashboard .data_container .goal_action_loader{
+	float: right;
+    margin: 15px 10px 0 0;
+}
+
+.dashboard .data_container.customer_issues_bug{
+	margin-top: 20px;
+}
+
+.dashboard .data_container.customer_issues_bug .third_column,
+.dashboard .data_container.customer_issues_bug .fourth_column{
+	width: 22% !important;
+}
+
+.dashboard .data_container.seoweb_internal{
+	margin-top: 20px;
+}
+
+.dashboard .data_container.seoweb_internal .first_column,
+.dashboard .data_container.seoweb_internal .fourth_column{
+	width: 33.6% !important;
+}
+
+.dashboard .data_container.seoweb_internal .second_column,
+.dashboard .data_container.seoweb_internal .third_column{
+	width: 15% !important;
+}
+
+.dashboard .second_section .two_third .monthly_ongoing_progress{
+	width: 40%;
+}
+
+.dashboard .second_section .two_third .monthly_ongoing_progress .data_title{
+	float: left;
+	width: 94.8%;
+}
+
+.dashboard .second_section .two_third .active_projects .data_title,
+.dashboard .second_section .two_third .customer_issues_bug .data_title{
+	float: left;
+	width: 96.4%;
+}
+
+.dashboard .second_section .two_third .monthly_ongoing_progress .data_title .title,
+.dashboard .second_section .two_third .active_projects .data_title .title,
+.dashboard .second_section .two_third .customer_issues_bug .data_title .title{
+	float: left;
+	width: auto;
+}
+
+.dashboard .second_section .two_third .monthly_ongoing_progress .data_title .client_loader,
+.dashboard .second_section .two_third .active_projects .data_title .client_loader,
+.dashboard .second_section .two_third .customer_issues_bug .data_title .client_loader{
+	float: right;
+}
+
+.dashboard .second_section .two_third .active_projects{
+	width: 56%;
+}
+
+.dashboard .one_third.last .data_container{
+	margin-bottom: 20px;
+}
+
+.dashboard .header_titles{
+    float: left;
+    font-weight: bold;
+    width: 100%;
+}
+
+.dashboard .header_titles,
+.dashboard .info_div{
+	border-bottom: 1px solid #d3d2d2;
+}
+
+.dashboard .info_div:last-child{
+	border-bottom: 0px none;
+}
+
+.dashboard .header_titles .first_column,
+.dashboard .info_div .first_column{
+    float: left;
+    width: 40%;
+}
+
+.dashboard .header_titles .second_column, 
+.dashboard .info_div .second_column, 
+.dashboard .header_titles .third_column,
+.dashboard .info_div .third_column{
+	float: left;
+    width: 10%;
+}
+
+.dashboard .header_titles .fourth_column,
+.dashboard .header_titles .fifth_column{
+	float: left;
+    width: 12.9%;
+}
+
+.dashboard .info_div .fourth_column,
+.dashboard .info_div .fifth_column{
+	float: left;
+    width: 13.7%;
+}
+
+.dashboard .header_titles .sixth_column,
+.dashboard .info_div .sixth_column{
+	float: left;
+    width: 8%;
+	height: 20px;
+}
+
+.dashboard .info_div .sixth_column li{
+	background-image: url("img/sat_smiley.png");
+	height: 18px;
+    width: 18px;
+	margin-left: 5px;
+    margin-top: 1px;	
+}
+
+.dashboard .info_div .sixth_column li.happy{
+	background-position: 0 center;
+}
+
+.dashboard .info_div .sixth_column li.satisfied{
+	background-position: 54px center;
+}
+
+.dashboard .info_div .sixth_column li.not_satisfied{
+	background-position: 36px center;
+}
+
+.dashboard .info_div .sixth_column li.upset{
+	background-position: 18px center;
+}
+
+.dashboard .info_div .client_satisfaction_note{
+    font-weight: bold;
+    padding: 10px;
+    z-index: 1;
+	background: #ffffff;
+	border: 1px solid #d3d2d2;
+}
+
+
+.dashboard .info_div .client_satisfaction_note.happy {
+	color: #019243;
+}
+
+.dashboard .info_div .client_satisfaction_note.satisfied {
+	color: #0e18d9;
+}
+
+.dashboard .info_div .client_satisfaction_note.not_satisfied {
+	color: #f8931f;
+}
+
+.dashboard .info_div .client_satisfaction_note.upset {
+	color: #c5252d;
+}
+
+.dashboard .info_div .client_satisfaction_note:after, .client_satisfaction_note:before {
+	right: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.dashboard .info_div .client_satisfaction_note:after {
+	border-color: rgba(255, 255, 255, 0);
+	border-right-color: #ffffff;
+	border-width: 5px;
+	margin-top: -5px;
+}
+
+.dashboard .info_div .client_satisfaction_note:before {
+	border-color: rgba(211, 210, 210, 0);
+	border-right-color: #d3d2d2;
+	border-width: 6px;
+	margin-top: -6px;
+}
+
+.dashboard .info_div .client_satisfaction_note p {
+	white-space: nowrap;
+}
+
+.dashboard .header_titles .column,
+.dashboard .info_div .column{
+	border-right: 1px solid #d3d2d2;
+	padding-left: 3px;
+}
+
+.dashboard .monthly_ongoing_progress .info_div .fourth_column,
+.dashboard .monthly_ongoing_progress .info_div .fifth_column{
+	padding-left: 0px;
+	text-align: center;
+}
+
+.dashboard .header_titles .sixth_column,
+.dashboard .info_div .sixth_column{
+	border-right: 0 none;
+}
+
+
+.dashboard .header_titles .column:last-child,
+.dashboard .info_div .column:last-child{
+	border-right: 0 none;
+}
+
+.dashboard .month_stat .month_details {
+    float: left;
+    width: 100%;
+}
+
+.dashboard .month_stat p.label {
+    float: left;
+}
+
+.dashboard .month_stat p.hours {
+    float: right;
+    width: auto;
+}
+
+.dashboard .checked_goals{
+	background-image: url("img/checkbox_checked.png");
+    float: left;
+    height: 15px;
+    margin-right: 10px;
+    width: 15px;
+}
+
+.dashboard .unchecked_goals{
+	background-image: url("img/checkbox_unchecked.png");
+	float: left;
+    height: 15px;
+    margin-right: 10px;
+    width: 15px;
+}
+
+.dashboard .goal_li{
+	float: left;
+	width: 100%;
+	line-height: 15px;
+	margin-bottom: 10px;
+}
+
+.dashboard .active_projects .header_titles .first_column, 
+.dashboard .active_projects .info_div .first_column {
+    width: 25%;
+}
+
+.dashboard .active_projects .header_titles .second_column, 
+.dashboard .active_projects .info_div .second_column{
+	width: 27%;
+}
+
+.dashboard .active_projects .header_titles .third_column, 
+.dashboard .active_projects .info_div .third_column {
+    width: 10%;
+}
+
+.dashboard .active_projects .header_titles .fourth_column, 
+.dashboard .active_projects .info_div .fourth_column {
+    width: 13%;
+}
+
+.dashboard .active_projects .header_titles .fifth_column, 
+.dashboard .active_projects .info_div .fifth_column {
+    float: left;
+    padding-left: 3px;
+    text-align: left;
+    width: 21.4%;
+}
+
+.dashboard .link_buttons{
+	float: left;
+    margin-top: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+.dashboard .link_buttons .button_1{
+	 width: auto;
+}
+
+.dashboard .dashboard_add_link{
+	float: right;
+	margin-top: 10px;
+}
+
+.dashboard .gform_widget{
+	float: left;
+    margin-right: 20px;
+    width: 47%;	
+}
+
+.client_info{
+	cursor: pointer;
+}
+
+div.ui-dialog[aria-describedby='dialog_client_information']{
+	left: 220px !important;
+    width: 900px !important;
+	height: auto !important;
+}
+
+#dialog_client_information{
+	height: auto !important;
+}
+
+.dialog_client_information .one_half.last .label{
+	float: left;
+	margin-right: 5px;
+}
+
+.dialog_client_information .header_titles{
+	font-weight: bold;
+}
+
+.dialog_client_information .info_div{
+	padding: 3px 0px;
+	border-bottom: 1px solid #d3d2d2;
+}
+
+.dialog_client_information .info_div:last-child{
+	margin-bottom: 0px;
+}
+
+.dialog_client_information .info_div:hover{
+	background: #ecf7ff;
+}
+
+.dialog_client_information .header_titles{
+	font-weight: bold;
+	margin-bottom: 10px;
+	float: left;
+	width: 100%;
+}
+
+.dialog_client_information .column{
+	word-wrap: break-word;
+}
+
+.dialog_client_information .header_titles .first_column,
+.dialog_client_information .info_div .first_column{
+	width: 29.5%;
+	margin-right: 10px;
+}
+
+.dialog_client_information .header_titles .second_column,
+.dialog_client_information .info_div .second_column,
+.dialog_client_information .header_titles .third_column,
+.dialog_client_information .info_div .third_column,
+.dialog_client_information .header_titles .sixth_column,
+.dialog_client_information .info_div .sixth_column,
+.dialog_client_information .header_titles .fifth_column,
+.dialog_client_information .info_div .fifth_column{
+	width: 12%;
+	margin-right: 10px;
+	float: left;
+}
+.fifth_column .table_header{
+	padding-left: 10px;
+}
+.dialog_client_information .header_titles .fourth_column,
+.dialog_client_information .info_div .fourth_column{
+	width: 7.5%;
+	margin-right: 10px;
+	float: left;
+}
+
+.dialog_client_information .header_titles .seventh_column,
+.dialog_client_information .info_div .seventh_column{
+	width: 5%;
+	float: left;
+}
+
+.add_goals .option_goal {
+    margin: 0 5px 0 0;
+    width: 1%;
+}
+
+.add_goals .option_goal.monthly_goal,
+.add_goals .option_goal.personal_goal{
+    margin: 0 5px 0 10px;
+    width: 1%;
+}
+
+.add_goals .type_option{
+    float: left;
+    width: 100%;
+}
+
+.add_goals .time_option .goals_time_year,
+.add_goals .time_option .goals_time_month,
+.add_goals .time_option .goals_time_person{
+    float: left;
+	margin: 10px 10px 0px 0px;
+}
+
+.add_goals .goals{
+	float: left;
+    height: 50px;
+    margin-right: 10px;
+    width: 300px;
+}
+
+.add_goals .add_more_goals{
+	float: left;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 10px;
+}
+.add_goals .goals_container{
+	width: 100%;
+	float: left;
+}
+
+.add_goals .goal_width{
+	float: left;
+	width: 50%;
+	margin-bottom: 10px;
+}
+
+.add_goals .goals_list{
+	float: left;
+	width: 100%;	
+}
+
+.add_goals .goals_list p{
+	margin-right: 10px;
+	float: left;
+}
+
+.add_goals .goals_edit,
+.add_goals .goals_delete{
+	float: right;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 5px;
+}
+
+.add_goals .edit_div{	
+	float: left;
+    margin-bottom: 10px;
+    width: 50%;
+}
+
+.add_goals .edit_div .check_edit{	
+	background-image: url("img/check.png");
+    background-size: 20px auto;
+    float: right;
+    height: 20px;
+    margin-left: 10px;
+    width: 20px;
+}
+
+.add_goals .edit_div .goals_edit_area{	
+	width: 80%;
+}
+
+.display_section.goals h2.display_title {
+    float: left;
+}
+
+.goals .global_goals{
+    float: left;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.goals .personal_goals{
+    float: left;
+    width: 100%;
+}
+
+.goals .accordian{
+    float: left;
+	width: 100%;
+}
+
+.goals .accordian .arrow{
+   float: right;
+}
+
+.goals .accordian a{
+	padding: 0;
+	border: 0px none !important;
+}
+
+.goals .accordian .toggle-content{
+    padding: 0;
+	border: 0px none !important;
+}
+
+.goals .accordian .toggle{
+    border-bottom: 1px solid #d3d2d2;
+}
+
+.goals .custom_accordian .custom_toggle{
+    margin: 0px;
+}
+
+.goals .custom_accordian .custom_toggle .display_list {
+	padding: 20px 10px 20px 0px;
+}
+
+.goals .display_list .custom_toggle{
+	float:right;
+}
+
+.goals .display_list .custom_toggle a{
+	padding: 0px;
+	border: 0px none;
+}
+
+.goals .custom_accordian .custom_toggle_content{
+    border: 0 none !important;
+    float: left;
+    padding: 0;
+    width: 100%;
+}
+
+.goals .custom_accordian .custom_toggle_content .display_list{
+    width: 97.9% !important;
+	cursor: default;
+}
+
+.goals .custom_accordian .custom_toggle_content .display_list .display_subtitle{
+    color: #000000;
+}
+
+#edit_modal_goals .modal_save_edit_goals{
+    float: right;
+    margin-top: 10px;
+}
+
+#edit_modal_goals .modal_label{
+	text-align: center;
+}
+
+#edit_modal_goals .modal_edit_goals{
+	width: 100%;
+}
+
+#edit_modal_goals .loader{
+	float: right;
+    margin-right: 10px;
+    margin-top: 15px;
+}
+
+.goals .add_goals{
+	float:left;
+}
+.goals_loader.loader{
+	float: right;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+#delete_modal_goals .input_div{
+	text-align: center;
+}
+
+#delete_modal_goals .modal_save_delete_goals{
+	float: right;
+	margin-top: 50px;
+}
+
+#delete_modal_goals .loader{
+	float: right;
+    margin-right: 10px;
+    margin-top: 55px;
+}
+
+.add_message .option_message{
+	width: auto;
+	margin: 0px 10px 0px 0px;
+}
+
+.add_message .option_message.personal_message{
+	margin: 0px 10px 0px 10px;
+}
+
+.add_message textarea.message {
+    height: 100px;
+    width: 50%;
+}
+
+.add_message select.message_person {
+    margin-top: 10px;
+}
+
+.display_section.message .display_title {
+    float: left;
+}
+
+.display_section.message .accordian.personal_message .toggle .display_list .message_person_name{
+	padding: 0px;
+}
+
+.display_section.message .accordian.personal_message .toggle .message_person_name{
+	border: 0px none !important;
+}
+
+.display_section.message .accordian.personal_message .toggle .display_list .message_person_name span.arrow{
+	float: right;
+}
+
+.accordian.personal_message{
+	float: left;
+	width: 100%;	
+}
+
+.accordian.personal_message .toggle .display_list{
+	border-bottom: 1px solid #e8e6e6;
+}
+
+.accordian.personal_message .toggle-content {
+    border: 0 none !important;
+    padding: 0;
+}
+
+.message_loader{
+	float: right;
+    margin-right: 10px;
+    margin-top: 3px;
+}
+
+#edit_modal_message .modal_label{
+	text-align: center;
+}
+
+#edit_modal_message .modal_edit_messages{
+	width: 98%;
+}
+
+#edit_modal_message .modal_save_edit_messages{
+	float: right;
+    margin-top: 10px;
+}
+#edit_modal_message .loader{
+	float: right;
+    margin-right: 10px;
+    margin-top: 15px;
+}
+
+#delete_modal_message .modal_save_delete_message{
+	float: right;
+}
+
+#delete_modal_message .input_div{
+	text-align: center;
+}
+
+.delete_ajax_parent{
+	float:left;
+	width: 100%;
+}
+
+.ajax_action_buttons{
+	margin-top: 20px;
+	float: right;
+}
+
+.projects .display_list,
+.active_clients .display_list,
+.archived_clients .display_list,
+.persons .display_list,
+.tasks .display_list,
+.departments .display_list,
+.monthly_plans .display_list,
+.hosting_domain .display_list,
+.websites .display_list{
+    width: 70%;
+}
+
+.projects .display_section:hover,
+.active_clients .display_section:hover,
+.archived_clients .display_section:hover,
+.persons .display_section:hover,
+.tasks .display_section:hover,
+.departments .display_section:hover,
+.monthly_plans .display_section:hover,
+.hosting_domain .display_section:hover,
+.websites .display_section:hover{
+     background: #ecf7ff none repeat scroll 0 0;
+}
+
+.projects .display_list:hover,
+.active_clients .display_list:hover,
+.archived_clients .display_list:hover,
+.persons .display_list:hover,
+.tasks .display_list:hover,
+.departments .display_list:hover,
+.monthly_plans .display_list:hover,
+.hosting_domain .display_list:hover,
+.websites .display_list:hover{
+    background: none;
+}
+
+.archived_clients{
+	float: left;
+}
+
+.archived_clients .display_title{
+	background: #808080 none repeat scroll 0 0;
+	color: #ffffff !important;
+}
+
+.archived_clients .display_section{
+	border-bottom: 1px solid #d3d2d2;
+}
+
+.project_loader{
+	float: right;
+	margin: 3px 5px 0px 0px;
+}
+
+.dialog_form_delete_ajax{
+	height: auto !important;
+}
+
+div[aria-describedby='dialog_form_delete_project']{
+	height: auto !important;
+}
+
+.delete_action_ajax .label{
+	font-size: 14px;
+	font-weight: normal;
+}
+
+.delete_action_ajax .label .delete_name,	
+.delete_action_ajax .label .delete_parent{	
+	font-weight: bold;
+}
+
+.delete_action_ajax .delete_button_ajax{
+	float: right;
+    margin-top: 20px;
+}
+
+.delete_action_ajax .delete_ajax_loader{
+	display: block;
+    float: right;
+    margin: 25px 10px 0 0;
+}
+
+.delete_action_ajax .q_mark{
+	font-weight: normal;
+}
+
+body.single #sidebar .widget .heading{
+	background-color: #30ad23;
+    border-radius: 5px 5px 0 0;
+    padding: 10px;
+}
+
+body.single #sidebar .widget .heading h3{
+    color: #ffffff !important;
+    height: auto !important;
+    line-height: 15px;
+    margin: 0;
+    width: 100%;
+	font-size: 15px !important;
+	font-weight: bold !important;
+}
+
+body.single #sidebar .widget ul{
+    padding: 10px;
+	border: 1px solid #d3d2d2;
+    clear: both;
+    height: auto !important;
+    min-height: 100px;
+    overflow: hidden;
+}
+
+body.single #sidebar .widget ul li{
+    list-style: none;
+}
+
+body.single #sidebar .widget ul li a{
+    padding: 0px;
+	border: 0px none;
+}
+
+body.single #sidebar .widget ul li a::before{
+    content: none;
+}
+
+body.single .post-content li{
+	list-style: inherit;
+}
+
+/* CLIENT PORTAL */
+.client_portal_inputs input{
+	float: left;
+    margin-right: 10px;
+    width: 20%;
+}
+
+.client_portal_inputs .add_more_client_portal{
+	float: left;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 10px;
+}
+
+/* ================= DPLAN ================= */
+.textarea_medium{
+	width: 30%;
+}
+
+.two_column{
+	float: left;
+	width: 50%;
+	margin-bottom: 5px;
+}
+
+.check_box_title{
+    float: left;
+	width: 100%;
+	margin-bottom: 5px;
+}
+
+.check_box_label{
+    float: left;
+    line-height: 14px;
+}
+
+.check_box{
+    margin: 0 10px !important;
+    width: auto !important;
+	float: left;
+}
+
+.check_box:first-child{
+	margin-left: 0px;
+}
+
+
+.multiple_input .left{
+	width: 48%;
+	margin-right: 10px;
+}
+
+.multiple_input .right{
+	width: 48%;
+}
+
+.multiple_input .label{
+	float: left;
+    margin-right: 10px;
+	width: 40%;
+}
+
+.multiple_input input{
+	width: 50%;
+}
+
+
+.service_dialog .submit_section, .asset_dialog .submit_section{
+	float: left;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.service_dialog .submit_section: .asset_dialog .submit_section:first-child{
+	margin-top: 10px;
+}
+
+.service_dialog input,
+.asset_dialog input,
+.service_dialog textarea,
+.asset_dialog textarea{
+	float: left;
+	width: 97%;
+	margin-bottom: 10px;
+}
+
+.service_dialog .check_box, .asset_dialog .check_box{
+	margin: 0px 5px 0px 0px !important;
+}
+
+.service_dialog .submit_left, .asset_dialog .submit_left{
+	float: left;
+    margin-right: 10px;
+    width: 48%;
+}
+
+.service_dialog .submit_right, .asset_dialog .submit_right{
+	float: left;
+    width: 48%;
+}
+
+.service_dialog .dialog_button, .asset_dialog .dialog_button{
+	float: right;
+}
+
+.service_dialog .cancel_dialog, .asset_dialog .cancel_dialog{
+	height: 15px;
+    line-height: 15px;
+}
+
+.service_dialog .asset_dialog_loader, .asset_dialog .asset_dialog_loader{
+	float: right;
+    margin: 5px 5px 0 0;
+}
+
+.service_dialog .service_dialog_loader{
+	float: right;
+    margin: 5px 5px 0 0;
+}
+
+.service_dialog #other_option_container, .asset_dialog #other_option_container{
+	margin-top: 10px;
+}
+
+.service_dialog #other_option_container .add_option, .asset_dialog #other_option_container .add_option{
+	float: left;
+    height: 12px;
+    line-height: 12px;
+}
+#dialog_form_asset_virtual .add_option{
+	float: left;
+    height: 12px;
+    line-height: 12px;
+}
+.service_dialog .dialog_button_container, .asset_dialog .dialog_button_container{
+	float: left;
+	width: 100%;
+}
+
+.add_other_asset_loader{
+	margin: 4px;
+}
+
+#dialog_form_asset_server .submit_left,
+#dialog_form_asset_server .submit_middle,
+#dialog_form_asset_server .submit_right{
+	float: left;
+    width: 32.4%;
+}
+
+#dialog_form_asset_server .submit_left,
+#dialog_form_asset_server .submit_middle{
+    margin-right: 10px;
+}
+.ui-dialog[aria-describedby='dialog_form_asset_server']{
+	left: 270px !important;
+    width: 800px !important;
+}
+#dialog_form_asset_virtual .submit_left,
+#dialog_form_asset_virtual .submit_middle,
+#dialog_form_asset_virtual .submit_right{
+	float: left;
+    width: 32.4%;
+}
+
+#dialog_form_asset_virtual .submit_left,
+#dialog_form_asset_virtual .submit_middle{
+    margin-right: 10px;
+}
+.ui-dialog[aria-describedby='dialog_form_asset_virtual']{
+	left: 270px !important;
+    width: 800px !important;
+}
+.add_role, .add_software, .add_os{
+	height: 13px;
+	line-height: 13px;
+}
+
+#client_services_container p.service_title, .asset_container p.asset_title{
+	font-size: 15px;
+}
+
+#client_services_container p.label, .asset_container p.label{
+	float: left;
+    margin-right: 10px;
+}
+
+#client_services_container p.input_value, .asset_container p.input_value{
+    font-size: 12px;
+}
+
+#client_services_container ul, .asset_container ul{
+    float: left;
+	width: 95.7%;
+	padding: 10px 20px 10px 20px;
+	margin: 0px;
+}
+
+#client_services_container ul li, .asset_container ul li{
+    float: left;
+    margin-right: 10px;
+    width: 30%;
+}
+
+#client_services_container ul li.eight_column, .asset_container ul li.eight_column{
+    margin-right: 0px;
+}
+
+#client_services_container .service_separator, .asset_container .asset_separator{
+	border-bottom: 2px solid #000;
+	float: left;
+    width: 100%;
+	margin-bottom: 10px;
+}
+
+#client_services_container .service_group_separator, .asset_container .asset_group_separator{
+	border-top: 1px solid #d3d2d2;
+}
+
+#client_services_container .edit_service_group, .asset_container .edit_asset_group{
+	float: right;
+}
+
+#client_services_container .service_groups, .asset_container .asset_groups{
+	border-bottom: 1px solid #d3d2d2;
+}
+
+.info_client .asset_title{
+	width: 100%;
+}
+
+.inventory .top_navi{
+	float: left;
+	width: 100%;
+	text-align: right;
+	margin-bottom: 10px;
+}
+
+.inventory .top_navi select{
+    padding: 5px 10px;
+    width: 21%;
+	float: right;
+}
+
+.inventory .top_navi select.top_client_filter{
+    margin-right: 10px;
+}
+
+.inventory .top_navi .inventory_loader{
+    float: right;
+	margin: 5px 5px 0 0;
+}
+
+.inventory .column{
+	width: 12.5% !important;
+	float:left;
+}
+
+.inventory .header_titles p{
+	font-weight: bold;
+}
+
+.inventory .client_asset{
+    border-bottom: 1px solid #d3d2d2;
+    float: left;
+    padding: 5px 0 0;
+    width: 100%;
+}
+
+.inventory .asset_container{
+	float: left;
+    width: 87.5%;
+	margin-bottom: 5px;
+}
+
+.inventory .asset_container .asset_separator {
+    border-bottom: 0 none;
+    margin-bottom: 5px;
+}
+
+.inventory .asset_container .asset_separator:last-child{
+    margin-bottom: 0px;
+}
+
+.inventory .asset_container ul.asset_groups{
+    border-bottom: 0 none;
+    padding: 0;
+    width: 100%;
+	margin-bottom: 5px;
+}
+
+.inventory .asset_container ul.asset_groups:last-child{
+    margin-bottom: 0px;
+}
+
+.inventory .asset_container ul.asset_groups .column {
+    float: left;
+    width: 13.4% !important
+}
+
+.body_id_timesheet .ui-dialog[aria-describedby='dialog_form_add_project_client']{
+    left: 390px !important;
+    width: 560px !important;
+}
+
+#add_task_timesheet .project_name_loader{
+    display: block;
+    margin: 2px 0 0 10px;
+}
+
+#dialog_form_add_project_client .submit_section{
+	float: left;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+#dialog_form_add_project_client .submit_section:first-child{
+	margin-top: 10px;
+}
+
+#dialog_form_add_project_client label{
+	float: left;
+	margin-right: 10px;
+	width: 97%;
+}
+
+#dialog_form_add_project_client .check_box_container{
+	margin-top: 20px;
+}
+
+#dialog_form_add_project_client label.check_box_label{
+	width: auto;
+}
+
+#dialog_form_add_project_client input,
+#dialog_form_add_project_client textarea,
+#dialog_form_add_project_client select{
+	float: left;
+	width: 97%;
+	margin-bottom: 10px;
+}
+
+#dialog_form_add_project_client .project_estimated_hour,
+#dialog_form_add_project_client .project_estimated_minute{
+	margin-right: 5px;
+    width: 15%;
+}
+
+#dialog_form_add_project_client .project_estimated_minute{
+	margin-left: 5px;
+}
+
+#dialog_form_add_project_client .project_estimated_label{
+	float: left;
+}
+
+#dialog_form_add_project_client .add_project_name{
+	margin-right: 5px;
+    width: 75%;
+}
+
+#dialog_form_add_project_client .add_project_option{
+    height: 21px;
+    line-height: 21px;
+}
+
+#dialog_form_add_project_client .check_box{
+	margin: 0px 5px 0px 0px !important;
+}
+
+#dialog_form_add_project_client .submit_left{
+	float: left;
+    margin-right: 10px;
+    width: 48%;
+}
+
+#dialog_form_add_project_client .submit_right{
+	float: left;
+    width: 48%;
+}
+
+
+#dialog_form_add_project_client .three_input .submit_left, 
+#dialog_form_add_project_client .three_input .submit_middle {
+    margin-right: 10px;
+	width: 23%;
+}
+
+#dialog_form_add_project_client .three_input .submit_right {
+    width: 48%;
+}
+
+#dialog_form_add_project_client .three_input .submit_left, 
+#dialog_form_add_project_client .three_input .submit_middle, 
+#dialog_form_add_project_client .three_input .submit_right {
+    float: left;
+}
+
+#dialog_form_add_project_client .dialog_button_container{
+	float: left;
+	width: 100%;
+}
+
+#add_kanban_task_monday, 
+#add_kanban_task_tuesday, 
+#add_kanban_task_wednesday, 
+#add_kanban_task_thursday, 
+#add_kanban_task_friday, 
+#add_kanban_task_saturday,
+#add_kanban_task_sunday{
+	display: none;
+}
+#add_new_row{
+	margin-left: -10px;
+}
+.task_edit .edit_button, .task-complete .edit_button{
+	visibility: hidden;	
+}
+
+.carepack_exp_date{
+	display: none;
+}
+.initial{
+	display: inline-block;
+}
+.person_initial{
+	width: 10%;
+}
+.green-day{
+	background: -webkit-linear-gradient(#C9FFAD, #ACFC83) repeat scroll 0 0 rgba(0, 0, 0, 0.6) !important;
+	background: -o-linear-gradient(#C9FFAD, #ACFC83) repeat scroll 0 0 rgba(0, 0, 0, 0.6) !important;
+	background: linear-gradient(#C9FFAD, #ACFC83) repeat scroll 0 0 rgba(0, 0, 0, 0.6) !important;
+}
+.red-day{
+	background: -webkit-linear-gradient(#FFD1D4, #FFADB3) repeat scroll 0 0 rgba(0, 0, 0, 0.6) !important;
+	background: -o-linear-gradient(#FFD1D4, #FFADB3) repeat scroll 0 0 rgba(0, 0, 0, 0.6) !important;
+	background: linear-gradient(#FFD1D4, #FFADB3) repeat scroll 0 0 rgba(0, 0, 0, 0.6) !important;
+}
+.gray-day{
+	background: -webkit-linear-gradient(#cecece, #a5a5a5) repeat scroll 0 0 rgba(0, 0, 0, 0) !important;
+	background: -o-linear-gradient(#cecece, #a5a5a5) repeat scroll 0 0 rgba(0, 0, 0, 0) !important;
+	background: linear-gradient(#cecece, #a5a5a5) repeat scroll 0 0 rgba(0, 0, 0, 0) !important;	
+}
+.yellow-day{
+	background: -webkit-linear-gradient(#f8f293, #faf051) repeat scroll 0 0 rgba(0, 0, 0, 0.6) !important;
+	background: -o-linear-gradient(#f8f293, #faf051) repeat scroll 0 0 rgba(0, 0, 0, 0.6) !important;
+	background: linear-gradient(#f8f293, #faf051) repeat scroll 0 0 rgba(0, 0, 0, 0.6) !important;
+}
+.team-member-name{
+	margin-left: 7px !important;
+}
+.save_new_entry_row, .delete_row_entry{
+ 	padding-left: 5px;
+    padding-right: 5px;
+}
+.save_button_timesheet{
+	padding: 0 5px !important;
+}
+.complete_button_timesheet{
+	padding: 0 5px !important;
+	margin-top: 0px;
+	height: 25px !important;
+}
+.button_space {
+    background-color: #4CAD1E;
+    background: -moz-linear-gradient(center bottom , #2E8D11 0%, #72C152 70%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-gradient(linear, 0% 100%, 0% 0%, color-stop(0, #2e8d11), color-stop(0.7, #72c152));
+    border: 1px solid #2E8D11;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-shadow: 0 0 2px #2E8D11;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Helvetica Neue",Arial,Verdana,"Nimbus Sans L",sans-serif !important;
+    font-size: 11px !important;
+    height: 25px;
+    line-height: 25px;
+    margin: 0 3px 0 0;
+    outline: medium none;
+    padding: 0 5px;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    width: auto !important;
+    visibility: hidden !important;
+ }
+ .update_todolist_row, .check_update_timesheet, .check_update_timesheet_project, .check_update_timesheet_taskname, .check_update_detailed_time_taskname, .detailed_time_update_project{
+ 	background-image: url("img/check.png");
+    background-size: 20px auto;
+    display: inline-block;
+    height: 20px;
+    margin-left: 10px;
+    margin-bottom: -5px;
+    width: 20px;
+    cursor: pointer;
+ }
+ .row-update-loader, .row-update-loader-project, .row-update-loader-taskname, .row-delete-loader, .row-save-loader, .row-update-loader-ordernumber{
+ 	background: rgba(0, 0, 0, 0) url("img/loader.gif") repeat scroll 0 0;
+    height: 16px;
+ 	margin-bottom: -5px;
+    margin-left: 10px;
+    width: 16px;
+ }
+ .arrow{
+ 	display: none !important;
+ }
+ .service_notes{
+ 	max-width: 350px;
+ }
+ .error-msg{
+ 	color: #801515;
+ }
+ .add_client_service{
+ 	float: right;
+ 	margin-top: 5px;
+ 	margin-right: 28px;
+ }
+ .add-client-service-loader{
+ 	float: right;
+	margin-top: 10px;
+	margin-right: 8px;
+ }
+ #service_invoice_interval{
+ 	width: 100%;
+ 	display: block;
+ }
+ .tabs_li.active .day_date{
+ 	display: block
+
+ }
+@media screen and (max-width: 1366px){`
+	.task_description {
+	    width: 16%;
+	}
+}
+/*.import_save_not_current{
+
+}*/
+#complete_kanban_monday,
+#complete_kanban_tuesday,
+#complete_kanban_wednesday,
+#complete_kanban_thursday,
+#complete_kanban_friday,
+#complete_kanban_saturday,
+#complete_kanban_sunday{
+	display: none !important;	
+}
+
+
+h5.toggle div.desc{
+	/*border-bottom: 1px solid #e8e6e6;*/
+    color: #333333 !important;
+    cursor: pointer;
+    float: left;
+    font: 13px/20px "MuseoSlab500Regular",arial,helvetica,sans-serif !important;
+    margin: 0;
+    overflow: hidden;
+    width: 100%;
+}
+.active.tabs_li .green-day p:first-child, .tabs_li.active .red-day p:first-child, .tabs_li.active a p{
+	background-color: rgba(151, 215, 252, 1) !important;
+} 
+.tabs_li.active a p{
+	font-weight: 600;
+}	
+#contact-person-list tr td {
+	min-width: 150px;
+}
+.tid_total_hours, .tid_1_total_hours, .tid_2_total_hours, .total_hours_row, .billable_hours_row, .unbillable_hours_row, .total_km_row{
+	float: right !important;
+	margin: 0px 15px 0px 25px !important;
+}
+#manange-client-table .active_clients .display_section .contact_info{
+	background: #dddddd none repeat scroll 0 0;
+	border-top: 1px solid #d5d5d5;
+	float: left;
+	font-size: 1em;
+	margin: 0 !important;
+	padding: 5px 10px;
+	width: 100%;
+
+}
+#manange-client-table .active_clients .display_section .contact_info_footer{
+	float: left;
+	font-size: 1em;
+	margin: 0 !important;
+	padding: 5px 10px;
+	width: 100%;
+
+}
+#manange-client-table .active_clients .display_section .contact_info li, #manange-client-table .active_clients .display_section .contact_info_footer li{
+	float: left;
+}
+	#manange-client-table .active_clients .display_section .contact_info li h2, #manange-client-table .active_clients .display_section .contact_info_footer li{
+	min-width: 205px;
+	margin: 0px;
+}
+#manange-client-table .active_clients .display_section .contact_info li p{
+	width: 205px;
+}
+#manange-client-table .active_clients .display_section .contact_info li:last-child p{
+	width: 220px;
+}
+/*, #manange-client-table .active_clients .display_section .contact_info_footer li p*/
+#manange-client-table .active_clients .display_section .contact_info li span{
+	/*font-weight: 900;*/
+	width: 216px;
+}
+#manange-client-table .active_clients .display_section .contact_info_footer li:last-child{
+	min-width: 0px !important;
+}
+#manange-client-table .active_clients .display_section .contact_info_footer .row-update-loader, #manange-client-table .active_clients .display_section .contact_info_footer .row-update-loader .check_update_timesheet_project{
+	float: left;
+}
+
+.update_manage_client_value{
+	background-image: url("img/check.png");
+    background-size: 20px auto;
+    display: inline-block;
+    height: 20px;
+    margin-left: 10px;
+    margin-bottom: -5px;
+    width: 20px;
+    cursor: pointer;
+    float: left;
+}
+.total_day_hour{
+	display: none;
+}
+#colsultant_column div .column_align, #orderno_column div .column_align{
+	padding-left: 10px;
+}
+#orderno_column div .column_align2{
+	padding-left: 20px;
+}
+.show_desc_btn{
+	background: #333333 url(images/toggle_plus.png) no-repeat center center;
+	display: block;
+	width: 22px;
+	height: 22px;
+	float: left;
+	margin-right: 18px;
+	cursor: pointer;
+}
+.show_desc_btn.active{
+	background: #a0ce4e url(images/toggle_minus.png) no-repeat center center;
+}
+#top-option li{
+	float: left;
+}
+#top-option li:first-child{
+
+}
+#print_document{
+	background-image: url('images/printer.png');
+	background-size: 27px;
+	width: 27px;
+	height: 27px;
+	display: block;
+	cursor: pointer;
+	margin-right: 15px;
+}
+#show_desc_task{
+	background-image: url('images/show-description-icon.png');
+	background-size: 27px;
+	width: 27px;
+	height: 27px;
+	display: block;
+	cursor: pointer;
+	margin-right: 5px;
+}
+#hide_desc_task{
+	background-image: url('images/hide-description-icon.png');
+	background-size: 27px;
+	width: 27px;
+	height: 27px;
+	display: block;
+	cursor: pointer;
+	margin-right: 5px;
+}
+.detailed_time_edit_project_name p{
+	float: left;
+	width: 60%;
+}
+.detailed_time_edit_project_name select{
+	width: 60% !important;
+}
+.detailed_time_details .header_titles .column:last-child{
+	width: 3% !important;
+}
+.detailed_time .info_div .seventh_column{
+	width: 3% !important;
+}
+.detailed_time_edit_taskname p, .detailed_time_edit_taskname select{
+	width: 72%;
+	float: left;
+}
+.report_container #result_table #staff .fourth_column{
+	width: 8.5% !important;
+}
+#add-buttons-options-container{
+	float: left;
+}
+#add-buttons-options-container .add-buttons-options li{
+	float: left;
+	margin-right: 12px;
+}
+#add-buttons-options-container .add-buttons-options .add-button-icon{
+	background-size: 27px;
+	width: 27px;
+	height: 27px;
+	display: block;
+	cursor: pointer;
+	margin-right: 5px;
+}
+.detailed_time .edit_client_name p.column_align{
+	margin-left: 8px;
+}
+.detailed_time_edit_project_name p.column_align{
+	margin-left: 9px;
+}
+.fourth_column.column.detailed_time_edit_taskname .column_align{
+	margin-left: 11px;
+}
+.fifth_column.column .column_align, .sixth_column.column .column_align, .seventh_column.column .column_align{
+	margin-left: 20px;
+}
+.third_column.column.edit_client_name p.column_align2, 
+.second_column.column.detailed_time_edit_project_name p.column_align2, 
+.fourth_column.column.detailed_time_edit_taskname p.column_align2,
+.fourth_column.column p.column_align2{
+	margin-left: 10px !important;
+}
+#add-buttons-options-container .add-buttons-options .add-button-client {
+	background-image: url('images/add-client-icon.png');
+}
+#add-buttons-options-container .add-buttons-options .add-button-task {
+	background-image: url('images/add-task-icon.png');
+}
+#add-buttons-options-container .add-buttons-options .add-button-project {
+	background-image: url('images/add-project-icon.png');
+}
+#add-buttons-options-container .add-buttons-options .add-tasklist-icon {
+	background-image: url('images/add-tasklist-icon.png');
+}
+.project_hour_sort_container .info_div .first_column,
+.project_hour_sort_container .info_div .second_column,
+.project_hour_sort_container .info_div .third_column,
+.project_hour_sort_container .info_div .fourth_column,
+.project_hour_sort_container .info_div .fifth_column,
+.project_hour_sort_container .info_div .sixth_column,
+.info_div_total .first_column,
+.info_div_total .second_column,
+.info_div_total .third_column,
+.info_div_total .fourth_column,
+.info_div_total .fifth_column,
+.info_div_total .sixth_column{
+	width: 16% !important;
+}
+.project_client_sort_container .info_div .first_column,
+.project_client_sort_container .info_div .second_column,
+.project_client_sort_container .info_div .third_column,
+.project_client_sort_container .info_div .fourth_column,
+.project_client_sort_container .info_div .fifth_column,
+.project_client_sort_container .info_div .sixth_column{
+	width: 16% !important;
+}
+#staff .project_hour_sort_container .info_div .second_column,
+#staff .project_hour_sort_container .info_div .third_column{
+	/*width: 8.5% !important;*/
+}
+#staff .project_hour_sort_container .info_div .fifth_column{
+	width: 8% !important;
+}
+#staff .project_hour_sort_container .info_div .sixth_column{
+	width: 9% !important;
+}
+.project_hour_sort_container.sort_name_container .fifth_column li, .project_hour_sort_container.sort_name_container .sixth_column li{
+	/*margin-left: 7px;*/
+}
+#staff .info_div_total .second_column,
+#staff .info_div_total .third_column,
+#staff .info_div_total .fourth_column,
+#staff .info_div_total .fifth_column,
+#staff .info_div_total .sixth_column{
+	width: 8.5% !important;
+}
+.detailed_time_details .header_titles .column_group .fourth_column {
+	width: 16.7% !important;
+}
+
+
+/*Todo Lists CSS*/
+.form_width_dropdown{
+	width: 30%;
+}
+.hidden{
+	display: none;
+}
+.list_loader{
+	background: rgba(0, 0, 0, 0) url("img/loader.gif") no-repeat scroll 0 0;
+	height: 16px;
+	width: 16px;
+	/*display: inline-block;*/
+}
+.list_table{
+	width: 100%;
+}
+.list_table tr{
+	height: 30px;
+}
+.list_table tr:nth-child(even){
+	background-color: #dddddd;
+}
+.list_table tr:nth-child(odd){
+	background-color: transparent;
+}
+.list_table thead tr{
+	background-color: #BCBCBC !important;
+}
+.list_table thead tr td{
+	font-weight: 600;
+}
+.list_table tr td{
+	padding: 5px;
+}
+.list_table thead tr td{
+	padding: 8px 5px 8px 5px;
+	font-family: "PT Sans",Arial,Helvetica,sans-serif !important;
+}
+.list_table thead tr td:nth-child(1){
+	width: 10%;
+}
+.list_table thead tr td:nth-child(2){
+	width: 13%;
+}
+.list_table thead tr td:nth-child(3),
+.list_table thead tr td:nth-child(4),
+.list_table thead tr td:nth-child(5),
+.list_table thead tr td:nth-child(6){
+	width: 10%;
+}
+.list_table thead tr td:nth-child(7){
+	width: 5%;
+}
+.list_table tr td h2{
+	margin-bottom: 0px !important;
+}
+.pull-right{
+	float: right !important;
+}
+.pull-left{
+	float: left !important;
+}
+#todolist_view_form table tr td select{
+	min-width: 120px;
+}
+#todolist_view_form table tr td{
+	padding: 5px;
+}
+.saving_todolist_progress{
+	margin-left: 10px !important;
+}
+
+#confirm_delete_form p.label {
+	font-size: 14px;
+	font-weight: normal;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+#confirm_delete_form p span{
+	font-weight: 600;
+}
+.input-error{
+	border: 1px solid red !important;
+}
+#table-status-message{
+	/*margin-left: 20px;*/
+	font-weight: 600;
+}
+#deadline_checkbox{
+	width: 30px;
+}
+.loading-table{
+	background: rgba(0, 0, 0, 0) url("img/loading-bar.gif") no-repeat scroll 0 0;
+	height: 30px;
+	width: 30px;
+	margin:0px auto;	
+}
+.view_list_button, .delete_todolist_row{
+	cursor: pointer;
+}
+.view_list_button:hover, .delete_todolist_row:hover{
+	color: #72C152;
+	-webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+.delete_todolist_row{
+	margin-right: 10px;
+}
+.option-list{
+	display: none;
+}
+#manange-client-table .list_table tr:hover td .option-list{
+	display: block !important;
+	-webkit-transition-duration: 8s; /* Safari */
+	transition-duration: 8s;
+}
+.todolist_name_row{
+	width: 70% !important;
+}
+.todolist_dealine{
+	/*width: 45% !important;*/
+}
+.service-column{
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.display_list_max_width{
+	width: 80% !important;
+}
+.service_title_width{
+	min-width: 120px !important;
+}
+.date-passed{
+	color: red;
+}
+.hide{
+	display: none;
+}
+.delete-service-option{
+	margin-left: 10px;
+	cursor: pointer;
+}
+.inline-element{
+	display: inline-block;
+	float: none !important;
+}

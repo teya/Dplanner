@@ -1,0 +1,19 @@
+[29-Sep-2015 01:00:29 America/Chicago] PHP Warning:  require_once(aws_signed_request.php): failed to open stream: No such file or directory in /home/seoweb91/public_html/admin/amazon_script/amazon_api_class.php on line 33
+[29-Sep-2015 01:00:29 America/Chicago] PHP Fatal error:  require_once(): Failed opening required 'aws_signed_request.php' (include_path='.:/opt/php54/lib/php') in /home/seoweb91/public_html/admin/amazon_script/amazon_api_class.php on line 33
+[29-Sep-2015 01:06:39 America/Chicago] PHP Warning:  require_once(/aws_signed_request.php): failed to open stream: No such file or directory in /home/seoweb91/public_html/admin/amazon_script/amazon_api_class.php on line 33
+[29-Sep-2015 01:06:39 America/Chicago] PHP Fatal error:  require_once(): Failed opening required '/aws_signed_request.php' (include_path='.:/opt/php54/lib/php') in /home/seoweb91/public_html/admin/amazon_script/amazon_api_class.php on line 33
+[29-Sep-2015 01:16:49 America/Chicago] PHP Parse error:  syntax error, unexpected 'print_var' (T_STRING), expecting catch (T_CATCH) in /home/seoweb91/public_html/admin/amazon_script/Example.php on line 14
+[29-Sep-2015 01:17:11 America/Chicago] PHP Fatal error:  Call to undefined method AmazonProductAPI::ItemId() in /home/seoweb91/public_html/admin/amazon_script/Example.php on line 12
+[29-Sep-2015 02:54:50 America/Chicago] PHP Parse error:  syntax error, unexpected '0' (T_LNUMBER), expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$' in /home/seoweb91/public_html/admin/amazon_script/processing.php on line 23
+[29-Sep-2015 02:54:51 America/Chicago] PHP Parse error:  syntax error, unexpected '0' (T_LNUMBER), expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$' in /home/seoweb91/public_html/admin/amazon_script/processing.php on line 23
+[29-Sep-2015 03:22:53 America/Chicago] PHP Parse error:  syntax error, unexpected '[', expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$' in /home/seoweb91/public_html/admin/amazon_script/processing.php on line 53
+[29-Sep-2015 03:22:55 America/Chicago] PHP Parse error:  syntax error, unexpected '[', expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$' in /home/seoweb91/public_html/admin/amazon_script/processing.php on line 53
+[29-Sep-2015 03:23:22 America/Chicago] PHP Parse error:  syntax error, unexpected '[', expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$' in /home/seoweb91/public_html/admin/amazon_script/processing.php on line 53
+[29-Sep-2015 03:23:36 America/Chicago] PHP Parse error:  syntax error, unexpected '[', expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$' in /home/seoweb91/public_html/admin/amazon_script/processing.php on line 53
+[29-Sep-2015 04:11:48 America/Chicago] PHP Parse error:  syntax error, unexpected 'user' (T_STRING) in /home/seoweb91/public_html/admin/amazon_script/processing.php on line 29
+[29-Sep-2015 04:11:50 America/Chicago] PHP Parse error:  syntax error, unexpected 'user' (T_STRING) in /home/seoweb91/public_html/admin/amazon_script/processing.php on line 29
+[29-Sep-2015 04:33:34 America/Chicago] PHP Parse error:  syntax error, unexpected end of file in /home/seoweb91/public_html/admin/amazon_script/processing.php on line 87
+[29-Sep-2015 06:06:28 America/Chicago] PHP Parse error:  syntax error, unexpected end of file in /home/seoweb91/public_html/admin/amazon_script/processing.php on line 103
+[29-Sep-2015 06:06:36 America/Chicago] PHP Parse error:  syntax error, unexpected end of file in /home/seoweb91/public_html/admin/amazon_script/processing.php on line 103
+[29-Sep-2015 06:06:48 America/Chicago] PHP Parse error:  syntax error, unexpected end of file in /home/seoweb91/public_html/admin/amazon_script/processing.php on line 103
+[29-Sep-2015 06:25:10 America/Chicago] PHP Parse error:  syntax error, unexpected 'if' (T_IF) in /home/seoweb91/public_html/admin/amazon_script/processing.php on line 37

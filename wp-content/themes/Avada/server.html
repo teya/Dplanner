@@ -1,0 +1,125 @@
+<div aria-labelledby="ui-id-4" aria-describedby="dialog_form_add_task" role="dialog" tabindex="-1" class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-draggable ui-resizable"><div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="ui-dialog-title" id="ui-id-4">Add Server</span><button title="close" aria-disabled="false" role="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close" type="button"><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span class="ui-button-text">close</span></button></div><div style="width: auto; min-height: 0px; max-height: none; height: 0px;" class="dialog_form_add_task ui-dialog-content ui-widget-content" id="dialog_form_add_task">
+<div class="tab-holder">
+	<div class="tab-hold tabs-wrapper">
+		<div class="full_width">
+			<ul id="tabs" class="tabset tabs">
+			</ul>
+		</div>
+		<div class="tab-box tabs-container">
+			<form action="" method="post" name="add_asset_server" id="add_asset_server">
+				<div class="submit_inputs">
+					<div id="general" class="tab tab_content active" style="">
+						<div class="submit_section">
+							<div class="submit_left">
+								<input type="text" class="asset_server_brand" name="asset_server_brand" placeholder="Brand" />
+							</div>
+							<div class="submit_right">
+								<input type="text" class="asset_server_model" name="asset_server_model" placeholder="Model" />
+							</div>
+						</div>
+						<div class="submit_section">
+							<div class="submit_left">
+								<input type="text" class="asset_server_disk" name="asset_server_disk" placeholder="Disk" />
+							</div>
+							<div class="estimated_time submit_right">
+								<input type="text" class="asset_server_memory" name="asset_server_memory" placeholder="Memory" />
+							</div>
+						</div>
+						<div class="submit_section">
+							<div class="submit_left">
+								<select class="asset_server_physical_virtual required" name="asset_server_physical_virtual">
+									<option disabled="" selected="">-- Physical / Virtual --</option>
+									<option value="Physical">Physical</option>
+									<option value="Virtual">Virtual</option>
+								</select>
+								<input name="submit_project_name" id="submit_project_name" value="" type="hidden">
+							</div>
+							<div class="submit_right">
+								<input type="text" class="asset_server_carepack" name="asset_server_carepack" placeholder="Carepack" />
+							</div>
+						</div>
+						<div class="submit_section">
+							<div class="submit_left submit_select_client">
+							<input type="text" class="asset_server_ip_address" name="asset_server_ip_address" placeholder="IP Address" />
+							</div>
+							<div class="submit_right">
+								<select class="asset_server_os" name="asset_server_os">
+									<option disabled="" selected="">-- Select OS --</option>
+									<option value="Windows Server 2016">Windows Server 2016</option>
+									<option value="Windows Server 2012">Windows Server 2012</option>
+									<option value="Windows Server 2012 R2">Windows Server 2012 R2</option>
+									<option value="Windows Server 2008 R2">Windows Server 2008 R2</option>
+									<option value="Windwos Server 2008">Windwos Server 2008</option>
+									<option value="Windows Server 2003">Windows Server 2003</option>
+									<option value="WMWare">WMWare</option>
+								</select>
+							</div>
+						</div>
+						<div class="submit_section">
+							<div class="submit_left">
+								<select class="asset_server_roles" name="asset_server_roles[]" multiple="multiple">
+									<option disabled="" selected="">-- Select Server Role --</option>
+									<option value="Hyper-V Host">Hyper-V Host</option>
+									<option value="WMWare Host">WMWare Host</option>
+									<option value="DC">DC</option>
+									<option value="SBS">SBS</option>
+									<option value="File">File</option>
+									<option value="Mail">Mail</option>
+									<option value="Application">Application</option>
+									<option value="Terminal Server">Terminal Server</option>
+								</select>
+							</div>
+							<div class="submit_right">
+								<input type="text" class="asset_server_purchase_date" name="asset_server_purchase_date" placeholder="Purchase Date">
+							</div>
+						</div>
+						<div class="submit_section">
+							<div class="submit_left">
+								<input type="text" class="asset_server_installation_date" name="asset_server_installation_date" placeholder="Installation Date">
+							</div>
+							<div class="submit_right">
+								<select class="asset_server_software" name="asset_server_software[]" multiple="multiple">
+									<option disabled="" selected="">-- Select Software --</option>
+									<option value="Exchange 2007">Exchange 2007</option>
+									<option value="Exchange 2010">Exchange 2010</option>
+									<option value="Exchange 2013">Exchange 2013</option>
+									<option value="SQL 2005">SQL 2005</option>
+									<option value="SQL 2008">SQL 2008</option>
+									<option value="SQL 2014">SQL 2014</option>
+									<option value="SQL 2012">SQL 2012</option>
+									<option value="SQL 2016">SQL 2016</option>
+									<option value="Jeeves">Jeeves</option>
+									<option value="Visma 2000">Visma 2000</option>
+									<option value="Visma 1000">Visma 1000</option>
+									<option value="Visma 500">Visma 500</option>
+									<option value="Navision 2016">Navision 2016</option>
+									<option value="Navision 2016">Navision 2015</option>
+								</select>
+							</div>
+						</div>
+						<div class="submit_section">							
+							<div class="submit_left">
+								<textarea class="asset_server_notes" name="asset_server_notes" placeholder="Notes"></textarea>
+							</div>
+							<div class="submit_right">
+							</div>
+						</div>
+						</div>
+						<div id="subtask" class="tab tab_content" style="display: none;">
+							<div class="subtask_container"></div>
+							<div class="submit_task_input">
+<!-- 								<input class="sub_task " name="sub_task" type="text">
+								<div class="button_2 add_subtask_button">Add Subtask</div> -->
+							</div>
+						</div>
+					</div>
+					<div class="submit_task_buttons">
+						<!-- <div class="button_1 submit_button schedule_task">Schedule Task</div> -->
+						<div class="submit_now button_1 submit_button">Add Server</div>
+						<div style="display: none;" class="schedule_task_loader"></div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	</div><div style="z-index: 90;" class="ui-resizable-handle ui-resizable-n"></div><div style="z-index: 90;" class="ui-resizable-handle ui-resizable-e"></div><div style="z-index: 90;" class="ui-resizable-handle ui-resizable-s"></div><div style="z-index: 90;" class="ui-resizable-handle ui-resizable-w"></div><div style="z-index: 90;" class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"></div><div style="z-index: 90;" class="ui-resizable-handle ui-resizable-sw"></div><div style="z-index: 90;" class="ui-resizable-handle ui-resizable-ne"></div><div style="z-index: 90;" class="ui-resizable-handle ui-resizable-nw"></div></div>
