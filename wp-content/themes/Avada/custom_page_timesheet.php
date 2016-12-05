@@ -4386,7 +4386,29 @@ if(isset($_GET['deleteID'])) {
 			</div>
 
 		</div>
-
+		<div id="add-buttons-options-container">
+			<ul class="add-buttons-options">
+				<li><a class="add-button-client add-button-icon" href="<?php echo get_site_url(); ?>/manage-projects/client/add-client/" title="Add Client"></a></li>
+				<li><a class="add-button-task add-button-icon" href="<?php echo get_site_url(); ?>/manage-projects/task/add-task/" title="Add Task"></a></li>
+				<li><a class="add-button-project add-button-icon" href="<?php echo get_site_url(); ?>/manage-projects/projects/add-project/" title="Add Project"></a></li>
+				<li><a class="add-tasklist-icon add-button-icon" href="<?php echo get_site_url(); ?>/todo-lists/" title="Add Todo"></a></li>
+				<li> <a id="load-members-todolist" class="view-todolist-member add-button-icon" title="Load Member's Todo List"></a> </li>
+			</ul>
+		</div>
+		<div  id="manange-client-table"  class="display_main hide">
+			<table class="list_table">
+				<thead>
+					<td>Client</td>
+					<td>Task</td>
+					<td>Consultant</td>
+					<td>Priority</td>
+					<td>Status</td>
+					<td>Deadline</td>
+					<td></td>
+				</thead>
+				<tr><td colspan="6"><div class="loading-table"></div></td></tr>
+			</table>
+		</div>
 		<div style="display:none" class="month_summary">
 
 			<h1>Monthly Summary</h1>
@@ -4421,14 +4443,6 @@ if(isset($_GET['deleteID'])) {
 
 	</div>	
 
-</div>
-<div id="add-buttons-options-container">
-	<ul class="add-buttons-options">
-		<li><a class="add-button-client add-button-icon" href="<?php echo get_site_url(); ?>/manage-projects/client/add-client/" title="Add Client"></a></li>
-		<li><a class="add-button-task add-button-icon" href="<?php echo get_site_url(); ?>/manage-projects/task/add-task/" title="Add Task"></a></li>
-		<li><a class="add-button-project add-button-icon" href="<?php echo get_site_url(); ?>/manage-projects/projects/add-project/" title="Add Project"></a></li>
-		<li><a class="add-tasklist-icon add-button-icon" href="<?php echo get_site_url(); ?>/todo-lists/" title="Add Task"></a></li>
-	</ul>
 </div>
 <div class="import_function">
 
@@ -4649,7 +4663,6 @@ endif;
 ?>	
 
 </div>
-
 <?php
 
 	else:
@@ -4752,6 +4765,19 @@ endif;
 
 </div>
 
+<!-- POP-Up to confirm delete TodoList -->
+<div style="display:none;" class="confirm_delete_todolist" id="view_todolist" title="Delete List">
+	<form class="" id="confirm_delete_form">
+		<p class="label">
+			Are you sure you want to delete <span class="listname"></span> list for <span class="clientname"></span>?
+		</p>
+		<input type="hidden" id="delete_row_list_id" value="">	
+		<div  id="confirmed_delete_row" class="button_1 pull-right">Delete</div>
+		<div  id="confirmed_delete_row_ok" style="display: none;" class="button_1 pull-right">OK</div>
+		<div style="display: none;" class="loader pull-right"></div>
+	</form>
+</div>
+
 <div style="display:none;" class="add_project_client_confirm" id="add_project_client_confirm" title="Project does not exist!">
 
 	<h3 class="add_project_client_title"></h3>
@@ -4777,6 +4803,325 @@ endif;
 </div>
 
 <div style="display:none;" class="dialog_form_add_project_client" id="dialog_form_add_project_client" title="Add Project"></div>
+
+
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+
+		//Load Member's TOdolist based on Team Member dropdown.
+		jQuery('#load-members-todolist').click(function(){
+			jQuery('#manange-client-table').fadeIn(500);
+			var person = jQuery('.person_name').val();
+
+			jQuery.ajax({
+				type: "POST",
+				url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
+				data:{
+					'type' : 'load_member_todolist',
+					'data_object' : person				
+				},
+				success: function (data) {
+					var list = jQuery.parseJSON(data);
+					// console.log(list);
+					if(list == ''){
+						jQuery('#manange-client-table .list_table tbody').html('<tr><td colspan="6">No Lists Available.</td></tr>').css('display', 'none').fadeIn(300);
+					}else{
+						jQuery('#manange-client-table .list_table tbody').html(list).css('display', 'none').fadeIn(300);
+					}
+					
+				},
+				error: function (data) {
+					
+				}
+			});	
+		});	
+
+		//Enable Edit Deadline input
+		jQuery('body').on('dblclick', '.todolist_deadline', function() {
+			var row_id = jQuery(this).closest('tr').attr('id');
+			var string_value = jQuery(this).text();
+			var updating_row_active = jQuery(this).hasClass('updating_row_active');
+
+			if(updating_row_active == true){
+				return false;
+			}else{
+				jQuery(this).addClass('updating_row_active');
+			}
+
+			if(string_value == '--'){
+				var date = '';
+				var disable = 'disabled="disabled"';
+				var checked = ''
+			}else{
+				var date = string_value;
+				var disable = '';
+				var checked = 'checked'
+			}
+			var deadline_html = '<input name="todolist_dealine" '+disable+' class="datepicker todolist_dealine" readonly value="'+date+'"><input type="checkbox" name="enable-deadline" '+checked+' class="enable-deadline"><div class="update_todolist_row update_todolist_deadline_row pull-right"></div><div style="display: none;" class="row-update-loader pull-right">';
+			jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_deadline').html(deadline_html);
+		});
+
+		// Update_todolist_deadline_row
+		jQuery('body').on('click', '.update_todolist_deadline_row', function() {
+			var row_id = jQuery(this).closest('tr').attr('id');
+			var date = jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_deadline .datepicker').val();
+	
+			jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_deadline .update_todolist_deadline_row').hide();
+			jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_deadline .row-update-loader').show();
+
+			var data_object = {
+				'row_id' : row_id,
+				'deadline' : date
+			};
+
+			jQuery.ajax({
+				type: "POST",
+				url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
+				data:{
+					'type' : 'update_todolist_deadline',
+					'data_object' : data_object				
+				},
+				success: function (data) {
+					var Todolist_info = jQuery.parseJSON(data);
+					console.log(Todolist_info);
+					if(Todolist_info.deadline == '0000-00-00'){
+						Todolist_info.deadline = '--';
+					}
+					jQuery('#manange-client-table .list_table tr#'+Todolist_info.row_id+' td .todolist_deadline').html('').text(Todolist_info.deadline).removeClass('updating_row_active');
+					// todolist_consultant
+					// jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_consultant').html(Todolist_info.dropdown_consultant);
+				},
+				error: function (data) {
+					
+				}
+			});	
+
+		});
+
+		//Disable and Enable Deadine Date
+		jQuery('body').on('click', '.enable-deadline', function() {
+			var row_id = jQuery(this).closest('tr').attr('id');
+
+			if(jQuery(this).is(':checked')){
+				jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_deadline .datepicker').prop("disabled", false).datepicker({dateFormat:"yy-mm-dd"}).datepicker("setDate",new Date());
+			}else{
+				jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_deadline .datepicker').prop("disabled", true).val('');
+			}
+		});
+
+		// update_todolist_deadline_row
+		jQuery('body').on('click', '.update_todolist_deadline_row', function() {
+			var row_id = jQuery(this).closest('tr').attr('id');
+			var date = jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_deadline .datepicker').val();
+	
+			jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_deadline .update_todolist_deadline_row').hide();
+			jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_deadline .row-update-loader').show();
+
+			var data_object = {
+				'row_id' : row_id,
+				'deadline' : date
+			};
+
+			jQuery.ajax({
+				type: "POST",
+				url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
+				data:{
+					'type' : 'update_todolist_deadline',
+					'data_object' : data_object				
+				},
+				success: function (data) {
+					var Todolist_info = jQuery.parseJSON(data);
+					console.log(Todolist_info);
+					if(Todolist_info.deadline == '0000-00-00'){
+						Todolist_info.deadline = '--';
+					}
+					jQuery('#manange-client-table .list_table tr#'+Todolist_info.row_id+' td .todolist_deadline').html('').text(Todolist_info.deadline).removeClass('updating_row_active');
+				},
+				error: function (data) {
+					
+				}
+			});	
+
+		});
+
+		jQuery( ".confirm_delete_todolist" ).dialog({
+			autoOpen: false,
+			height: 180,
+			width: 350,
+			modal: true,
+			close: function() {
+			}
+		});
+
+		//SHow Delete confirm dialog
+		jQuery('body').on('click', '.delete_todolist_row', function() {
+			var row_id = jQuery(this).closest('tr').attr('id');
+			var clientname = jQuery('#manange-client-table .list_table tr#'+row_id+' td span.clientname').text();
+			var todolist_Name = jQuery('#manange-client-table .list_table tr#'+row_id+' td span.todolist_name_row').text();
+
+			jQuery('#confirm_delete_form p span.listname').text(todolist_Name);
+			jQuery('#confirm_delete_form p span.clientname').text(clientname);
+
+			jQuery('#confirm_delete_form #delete_row_list_id').val(row_id);
+
+			
+			jQuery(".confirm_delete_todolist").dialog( "open" );
+		});
+
+		//Delete Todo List on DB
+		jQuery('#confirmed_delete_row').click(function(){
+			var id = jQuery('#delete_row_list_id').val();
+			jQuery('#confirmed_delete_row').fadeOut();
+			jQuery('#confirm_delete_form .loader').delay(500).fadeIn();
+			jQuery.ajax({
+				type: "POST",
+				url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
+				data:{
+					'type' : 'delete_todolist_row',
+					'data_id' : id				
+				},
+				success: function (data) {
+					var Todolist_info = jQuery.parseJSON(data);
+					console.log(Todolist_info);
+					jQuery('#confirm_delete_form .loader').fadeOut();
+					jQuery('table-status-message')
+					jQuery('#confirmed_delete_row').delay(500).fadeIn();
+					jQuery(".confirm_delete_todolist").dialog( "close" );
+					jQuery('#table-status-message').text('Successufully Deleted A List!').fadeIn().delay(2000).fadeOut()
+					jQuery('#manange-client-table .list_table tr#'+Todolist_info.id).fadeOut(1000).delay(1000).remove();
+				},
+				error: function (data) {
+					
+				}
+			});	
+
+		});
+
+		//Save the TodoList Progress
+		jQuery('#save_list_progress').click(function(){
+			jQuery('.saving_todolist_progress').css('display', 'block');
+			var todolist_form_data = jQuery('#todolist_view_form').serialize();
+			jQuery.ajax({
+				type: "POST",
+				url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
+				data:{
+					'type' : 'save_todolist_progress',
+					'data_object' : todolist_form_data				
+				},
+				success: function (data) {
+					var Todolist_info = jQuery.parseJSON(data);
+					jQuery('#manange-client-table table.list_table tr#'+Todolist_info.todolist_id+' span.todolist_status').text(Todolist_info.todolist_status);
+					jQuery('#manange-client-table table.list_table tr#'+Todolist_info.todolist_id+' span.todolist_priority').text(Todolist_info.todolist_priority);
+					jQuery('.saving_todolist_progress').css('display', 'none');
+					jQuery('#message_saving_progress').fadeIn().delay(2000).fadeOut();
+				},
+				error: function (data) {
+					
+				}
+			});	
+		});
+
+		//show dropdown Priority for updating Priority status on row.
+		jQuery('body').on('dblclick', '.todolist_status', function() {
+  			var row_id = jQuery(this).closest('tr').attr('id');
+  			var string_value = jQuery(this).text();
+  			
+  			var status_array = ['Todo', 'Started', 'Completed'];
+
+  			var dropdown_html = "";
+  			var selected = "";
+  			dropdown_html = "<select class='row_change_status' name='row_change_status'>";
+  			jQuery.each(status_array, function(key, value) {
+  				selected = (value == string_value)? "selected='selected'" : '';
+  				dropdown_html += "<option " + selected + " value='"+value+"'>"+value+"</option>";
+			});
+			dropdown_html += "</select><div class='update_todolist_row update_todolist_row_status'></div><div style='display: none;' class='row-update-loader pull-right'></div>";
+
+			jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_status').html(dropdown_html);
+		});
+
+		//show dropdown Priority for updating Priority status on row.
+		jQuery(".todolist_priority").dblclick(function() {
+  			var row_id = jQuery(this).closest('tr').attr('id');
+  			var string_value = jQuery(this).text();
+  			
+  			var priority_array = ['1 Urgent', '2 Asap', '3 Next visit'];
+
+  			var dropdown_html = "";
+  			var selected = "";
+  			dropdown_html = "<select class='row_change_priority' name='row_change_priority'>";
+  			jQuery.each(priority_array, function(key, value) {
+  				selected = (value == string_value)? "selected='selected'" : '';
+  				dropdown_html += "<option " + selected + " value='"+value+"'>"+value+"</option>";
+			});
+			dropdown_html += "</select><div class='update_todolist_row update_todolist_row_priority'></div><div style='display: none;' class='row-update-loader pull-right'></div>";
+
+			jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_priority').html(dropdown_html);
+		});
+
+		//Updating Priority status on row.
+		jQuery('body').on('click', '.update_todolist_row_priority', function() {
+			var row_id = jQuery(this).closest('tr').attr('id');
+			var value = jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_priority select').val();
+			jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_priority .update_todolist_row').hide();
+			jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_priority .row-update-loader').show();
+
+			var todolist_form_data = {
+				'value' : value,
+				'type' : 'priority',
+				'id' : row_id
+			};
+
+			jQuery.ajax({
+				type: "POST",
+				url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
+				data:{
+					'type' : 'update_todolist_row_status',
+					'data_object' : todolist_form_data
+				},
+				success: function (data) {
+					var update_info = jQuery.parseJSON(data);
+					jQuery('#manange-client-table .list_table tr#'+update_info.id+' td .todolist_priority').html('').text(update_info.value);
+				},
+				error: function (data) {
+					
+				}
+			});	
+		});
+
+		//Updating status on row.
+		jQuery('body').on('click', '.update_todolist_row_status', function() {
+			var row_id = jQuery(this).closest('tr').attr('id');
+			var value = jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_status select').val();
+
+
+			jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_status .update_todolist_row').hide();
+			jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_status .row-update-loader').show();
+
+			var todolist_form_data = {
+				'value' : value,
+				'type' : 'status',
+				'id' : row_id
+			};
+
+			jQuery.ajax({
+				type: "POST",
+				url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
+				data:{
+					'type' : 'update_todolist_row_status',
+					'data_object' : todolist_form_data
+				},
+				success: function (data) {
+					var update_info = jQuery.parseJSON(data);
+					jQuery('#manange-client-table .list_table tr#'+update_info.id+' td .todolist_status').html('').text(update_info.value);
+				},
+				error: function (data) {
+					
+				}
+			});	
+		});
+	});
+</script>
 
 <?php get_footer(); ?>
 

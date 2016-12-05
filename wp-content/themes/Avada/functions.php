@@ -7678,4 +7678,57 @@ function DeleteServiceOption($id){
 	}
 	return $reponse;
 }
+//Load Team Member's Todolist on Timesheet page.
+function LoadMemberTodoList($person){
+	global $wpdb;
+	$persons_tablename = $wpdb->prefix.'custom_person';
+	$todolist_tablename = $wpdb->prefix.'custom_client_todo_lists';
+	$clients_tablename = $wpdb->prefix.'custom_client';
+
+	$todolist_html = "";
+
+	//Get Person's User ID	
+	$person_info = $wpdb->get_row('SELECT wp_user_id, person_initial FROM '. $persons_tablename .' WHERE person_fullname = "'. $person .'"');
+
+	//Get Peron's TodoList
+	$person_todolists = $wpdb->get_results('SELECT 
+			todolist_tbl.id,  
+			todolist_tbl.taskname, 
+			todolist_tbl.client_id, 
+			todolist_tbl.consultant_id,
+			todolist_tbl.priority,
+			todolist_tbl.status,
+			todolist_tbl.descriptions,
+			todolist_tbl.deadline,
+			todolist_tbl.task_checkboxes,
+			client_tbl.client_name					
+			FROM '. $todolist_tablename . ' as todolist_tbl INNER JOIN '. $clients_tablename .' as client_tbl 
+			WHERE consultant_id = '. $person_info->wp_user_id .' 
+			AND todolist_tbl.client_id = client_tbl.ID');
+
+	//Creating the HTML row by list
+	foreach($person_todolists as $list){
+
+		$date = ($list->deadline == '0000-00-00')? '--' : $list->deadline;
+
+		$todolist_html .= '';
+		$todolist_html .= '
+						<tr id="'.$list->id.'">
+							<td>'. $list->client_name .'</td>
+							<td><span class="todolist_name_row">'. $list->taskname .'</span></td>
+							<td><span class="todolist_consultant"><input class="consultant_id_row" value="'.$person_info->wp_user_id.'" type="hidden">'.$person_info->person_initial.'</span></td>
+							<td><span class="todolist_priority">'.$list->priority.'</span></td>
+							<td><span class="todolist_status">'.$list->status.'</span></td>
+							<td><span class="todolist_deadline">'.$date.'</span></td>
+							<td>
+								<div class="option-list">
+								<i class="fa fa-trash-o delete_todolist_row pull-right" aria-hidden="true" title="Delete Task"></i>
+								<i class="fa fa-eye view_list_button pull-right hide" aria-hidden="true" title="View Task"></i>
+								</div>
+							</td>
+						</tr>
+						';
+	}
+	return $todolist_html;
+}
 ?>

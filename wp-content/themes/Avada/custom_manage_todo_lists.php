@@ -211,7 +211,7 @@
 				},
 				success: function (data) {
 					var filter_data = jQuery.parseJSON(data);
-					console.log(filter_data.list_data);
+					// console.log(filter_data.list_data);
 					jQuery('#manange-client-table .list_table tbody').html(filter_data.list_data).css('display', 'none').fadeIn(300);
 				},
 				error: function (data) {

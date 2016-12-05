@@ -7575,6 +7575,9 @@ h5.toggle div.desc{
 #add-buttons-options-container .add-buttons-options .add-tasklist-icon {
 	background-image: url('images/add-tasklist-icon.png');
 }
+#add-buttons-options-container .add-buttons-options .view-todolist-member {
+	background-image: url('images/view-todolist-member.png');
+}
 .project_hour_sort_container .info_div .first_column,
 .project_hour_sort_container .info_div .second_column,
 .project_hour_sort_container .info_div .third_column,

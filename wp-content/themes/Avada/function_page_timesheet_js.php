@@ -1572,6 +1572,11 @@ jQuery(document).ready(function(){
 
 		jQuery('.timesheet .left_div .loader').show();
 
+		var todolist_table = jQuery('#manange-client-table');
+
+		todolist_table.fadeOut(300);
+		todolist_table.find('tbody').html('').html('<tr><td colspan="6"><div class="loading-table"></div></td></tr>');
+
 		var current_tab_date = jQuery('.tab_content.active .tab_date').val();
 
 		var date = change_date_format(current_tab_date, 'yyyy-month-dd');
