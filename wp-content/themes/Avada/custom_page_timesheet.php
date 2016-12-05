@@ -5041,7 +5041,7 @@ endif;
 		});
 
 		//show dropdown Priority for updating Priority status on row.
-		jQuery(".todolist_priority").dblclick(function() {
+		jQuery('body').on('dblclick', '.todolist_priority', function() {
   			var row_id = jQuery(this).closest('tr').attr('id');
   			var string_value = jQuery(this).text();
   			
