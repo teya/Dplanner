@@ -7650,6 +7650,9 @@ h5.toggle div.desc{
 .list_table tr:nth-child(odd){
 	background-color: transparent;
 }
+.list_table tr:hover{
+	background-color: #ACADB5;
+}
 .list_table thead tr{
 	background-color: #BCBCBC !important;
 }

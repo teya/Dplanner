@@ -4765,6 +4765,61 @@ endif;
 
 </div>
 
+<!-- POP-UP to view TOdo List -->
+<div style="display:none;" class="view_todolist" id="view_todolist" title="View List">
+	<form class="" id="todolist_view_form">
+		<input type="hidden" id="todolist_id" name="todolist_id" value="">
+		<table>
+			<tr>
+				<td><p>Taskname:</p></td>
+				<td><p id="todolist_name"></p></td>
+			</tr>
+			<tr>
+				<td><p>Client:</p></td>
+				<td><p id="todolist_clientname"></p></td>
+			</tr>
+			<tr>
+				<td><p>Consultant:</p></td>
+				<td><p id="todolist_consultant"></p></td>
+			</tr>
+			<tr>
+				<td><p>Descriptions:</p></td>
+				<td><p id="todolist_descriptions"></p></td>
+			</tr>
+			<tr>
+				<td>
+					<p>Priority:</p></td>
+				<td>
+					<select name="todolist_priority" id="todolist_priority"></select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p>Status:</p></td>
+				<td>
+					<select name="todolist_status" id="todolist_status"></select>
+				</td>
+			</tr>
+			<tr>
+				<td><p>Deadline:</p></td>
+				<td><p id="todolist_deadline"></p></td>
+			</tr>
+			<tr>
+				<td>
+					<p>Subtasks:</p></td>
+				<td>
+					<div id="task_subtasks">
+					</div>
+				</td>
+			</tr>
+		</table>
+		<div id="save_list_progress" class="button_1 pull-left">Save</div>
+		<!-- <div class="button_1 pull-left">Edit</div> -->
+		<div style="display:none;" class="loader saving_todolist_progress pull-left"></div>
+	</form>
+	<p id="message_saving_progress" class="message" style="display: none;">Successfully updating Todo list.</p>
+</div>
+
 <!-- POP-Up to confirm delete TodoList -->
 <div style="display:none;" class="confirm_delete_todolist" id="view_todolist" title="Delete List">
 	<form class="" id="confirm_delete_form">
@@ -4807,6 +4862,145 @@ endif;
 
 <script type="text/javascript">
 	jQuery(document).ready(function(){
+		//Initialize Datepicker
+		jQuery('body').on('focus',".datepicker", function(){
+			jQuery(this).datepicker({ dateFormat: 'yy-mm-dd' });
+		});
+		
+		//Show Dropdown Colsultant on row to edit.
+		jQuery('body').on('dblclick', '.todolist_consultant', function() {
+			var row_id = jQuery(this).closest('tr').attr('id');
+			var consultant_id = jQuery(this).find('input.consultant_id_row').val();
+
+			jQuery.ajax({
+				type: "POST",
+				url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
+				data:{
+					'type' : 'get_consultants_dropdown_list',
+					'data_id' : consultant_id				
+				},
+				success: function (data) {
+					var Todolist_info = jQuery.parseJSON(data);
+					// todolist_consultant
+					jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_consultant').html(Todolist_info.dropdown_consultant);
+				},
+				error: function (data) {
+					
+				}
+			});	
+
+		});
+
+		//Updating Consultant for Todolist
+		jQuery('body').on('click', '.update_todolist_row_consultant', function() {
+			var row_id = jQuery(this).closest('tr').attr('id');
+			var consultant_id = jQuery('#default_consultant_id').val();
+
+			jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_consultant .update_todolist_row').hide();
+			jQuery('#manange-client-table .list_table tr#'+row_id+' td .todolist_consultant .row-update-loader').show();
+
+			var data_object = {
+				'row_id' : row_id,
+				'consultant_id' : consultant_id
+			};
+
+			jQuery.ajax({
+				type: "POST",
+				url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
+				data:{
+					'type' : 'updating_default_consultant_todolist',
+					'data_object' : data_object				
+				},
+				success: function (data) {
+					var Todolist_info = jQuery.parseJSON(data);
+					jQuery('#manange-client-table table.list_table tr#'+Todolist_info.row_id+' span.todolist_consultant').html('<input class="consultant_id_row" value="'+Todolist_info.consultant_id+'" type="hidden">'+Todolist_info.consultant_name);
+				},
+				error: function (data) {
+					
+				}
+			});	
+
+		});		
+
+		//Get TodoList Data to View.
+		jQuery('body').on('click', '.view_list_button', function(){
+			jQuery('.list_loader').css('display', 'inline-block');
+
+			var row_id = jQuery(this).closest('tr').attr('id');
+
+			jQuery.ajax({
+				type: "POST",
+				url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
+				data:{
+					'type' : 'get_todolist_info',
+					'data_id' : row_id				
+				},
+				success: function (data) {
+					var Todolist_info = jQuery.parseJSON(data);
+					// var deadline = Todolist_info.deadline;
+					if(Todolist_info.deadline == '1970-01-01' || Todolist_info.deadline == '0000-00-00'){
+						var date = '--';
+					}else{
+						var date = Todolist_info.deadline;
+					}
+					jQuery('#todolist_id').val(Todolist_info.id)		
+					jQuery('#todolist_name').text(Todolist_info.taskname);
+					jQuery('#todolist_clientname').text(Todolist_info.client_name);
+					jQuery('#todolist_consultant').text(Todolist_info.consultant_name);
+					jQuery('#todolist_descriptions').text(Todolist_info.descriptions);
+					jQuery('#todolist_priority').html(Todolist_info.priority_dropdown);
+					jQuery('#todolist_status').html(Todolist_info.status_dropdown);
+					jQuery('#todolist_deadline').html(date);
+					jQuery('#task_subtasks').html(Todolist_info.list);
+					jQuery(".view_todolist").dialog( "open" );
+					jQuery('.list_loader').css('display', 'none');
+				},
+				error: function (data) {
+					
+				}
+			});	
+			
+		});
+
+		//Get TodoList Data to View.
+		jQuery('body').on('click', '.view_list_button', function(){
+			jQuery('.list_loader').css('display', 'inline-block');
+
+			var row_id = jQuery(this).closest('tr').attr('id');
+
+			jQuery.ajax({
+				type: "POST",
+				url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
+				data:{
+					'type' : 'get_todolist_info',
+					'data_id' : row_id				
+				},
+				success: function (data) {
+					var Todolist_info = jQuery.parseJSON(data);
+					// var deadline = Todolist_info.deadline;
+					if(Todolist_info.deadline == '1970-01-01' || Todolist_info.deadline == '0000-00-00'){
+						var date = '--';
+					}else{
+						var date = Todolist_info.deadline;
+					}
+					jQuery('#todolist_id').val(Todolist_info.id)		
+					jQuery('#todolist_name').text(Todolist_info.taskname);
+					jQuery('#todolist_clientname').text(Todolist_info.client_name);
+					jQuery('#todolist_consultant').text(Todolist_info.consultant_name);
+					jQuery('#todolist_descriptions').text(Todolist_info.descriptions);
+					jQuery('#todolist_priority').html(Todolist_info.priority_dropdown);
+					jQuery('#todolist_status').html(Todolist_info.status_dropdown);
+					jQuery('#todolist_deadline').html(date);
+					jQuery('#task_subtasks').html(Todolist_info.list);
+					jQuery(".view_todolist").dialog( "open" );
+					jQuery('.list_loader').css('display', 'none');
+				},
+				error: function (data) {
+					
+				}
+			});	
+			
+		});	
 
 		//Load Member's TOdolist based on Team Member dropdown.
 		jQuery('#load-members-todolist').click(function(){
@@ -4952,7 +5146,14 @@ endif;
 			close: function() {
 			}
 		});
-
+		jQuery( ".view_todolist" ).dialog({
+			autoOpen: false,
+			height: 400,
+			width: 350,
+			modal: true,
+			close: function() {
+			}
+		});
 		//SHow Delete confirm dialog
 		jQuery('body').on('click', '.delete_todolist_row', function() {
 			var row_id = jQuery(this).closest('tr').attr('id');

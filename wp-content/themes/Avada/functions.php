@@ -7702,28 +7702,37 @@ function LoadMemberTodoList($person){
 			todolist_tbl.deadline,
 			todolist_tbl.task_checkboxes,
 			client_tbl.client_name					
-			FROM '. $todolist_tablename . ' as todolist_tbl INNER JOIN '. $clients_tablename .' as client_tbl 
-			WHERE consultant_id = '. $person_info->wp_user_id .' 
-			AND todolist_tbl.client_id = client_tbl.ID');
+			FROM '. $todolist_tablename . ' as todolist_tbl JOIN '. $clients_tablename .' as client_tbl
+			ON todolist_tbl.client_id = client_tbl.ID 
+			WHERE todolist_tbl.consultant_id = '. $person_info->wp_user_id .' OR todolist_tbl.consultant_id = 0
+			');
 
 	//Creating the HTML row by list
 	foreach($person_todolists as $list){
 
 		$date = ($list->deadline == '0000-00-00')? '--' : $list->deadline;
 
+		if($list->consultant_id == 0){
+			$any_person = 'Any';
+			$user_id = 0;
+		}else{
+			$any_person = $person_info->person_initial;
+			$user_id = $person_info->wp_user_id;
+		}
+
 		$todolist_html .= '';
 		$todolist_html .= '
 						<tr id="'.$list->id.'">
 							<td>'. $list->client_name .'</td>
 							<td><span class="todolist_name_row">'. $list->taskname .'</span></td>
-							<td><span class="todolist_consultant"><input class="consultant_id_row" value="'.$person_info->wp_user_id.'" type="hidden">'.$person_info->person_initial.'</span></td>
+							<td><span class="todolist_consultant"><input class="consultant_id_row" value="'.$user_id.'" type="hidden">'.$any_person.'</span></td>
 							<td><span class="todolist_priority">'.$list->priority.'</span></td>
 							<td><span class="todolist_status">'.$list->status.'</span></td>
 							<td><span class="todolist_deadline">'.$date.'</span></td>
 							<td>
 								<div class="option-list">
 								<i class="fa fa-trash-o delete_todolist_row pull-right" aria-hidden="true" title="Delete Task"></i>
-								<i class="fa fa-eye view_list_button pull-right hide" aria-hidden="true" title="View Task"></i>
+								<i class="fa fa-eye view_list_button pull-right" aria-hidden="true" title="View Task"></i>
 								</div>
 							</td>
 						</tr>
