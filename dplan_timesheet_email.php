@@ -30,12 +30,13 @@ if($person->person_email_notification == 1){
 			$date_format = $year."/".$month."/".$day;
 			$day_number = date('w', strtotime($date_format));					
 			if($day_number != 0 && $day_number != 6){
-				$timesheet_empty_days = $wpdb->get_results("SELECT * FROM {$table_name_timesheet} WHERE task_person = '$current_person->person_fullname' AND date_now = '$date'");				
+				$timesheet_empty_days = $wpdb->get_results("SELECT * FROM {$table_name_timesheet} WHERE task_person = '$person->person_fullname' AND date_now = '$date'");				
 				if($timesheet_empty_days == null){
 					$empty_dates_array[] = $date;			
 				}
 			}
 		}
+
 		$list_empty_dates = '<ul>';
 
 		foreach($empty_dates_array as $date_empty){
@@ -47,12 +48,13 @@ if($person->person_email_notification == 1){
 		if(count($empty_dates_array) != 0){
 			$body = '
 			<h1>Hello '.$person->person_fullname.',</h1>
-			<p>You have empty timsheet slots from Dplan</p>
+			<p>You have empty timsheet slots from Splan</p>
 			<p>Here are the following dates:</p>
 			'.$list_empty_dates.'
 			<br />
-			<p>Please fill up your empty timehsheet days. Thank You and have a Good day.</P>
+			<p>Please fill up your empty timehsheet days ASAP. Thank You and have a Good day.</P>
 			<p><a href="http://dplan.seowebsolutions.com/" target="_blank">Log In Here to Dplan</a></p>
+			<br />
 			';
 
 			$to = $person->person_email;
@@ -60,6 +62,8 @@ if($person->person_email_notification == 1){
 			$headers = array('Content-Type: text/html; charset=UTF-8');
 			 
 			$email_status = wp_mail( $to, $subject, $body, $headers );
+			echo $email_status;
+
 		}
 	}
 }

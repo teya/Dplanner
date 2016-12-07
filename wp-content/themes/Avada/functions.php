@@ -7740,4 +7740,7 @@ function LoadMemberTodoList($person){
 	}
 	return $todolist_html;
 }
+add_filter( 'wp_mail_from', function( $email ) {
+	return get_bloginfo( 'admin_email');
+});
 ?>
