@@ -7444,7 +7444,6 @@ h5.toggle div.desc{
 #manange-client-table .active_clients .display_section .contact_info_footer .row-update-loader, #manange-client-table .active_clients .display_section .contact_info_footer .row-update-loader .check_update_timesheet_project{
 	float: left;
 }
-
 .update_manage_client_value{
 	background-image: url("img/check.png");
     background-size: 20px auto;
@@ -7667,7 +7666,7 @@ h5.toggle div.desc{
 	font-family: "PT Sans",Arial,Helvetica,sans-serif !important;
 }
 .list_table thead tr td:nth-child(1){
-	width: 10%;
+	width: 5%;
 }
 .list_table thead tr td:nth-child(2){
 	width: 13%;
@@ -7676,7 +7675,7 @@ h5.toggle div.desc{
 .list_table thead tr td:nth-child(4),
 .list_table thead tr td:nth-child(5),
 .list_table thead tr td:nth-child(6){
-	width: 10%;
+	width: 5%;
 }
 .list_table thead tr td:nth-child(7){
 	width: 5%;

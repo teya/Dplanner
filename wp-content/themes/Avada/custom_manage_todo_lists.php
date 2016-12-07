@@ -1,4 +1,9 @@
-<?php /* Template Name: Todo Lists */ ?>
+<?php /* Template Name: Todo Lists */ 
+	if (!is_user_logged_in()) {
+	    wp_redirect( wp_login_url( $redirect ) );
+	    exit();
+	}
+?>
 <?php get_header(); ?>
 <?php 
 
