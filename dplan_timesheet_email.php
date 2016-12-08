@@ -6,7 +6,7 @@ $table_name_timesheet = $wpdb->prefix . 'custom_timesheet';
 $timezone = get_option('timezone_string'); 
 date_default_timezone_set($timezone);
 
-$persons = $wpdb->get_results('SELECT * FROM '.$persons_table);
+$persons = $wpdb->get_results('SELECT * FROM wp_custom_person');
 
 foreach($persons as $person){
 if($person->person_email_notification == 1){
@@ -38,8 +38,9 @@ if($person->person_email_notification == 1){
 		}
 
 		$list_empty_dates = '<ul>';
-
+		$days_count = 0;
 		foreach($empty_dates_array as $date_empty){
+			$days_count++;
 			$date = DateTime::createFromFormat('d/m/Y', $date_empty);
 			$list_empty_dates .= '<li>'. $date->format('M d, Y') .'</li>';
 		}
@@ -47,22 +48,28 @@ if($person->person_email_notification == 1){
 
 		if(count($empty_dates_array) != 0){
 			$body = '
-			<h1>Hello '.$person->person_fullname.',</h1>
-			<p>You have empty timsheet slots from Splan</p>
-			<p>Here are the following dates:</p>
+			<h1>Dear '.$person->person_fullname.',</h1>
+			<p>You have '.$days_count.' days with no hours in Dplan timesheet.</p>
+			<p>Here are the dates::</p>
 			'.$list_empty_dates.'
 			<br />
-			<p>Please fill up your empty timehsheet days ASAP. Thank You and have a Good day.</P>
-			<p><a href="http://dplan.seowebsolutions.com/" target="_blank">Log In Here to Dplan</a></p>
+			<p>I have spend many hours creating this function, so please use it properly by filling in your timesheet ASAP!</p>
+			<p>Thank you and have a good day.</p>
+			<p>Regards,<br />
+			Gray</p>
+			<p><a href="http://dplan.seowebsolutions.com/" target="_blank">Login to Dplan Here Now!</a></p>
 			<br />
 			';
 
 			$to = $person->person_email;
+			$admin_email = get_option( 'admin_email' ); 
 			$subject = 'Dplan Timesheet reminder';
-			$headers = array('Content-Type: text/html; charset=UTF-8');
+			$headers = array('Content-Type: text/html; charset=UTF-8','From: Dplan <'.$admin_email.'>');
 			 
 			$email_status = wp_mail( $to, $subject, $body, $headers );
 			echo $email_status;
+
+			// echo $body;
 
 		}
 	}
