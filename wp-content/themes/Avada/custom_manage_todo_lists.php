@@ -190,7 +190,14 @@
 </div>
 <script type="text/javascript">
 	jQuery(document).ready(function(){
-		
+
+		jQuery('#manange-client-table .list_table').DataTable({
+			"searching": false,
+    		"ordering":  false,
+    		"pageLength": 10,
+    		"bLengthChange": false
+		});
+
 		//Todolist filter
 		jQuery('.todolist_filter').on('change', function() {
 
@@ -207,6 +214,8 @@
 				'task_priority' : task_priority
 			};
 
+			jQuery('#manange-client-table .list_table').dataTable().fnDestroy();
+
 			jQuery.ajax({
 				type: "POST",
 				url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
@@ -218,6 +227,15 @@
 					var filter_data = jQuery.parseJSON(data);
 					// console.log(filter_data.list_data);
 					jQuery('#manange-client-table .list_table tbody').html(filter_data.list_data).css('display', 'none').fadeIn(300);
+
+					jQuery('#manange-client-table .list_table').DataTable({
+						"searching": false,
+			    		"ordering":  false,
+			    		"pageLength": 10,
+			    		"bLengthChange": false
+					});
+
+
 				},
 				error: function (data) {
 					

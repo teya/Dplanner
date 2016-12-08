@@ -7590,7 +7590,7 @@ function FilterTodoListTable($data){
 	}else{
 		$html_rows .= '
 			<tr>
-				<td colspan="6">No Currently List Available.</td>
+				<td colspan="7">No Currently List Available.</td>
 			</tr>';		
 	}
 
@@ -7609,6 +7609,12 @@ function add_font_awesome_icons() {
     wp_enqueue_style( 'mytheme-options-style', get_template_directory_uri() . '/css/font-awesome.min.css' ); 
 }
 add_action( 'wp_enqueue_scripts', 'add_font_awesome_icons' );
+//Added css and javascript for Todolist Pagination.
+function add_theme_scripts_pagination() {
+	wp_enqueue_style( 'style_pagination', get_template_directory_uri() . '/css/jquery.dataTables.min.css', array(), '1.1', 'all');
+	wp_enqueue_script( 'script_pagination', get_template_directory_uri() . '/js/jquery.dataTables.min.js', array ( 'jquery' ), 1.1, true);
+}
+add_action( 'wp_enqueue_scripts', 'add_theme_scripts_pagination' );
 function IfDatePassed($date){
 	$date_today = date('m/d/Y');
 	if(new DateTime($date_today) < new DateTime($date)){
