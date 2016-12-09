@@ -7746,6 +7746,109 @@ function LoadMemberTodoList($person){
 	}
 	return $todolist_html;
 }
+
+//Update or Edit TodoList 
+function UpdateTodoList($data){
+	global $wpdb;
+	parse_str($data, $update_data);
+
+	$todolist_tablename = $wpdb->prefix . 'custom_client_todo_lists';
+
+	//Get TodoList info from DB
+	$todolist_info = $wpdb->get_row('SELECT * FROM '.$todolist_tablename.' WHERE id ='.$update_data['todolist_id']);
+	$update = 0;
+	$checkbox_array = explode(',', $update_data['task_checkboxes']);
+
+	$new_subtasks = array();
+	$update_subtasks = array();	
+
+	//Serialize Subtasks from DB
+	$todolist_checkboxes_data = unserialize($todolist_info->task_checkboxes);
+
+	//Convert Serialize Subtasks to single array.
+	foreach($todolist_checkboxes_data as $checbox_item){
+		$new_subtasks[array_keys($checbox_item)[0]] =  array_values($checbox_item)[0];
+	}
+
+	//Compare exists Subtasks from new and DB.
+	foreach($checkbox_array as $checkbox){
+		if(array_key_exists(trim($checkbox), $new_subtasks)){
+			array_push($update_subtasks, array(trim($checkbox) => $new_subtasks[trim($checkbox)]));
+		}else{
+			//skipped last comma with no value.
+			if(trim($checkbox) != ''){
+				array_push($update_subtasks, array(trim($checkbox) => 0));
+			}
+		}
+	}
+
+	//Convert the deadline.
+	if($update_data['task_deadline'] == ''){
+		$date = '00/00/0000';
+	}else{
+		$date = $update_data['task_deadline'];
+	}
+
+	foreach($update_data['client_ids'] as $client_id){
+		if($update == 0){
+			//Update the Orignal TOdolist Data.
+			$update = $wpdb->update( 
+					$todolist_tablename, 
+					array( 
+						'taskname'		 	=> $update_data['taskname'], 
+						'client_id'			=> $client_id,
+						'consultant_id'		=> $update_data['task_consultant_id'],
+						'priority'			=> $update_data['task_priority'],
+						'status'			=> $update_data['task_status'],
+						'descriptions' 		=> $update_data['task_description'],
+						'deadline'  		=> date('Y-m-d', strtotime($date)),
+						'task_checkboxes' 	=> serialize($update_subtasks)
+					), 
+					array( 'id' => $update_data['todolist_id'] ),
+					array(
+						'%s', 
+						'%d',
+						'%d',
+						'%s',
+						'%s', 
+						'%s',
+						'%s',  
+						'%s'
+					)
+			);
+		}else{
+			//Duplicate task for another Client
+			$insert_data = $wpdb->insert( 
+				$todolist_tablename, 
+				array( 
+					'taskname'		 	=> $update_data['taskname'], 
+					'client_id'			=> $client_id,
+					'consultant_id'		=> $update_data['task_consultant_id'],
+					'priority'			=> $update_data['task_priority'],
+					'status'			=> $update_data['task_status'],
+					'descriptions' 		=> $update_data['task_description'],
+					'deadline'  		=> date('Y-m-d', strtotime($date)),
+					'task_checkboxes' 	=> serialize($update_subtasks)
+				), 
+				array( 
+					'%s', 
+					'%d',
+					'%d',
+					'%s',
+					'%s', 
+					'%s',
+					'%s',  
+					'%s'
+				) 
+			);
+		}
+	}
+	$response = array(
+		'update' => $update,
+		'insert_new_todolist' => $insert_data
+	);
+	return $response;
+}
 add_filter( 'wp_mail_from', function( $email ) {
 	return get_bloginfo( 'admin_email');
 });

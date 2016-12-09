@@ -7686,6 +7686,12 @@ h5.toggle div.desc{
 .list_table tr td h2{
 	margin-bottom: 0px !important;
 }
+table.dataTable thead td{
+	border-bottom: 0px solid #111;
+}
+table.dataTable.no-footer{
+	border-bottom: 0px solid #111;	
+}
 .pull-right{
 	float: right !important;
 }
@@ -7697,11 +7703,17 @@ h5.toggle div.desc{
 }
 #todolist_view_form table tr td{
 	padding: 5px;
+	/*width: 100%;*/
+}
+#todolist_view_form table tr td div#task_subtasks input[type="checkbox"]{
+	width: 15px !important;
 }
 .saving_todolist_progress{
 	margin-left: 10px !important;
 }
-
+.button_1 a{
+	color: #ffffff !important;
+}
 #confirm_delete_form p.label {
 	font-size: 14px;
 	font-weight: normal;

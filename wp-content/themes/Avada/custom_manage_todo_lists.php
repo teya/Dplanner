@@ -170,7 +170,7 @@
 			</tr>
 		</table>
 		<div id="save_list_progress" class="button_1 pull-left">Save</div>
-		<!-- <div class="button_1 pull-left">Edit</div> -->
+		<div id="edit_todolist" class="button_1 pull-left">Edit</div>
 		<div style="display:none;" class="loader saving_todolist_progress pull-left"></div>
 	</form>
 	<p id="message_saving_progress" class="message" style="display: none;">Successfully updating Todo list.</p>
@@ -190,12 +190,22 @@
 </div>
 <script type="text/javascript">
 	jQuery(document).ready(function(){
+		jQuery('body').on('click',"#edit_todolist", function(){
+			var todolist_id = jQuery('#todolist_id').val();
+			// console.log("<?php echo get_site_url(); ?>/edit-task/?id="+todolist_id);
+			window.location.replace("<?php echo get_site_url(); ?>/edit-task/?id="+todolist_id);
+			return false;
+		});
 
+		//Initialize DataTables Pagination
 		jQuery('#manange-client-table .list_table').DataTable({
 			"searching": false,
-    		"ordering":  false,
+    		"ordering":  true,
     		"pageLength": 10,
-    		"bLengthChange": false
+    		"bLengthChange": false,
+			"columnDefs": [
+			   { orderable: false, targets: -1 }
+			]
 		});
 
 		//Todolist filter
@@ -229,12 +239,13 @@
 
 					jQuery('#manange-client-table .list_table').DataTable({
 						"searching": false,
-			    		"ordering":  false,
+			    		"ordering":  true,
 			    		"pageLength": 10,
-			    		"bLengthChange": false
+			    		"bLengthChange": false,
+						"columnDefs": [
+						   { orderable: false, targets: -1 }
+						]
 					});
-
-
 				},
 				error: function (data) {
 					
