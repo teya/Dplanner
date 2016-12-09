@@ -7671,14 +7671,17 @@ h5.toggle div.desc{
 .list_table thead tr td:nth-child(2){
 	width: 13%;
 }
+
 .list_table thead tr td:nth-child(3),
 .list_table thead tr td:nth-child(4),
-.list_table thead tr td:nth-child(5),
-.list_table thead tr td:nth-child(6){
+.list_table thead tr td:nth-child(5){
 	width: 5%;
 }
 .list_table thead tr td:nth-child(7){
 	width: 5%;
+}
+.list_table thead tr td:nth-child(6){
+	width: 5% !important;
 }
 .list_table tr td h2{
 	margin-bottom: 0px !important;
@@ -7772,4 +7775,4 @@ h5.toggle div.desc{
 .inline-element{
 	display: inline-block;
 	float: none !important;
-}
+}	

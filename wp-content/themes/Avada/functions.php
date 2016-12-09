@@ -7514,7 +7514,7 @@ function FilterTodoListTable($data){
 	$todolist_tablename = $wpdb->prefix . "custom_client_todo_lists";
 	$consultant_tablename = $wpdb->prefix . "custom_person";
 	$client_tablename = $wpdb->prefix . "custom_client";
-	extract($data);
+	extract($data);	
 
 	$filter_array = array();
 
@@ -7534,7 +7534,7 @@ function FilterTodoListTable($data){
 	if($task_priority == 'Any'){
 		$filter_priority = '';
 	}else{
-		$filter_priority .= ' todolist_tbl.priority = "'.$task_priority.'" AND consultant_tbl.wp_user_id is NULL';
+		$filter_priority .= ' todolist_tbl.priority = "'.$task_priority.'" OR consultant_tbl.wp_user_id is NULL';
 		array_push($filter_array, $filter_priority);
 	}
 	if(count($filter_array) != 0){

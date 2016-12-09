@@ -202,7 +202,8 @@
 		jQuery('.todolist_filter').on('change', function() {
 
 			var rows = jQuery('#manange-client-table .list_table tbody tr');
-			rows.fadeOut(300, function() { jQuery(this).parent().html('<tr><td colspan="6"><div class="loading-table"></div></td></tr>').fadeIn(2000); } );
+			jQuery('#manange-client-table .list_table').dataTable().fnDestroy();
+			rows.fadeOut(300, function() { jQuery(this).parent().html('<tr><td colspan="7"><div class="loading-table"></div></td></tr>').fadeIn(2000); } );
 			// jQuery('#manange-client-table .list_table tbody').delay(6000).html('<tr><td>LOADING<td></tr>');
 			var client_id = jQuery('#filter_select_client').val();
 			var consultant_id = jQuery('#filter_select_consultant').val();
@@ -213,8 +214,6 @@
 				'consultant_id' : consultant_id,
 				'task_priority' : task_priority
 			};
-
-			jQuery('#manange-client-table .list_table').dataTable().fnDestroy();
 
 			jQuery.ajax({
 				type: "POST",
