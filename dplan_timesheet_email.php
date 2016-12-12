@@ -9,47 +9,63 @@ date_default_timezone_set($timezone);
 $persons = $wpdb->get_results('SELECT * FROM wp_custom_person');
 
 foreach($persons as $person){
-if($person->person_email_notification == 1){
-		/* empty task */
-		$end_date = date("Y-m-d", strtotime("yesterday"));
-		$list_empty_dates = '';
-		// $yesterday = date("d/m/Y", strtotime("yesterday"));
-		$date = date_create($end_date);
-		date_sub($date,date_interval_create_from_date_string("4 days"));
-		$start_date = date_format($date,"Y-m-d");
-		$date_range = date_range($start_date, $end_date);
-		$persons = $wpdb->get_results("SELECT * FROM {$table_name_person}");
-		$current_person = $wpdb->get_row("SELECT * FROM {$persons_table} WHERE wp_user_id = ".$person->wp_user_id);
+	if($person->person_email_notification == 1){
+			/* empty task */
+			$end_date = date("Y-m-d", strtotime("yesterday"));
+			$list_empty_dates = '';
+		
+			$date = date_create($end_date);
+			date_sub($date,date_interval_create_from_date_string("4 days"));
+			$start_date = date_format($date,"Y-m-d");
+			$date_range = date_range($start_date, $end_date);
+			$persons = $wpdb->get_results("SELECT * FROM {$table_name_person}");
+			$current_person = $wpdb->get_row("SELECT * FROM {$persons_table} WHERE wp_user_id = ".$person->wp_user_id);
 
-		$empty_dates_array = array();
-		foreach($date_range as $date){
-			$explode_date = explode('/', $date);
-			$day = $explode_date[0];
-			$month = $explode_date[1];
-			$year = $explode_date[2];
-			$date_format = $year."/".$month."/".$day;
-			$day_number = date('w', strtotime($date_format));					
-			if($day_number != 0 && $day_number != 6){
-				$timesheet_empty_days = $wpdb->get_results("SELECT * FROM {$table_name_timesheet} WHERE task_person = '$person->person_fullname' AND date_now = '$date'");				
-				if($timesheet_empty_days == null){
-					$empty_dates_array[] = $date;			
+			$empty_dates_array = array();
+			foreach($date_range as $date){
+				$explode_date = explode('/', $date);
+				$day = $explode_date[0];
+				$month = $explode_date[1];
+				$year = $explode_date[2];
+				$date_format = $year."/".$month."/".$day;
+				$day_number = date('w', strtotime($date_format));
+				$total_hours_day = 0;
+
+				if($day_number != 0 && $day_number != 6){
+					$timesheet_empty_days = $wpdb->get_results("SELECT * FROM {$table_name_timesheet} WHERE task_person = '$person->person_fullname' AND date_now = '$date'");
+
+					//Add Totol Hours per day
+					if(!empty($timesheet_empty_days)){
+						if($date == $timesheet_empty_days[0]->date_now){
+							foreach($timesheet_empty_days as $day_inputs){
+								$total_hours_day += decimalHours($day_inputs->task_hour);
+							}
+						}
+					}
+
+					//If total hours is not person's total work hours per day.
+					if($person->person_hours_per_day > $total_hours_day){
+						array_push($empty_dates_array, array($date => $total_hours_day));
+					}
+
 				}
 			}
-		}
 
-		$list_empty_dates = '<ul>';
-		$days_count = 0;
-		foreach($empty_dates_array as $date_empty){
-			$days_count++;
-			$date = DateTime::createFromFormat('d/m/Y', $date_empty);
-			$list_empty_dates .= '<li>'. $date->format('M d, Y') .'</li>';
-		}
-		$list_empty_dates .="</ul>";
+			// List the days not completed for for person's total work hours.
+			$list_empty_dates = '<ul>';
+			$days_count = 0;
+			foreach($empty_dates_array as $date){
+				$days_count++;	
+				$total_hours = array_values($date)[0];
+				$date = DateTime::createFromFormat('d/m/Y', array_keys($date)[0]);
+				$list_empty_dates .= '<li>'. $date->format('M d, Y') .' - Total: '.$total_hours.' hour/s Only.</li>';
+			}
+			$list_empty_dates .="</ul>";
 
-		if(count($empty_dates_array) != 0){
+			//Create the Email Template
 			$body = '
 			<h1>Dear '.$person->person_fullname.',</h1>
-			<p>You have '.$days_count.' days with no hours in Dplan timesheet.</p>
+			<p>You have '.$days_count.' days which are not yet completed in Dplan timesheet.</p>
 			<p>Here are the dates::</p>
 			'.$list_empty_dates.'
 			<br />
@@ -61,17 +77,15 @@ if($person->person_email_notification == 1){
 			<br />
 			';
 
+			//Email Headers
 			$to = $person->person_email;
 			$admin_email = get_option( 'admin_email' ); 
 			$subject = 'Dplan Timesheet reminder';
 			$headers = array('Content-Type: text/html; charset=UTF-8','From: Dplan <'.$admin_email.'>');
-			 
+			
+			//Send the Email to Person. 
 			$email_status = wp_mail( $to, $subject, $body, $headers );
 			echo $email_status;
-
-			// echo $body;
-
-		}
 	}
 }
 ?>
