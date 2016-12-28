@@ -7316,7 +7316,7 @@ body.single .post-content li{
     width: auto !important;
     visibility: hidden !important;
  }
- .update_todolist_row, .check_update_timesheet, .check_update_timesheet_project, .check_update_timesheet_taskname, .check_update_detailed_time_taskname, .detailed_time_update_project{
+ .update_todolist_row, .check_update_timesheet, .check_update_timesheet_project, .check_update_timesheet_taskname, .check_update_detailed_time_taskname, .detailed_time_update_project, .edit_client_scheduled_date{
  	background-image: url("img/check.png");
     background-size: 20px auto;
     display: inline-block;
@@ -7787,4 +7787,46 @@ table.dataTable.no-footer{
 .inline-element{
 	display: inline-block;
 	float: none !important;
-}	
+}
+.dplan-table{
+	margin:0px auto;
+}
+.dplan-table thead {
+	background-color: #BCBCBC
+}
+.dplan-table thead tr th{
+	padding: 8px 5px 8px 5px;
+	font-family: "PT Sans",Arial,Helvetica,sans-serif !important;
+	text-align: left;
+}
+.dplan-table tr{
+	height: 30px;
+}
+.dplan-table tr td{
+	padding: 8px 5px 8px 5px;
+    font-family: "PT Sans",Arial,Helvetica,sans-serif !important;
+}
+.dplan-table tr td:nth-child(5){
+	width: 5%;
+}
+.dplan-table tr th:nth-child(4){
+	width: 15%;
+}
+.dplan-table tr:nth-child(even){
+	background-color: #dddddd;
+}
+.dplan-table tr:nth-child(odd){
+	background-color: transparent;
+}
+.dplan-table tbody tr:hover{
+	background-color: #ACADB5;
+}
+#client-maintenance-table{
+	min-width: 100%;
+}
+#client-maintenance-table tr:hover td .option-list{
+	display: block !important;
+}
+#client-maintenance-table .edit_client_next_schedule_maintenance .datepicker{
+	min-width: 90px;
+}

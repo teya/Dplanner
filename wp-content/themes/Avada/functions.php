@@ -7852,4 +7852,22 @@ function UpdateTodoList($data){
 add_filter( 'wp_mail_from', function( $email ) {
 	return get_bloginfo( 'admin_email');
 });
+
+function ClientMaintenanceUpdateDate($data){
+	global $wpdb;
+
+	extract($data);
+
+	$data_array = explode("_", $client_id);
+
+	$client_tablename = $wpdb->prefix . "custom_client";
+
+	$client_info = $wpdb->get_row("SELECT client_next_schedule_maintenance FROM ". $client_tablename ." WHERE ID = ". $data_array[2]);
+
+	if($client_info->client_next_schedule_maintenance == $new_date){
+
+	}else{
+
+	}
+}
 ?>

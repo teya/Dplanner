@@ -31,7 +31,7 @@ foreach($persons as $person){
 				$day_number = date('w', strtotime($date_format));
 				$total_hours_day = 0;
 
-				if($day_number != 0 && $day_number != 6){
+				if($day_number != 0 && $day_number != 6){ //Exclude Saturday and Sunday
 					$timesheet_empty_days = $wpdb->get_results("SELECT * FROM {$table_name_timesheet} WHERE task_person = '$person->person_fullname' AND date_now = '$date'");
 
 					//Add Totol Hours per day
@@ -63,29 +63,33 @@ foreach($persons as $person){
 			$list_empty_dates .="</ul>";
 
 			//Create the Email Template
-			$body = '
-			<h1>Dear '.$person->person_fullname.',</h1>
-			<p>You have '.$days_count.' days which are not yet completed in Dplan timesheet.</p>
-			<p>Here are the dates::</p>
-			'.$list_empty_dates.'
-			<br />
-			<p>I have spend many hours creating this function, so please use it properly by filling in your timesheet ASAP!</p>
-			<p>Thank you and have a good day.</p>
-			<p>Regards,<br />
-			Gray</p>
-			<p><a href="http://dplan.seowebsolutions.com/" target="_blank">Login to Dplan Here Now!</a></p>
-			<br />
-			';
+			if($days_count > 0){
+				$body = '
+				<h1>Dear '.$person->person_fullname.',</h1>
+				<p>You have '.$days_count.' days which are not yet completed in Dplan timesheet.</p>
+				<p>Here are the dates::</p>
+				'.$list_empty_dates.'
+				<br />
+				<p>I have spend many hours creating this function, so please use it properly by filling in your timesheet ASAP!</p>
+				<p>Thank you and have a good day.</p>
+				<p>Regards,<br />
+				Gray</p>
+				<p><a href="http://dplan.seowebsolutions.com/" target="_blank">Login to Dplan Here Now!</a></p>
+				<br />
+				';
 
-			//Email Headers
-			$to = $person->person_email;
-			$admin_email = get_option( 'admin_email' ); 
-			$subject = 'Dplan Timesheet reminder';
-			$headers = array('Content-Type: text/html; charset=UTF-8','From: Dplan <'.$admin_email.'>');
-			
-			//Send the Email to Person. 
-			$email_status = wp_mail( $to, $subject, $body, $headers );
-			echo $email_status;
+				//Email Headers
+				$to = $person->person_email;
+				$admin_email = get_option( 'admin_email' ); 
+				$subject = 'Dplan Timesheet reminder';
+				$headers = array('Content-Type: text/html; charset=UTF-8','From: Dplan <'.$admin_email.'>');
+				
+				//Send the Email to Person. 
+				$email_status = wp_mail( $to, $subject, $body, $headers );
+				// echo $body;
+				echo $email_status;				
+			}
+
 	}
 }
 ?>
