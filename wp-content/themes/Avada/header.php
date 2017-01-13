@@ -2513,7 +2513,8 @@ function next_filter(){
 }
 function filter_ajax_function(filter_details, report_sorting_type){
 	jQuery('.top_detail_loader').show();	
-	jQuery('.tab_loader').show();	
+	jQuery('.tab_loader').show();
+
 	jQuery.ajax({
 		type: "POST",
 		url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
@@ -2528,6 +2529,8 @@ function filter_ajax_function(filter_details, report_sorting_type){
 			jQuery('.report_container .report_top_label h1').text(report_top_label);
 			
 			var top_report_detail = parsed.top_report_detail;
+
+			console.log(top_report_detail);
 			var top_report_detail_split = top_report_detail.split("_");
 			var top_hours_tracked = top_report_detail_split[0];
 			var top_billable_hours = top_report_detail_split[1];
@@ -2535,12 +2538,12 @@ function filter_ajax_function(filter_details, report_sorting_type){
 			var top_unbillable_hours = top_report_detail_split[3];
 			var top_billable_amount = top_report_detail_split[4];
 			var top_no_work = top_report_detail_split[5];
-			var top_dwork = top_report_detail_split[6];
+			var top_dwork_percent = top_report_detail_split[6];
 
 			var total_bill_amount = (top_billable_amount == 0 || top_billable_amount == "")? 0 :  top_billable_amount;
 			jQuery('.report_container .top_reports h1.top_hours_tracked').html(top_hours_tracked);
 			jQuery('.report_container .top_reports h1.top_billable_amount').html("Kr "+top_billable_amount);
-			// jQuery('.report_container .top_reports h1.top_dwork_hours').html(top_dwork);
+			jQuery('.report_container .top_reports h1.top_dwork_hours').html(top_dwork_percent+"%");
 			jQuery('.report_container .top_reports h1.top_ledig_hours').html(top_no_work);
 			jQuery('.report_container .top_reports h1.top_unbillable_hours').html(top_unbillable_hours);
 		},		
@@ -2548,6 +2551,7 @@ function filter_ajax_function(filter_details, report_sorting_type){
 			alert('error');
 		}
 	});
+	
 	jQuery.ajax({
 		type: "POST",
 		url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
@@ -2691,6 +2695,7 @@ function filter_ajax_function(filter_details, report_sorting_type){
 			jQuery('.staff_detail_loader').hide();
 			jQuery('#staff .sort_name_container').empty();
 			var parsed = jQuery.parseJSON(data);
+			console.log(parsed);
 			var staff_tab_counter = 1;
 			jQuery.each(parsed.person_details, function(index, value){
 
