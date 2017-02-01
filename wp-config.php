@@ -90,3 +90,10 @@ if ( !defined('ABSPATH') )
 require_once(ABSPATH . 'wp-settings.php');
 add_filter( 'auto_update_plugin', '__return_true' );
 add_filter( 'auto_update_theme', '__return_true' );
+
+
+//DATABASE TABLENAMES
+define('TIMESHEET_TABLE', $wpdb->prefix . "custom_timesheet");
+define('PROJECT_TABLE', $wpdb->prefix . "custom_project");
+define('TODOLIST_TABLE', $wpdb->prefix . "custom_client_todo_lists");
+define('CLIENT_TABLE', $wpdb->prefix . "custom_client");

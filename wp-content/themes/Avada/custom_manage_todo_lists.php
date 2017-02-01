@@ -169,8 +169,10 @@
 				</td>
 			</tr>
 		</table>
-		<div id="save_list_progress" class="button_1 pull-left">Save</div>
-		<div id="edit_todolist" class="button_1 pull-left">Edit</div>
+		<div id="bottom-actions-list">
+			<div id="save_list_progress" class="button_1 pull-left">Save</div>
+			<div id="edit_todolist" class="button_1 pull-left">Edit</div>
+		</div>
 		<div style="display:none;" class="loader saving_todolist_progress pull-left"></div>
 	</form>
 	<p id="message_saving_progress" class="message" style="display: none;">Successfully updating Todo list.</p>
@@ -416,7 +418,6 @@
 					var Todolist_info = jQuery.parseJSON(data);
 					console.log(Todolist_info);
 					jQuery('#confirm_delete_form .loader').fadeOut();
-					jQuery('table-status-message')
 					jQuery('#confirmed_delete_row').delay(500).fadeIn();
 					jQuery(".confirm_delete_todolist").dialog( "close" );
 					jQuery('#table-status-message').text('Successufully Deleted A List!').fadeIn().delay(2000).fadeOut()

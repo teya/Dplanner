@@ -2515,6 +2515,8 @@ function filter_ajax_function(filter_details, report_sorting_type){
 	jQuery('.top_detail_loader').show();	
 	jQuery('.tab_loader').show();
 
+
+
 	jQuery.ajax({
 		type: "POST",
 		url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
@@ -2542,8 +2544,8 @@ function filter_ajax_function(filter_details, report_sorting_type){
 
 			var total_bill_amount = (top_billable_amount == 0 || top_billable_amount == "")? 0 :  top_billable_amount;
 			jQuery('.report_container .top_reports h1.top_hours_tracked').html(top_hours_tracked);
-			jQuery('.report_container .top_reports h1.top_billable_amount').html("Kr "+top_billable_amount);
-			jQuery('.report_container .top_reports h1.top_dwork_hours').html(top_dwork_percent+"%");
+			jQuery('.report_container .top_reports h1.top_billable_amount').html("kr "+top_billable_amount);
+			jQuery('.report_container .top_reports h1.top_dwork_hours_percent').html(top_dwork_percent+"%");
 			jQuery('.report_container .top_reports h1.top_ledig_hours').html(top_no_work);
 			jQuery('.report_container .top_reports h1.top_unbillable_hours').html(top_unbillable_hours);
 		},		

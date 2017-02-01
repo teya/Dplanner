@@ -2968,14 +2968,14 @@ function filter_report_time_top($filter_details){
 	$report_details['report_top_label'] = $report_top_label;
 
 	$top_total_hours = substr(convertTime($top_results->total_hours), 0, -3);
-	$top_total_billable_amount = $top_results->billable_amount;
-	$top_total_dwork_percent = round(100 - (($top_results->total_no_work_hours / $top_results->total_hours) * 100),2);
+	$top_total_billable_amount = number_format($top_results->billable_amount, 0);
+	$top_total_dwork_percent = (($top_results->billable_hours / ($top_results->total_hours - $top_results->total_no_work_hours)) * 100);
 	$top_total_no_work_hours = substr(convertTime($top_results->total_no_work_hours), 0, -3);
 	$top_total_unbillable_amount = substr(convertTime($top_results->unbillable_hours), 0, -3);
 	$top_dwork_total_hour_decimal = $top_results->total_hours - $top_results->total_no_work_hours;
 	
 
-	$top_report_details = $top_total_hours ."_". $top_total_billable_amount ."_".$top_ledig_time_decimal ."_". $top_total_unbillable_amount ."_". $top_total_billable_amount  ."_". $top_total_no_work_hours ."_". $top_total_dwork_percent;
+	$top_report_details = $top_total_hours ."_". $top_total_billable_amount ."_".$top_ledig_time_decimal ."_". $top_total_unbillable_amount ."_". $top_total_billable_amount  ."_". $top_total_no_work_hours ."_". floor($top_total_dwork_percent);
 	$report_details['top_report_detail'] = $top_report_details;	
 
 	return $report_details;
@@ -3036,9 +3036,9 @@ function filter_report_time_client($filter_details){
 	foreach($client_results as $client){
 		$total_client_hours =  substr(convertTime($client->total_hours), 0, -3);
 		$billable_total_hour_decimal = substr(convertTime($client->billable_hours), 0, -3);
-		$total_billable_amount = $client->billable_amount;
+		$total_billable_amount = number_format($client->billable_amount, 0);
 		$unbillable_total_hour_decimal = substr(convertTime($client->unbillable_hours), 0, -3);
-		$total_unbillable_amount = $client->unbillable_amount;
+		$total_unbillable_amount = number_format($client->unbillable_amount, 0);
 		
 		$client_details = $client->task_label ."_". $total_client_hours ."_". $billable_total_hour_decimal ."_". $total_billable_amount ."_". $unbillable_total_hour_decimal . "_" .$total_unbillable_amount;
 		$client_details_array[] = $client_details;
@@ -3054,8 +3054,8 @@ function filter_report_time_client($filter_details){
 	$report_details['client_tab_total_hour'] = substr(convertTime($client_tab_total_hour), 0, -3);
 	$report_details['client_tab_total_billable_hour'] = substr(convertTime($client_tab_total_billable_hour), 0, -3);
 	$report_details['client_tab_total_unbillable_hour'] = substr(convertTime($client_tab_total_unbillable_hour), 0, -3);
-	$report_details['client_tab_total_billable_amount'] = $client_tab_total_billable_amount;
-	$report_details['client_tab_total_unbillable_amount'] = $client_tab_total_unbillable_amount;
+	$report_details['client_tab_total_billable_amount'] = number_format($client_tab_total_billable_amount, 0);
+	$report_details['client_tab_total_unbillable_amount'] = number_format($client_tab_total_unbillable_amount, 0);
 	$report_details['report_top_label'] = $report_top_label;
 	return $report_details;
 
@@ -3088,7 +3088,7 @@ function filter_report_time_project($filter_details){
 		$project_tab_total_billable_amount += $project->billable_amount;
 		$project_tab_total_unbillable_amount += $project->unbillable_amount;
 		
-		$project_details = $project->task_name ."_". $project->task_label ."_". substr(convertTime($project->total_hours), 0, -3) ."_". substr(convertTime($project->billable_hours), 0, -3) ."_". $project->billable_amount ."_". substr(convertTime($project->unbillable_hours), 0, -3) . "_". $project->unbillable_amount;
+		$project_details = $project->task_name ."_". $project->task_label ."_". substr(convertTime($project->total_hours), 0, -3) ."_". substr(convertTime($project->billable_hours), 0, -3) ."_". number_format($project->billable_amount, 0) ."_". substr(convertTime($project->unbillable_hours), 0, -3) . "_". number_format($project->unbillable_amount, 0);
 		$project_details_array[] = $project_details;
 		$report_details['project_details'] = $project_details_array;		
 	}
@@ -3096,8 +3096,8 @@ function filter_report_time_project($filter_details){
 	$report_details['project_tab_total_hour'] = substr(convertTime($project_tab_total_hour), 0, -3);
 	$report_details['project_tab_total_billable_hour'] = substr(convertTime($project_tab_total_billable_hour), 0, -3);
 	$report_details['project_tab_total_unbillable_hour'] = substr(convertTime($project_tab_total_unbillable_hour), 0, -3);
-	$report_details['project_tab_total_billable_amount'] = $project_tab_total_billable_amount;
-	$report_details['project_tab_total_unbillable_amount'] = $project_tab_total_unbillable_amount;
+	$report_details['project_tab_total_billable_amount'] = number_format($project_tab_total_billable_amount, 0);
+	$report_details['project_tab_total_unbillable_amount'] = number_format($project_tab_total_unbillable_amount, 0);
 	
 	return $report_details;
 }
@@ -3155,9 +3155,9 @@ function filter_report_time_task($filter_details){
 	foreach($tasks_results as $task){
 		$total_task_hour = substr(convertTime($task->total_hours), 0, -3);
 		$billable_total_hour_decimal = substr(convertTime($task->billable_hours), 0, -3);
-		$total_billable_amount = $task->billable_amount;
+		$total_billable_amount = number_format($task->billable_amount, 0);
 		$unbillable_total_hour_decimal = substr(convertTime($task->unbillable_hours), 0, -3);
-		$total_unbillable_amount = $task->unbillable_amount;
+		$total_unbillable_amount = number_format($task->unbillable_amount, 0);
 	
 		$task_details = format_task_name($task->task_name) ."_". $total_task_hour."_". $billable_total_hour_decimal ."_". $total_billable_amount ."_". $unbillable_total_hour_decimal ."_". $total_unbillable_amount;
 		$task_details_array[] = $task_details;
@@ -3173,8 +3173,8 @@ function filter_report_time_task($filter_details){
 	$report_details['task_tab_total_hour'] = substr(convertTime($task_tab_total_hour), 0, -3);
 	$report_details['task_tab_total_billable_hour'] = substr(convertTime($task_tab_total_billable_hour), 0, -3);
 	$report_details['task_tab_total_unbillable_hour'] = substr(convertTime($task_tab_total_unbillable_hour), 0, -3);	
-	$report_details['task_tab_total_billable_amount'] = $task_tab_total_billable_amount;
-	$report_details['task_tab_total_unbillable_amount'] = $task_tab_total_unbillable_amount;
+	$report_details['task_tab_total_billable_amount'] = number_format($task_tab_total_billable_amount, 0);
+	$report_details['task_tab_total_unbillable_amount'] = number_format($task_tab_total_unbillable_amount, 0);
 	
 	return $report_details;
 	
@@ -3243,9 +3243,13 @@ function filter_report_time_staff($filter_details){
 		$vacation_total_hour_decimal = substr(convertTime($person->vacation_hours), 0, -3);
 		$sickness_total_hour_decimal = substr(convertTime($person->sick_hours), 0, -3);
 
-		$dwork_percent = round( 100 - (($person->total_no_work_hours / $person->total_hours) * 100));
+		if($person->billable_hours != 0){
+			$dwork_percent = floor(($billable_total_hour_decimal / ($person->total_hours - $person->total_no_work_hours)) * 100);
+		}else{
+			$dwork_percent = 0;
+		}
 
-		$person_details = $person->person_fullname ."_". $person_total_hours ."_". $dwork_total_hour_decimal_hour ."_".  $billable_total_hour_decimal ."_".$unbillable_total_hour_decimal ."_". $person->billable_amount."_". $ledig_total_hour_decimal ."_". $holiday_total_hour_decimal ."_". $vacation_total_hour_decimal ."_". $sickness_total_hour_decimal ."_". $dwork_percent;
+		$person_details = $person->person_fullname ."_". $person_total_hours ."_". $dwork_total_hour_decimal_hour ."_".  $billable_total_hour_decimal ."_".$unbillable_total_hour_decimal ."_". number_format($person->billable_amount,0)."_". $ledig_total_hour_decimal ."_". $holiday_total_hour_decimal ."_". $vacation_total_hour_decimal ."_". $sickness_total_hour_decimal ."_". $dwork_percent;
 
 		$person_details_array[] = $person_details;
 		$report_details['person_details'] = $person_details_array;
@@ -3269,574 +3273,17 @@ function filter_report_time_staff($filter_details){
 	$report_details['person_tab_total_dwork_hour'] = substr(convertTime($person_tab_total_dwork_hour), 0, -3);
 	$report_details['person_tab_total_billable_hour'] = substr(convertTime($person_tab_total_billable_hour), 0, -3);
 	$report_details['person_tab_total_unbillable_hour'] = substr(convertTime($person_tab_total_unbillable_hour), 0, -3);
-	$report_details['person_tab_total_billable_amount'] = $person_tab_total_billable_amount;
+	$report_details['person_tab_total_billable_amount'] = number_format($person_tab_total_billable_amount, 0);
 	$report_details['person_tab_total_ledig_hour'] = substr(convertTime($person_tab_total_ledig_hour), 0, -3);
 	$report_details['person_tab_total_holiday_hour'] = substr(convertTime($person_tab_total_holiday_hour), 0, -3);
 	$report_details['person_tab_total_vacation_hour'] = substr(convertTime($person_tab_total_vacation_hour), 0, -3);
 	$report_details['person_tab_total_sickness_hour'] = substr(convertTime($person_tab_total_sickness_hour), 0, -3);
-	$report_details['person_tab_total_dwork_pecent'] = round(100 - (($person_all_total_no_work_hours / $person_tab_total_hour) * 100));		
+	$report_details['person_tab_total_dwork_pecent'] = floor(($person_tab_total_billable_hour / ($person_tab_total_hour - $person_all_total_no_work_hours)) * 100);		
 	
 	return $report_details;	
 }
 /* END STAFF */
 
-function filter_report_time_client_test($filter_details){
-
-	// set_time_limit(0);
-	ini_set('max_execution_time', 600);
-	//print_var($filter_details);
-	$filter_details_explode = explode("_", $filter_details);
-	$week_number = $filter_details_explode[0];
-	$month_number = $filter_details_explode[1];
-	$year = $filter_details_explode[2];
-	$from_month = $filter_details_explode[3];
-	$to_month = $filter_details_explode[4];
-	$from_date = $filter_details_explode[5];
-	$to_date = $filter_details_explode[6];
-	
-	global $wpdb;
-	if($week_number != 'null'){
-		$week = getStartAndEndDate($week_number, $year);
-		$start = date("d_m_Y", strtotime($week[0]));
-		$end = date("d_m_Y", strtotime($week[1]));
-		$start_explode = explode('_', $start);
-		$start_month = $start_explode[1];
-		$end_explode = explode('_', $end);
-		$end_month = $start_explode[1];
-	}
-	
-	/* Filter Week */	
-	if(	$week_number != 'null' && $month_number != 'null' && $year != 'null' && $from_month == 'null' && $to_month == 'null' && $from_date == 'null' && $to_date == 'null'){
-		$filter = "STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$start_month/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$end_month/$year', '%d/%m/%Y') AND week_number = '$week_number'";
-	}
-	/* Filter Month */
-	elseif(	$week_number == 'null' && $month_number != 'null' && $year != 'null' &&	$from_month == 'null' && $to_month == 'null' &&	$from_date == 'null' &&	$to_date == 'null'){
-		$filter = "STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$month_number/$year', '%d/%m/%Y')";
-	}
-	/* Filter Year */
-	elseif(	$week_number == 'null' && $month_number == 'null' && $year != 'null' &&	$from_month == 'null' && $to_month == 'null' &&	$from_date == 'null' && $to_date == 'null'){
-		$filter = "STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/01/$year', '%d/%m/%Y') AND STR_TO_DATE('31/12/$year', '%d/%m/%Y')";
-	}
-	/* Filter Quarter */
-	elseif(	$week_number == 'null' && $month_number == 'null' && $year != 'null' && $from_month != 'null' && $to_month != 'null' && $from_date == 'null' && $to_date == 'null'){
-		$filter = "STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$from_month/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$to_month/$year', '%d/%m/%Y')"; 
-	}
-	/* Filter Custom */
-	elseif(	$week_number == 'null' && $month_number == 'null' && $year == 'null' && $from_month == 'null' && $to_month == 'null' && $from_date != 'null' && $to_date != 'null'){
-		$filter = "STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('$from_date', '%d/%m/%Y') AND STR_TO_DATE('$to_date', '%d/%m/%Y')"; 
-	}
-	
-	$table_name = $wpdb->prefix . "custom_timesheet";
-	$table_name_client = $wpdb->prefix . "custom_client";
-	$table_name_person = $wpdb->prefix . "custom_person";
-	$table_name_project = $wpdb->prefix . "custom_project";
-	$table_name_task = $wpdb->prefix . "custom_task";
-	
-	$import_data = $wpdb->get_results("SELECT * FROM {$table_name} WHERE $filter");
-	$clients = $wpdb->get_results("SELECT * FROM {$table_name_client}");
-	$persons = $wpdb->get_results("SELECT * FROM {$table_name_person}");
-	$projects = $wpdb->get_results("SELECT * FROM {$table_name_project}");
-	$tasks = $wpdb->get_results("SELECT * FROM {$table_name_task}");
-	
-	// /* TOP REPORT */
-	// /* Filter Week */
-	// if(	$week_number != 'null' && $month_number != 'null' && $year != 'null' && $from_month == 'null' && $to_month == 'null' && $from_date == 'null' && $to_date == 'null'){
-		// $week = getStartAndEndDate($week_number, $year);
-		// $start_num = $week[0];
-		// $end_num = $week[1];
-		// $start = date("d M Y", strtotime($start_num));
-		// $end = date("d M Y", strtotime($end_num));
-		// $report_top_label = "Week: " . $start . "-" . $end;
-	// /* Filter Month */
-	// }elseif($week_number == 'null' && $month_number != 'null' && $year != 'null' &&	$from_month == 'null' && $to_month == 'null' &&	$from_date == 'null' &&	$to_date == 'null'){
-		// $month_name = date("F", mktime(0, 0, 0, $month_number, 10));
-		// $report_top_label = "Month: " . $month_name ." ". $year;
-	// /* Filter Year */
-	// }elseif($week_number == 'null' && $month_number == 'null' && $year != 'null' &&	$from_month == 'null' && $to_month == 'null' &&	$from_date == 'null' && $to_date == 'null'){
-		// $report_top_label = "Year: " . $year;
-	// /* Filter Quarter */
-	// }elseif($week_number == 'null' && $month_number == 'null' && $year != 'null' && $from_month != 'null' && $to_month != 'null' && $from_date == 'null' && $to_date == 'null'){
-		// $from_month_name = date("F", mktime(0, 0, 0, $from_month, 10));
-		// $to_month_name = date("F", mktime(0, 0, 0, $to_month, 10));
-		// $report_top_label = "Quarter: " . $from_month_name ."-". $to_month_name ." ". $year;
-	// /* Filter Custom */
-	// }elseif($week_number == 'null' && $month_number == 'null' && $year == 'null' && $from_month == 'null' && $to_month == 'null' && $from_date != 'null' && $to_date != 'null'){
-		/////////////////// $from_date_format = date("F d Y", strtotime($from_date));
-		////////////////// $to_date_format = date("F d Y", strtotime($to_date));
-		// $from_date_explode = explode("/", $from_date);
-		// $from_date_month_name = date("F", mktime(0, 0, 0, $from_date_explode[1], 10));
-		// $from = $from_date_month_name ." ". $from_date_explode[0] .", ". $from_date_explode[2];
-		
-		// $to_date_explode = explode("/", $to_date);		
-		// $to_date_month_name = date("F", mktime(0, 0, 0, $to_date_explode[1], 10));
-		// $to = $to_date_month_name ." ". $to_date_explode[0] .", ". $to_date_explode[2];
-		// $report_top_label = "Custom: " . $from ."-". $to;
-	// }
-	// $report_details['report_top_label'] = $report_top_label;
-	
-	// $top_total_hour_decimal = "";
-	// $billable_id_array = array();
-	// $unbillable_id_array = array();
-	// foreach($import_data as $timesheet_data){
-		// $task_hour = $timesheet_data->task_hour;
-		// $task_hour_decimal = round(decimalHours($task_hour), 2);					
-		// $top_total_hour_decimal += $task_hour_decimal;
-		// $task_project_name = $timesheet_data->task_project_name;
-		// $task_client_name = $timesheet_data->task_label;
-		// $project_data = $wpdb->get_row("SELECT * FROM {$table_name_project} WHERE project_name = '$task_project_name' AND project_client = '$task_client_name'");		
-		// if($task_project_name == $project_data->project_name && $task_client_name == $project_data->project_client && $project_data->project_invoice_method == 1){											
-			// $timesheet_items = $wpdb->get_results("SELECT * FROM {$table_name} WHERE $filter AND task_project_name = '$task_project_name' AND task_label = '$task_client_name'");
-			// foreach($timesheet_items as $timesheet_item){
-				// $task_name = format_task_name($timesheet_item->task_name);
-				// $timesheet_id = $timesheet_item->ID;
-				// $tasks = $wpdb->get_row("SELECT * FROM {$table_name_task} WHERE task_name='$task_name'");													
-				// if($tasks->task_billable == 1){
-					// array_push($billable_id_array,$timesheet_id);
-				// }else{
-					// array_push($unbillable_id_array,$timesheet_id);
-				// }
-			// }
-		// }
-		
-		// if($task_project_name == $project_data->project_name && $task_client_name == $project_data->project_client && $project_data->project_invoice_method == 0){											
-			// $timesheet_items = $wpdb->get_results("SELECT * FROM {$table_name} WHERE $filter AND task_project_name = '$task_project_name' AND task_label = '$task_client_name'");												
-			// foreach($timesheet_items as $timesheet_item){
-				// $task_name = format_task_name($timesheet_item->task_name);
-				// $timesheet_id = $timesheet_item->ID;
-				// $tasks = $wpdb->get_row("SELECT * FROM {$table_name_task} WHERE task_name='$task_name'");													
-				// if($tasks->task_billable == 1){													
-					// array_push($billable_id_array,$timesheet_id);
-					// }else{
-					// array_push($unbillable_id_array,$timesheet_id);
-				// }
-			// }
-		// }
-	// }	
-	// $billable_ids = array_unique($billable_id_array);
-	// $top_billable_total_hour_decimal = "";
-	// $top_total_billable_amount = "";
-	// foreach($billable_ids as $id){					
-		// $billable_timesheet_data = $wpdb->get_row("SELECT * FROM {$table_name} WHERE $filter AND ID = '$id'");				
-		// $billable_task_hour = $billable_timesheet_data->task_hour;
-		// $billable_task_hour_decimal = round(decimalHours($billable_task_hour), 2);
-		// $top_billable_total_hour_decimal += $billable_task_hour_decimal;
-		// $fullname = $billable_timesheet_data->task_person;						
-		// $persons = $wpdb->get_row("SELECT * FROM {$table_name_person} WHERE person_fullname ='$fullname'");					
-		// $person_full_name = $persons->person_first_name ." ". $persons->person_last_name;
-		// $persons_person_hourly_rate = $persons->person_hourly_rate;
-		// $task_billable_amount = $billable_task_hour_decimal * $persons_person_hourly_rate;
-		// $top_total_billable_amount += $task_billable_amount;
-	// }
-	
-	// $unbillable_ids = array_unique($unbillable_id_array);
-	// $top_unbillable_total_hour_decimal = "";
-	// $total_unbillable_amount = "";
-	// foreach($unbillable_ids as $id){
-		// $unbillable_timesheet_data = $wpdb->get_row("SELECT * FROM {$table_name} WHERE $filter AND ID = '$id'");
-		// $unbillable_task_hour = $unbillable_timesheet_data->task_hour;
-		// $unbillable_task_hour_decimal = round(decimalHours($unbillable_task_hour), 2);											
-		// $top_unbillable_total_hour_decimal += $unbillable_task_hour_decimal;											
-		// $fullname = $unbillable_timesheet_data->task_person;																						
-		// $persons = $wpdb->get_row("SELECT * FROM {$table_name_person} WHERE person_fullname ='$fullname'");					
-		// $person_full_name = $persons->person_first_name ." ". $persons->person_last_name;											
-		// $persons_person_hourly_rate = $persons->person_hourly_rate;
-		// $task_unbillable_amount = $unbillable_task_hour_decimal * $persons_person_hourly_rate;
-		// $total_unbillable_amount += $task_unbillable_amount;
-	// }
-	// $top_report_details = round_quarter($top_total_hour_decimal) ."_". round_quarter($top_billable_total_hour_decimal) ."_". $top_total_billable_amount ."_". round_quarter($top_unbillable_total_hour_decimal);
-	// $report_details['top_report_detail'] = $top_report_details;	
-	// /* END TOP REPORT */
-	
-	/* CLIENTS */
-	$task_client_name_array = array();
-	foreach ($import_data as $timesheet_data){
-		$task_client_name = $timesheet_data->task_label;
-		array_push($task_client_name_array,$task_client_name);
-	}
-	$client_names = array_unique($task_client_name_array);
-	$client_tab_total_hour = "";							
-	$client_tab_total_billable_hour = "";
-	$client_details_array = array();
-	foreach($client_names as $client_name){ 
-		$timesheet_data = $wpdb->get_results("SELECT * FROM {$table_name} WHERE $filter AND task_label = '$client_name'");										
-		$array_count = count($timesheet_data);
-		$total_client_hours = "";
-		$billable_id_array = array();
-		$unbillable_id_array = array();
-		for($x = 0; $x <= $array_count; $x++){
-			$task_hour = $timesheet_data[$x]->task_hour;
-			$task_hour_decimal = round(decimalHours($task_hour), 2);
-			$total_client_hours += $task_hour_decimal;
-			$task_project_name = $timesheet_data[$x]->task_project_name;
-			$task_client_name =$timesheet_data[$x]->task_label;
-			$project_data = $wpdb->get_row("SELECT * FROM {$table_name_project} WHERE project_name = '$task_project_name' AND project_client = '$task_client_name'");								
-			if(trim($task_project_name) == trim($project_data->project_name) && trim($task_client_name) == trim($project_data->project_client)){											
-				$timesheet_items = $wpdb->get_results("SELECT * FROM {$table_name} WHERE $filter AND task_project_name = '$task_project_name' AND task_label = '$task_client_name'");
-				foreach($timesheet_items as $timesheet_item){
-					$task_name = format_task_name($timesheet_item->task_name);
-					$timesheet_id = $timesheet_item->ID;
-					$tasks = $wpdb->get_row("SELECT * FROM {$table_name_task} WHERE task_name='$task_name'");													
-					if($tasks->task_billable == 1){
-						array_push($billable_id_array,$timesheet_id);
-						}else{
-						array_push($unbillable_id_array,$timesheet_id);
-					}
-				}
-			}
-			
-			if(trim($task_project_name) == trim($project_data->project_name) && trim($task_client_name) == trim($project_data->project_client)){											
-				$timesheet_items = $wpdb->get_results("SELECT * FROM {$table_name} WHERE $filter AND task_project_name = '$task_project_name' AND task_label = '$task_client_name'");
-				foreach($timesheet_items as $timesheet_item){
-					$task_name = format_task_name($timesheet_item->task_name);
-					$timesheet_id = $timesheet_item->ID;
-					$tasks = $wpdb->get_row("SELECT * FROM {$table_name_task} WHERE task_name='$task_name'");													
-					if($tasks->task_billable == 1){													
-						array_push($billable_id_array,$timesheet_id);
-						}else{
-						array_push($unbillable_id_array,$timesheet_id);
-					}
-				}
-			}
-		}
-		$billable_ids = array_unique($billable_id_array);
-		$billable_total_hour_decimal = "";
-		$total_billable_amount = "";
-		foreach($billable_ids as $id){
-			$billable_timesheet_data = $wpdb->get_row("SELECT * FROM {$table_name} WHERE $filter AND ID = '$id'");
-			$billable_task_hour = $billable_timesheet_data->task_hour;
-			$billable_task_hour_decimal = round(decimalHours($billable_task_hour), 2);											
-			$billable_total_hour_decimal += $billable_task_hour_decimal;			
-			$fullname = $billable_timesheet_data->task_person;			
-			$persons = $wpdb->get_row("SELECT * FROM {$table_name_person} WHERE person_fullname='$fullname'");					
-			$person_full_name = $persons->person_first_name ." ". $persons->person_last_name;
-			$persons_person_hourly_rate = $persons->person_hourly_rate;
-			$task_billable_amount = $billable_task_hour_decimal * $persons_person_hourly_rate;
-			$total_billable_amount += $task_billable_amount;
-		}
-		
-		$unbillable_ids = array_unique($unbillable_id_array);
-		$unbillable_total_hour_decimal = "";
-		$total_unbillable_amount = "";
-		foreach($unbillable_ids as $id){
-			$unbillable_timesheet_data = $wpdb->get_row("SELECT * FROM {$table_name} WHERE $filter AND ID = '$id'");
-			$unbillable_task_hour = $unbillable_timesheet_data->task_hour;
-			$unbillable_task_hour_decimal = round(decimalHours($unbillable_task_hour), 2);											
-			$unbillable_total_hour_decimal += $unbillable_task_hour_decimal;											
-			$fullname = $unbillable_timesheet_data->task_person;																						
-			$persons = $wpdb->get_row("SELECT * FROM {$table_name_person} WHERE person_fullname ='$fullname'");					
-			$person_full_name = $persons->person_first_name ." ". $persons->person_last_name;											
-			$persons_person_hourly_rate = $persons->person_hourly_rate;
-			$task_unbillable_amount = $unbillable_task_hour_decimal * $persons_person_hourly_rate;
-			$total_unbillable_amount += $task_unbillable_amount;
-		}
-		
-		$client_tab_total_hour += $total_client_hours;										
-		$client_tab_total_billable_hour += $billable_total_hour_decimal;
-		$client_tab_total_billable_amount += $total_billable_amount;
-		$client_tab_total_unbillable_hour += $unbillable_total_hour_decimal;
-		
-		$client_details = $client_name ."_". round_quarter($total_client_hours) ."_". round_quarter($billable_total_hour_decimal) ."_". $total_billable_amount ."_". round_quarter($unbillable_total_hour_decimal);
-		$client_details_array[] = $client_details;
-		$report_details['client_details'] = $client_details_array;
-	}
-	$report_details['client_tab_total_hour'] = round_quarter($client_tab_total_hour);
-	$report_details['client_tab_total_billable_hour'] = round_quarter($client_tab_total_billable_hour);
-	$report_details['client_tab_total_billable_amount'] = $client_tab_total_billable_amount;
-	$report_details['client_tab_total_unbillable_hour'] = round_quarter($client_tab_total_unbillable_hour);
-	/* END CLIENTS */
-	
-	/* PROJECTS */
-	$project_client_array = array();
-	foreach ($import_data as $timesheet_data){
-		$project_name = $timesheet_data->task_project_name;
-		$task_client_name = $timesheet_data->task_label;
-		$project_client_combine = $project_name ."_". $task_client_name;
-		array_push($project_client_array, $project_client_combine);
-	}
-	$project_clients = array_unique($project_client_array);
-	foreach($project_clients as $project_client){
-		$project_client_explode = explode("_", $project_client);
-		$project_name_title = $project_client_explode[0];
-		$client_name_title = $project_client_explode[1];
-		
-		$timesheet_data = $wpdb->get_results("SELECT * FROM {$table_name} WHERE $filter  AND task_project_name ='$project_name_title' AND task_label = '$client_name_title'");										
-		$array_count = count($timesheet_data);
-		$total_project_hour = "";
-		$billable_id_array = array();
-		$unbillable_id_array = array();
-		for($x = 0; $x <= $array_count; $x++){
-			$task_hour = $timesheet_data[$x]->task_hour;
-			$task_hour_decimal = round(decimalHours($task_hour), 2);
-			$total_project_hour += $task_hour_decimal;
-			$task_project_name = $timesheet_data[$x]->task_project_name;
-			$task_client_name =$timesheet_data[$x]->task_label;
-			$project_data = $wpdb->get_row("SELECT * FROM {$table_name_project} WHERE project_name = '$task_project_name' AND project_client = '$task_client_name'");			
-			if(trim($task_project_name) == trim($project_data->project_name) && trim($task_client_name) == trim($project_data->project_client)){											
-				$timesheet_items = $wpdb->get_results("SELECT * FROM {$table_name} WHERE $filter AND task_project_name = '$task_project_name' AND task_label = '$task_client_name'");
-				foreach($timesheet_items as $timesheet_item){
-					$task_name = format_task_name($timesheet_item->task_name);
-					$timesheet_id = $timesheet_item->ID;
-					$tasks = $wpdb->get_row("SELECT * FROM {$table_name_task} WHERE task_name='$task_name'");													
-					if($tasks->task_billable == 1){
-						array_push($billable_id_array,$timesheet_id);
-						}else{
-						array_push($unbillable_id_array,$timesheet_id);
-					}
-				}
-			}
-			
-			if(trim($task_project_name) == trim($project_data->project_name) && trim($task_client_name) == trim($project_data->project_client)){											
-				$timesheet_items = $wpdb->get_results("SELECT * FROM {$table_name} WHERE $filter AND task_project_name = '$task_project_name' AND task_label = '$task_client_name'");
-				foreach($timesheet_items as $timesheet_item){
-					$task_name = format_task_name($timesheet_item->task_name);
-					$timesheet_id = $timesheet_item->ID;
-					$tasks = $wpdb->get_row("SELECT * FROM {$table_name_task} WHERE task_name='$task_name'");													
-					if($tasks->task_billable == 1){													
-						array_push($billable_id_array,$timesheet_id);
-						}else{
-						array_push($unbillable_id_array,$timesheet_id);
-					}
-				}
-			}
-		}																			
-		$billable_ids = array_unique($billable_id_array);
-		$billable_total_hour_decimal = "";
-		$total_billable_amount = "";
-		foreach($billable_ids as $id){
-			$billable_timesheet_data = $wpdb->get_row("SELECT * FROM {$table_name} WHERE $filter AND ID = '$id'");
-			$billable_task_hour = $billable_timesheet_data->task_hour;
-			$billable_task_hour_decimal = round(decimalHours($billable_task_hour), 2);
-			$billable_total_hour_decimal += $billable_task_hour_decimal;			
-			$fullname = $billable_timesheet_data->task_person;			
-			$persons = $wpdb->get_row("SELECT * FROM {$table_name_person} WHERE person_fullname='$fullname'");					
-			$person_full_name = $persons->person_first_name ." ". $persons->person_last_name;
-			$persons_person_hourly_rate = $persons->person_hourly_rate;
-			$task_billable_amount = $billable_task_hour_decimal * $persons_person_hourly_rate;
-			$total_billable_amount += $task_billable_amount;
-		}
-		
-		$unbillable_ids = array_unique($unbillable_id_array);
-		$unbillable_total_hour_decimal = "";
-		$total_unbillable_amount = "";
-		foreach($unbillable_ids as $id){
-			$unbillable_timesheet_data = $wpdb->get_row("SELECT * FROM {$table_name} WHERE $filter AND ID = '$id'");
-			$unbillable_task_hour = $unbillable_timesheet_data->task_hour;
-			$unbillable_task_hour_decimal = round(decimalHours($unbillable_task_hour), 2);											
-			$unbillable_total_hour_decimal += $unbillable_task_hour_decimal;											
-			$fullname = $unbillable_timesheet_data->task_person;																						
-			$persons = $wpdb->get_row("SELECT * FROM {$table_name_person} WHERE person_fullname ='$fullname'");					
-			$person_full_name = $persons->person_first_name ." ". $persons->person_last_name;											
-			$persons_person_hourly_rate = $persons->person_hourly_rate;
-			$task_unbillable_amount = $unbillable_task_hour_decimal * $persons_person_hourly_rate;
-			$total_unbillable_amount += $task_unbillable_amount;
-		}
-		
-		$project_tab_total_hour += $total_project_hour;
-		$project_tab_total_billable_hour += $billable_total_hour_decimal;
-		$project_tab_total_billable_amount += $total_billable_amount;
-		$project_tab_total_unbillable_hour += $unbillable_total_hour_decimal;
-		
-		$project_details = $project_name_title ."_". $client_name_title ."_". round_quarter($total_project_hour) ."_". round_quarter($billable_total_hour_decimal) ."_". $total_billable_amount ."_". round_quarter($unbillable_total_hour_decimal);
-		$project_details_array[] = $project_details;
-		$report_details['project_details'] = $project_details_array;
-	}
-	$report_details['project_tab_total_hour'] = round_quarter($project_tab_total_hour);
-	$report_details['project_tab_total_billable_hour'] = round_quarter($project_tab_total_billable_hour);
-	$report_details['project_tab_total_unbillable_hour'] = round_quarter($project_tab_total_unbillable_hour);	
-	$report_details['project_tab_total_billable_amount'] = $project_tab_total_billable_amount;
-	$report_details['project_tab_total_unbillable_amount'] = $project_tab_total_unbillable_amount;
-	/* END PROJECTS */
-	
-	/* TASKS */
-	$task_name_array = array();
-	foreach ($import_data as $timesheet_data){
-		$task_names = $timesheet_data->task_name;
-		array_push($task_name_array, $task_names);
-	}									
-	$task_name = array_unique($task_name_array);
-	foreach($task_name as $task){
-		$timesheet_data = $wpdb->get_results("SELECT * FROM {$table_name} WHERE $filter AND task_name ='$task'");
-		$total_task_hour = "";
-		$billable_id_array = array();
-		$unbillable_id_array = array();
-		foreach($timesheet_data as $timesheet_item){											
-			$task_hour = $timesheet_item->task_hour;
-			$task_hour_decimal = round(decimalHours($task_hour), 2);
-			$total_task_hour += $task_hour_decimal;
-			$task_project_name = $timesheet_item->task_project_name;
-			$task_client_name = $timesheet_item->task_label;
-			$project_data = $wpdb->get_row("SELECT * FROM {$table_name_project} WHERE project_name = '$task_project_name' AND project_client = '$task_client_name'");
-			if(trim($task_project_name) == trim($project_data->project_name) && trim($task_client_name) == trim($project_data->project_client)){											
-				$timesheet_items = $wpdb->get_results("SELECT * FROM {$table_name} WHERE $filter AND task_name = '$task' AND task_project_name = '$task_project_name' AND task_label = '$task_client_name'");
-				foreach($timesheet_items as $timesheet_item){
-					$task_name = format_task_name($timesheet_item->task_name);
-					$timesheet_id = $timesheet_item->ID;
-					$tasks = $wpdb->get_row("SELECT * FROM {$table_name_task} WHERE task_name='$task_name'");													
-					if($tasks->task_billable == 1){
-						array_push($billable_id_array,$timesheet_id);
-						}else{
-						array_push($unbillable_id_array,$timesheet_id);
-					}
-				}
-			}
-			
-			if(trim($task_project_name) == trim($project_data->project_name) && trim($task_client_name) == trim($project_data->project_client)){											
-				$timesheet_items = $wpdb->get_results("SELECT * FROM {$table_name} WHERE $filter AND task_name = '$task' AND task_project_name = '$task_project_name' AND task_label = '$task_client_name'");
-				foreach($timesheet_items as $timesheet_item){
-					$task_name = format_task_name($timesheet_item->task_name);
-					$timesheet_id = $timesheet_item->ID;
-					$tasks = $wpdb->get_row("SELECT * FROM {$table_name_task} WHERE task_name='$task_name'");													
-					if($tasks->task_billable == 1){													
-						array_push($billable_id_array,$timesheet_id);
-						}else{
-						array_push($unbillable_id_array,$timesheet_id);
-					}
-				}
-			}			
-		}
-		$billable_ids = array_unique($billable_id_array);
-		$billable_total_hour_decimal = "";
-		$total_billable_amount = "";
-		foreach($billable_ids as $id){
-			$billable_timesheet_data = $wpdb->get_row("SELECT * FROM {$table_name} WHERE $filter AND ID = '$id'");
-			$billable_task_hour = $billable_timesheet_data->task_hour;
-			$billable_task_hour_decimal = round(decimalHours($billable_task_hour), 2);
-			$billable_total_hour_decimal += $billable_task_hour_decimal;			
-			$fullname = $billable_timesheet_data->task_person;
-			$persons = $wpdb->get_row("SELECT * FROM {$table_name_person} WHERE person_fullname='$fullname'");					
-			$person_full_name = $persons->person_first_name ." ". $persons->person_last_name;
-			$persons_person_hourly_rate = $persons->person_hourly_rate;
-			$task_billable_amount = $billable_task_hour_decimal * $persons_person_hourly_rate;
-			$total_billable_amount += $task_billable_amount;
-		}
-		
-		$unbillable_ids = array_unique($unbillable_id_array);
-		$unbillable_total_hour_decimal = "";
-		$total_unbillable_amount = "";
-		foreach($unbillable_ids as $id){
-			$unbillable_timesheet_data = $wpdb->get_row("SELECT * FROM {$table_name} WHERE $filter AND ID = '$id'");
-			$unbillable_task_hour = $unbillable_timesheet_data->task_hour;
-			$unbillable_task_hour_decimal = round(decimalHours($unbillable_task_hour), 2);											
-			$unbillable_total_hour_decimal += $unbillable_task_hour_decimal;											
-			$fullname = $unbillable_timesheet_data->task_person;																						
-			$persons = $wpdb->get_row("SELECT * FROM {$table_name_person} WHERE person_fullname ='$fullname'");					
-			$person_full_name = $persons->person_first_name ." ". $persons->person_last_name;											
-			$persons_person_hourly_rate = $persons->person_hourly_rate;
-			$task_unbillable_amount = $unbillable_task_hour_decimal * $persons_person_hourly_rate;
-			$total_unbillable_amount += $task_unbillable_amount;
-		}
-		
-		$task_tab_total_hour += $total_task_hour;
-		$task_tab_total_billable_hour += $billable_total_hour_decimal;
-		$task_tab_total_billable_amount += $total_billable_amount;
-		$task_tab_total_unbillable_hour += $unbillable_total_hour_decimal;
-		
-		$task_details = format_task_name($task) ."_". round_quarter($total_task_hour) ."_". round_quarter($billable_total_hour_decimal) ."_". $total_billable_amount ."_". round_quarter($unbillable_total_hour_decimal);
-		$task_details_array[] = $task_details;
-		$report_details['task_details'] = $task_details_array;
-	}
-	$report_details['task_tab_total_hour'] = round_quarter($task_tab_total_hour);
-	$report_details['task_tab_total_billable_hour'] = round_quarter($task_tab_total_billable_hour);
-	$report_details['task_tab_total_billable_amount'] = $task_tab_total_billable_amount;
-	$report_details['task_tab_total_unbillable_hour'] = round_quarter($task_tab_total_unbillable_hour);	
-	/* END TASKS */
-	
-	/* STAFF */
-	$person_name_array = array();
-	foreach ($import_data as $timesheet_data){
-		$person_names = $timesheet_data->task_person;
-		array_push($person_name_array, $person_names);
-	}									
-	$person_name = array_unique($person_name_array);
-	foreach($person_name as $person){
-		$timesheet_data = $wpdb->get_results("SELECT * FROM {$table_name} WHERE $filter AND task_person ='$person'");
-		$total_person_hour = "";
-		$billable_id_array = array();
-		$unbillable_id_array = array();
-		foreach($timesheet_data as $timesheet_item){											
-			$task_hour = $timesheet_item->task_hour;
-			$task_hour_decimal = round(decimalHours($task_hour), 2);
-			$total_person_hour += $task_hour_decimal;
-			$task_project_name = $timesheet_item->task_project_name;
-			$task_client_name = $timesheet_item->task_label;
-			$project_data = $wpdb->get_row("SELECT * FROM {$table_name_project} WHERE project_name = '$task_project_name' AND project_client = '$task_client_name'");
-			if(trim($task_project_name) == trim($project_data->project_name) && trim($task_client_name) == trim($project_data->project_client)){											
-				$timesheet_items = $wpdb->get_results("SELECT * FROM {$table_name} WHERE $filter AND task_person = '$person' AND task_project_name = '$task_project_name' AND task_label = '$task_client_name'");
-				foreach($timesheet_items as $timesheet_item){
-					$task_name = format_task_name($timesheet_item->task_name);
-					$timesheet_id = $timesheet_item->ID;
-					$tasks = $wpdb->get_row("SELECT * FROM {$table_name_task} WHERE task_name='$task_name'");													
-					if($tasks->task_billable == 1){
-						array_push($billable_id_array,$timesheet_id);
-						}else{
-						array_push($unbillable_id_array,$timesheet_id);
-					}
-				}
-			}
-			
-			if(trim($task_project_name) == trim($project_data->project_name) && trim($task_client_name) == trim($project_data->project_client)){											
-				$timesheet_items = $wpdb->get_results("SELECT * FROM {$table_name} WHERE $filter AND task_person = '$person' AND task_project_name = '$task_project_name' AND task_label = '$task_client_name'");
-				foreach($timesheet_items as $timesheet_item){
-					$task_name = format_task_name($timesheet_item->task_name);
-					$timesheet_id = $timesheet_item->ID;
-					$tasks = $wpdb->get_row("SELECT * FROM {$table_name_task} WHERE task_name='$task_name'");													
-					if($tasks->task_billable == 1){													
-						array_push($billable_id_array,$timesheet_id);
-						}else{
-						array_push($unbillable_id_array,$timesheet_id);
-					}
-				}
-			}			
-		}
-		$billable_ids = array_unique($billable_id_array);
-		$billable_total_hour_decimal = "";
-		$total_billable_amount = "";
-		foreach($billable_ids as $id){
-			$billable_timesheet_data = $wpdb->get_row("SELECT * FROM {$table_name} WHERE $filter AND ID = '$id'");
-			$billable_task_hour = $billable_timesheet_data->task_hour;
-			$billable_task_hour_decimal = round(decimalHours($billable_task_hour), 2);
-			$billable_total_hour_decimal += $billable_task_hour_decimal;			
-			$fullname = $billable_timesheet_data->task_person;
-			$persons = $wpdb->get_row("SELECT * FROM {$table_name_person} WHERE person_fullname='$fullname'");					
-			$person_full_name = $persons->person_first_name ." ". $persons->person_last_name;
-			$persons_person_hourly_rate = $persons->person_hourly_rate;
-			$task_billable_amount = $billable_task_hour_decimal * $persons_person_hourly_rate;
-			$total_billable_amount += $task_billable_amount;
-		}
-		
-		$unbillable_ids = array_unique($unbillable_id_array);
-		$unbillable_total_hour_decimal = "";
-		$total_unbillable_amount = "";
-		foreach($unbillable_ids as $id){
-			$unbillable_timesheet_data = $wpdb->get_row("SELECT * FROM {$table_name} WHERE $filter AND ID = '$id'");
-			$unbillable_task_hour = $unbillable_timesheet_data->task_hour;
-			$unbillable_task_hour_decimal = round(decimalHours($unbillable_task_hour), 2);											
-			$unbillable_total_hour_decimal += $unbillable_task_hour_decimal;											
-			$fullname = $unbillable_timesheet_data->task_person;																						
-			$persons = $wpdb->get_row("SELECT * FROM {$table_name_person} WHERE person_fullname ='$fullname'");					
-			$person_full_name = $persons->person_first_name ." ". $persons->person_last_name;											
-			$persons_person_hourly_rate = $persons->person_hourly_rate;
-			$task_unbillable_amount = $unbillable_task_hour_decimal * $persons_person_hourly_rate;
-			$total_unbillable_amount += $task_unbillable_amount;
-		}
-		
-		$person_tab_total_hour += $total_person_hour;
-		$person_tab_total_billable_hour += $billable_total_hour_decimal;
-		$person_tab_total_billable_amount += $total_billable_amount;
-		$person_tab_total_unbillable_hour += $unbillable_total_hour_decimal;
-		
-		$person_details = $person ."_". round_quarter($total_person_hour) ."_". round_quarter($billable_total_hour_decimal) ."_". $total_billable_amount ."_". round_quarter($unbillable_total_hour_decimal);
-		$person_details_array[] = $person_details;
-		$report_details['person_details'] = $person_details_array;
-	}
-	$report_details['person_tab_total_hour'] = round_quarter($person_tab_total_hour);
-	$report_details['person_tab_total_billable_hour'] = round_quarter($person_tab_total_billable_hour);
-	$report_details['person_tab_total_billable_amount'] = $person_tab_total_billable_amount;
-	$report_details['person_tab_total_unbillable_hour'] = round_quarter($person_tab_total_unbillable_hour);
-	/* END STAFF */
-	return $report_details;	
-
-}
 function last_week_year($filter_year){
 	$last_week = get_last_week($filter_year);
 	return $last_week;
@@ -7433,25 +6880,188 @@ function ClientMaintenanceUpdateDate($data){
 
 	}
 }
+function ViewClientMaintenanceInfo($data){
+	extract($data);
+	global $wpdb;
 
+	$maintenance_schedules = array('1W', '2W','1M', '2M','3M','4M','6M');
+
+	$client_info = $wpdb->get_row("SELECT 
+					client_name, 
+					client_maintenance_schedule, 
+					client_maintenance_hours, 
+					client_start_date, 
+					CASE WHEN (client_next_schedule_maintenance is null or client_next_schedule_maintenance = '') THEN '--' 
+					ELSE DATE_FORMAT(STR_TO_DATE(client_next_schedule_maintenance,'%m/%d/%Y'),'%Y-%m-%d') END AS client_next_schedule_maintenance FROM wp_custom_client WHERE id = ". $client_id);
+
+	$client_todolists = $wpdb->get_results("SELECT * FROM ".TODOLIST_TABLE." WHERE client_id = ". $client_id . " AND consultant_id = ".$current_user_id);
+
+	$todolist_html_sting = "";
+
+	foreach($client_todolists as $list){
+		$deadline = ($list->deadline == '0000-00-00')? '--' : $list->deadline;
+		$todolist_html_sting .= "<tr id='todolist_id_".$list->id."'><td><span class='todolist_name_row'>".$list->taskname."</span></td>"."<td>".$list->priority."</td>"."<td>".$list->status."</td>"."<td>".$deadline."</td><td><ul><li><i class='fa fa-file-text-o maintenance-view-todolist' aria-hidden='true'></i></li><li><i class='fa fa-trash-o maintenance-delete-todolist'></i></li></ul></td></tr>"; }
+
+	$client_maintenance_interval_dropdown = '<select>';
+	foreach($maintenance_schedules as $schedule){
+		$selected = ($client_info->client_maintenance_schedule == $schedule)? 'selected' : '';
+		$client_maintenance_interval_dropdown .= '<option '.$selected.' value="'.$schedule.'">'.$schedule.'</option>';
+	}
+	$client_maintenance_interval_dropdown .= '</select>';
+	$maintenance_hours = ($client_info->client_maintenance_hours == '' OR empty($client_info->client_maintenance_hours))? '' : $client_info->client_maintenance_hours;
+
+	$response = array(
+		'clientname' => $client_info->client_name,
+		'client_maintenance_interval' => $client_maintenance_interval_dropdown,
+		'client_start_date' => $client_info->client_start_date,
+		'client_maintenance_hours' => $client_info->client_maintenance_hours,
+		'client_next_schedule_maintenance' => $client_info->client_next_schedule_maintenance,
+		'todolist_html_sting' => $todolist_html_sting,
+		'client_id' => $client_id
+	);
+
+	return $response;
+}
+function DoneMaintenanceSchedule($data){
+	global $wpdb;
+	extract($data);
+
+	$client_info = $wpdb->get_row("SELECT client_next_schedule_maintenance FROM ". CLIENT_TABLE ." WHERE ID = ". $client_id);
+
+	$date = ($client_info->client_next_schedule_maintenance == '')? date("Y-m-d") : $client_info->client_next_schedule_maintenance;
+
+
+
+	if($interval == '1W'){
+		$date = strtotime("+7 days", strtotime($date));
+   		$new_date =  date("Y-m-d", $date);
+	}else if($interval == '2W'){
+		$date = strtotime("+14 days", strtotime($date));
+   		$new_date =  date("Y-m-d", $date);		
+	}else if($interval == '1M'){
+		$date = strtotime("+1 month", strtotime($date));
+   		$new_date =  date("Y-m-d", $date);		
+	}else if($interval == '2M'){
+		$date = strtotime("+2 month", strtotime($date));
+   		$new_date =  date("Y-m-d", $date);		
+	}else if($interval == '3M'){
+		$date = strtotime("+3 month", strtotime($date));
+   		$new_date =  date("Y-m-d", $date);		
+	}else if($interval == '4M'){
+		$date = strtotime("+4 month", strtotime($date));
+   		$new_date =  date("Y-m-d", $date);		
+	}else if($interval == '6M'){
+		$date = strtotime("+6 month", strtotime($date));
+   		$new_date =  date("Y-m-d", $date);		
+	}
+
+	$update_maintenance_status = $wpdb->update( 
+			CLIENT_TABLE, 
+			array( 
+				'client_next_schedule_maintenance' => date("m/d/Y", $date),
+				'client_maintenance_hours' => $hour,
+				'client_maintenance_schedule' => $interval
+
+			), 
+			array( 'id' => $client_id ),
+			array( 
+				'%s',
+				'%d',
+				'%s'
+			)
+	);
+
+	if($update_maintenance_status == 1){
+		$response = array(
+			'client_next_schedule_maintenance' => $new_date,
+			'client_maintenance_hours' => $hour,
+			'client_maintenance_schedule' => $interval,
+			'client_id' => $client_id		
+		);
+	}else{
+		die("ERROR UPDATING MAINTENANCE SCHEDULE");
+	}
+
+	return $response;
+}
 function filter_report_time_top_query($filter){
 	global $wpdb;
-	return $wpdb->get_row("SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as total_hours, ROUND(SUM(if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as billable_hours, ROUND(SUM(if(t.task_name = 'ledig' OR t.task_name = 'helg' OR t.task_name = 'semester' OR t.task_name = 'sjuk' OR t.task_name = 'seoweb' OR t.task_name = 'bq', time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as total_no_work_hours, ROUND(SUM(if(ts.task_billable = 0, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as unbillable_hours, ROUND(SUM(if(t.task_name = ts.task_name, if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0), 0)) * c.client_hourly_rate, 2) as billable_amount FROM wp_custom_timesheet as t lEFT OUTER JOIN wp_custom_task as ts ON t.task_name = ts.task_name lEFT OUTER JOIN wp_custom_client as c ON t.task_label = c.client_name WHERE ". $filter);
+	return $wpdb->get_row("SELECT 
+				ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as total_hours, 
+				ROUND(SUM(if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as billable_hours, 
+				ROUND(SUM(if(t.task_name = 'ledig' OR t.task_name = 'helg' OR t.task_name = 'semester' OR t.task_name = 'sjuk' OR t.task_name = 'seoweb' OR t.task_name = 'bq', time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as total_no_work_hours, 
+				ROUND(SUM(if(ts.task_billable = 0, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as unbillable_hours,
+				SUM(if(t.task_label = c.client_name, if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0), 0) * c.client_hourly_rate) as billable_amount
+				FROM wp_custom_timesheet as t 
+				lEFT OUTER JOIN wp_custom_task as ts ON t.task_name = ts.task_name 
+				lEFT OUTER JOIN wp_custom_client as c ON t.task_label = c.client_name 
+				WHERE ". $filter);
 }
 function filter_report_time_client_query($filter){
 	global $wpdb;
-	return $wpdb->get_results("SELECT t.task_label, ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as total_hours, ROUND(SUM(if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as billable_hours, ROUND(SUM(if(ts.task_billable = 0, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as unbillable_hours, ROUND(SUM(if(t.task_label = c.client_name, if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0), 0)) * c.client_hourly_rate, 2) as billable_amount, ROUND(SUM(if(t.task_label = c.client_name, if(ts.task_billable = 0, time_to_sec(t.task_hour) / (60 * 60), 0), 0)) * c.client_hourly_rate, 2) as unbillable_amount FROM  wp_custom_timesheet as t lEFT OUTER JOIN wp_custom_task as ts ON  ts.task_name = t.task_name lEFT OUTER JOIN wp_custom_person as s ON t.task_person = s.person_fullname lEFT OUTER JOIN wp_custom_client as c ON t.task_label = c.client_name WHERE ".$filter. " GROUP BY t.task_label");
+	return $wpdb->get_results("SELECT 
+				t.task_label, 
+				ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as total_hours, 
+				ROUND(SUM(if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as billable_hours, 
+				ROUND(SUM(if(ts.task_billable = 0, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as unbillable_hours, 
+				SUM(if(t.task_label = c.client_name, if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0), 0) * c.client_hourly_rate) as billable_amount, 
+				SUM(if(t.task_label = c.client_name, if(ts.task_billable = 0, time_to_sec(t.task_hour) / (60 * 60), 0), 0) * c.client_hourly_rate) as unbillable_amount
+				FROM  wp_custom_timesheet as t 
+				lEFT OUTER JOIN wp_custom_task as ts ON  ts.task_name = t.task_name 
+				lEFT OUTER JOIN wp_custom_person as s ON t.task_person = s.person_fullname 
+				lEFT OUTER JOIN wp_custom_client as c ON t.task_label = c.client_name 
+				WHERE ".$filter. " 
+				GROUP BY t.task_label");
 }
 function filter_report_time_staff_query($filter){
 	global $wpdb;
-	return $wpdb->get_results("SELECT s.person_fullname, ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as total_hours, ROUND(SUM(if(t.task_name <> 'ledig' AND t.task_name <> 'helg' AND t.task_name <> 'semester' AND t.task_name <> 'sjuk' AND t.task_name <> 'seoweb' AND t.task_name <> 'bq', time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as total_dwork_hours, ROUND(SUM(if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as billable_hours, ROUND(SUM(if(ts.task_billable = 0, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as unbillable_hours, ROUND(SUM(if(t.task_label = c.client_name, if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0), 0)) * c.client_hourly_rate, 2) as billable_amount, ROUND(SUM(if(t.task_name = 'ledig',time_to_sec(t.task_hour) / (60 * 60),0)),2) as ledig_hours, ROUND(SUM(if(t.task_name = 'helg',time_to_sec(t.task_hour) / (60 * 60),0)),2) as holiday_hours, ROUND(SUM(if(t.task_name = 'semester',time_to_sec(t.task_hour) / (60 * 60),0)),2) as vacation_hours, ROUND(SUM(if(t.task_name = 'sjuk',time_to_sec(t.task_hour) / (60 * 60),0)),2) as sick_hours, ROUND(SUM(if(t.task_name = 'ledig' OR t.task_name = 'helg' OR t.task_name = 'semester' OR t.task_name = 'sjuk' OR t.task_name = 'seoweb' OR t.task_name = 'bq', time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as total_no_work_hours FROM  wp_custom_timesheet as t lEFT OUTER JOIN wp_custom_task as ts ON  ts.task_name = t.task_name lEFT OUTER JOIN wp_custom_person as s ON t.task_person = s.person_fullname lEFT OUTER JOIN wp_custom_client as c ON t.task_label = c.client_name WHERE ". $filter." GROUP BY s.person_fullname");
+	return $wpdb->get_results("SELECT 
+			s.person_fullname, 
+			ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as total_hours, 
+			ROUND(SUM(if(t.task_name <> 'ledig' AND t.task_name <> 'helg' AND t.task_name <> 'semester' AND t.task_name <> 'sjuk' AND t.task_name <> 'seoweb' AND t.task_name <> 'bq', time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as total_dwork_hours, 
+			ROUND(SUM(if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as billable_hours, 
+			ROUND(SUM(if(ts.task_billable = 0, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as unbillable_hours, 
+			SUM(if(t.task_label = c.client_name, if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0), 0) * c.client_hourly_rate) as billable_amount,
+			ROUND(SUM(if(t.task_name = 'ledig',time_to_sec(t.task_hour) / (60 * 60),0)),2) as ledig_hours, 
+			ROUND(SUM(if(t.task_name = 'helg',time_to_sec(t.task_hour) / (60 * 60),0)),2) as holiday_hours, 
+			ROUND(SUM(if(t.task_name = 'semester',time_to_sec(t.task_hour) / (60 * 60),0)),2) as vacation_hours, 
+			ROUND(SUM(if(t.task_name = 'sjuk',time_to_sec(t.task_hour) / (60 * 60),0)),2) as sick_hours, 
+			ROUND(SUM(if(t.task_name = 'ledig' OR t.task_name = 'helg' OR t.task_name = 'semester' OR t.task_name = 'sjuk' OR t.task_name = 'seoweb' OR t.task_name = 'bq', time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as total_no_work_hours 
+			FROM  wp_custom_timesheet as t 
+			lEFT OUTER JOIN wp_custom_task as ts ON  ts.task_name = t.task_name 
+			lEFT OUTER JOIN wp_custom_person as s ON t.task_person = s.person_fullname
+			lEFT OUTER JOIN wp_custom_client as c ON t.task_label = c.client_name WHERE ". $filter." 
+			GROUP BY s.person_fullname");
 }
 function filter_report_time_task_query($filter){
 	global $wpdb;
-	return $wpdb->get_results("SELECT t.task_name, ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as total_hours, ROUND(SUM(if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as billable_hours, ROUND(SUM(if(ts.task_billable = 0, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as unbillable_hours, ROUND(SUM(if(t.task_name = ts.task_name, if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0), 0)) * c.client_hourly_rate, 2) as billable_amount, ROUND(SUM(if(t.task_name = ts.task_name, if(ts.task_billable = 0, time_to_sec(t.task_hour) / (60 * 60), 0), 0)) * c.client_hourly_rate, 2) as unbillable_amount FROM wp_custom_timesheet as t lEFT OUTER JOIN wp_custom_task as ts ON t.task_name = ts.task_name lEFT OUTER JOIN wp_custom_client as c ON t.task_label = c.client_name WHERE ".$filter. " GROUP BY t.task_name");
+	return $wpdb->get_results("SELECT 
+			t.task_name, 
+			ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as total_hours, 
+			ROUND(SUM(if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as billable_hours, 
+			ROUND(SUM(if(ts.task_billable = 0, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as unbillable_hours, 
+			SUM(if(t.task_label = c.client_name, if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0), 0) * c.client_hourly_rate) as billable_amount, 
+			SUM(if(t.task_label = c.client_name, if(ts.task_billable = 0, time_to_sec(t.task_hour) / (60 * 60), 0), 0) * c.client_hourly_rate) as unbillable_amount
+			FROM wp_custom_timesheet as t 
+			lEFT OUTER JOIN wp_custom_task as ts ON t.task_name = ts.task_name 
+			lEFT OUTER JOIN wp_custom_client as c ON t.task_label = c.client_name 
+			WHERE ".$filter. " 
+			GROUP BY t.task_name");
 }
 function filter_report_time_project_query($filter){
 	global $wpdb;
-	return $wpdb->get_results("SELECT t.task_name, t.task_label, ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as total_hours, ROUND(SUM(if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as billable_hours, ROUND(SUM(if(ts.task_billable = 0, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as unbillable_hours, ROUND(SUM(if(t.task_label = c.client_name, if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0), 0)) * c.client_hourly_rate, 2) as billable_amount, ROUND(SUM(if(t.task_label = c.client_name, if(ts.task_billable = 0, time_to_sec(t.task_hour) / (60 * 60), 0), 0)) * c.client_hourly_rate, 2) as unbillable_amount FROM  wp_custom_timesheet as t lEFT OUTER JOIN wp_custom_task as ts ON  ts.task_name = t.task_name lEFT OUTER JOIN wp_custom_person as s ON t.task_person = s.person_fullname lEFT OUTER JOIN wp_custom_client as c ON t.task_label = c.client_name WHERE ".$filter. " GROUP BY t.task_name, t.task_label");
+	return $wpdb->get_results("SELECT 
+		t.task_project_name, t.task_label, 
+		ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as total_hours, 
+		ROUND(SUM(if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as billable_hours,
+		ROUND(SUM(if(ts.task_billable = 0, time_to_sec(t.task_hour) / (60 * 60), 0)), 2) as unbillable_hours, 
+		SUM(if(t.task_label = c.client_name, if(ts.task_billable = 1, time_to_sec(t.task_hour) / (60 * 60), 0), 0) * c.client_hourly_rate) as billable_amount,
+		SUM(if(t.task_label = c.client_name, if(ts.task_billable = 0, time_to_sec(t.task_hour) / (60 * 60), 0), 0) * c.client_hourly_rate) as unbillable_amount
+		FROM  wp_custom_timesheet as t 
+		lEFT OUTER JOIN wp_custom_task as ts ON  ts.task_name = t.task_name 
+		lEFT OUTER JOIN wp_custom_person as s ON t.task_person = s.person_fullname 
+		lEFT OUTER JOIN wp_custom_client as c ON t.task_label = c.client_name 
+		WHERE ".$filter. " 
+		GROUP BY t.task_project_name, t.task_label");
 }
 ?>

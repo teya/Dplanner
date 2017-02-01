@@ -140,17 +140,19 @@ jQuery(document).ready(function(){
 
 					$top_total_hours = substr(convertTime($top_results->total_hours), 0, -3);
 					$top_total_billable_amount = $top_results->billable_amount;
-					$top_total_dwork_percent = round(100 -(($top_results->total_no_work_hours / $top_results->total_hours) * 100),2);
 					$top_total_no_work_hours = substr(convertTime($top_results->total_no_work_hours), 0, -3);
 					$top_total_unbillable_amount = substr(convertTime($top_results->unbillable_hours), 0, -3);
 					$top_dwork_total_hour_decimal = $top_results->total_hours - $top_results->total_no_work_hours;
 
+					// $top_total_dwork_percent = round(100 -(($top_results->billable_hours / $top_dwork_total_hour_decimal ) * 100),2);
+
+					$top_total_dwork_percent = floor(($top_results->billable_hours / $top_dwork_total_hour_decimal ) * 100);
 				?>
 				<div class="one_fourth"><p class="top_reports_label">Total Tracked</p><h1 class="top_hours_tracked"><?php echo $top_total_hours; ?></h1></div>
 				<!--  <div class="one_fourth"><p class="top_reports_label">Dwork</p><h1 class="top_hours_tracked"><?php echo round_quarter($total_hour_decimal); ?></h1></div>
 				<div class="one_fourth"><p class="top_reports_label">Billable Hours</p><h1 class="top_billable_hours"><?php echo round_quarter($billable_total_hour_decimal); ?></h1></div> -->
-				<div class="one_fourth"><p class="top_reports_label">Billable A</p><h1 class="top_billable_amount">kr&nbsp;<?php echo $top_total_billable_amount?></h1></div>
-				<div class="one_fourth"><p class="top_reports_label">D%</p><h1 class="top_dwork_hours"><?php echo $top_total_dwork_percent; ?>%</h1></div>
+				<div class="one_fourth"><p class="top_reports_label">Billable A</p><h1 class="top_billable_amount">kr&nbsp;<?php echo number_format($top_total_billable_amount, 0); ?></h1></div>
+				<div class="one_fourth"><p class="top_reports_label">D%</p><h1 class="top_dwork_hours_percent"><?php echo $top_total_dwork_percent; ?>%</h1></div>
 				<div class="one_fourth"><p class="top_reports_label">No Work</p><h1 class="top_ledig_hours"><?php echo $top_total_no_work_hours;  ?></h1></div>
 				<div class="one_fourth last"><p class="top_reports_label">Unbillable Hours</p><h1 class="top_unbillable_hours"><?php echo $top_total_unbillable_amount ?></h1></div>
 			</div>
@@ -205,7 +207,14 @@ jQuery(document).ready(function(){
 										$holiday_total_hour_decimal = substr(convertTime($person->holiday_hours), 0, -3);
 										$vacation_total_hour_decimal = substr(convertTime($person->vacation_hours), 0, -3);
 										$sickness_total_hour_decimal = substr(convertTime($person->sick_hours), 0, -3);
-										$dwork_percent = round(100 - (($person->total_no_work_hours / $person->total_hours) * 100));
+
+
+										if($billable_total_hour_decimal != 0){
+											$dwork_percent = ($billable_total_hour_decimal / ($person->total_hours - $person->total_no_work_hours)) * 100;
+										}else{
+											$dwork_percent = 0;
+										}
+
 								?>
 										<div id="info_div_<?php echo $staff_tab_counter; ?>" class='info_div'>
 											<div class="first_column"><li><?php echo $person->person_fullname; ?></li></div>
@@ -213,8 +222,8 @@ jQuery(document).ready(function(){
 											<div class="third_column"><li><?php echo $dwork_total_hour_decimal_hour; ?></li></div>
 											<div class="fourth_column"><li><?php echo $billable_total_hour_decimal; ?></li></div>
 											<div class="fifth_column"><li><?php echo $unbillable_total_hour_decimal; ?></li></div>
-											<div class="sixth_column"><li><?php echo $person->billable_amount; ?></li></div>
-											<div class="seventh_column"><li><?php echo  $dwork_percent; ?>%</li></div> 
+											<div class="sixth_column"><li><?php echo number_format($person->billable_amount,0); ?></li></div>
+											<div class="seventh_column"><li><?php echo  floor($dwork_percent); ?>%</li></div> 
 											<div class="eight_column"><li><?php  echo $ledig_total_hour_decimal; ?></li></div>
 											<div class="ninth_column"><li><?php echo $holiday_total_hour_decimal; ?></li></div>
 											<div class="tenth_column"><li><?php echo $vacation_total_hour_decimal; ?></li></div>
@@ -235,6 +244,8 @@ jQuery(document).ready(function(){
 										$person_all_total_no_work_hours += $person->total_no_work_hours;
 									}							
 								?>
+		
+								<?php $total_dwork_percent = floor(($person_tab_total_billable_hour / ($person_tab_total_hour - $person_all_total_no_work_hours)) * 100) ?>
 								</div>
 								<div class="info_div_total">
 									<div class="first_column"><li><p class="report_total">Total</p></li></div>
@@ -242,8 +253,8 @@ jQuery(document).ready(function(){
 									<div class="third_column"><li><p class="report_total"><?php echo substr(convertTime($person_tab_total_dwork_hour), 0, -3); ?></p></li></div>
 									<div class="fourth_column"><li><p class="report_total"><?php echo substr(convertTime($person_tab_total_billable_hour), 0, -3); ?></p></li></div>
 									<div class="fifth_column"><li><p class="report_total"><?php echo substr(convertTime($person_tab_total_unbillable_hour), 0, -3); ?></p></li></div>
-									<div class="sixth_column"><li><p class="report_total"><?php echo $person_tab_total_billable_amount; ?></p></li></div>
-									<div class="seventh_column"><li><p class="report_total"><?php  echo round(100 - (($person_all_total_no_work_hours / $person_tab_total_hour) * 100));	; ?>%</p></li></div>
+									<div class="sixth_column"><li><p class="report_total"><?php echo number_format($person_tab_total_billable_amount, 0); ?></p></li></div>
+									<div class="seventh_column"><li><p class="report_total"><?php echo $total_dwork_percent; ?>%</p></li></div>
 									<div class="eight_column"><li><p class="report_total"><?php echo substr(convertTime($person_tab_total_ledig_hour), 0, -3); ?></p></li></div>
 									<div class="ninth_column"><li><p class="report_total"><?php echo substr(convertTime($person_tab_total_holiday_hour), 0, -3); ?></p></li></div>
 									<div class="tenth_column"><li><p class="report_total"><?php echo substr(convertTime($person_tab_total_vacation_hour), 0, -3); ?></p></li></div>
@@ -312,10 +323,10 @@ jQuery(document).ready(function(){
 									<div id="info_div_<?php echo $client_tab_counter; ?>" class='info_div'>
 										<div class="first_column"><li><?php echo $client->task_label; ?></li></div>
 										<div class="second_column"><li><?php echo $total_client_hours ?></li></div>
-										<div class="third_column"><li><?php echo  $billable_total_hour_decimal; ?></li></div>
+										<div class="third_column"><li><?php echo $billable_total_hour_decimal; ?></li></div>
 										<div class="fourth_column"><li><?php echo $unbillable_total_hour_decimal ?></li></div>
-										<div class="fifth_column"><li><?php echo $total_billable_amount; ?></li></div>
-										<div class="sixth_column"><li><?php echo $total_unbillable_amount; ?></li></div>
+										<div class="fifth_column"><li><?php echo number_format($total_billable_amount, 0); ?></li></div>
+										<div class="sixth_column"><li><?php echo number_format($total_unbillable_amount, 0); ?></li></div>
 									</div>								
 								<?php 
 									$client_tab_counter++;
@@ -327,8 +338,8 @@ jQuery(document).ready(function(){
 									<div class="second_column"><li><p class="report_total"><?php echo substr(convertTime($client_tab_total_hour), 0, -3); ?></p></li></div>
 									<div class="third_column"><li><p class="report_total"><?php echo substr(convertTime($client_tab_total_billable_hour), 0, -3); ?></p></li></div>
 									<div class="fourth_column"><li><p class="report_total"><?php echo substr(convertTime($client_tab_total_unbillable_hour), 0, -3); ?></p></li></div>
-									<div class="fifth_column"><li><p class="report_total"><?php echo $client_tab_total_billable_amount; ?></p></li></div>
-									<div class="sixth_column"><li><p class="report_total"><?php echo $client_tab_total_unbillable_amount; ?></p></li></div>
+									<div class="fifth_column"><li><p class="report_total"><?php echo number_format($client_tab_total_billable_amount, 0); ?></p></li></div>
+									<div class="sixth_column"><li><p class="report_total"><?php echo number_format($client_tab_total_unbillable_amount, 0); ?></p></li></div>
 								</div>
 							</div>
 							<!-- PROJECTS -->
@@ -387,8 +398,8 @@ jQuery(document).ready(function(){
 											<div class="third_column"><li><?php echo $total_project_hour; ?></li></div>
 											<div class="fourth_column"><li><?php echo $billable_total_hour_decimal; ?></li></div>
 											<div class="fifth_column"><li><?php echo $unbillable_total_hour_decimal; ?></li></div>
-											<div class="sixth_column"><li><?php echo $project_client->billable_amount; ?></li></div>
-											<div class="seventh_column"><li><?php  echo $project_client->unbillable_amount; ?></li></div>
+											<div class="sixth_column"><li><?php echo number_format($project_client->billable_amount, 0); ?></li></div>
+											<div class="seventh_column"><li><?php  echo number_format($project_client->unbillable_amount, 0); ?></li></div>
 										</div>
 									<?php 
 										$project_tab_counter++;
@@ -401,8 +412,8 @@ jQuery(document).ready(function(){
 									<div class="third_column"><li><p class="report_total"><?php echo substr(convertTime($project_tab_total_hour), 0, -3); ?></p></li></div>
 									<div class="fourth_column"><li><p class="report_total"><?php echo substr(convertTime($project_tab_total_billable_hour), 0, -3); ?></p></li></div>
 									<div class="fifth_column"><li><p class="report_total"><?php echo substr(convertTime($project_tab_total_unbillable_hour), 0, -3);; ?></p></li></div>
-									<div class="sixth_column"><li><p class="report_total"><?php echo $project_tab_total_billable_amount; ?></p></li></div>
-									<div class="seventh_column"><li><p class="report_total"><?php echo $project_tab_total_unbillable_amount; ?></p></li></div>
+									<div class="sixth_column"><li><p class="report_total"><?php echo number_format($project_tab_total_billable_amount, 0); ?></p></li></div>
+									<div class="seventh_column"><li><p class="report_total"><?php echo number_format($project_tab_total_unbillable_amount, 0); ?></p></li></div>
 								</div>								
 							</div>
 							<!-- TASKS -->
@@ -441,9 +452,9 @@ jQuery(document).ready(function(){
 									foreach ($import_data_task as $timesheet_data){
 										$total_task_hour = substr(convertTime($timesheet_data->total_hours), 0, -3);
 										$billable_total_hour_decimal = substr(convertTime($timesheet_data->billable_hours), 0, -3);
-										$total_billable_amount = $timesheet_data->billable_amount;
+										$total_billable_amount = number_format($timesheet_data->billable_amount, 0);
 										$unbillable_total_hour_decimal = substr(convertTime($timesheet_data->unbillable_hours), 0, -3);
-										$total_unbillable_amount = $timesheet_data->unbillable_amount;
+										$total_unbillable_amount = number_format($timesheet_data->unbillable_amount, 0);
 										
 
 										$task_tab_total_hour += $timesheet_data->total_hours;
@@ -470,9 +481,9 @@ jQuery(document).ready(function(){
 									<div class="first_column"><li><p class="report_total">Total</p></li></div>
 									<div class="second_column"><li><p class="report_total"><?php echo substr(convertTime($task_tab_total_hour), 0, -3); ?></p></li></div>
 									<div class="third_column"><li><p class="report_total"><?php echo substr(convertTime($task_tab_total_billable_hour), 0, -3); ?></p></li></div>
-									<div class="fourth_column"><li><p class="report_total"><?php echo substr(convertTime($task_tab_total_unbillable_amount), 0, -3); ?></p></li></div>
-									<div class="fifth_column"><li><p class="report_total"><?php echo $task_tab_total_billable_amount; ?></p></li></div>
-									<div class="sixth_column"><li><p class="report_total"><?php echo $task_tab_total_unbillable_amount; ?></p></li></div>
+									<div class="fourth_column"><li><p class="report_total"><?php echo substr(convertTime($task_tab_total_unbillable_hour), 0, -3); ?></p></li></div>
+									<div class="fifth_column"><li><p class="report_total"><?php echo number_format($task_tab_total_billable_amount, 0); ?></p></li></div>
+									<div class="sixth_column"><li><p class="report_total"><?php echo number_format($task_tab_total_unbillable_amount, 0); ?></p></li></div>
 								</div>
 							</div>
 						</div>

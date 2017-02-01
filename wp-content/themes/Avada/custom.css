@@ -1679,7 +1679,7 @@ figure.person_image{
 .ui-widget-overlay{	background: #000000 !important;}
 
 .ui-dialog{    
-	left: 425px !important;    
+	/*left: 425px !important;    */
 	width: 455px !important;
 }
 
@@ -7829,4 +7829,61 @@ table.dataTable.no-footer{
 }
 #client-maintenance-table .edit_client_next_schedule_maintenance .datepicker{
 	min-width: 90px;
+}
+.view_client_maintenance{
+	display: block;
+	cursor: pointer;
+}
+.view_client_maintenance:hover{
+	color: green;
+}
+.maintenance_info_footer{
+	position: absolute;
+	bottom: 5%;
+}
+.date_passed{
+	color: red;
+}
+#view_maintenance_popup{
+	width: 950px !important;
+}
+.page-id-509 .ui-dialog{
+	width: 650px !important;
+	left: 20% !important;
+}
+#maintenance-todolist{
+	width: 625px;
+	margin: 0px !important;
+}
+#maintenance-todolist thead tr th{
+	text-align: left;
+}
+#maintenance-todolist tbody tr td ul{
+
+	margin: 0px 0px 0px -30px;
+	width: 100%;
+}
+#maintenance-todolist tbody tr td ul li{
+	display: inline-block;
+	float: left;
+	margin-right: 5px;
+}
+#maintenance-todolist tbody tr td ul li i{
+	cursor: pointer;
+}
+#maintenance-todolist tbody tr td ul li i:hover{
+	color: green;
+}
+.title-section-todolist{
+	font-weight: 600;
+	margin-left: 6px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+#bottom-actions-list{
+	position: absolute;
+	bottom: 5%;
+}
+.text-bold{
+	font-weight: 600;
 }
