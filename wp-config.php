@@ -97,3 +97,11 @@ define('TIMESHEET_TABLE', $wpdb->prefix . "custom_timesheet");
 define('PROJECT_TABLE', $wpdb->prefix . "custom_project");
 define('TODOLIST_TABLE', $wpdb->prefix . "custom_client_todo_lists");
 define('CLIENT_TABLE', $wpdb->prefix . "custom_client");
+define('CLIENT_SERVICES_TABLE', $wpdb->prefix . "custom_services");
+define('SEVICES_OPTION_TABLE', $wpdb->prefix . "custom_service_options");
+define('PERSON_TABLE', $wpdb->prefix . "custom_person");
+
+define('ADMIN_COOKIE_PATH', '/');
+define('COOKIE_DOMAIN', '');
+define('COOKIEPATH', '');
+define('SITECOOKIEPATH', ''); 

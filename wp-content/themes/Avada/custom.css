@@ -7827,6 +7827,12 @@ table.dataTable.no-footer{
 #client-maintenance-table tr:hover td .option-list{
 	display: block !important;
 }
+#client-maintenance-table tr td:nth-child(1){
+	width: 30%;
+}
+#client-maintenance-table tr td:nth-child(2), #client-maintenance-table tr td:nth-child(3),#client-maintenance-table tr td:nth-child(4){
+	width: 15%;
+}
 #client-maintenance-table .edit_client_next_schedule_maintenance .datepicker{
 	min-width: 90px;
 }
@@ -7837,9 +7843,10 @@ table.dataTable.no-footer{
 .view_client_maintenance:hover{
 	color: green;
 }
-.maintenance_info_footer{
+.maintenance_info_footer, .dplan_dialog_footer{
 	position: absolute;
 	bottom: 5%;
+	width: 95%;
 }
 .date_passed{
 	color: red;
@@ -7886,4 +7893,156 @@ table.dataTable.no-footer{
 }
 .text-bold{
 	font-weight: 600;
+}
+#client_services_table{
+
+	width: 100%;
+}
+#client_services_table tbody tr{
+	height: 37px !important;
+}
+#client_services_table thead tr th:nth-child(1){
+	width: 25% !important;
+	font-size: 18px;
+}
+#client_services_table thead tr th:nth-child(2){
+	width: 10% !important;
+}
+#client_services_table thead tr th:nth-child(3){
+	width: 15% !important;
+}
+#client_services_table thead tr th:nth-child(5){
+	width: 16% !important;
+}
+#client_services_table thead tr th:nth-child(6){
+	width: 15% !important;
+}
+.table-action-btn li{
+	display: inline-block;
+}
+.table-action-btn li i{
+	cursor: pointer;
+}
+#client_services_table tr td{
+	position: relative;
+}
+#client_services_table tr td .table-action-btn{
+	display: none;
+	position: absolute;
+	right: 5%;
+	bottom: 15%;
+}
+#client_services_table tr:hover td .table-action-btn{
+	display: block !important;
+}
+.table-action-btn li i:hover{
+	color: green;
+}
+#client_services_table .table-action-btn{
+	margin: 0px;
+}
+.dplan_dialog_footer{
+	right: 5%;
+}
+#confirmed_delete_client_service{
+	margin-left: 10px;
+}
+.invoice-loader{
+	margin-right: 5px;
+}
+#add_service_btn{
+	margin-top: 11px;
+}
+#login_box {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border: 1px solid #E5E5E5;
+	box-shadow: 0 4px 10px -1px rgba(200, 200, 200, 0.7);
+	font-weight: 400;
+	margin-left: 8px;
+	padding: 26px 24px 46px;
+	border-radius: 3px;
+	width: 37%;
+	margin: 0 auto;
+	float: none;
+	max-width: 270px;
+}
+ #login_box #loginform .login-username label, #login_box #loginform .user_pass label: ;{
+	color: #72777c !important;
+	font-size: 14px !important;
+}
+#login_box #loginform #user_login, #login_box #loginform #user_pass{
+	width: 100%;
+	font-size: 24px;
+	width: 100%;
+	padding: 3px;
+	margin: 2px 6px 16px 0;
+	border: 1px solid #ddd;
+	background: #fbfbfb;
+}
+#login_box #loginform #user_login:focus, #login_box #loginform #user_pass:focus{
+	border: 1px solid #0085ba;
+	-webkit-box-shadow: 0px 0px 3px 0px rgba(0,133,186,1);
+	-moz-box-shadow: 0px 0px 3px 0px rgba(0,133,186,1);
+	box-shadow: 0px 0px 3px 0px rgba(0,133,186,1);
+}
+#login_box #loginform #wp-submit{
+	height: 30px;
+	line-height: 28px;
+	padding: 0 12px 2px;
+	float: right;
+	background: #0085ba;
+	border-color: #0073aa #006799 #006799;
+	-webkit-box-shadow: 0 1px 0 #006799;
+	box-shadow: 0 1px 0 #006799;
+	color: #fff;
+	text-decoration: none;
+	text-shadow: 0 -1px 1px #006799,1px 0 1px #006799,0 1px 1px #006799,-1px 0 1px #006799;
+	display: inline-block;
+	font-size: 13px;
+	margin: 0;
+	cursor: pointer;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 3px;
+	white-space: nowrap;
+	box-sizing: border-box;
+}
+#login_box #loginform #wp-submit:focus{
+	
+}
+#login_box #loginform .login-remember{
+	float: left;
+	width: 50%;
+}
+#login_box #loginform .login-remember #rememberme{
+	width: 0px !important;
+}
+#filter_services{
+	float: right;
+}
+#filter_services ul li{
+	display: inline-block;
+}
+#filter_services ul li select{
+	height: 25px;
+}
+.filter_loader{
+	display: block;
+	margin-top: 15px;
+	margin-left: 0px;	
+}
+.warning{
+	color: red !important;
+}
+.complete_client_maintenance{
+	cursor: pointer;
+}
+.complete_client_maintenance:hover{
+	color: green;
+}
+#cancel_client_maintenance_button, #complete_client_maintenance_button{
+	float: right;
+}
+#complete_maintenance_dialog .maintenance_info_footer .loader{
+	margin-right: 10px;
 }

@@ -6,18 +6,21 @@
 	}
 	$current_user = wp_get_current_user();
 	$client_tablename = $wpdb->prefix ."custom_client";
- 	$clients = $wpdb->get_results("SELECT
-								ID, 
-								client_name,  
-								client_maintenance_schedule,
-								CASE WHEN (client_maintenance_hours is null OR client_maintenance_hours = '') THEN '--'
-								ELSE client_maintenance_hours END AS client_maintenance_hours, 
-								CASE WHEN (client_next_schedule_maintenance is null or client_next_schedule_maintenance = '') THEN '--' 
-								ELSE DATE_FORMAT(STR_TO_DATE(client_next_schedule_maintenance,'%m/%d/%Y'),'%Y-%m-%d') END AS client_next_schedule_maintenance,
-								(DATE_FORMAT(STR_TO_DATE(client_next_schedule_maintenance,'%m/%d/%Y'),'%Y-%m-%d') < CURDATE()) as date_passed
-								FROM wp_custom_client 
-								WHERE client_service_agreement = 'Yes' 
-								ORDER BY  client_name ASC"); ?> 
+ 	$clients = $wpdb->get_results("SELECT 
+									c.ID, 
+									c.client_name, 
+									c.client_maintenance_schedule, 
+									p.person_initial, 
+									CASE WHEN (c.client_maintenance_hours is null OR c.client_maintenance_hours = '')
+									THEN '--' ELSE c.client_maintenance_hours END AS client_maintenance_hours, 
+									CASE WHEN (c.client_next_schedule_maintenance is null or c.client_next_schedule_maintenance = '') 
+									THEN '--'ELSE DATE_FORMAT(STR_TO_DATE(c.client_next_schedule_maintenance,'%m/%d/%Y'),'%Y-%m-%d') END AS client_next_schedule_maintenance, 
+									(DATE_FORMAT(STR_TO_DATE(c.client_next_schedule_maintenance,'%m/%d/%Y'),'%Y-%m-%d') < CURDATE()) as date_passed 
+									FROM ".CLIENT_TABLE." as c 
+									INNER JOIN ".PERSON_TABLE." as p 
+									ON c.client_default_consultant_id = p.id
+									WHERE c.client_service_agreement = 'Yes'
+									ORDER BY client_next_schedule_maintenance ASC"); ?> 
  	<?php get_header(); ?>
 	<table id="client-maintenance-table" class="dplan-table">
 		<thead>
@@ -25,6 +28,7 @@
 				<th>Client</th>
 				<th>Maintainance Schedule</th>
 				<th>Maintainance Hours</th>
+				<th>Consultant</th>
 				<th>Scheduled Date</th>
 				<th></th>
 			</tr>
@@ -35,7 +39,7 @@
 					<?php
 						$date_passed = '';
 					?>
-					<td><?php echo $client->client_name ?></td>
+					<td class="clientname"><?php echo $client->client_name ?></td>
 					<td class="schedule-interval"><?php echo $client->client_maintenance_schedule ?></td>
 					<td class="hours"><?php echo $client->client_maintenance_hours ?></td>
 					<?php
@@ -44,10 +48,18 @@
 							$date_passed = ($client->date_passed == 1)? 'date_passed' : '';	
 						}
 					?>
-					<td><span class="edit_client_next_schedule_maintenance <?php echo $date_passed; ?>"><?php echo $client->client_next_schedule_maintenance ?></span></td>
+					<td>
+						<?php echo $client->person_initial ?>
+					</td>
+					<td>
+						<span class="edit_client_next_schedule_maintenance <?php echo $date_passed; ?>"><?php echo $client->client_next_schedule_maintenance ?></span>
+					</td>
 					<td>
 						<div class="option-list">
-							<i class="fa fa-eye view_client_maintenance pull-right" aria-hidden="true" title="View Client Details"></i>
+						<i class="fa fa-eye view_client_maintenance pull-right" aria-hidden="true" title="View Client Details"></i>
+						<?php if($client->client_next_schedule_maintenance != '--'): ?>
+							<i class="fa fa-check-square complete_client_maintenance pull-right" aria-hidden="true" title="Comp[ete Maintenanace"></i>
+						<?php endif; ?>
 						</div>
 					</td>
 				</tr>
@@ -169,7 +181,7 @@
 			<div style="display: none;" class="loader pull-right"></div>
 		</form>
 	</div>
-	<!-- POP-Up to confirm delete TodoList -->
+
 	<div style="display:none;" class="done_maintenance_dialog" id="done_maintenance_dialog" title="Confirm Done Maintenanace">
 		<form class="" id="confirm_done_maintenance_dialog">
 			<p class="">
@@ -180,10 +192,65 @@
 			<div style="display: none;" class="loader pull-right"></div>
 		</form>
 	</div>
+	<!-- POP-Up to confirm delete TodoList -->
+	<div style="display:none;" class="complete_maintenance_dialog" id="complete_maintenance_dialog" title="Confirm Done Maintenanace">
+		<form class="" id="confirm_complete_maintenance_dialog">
+			<input type="hidden" id="complete_mainternance_id" name="">
+			<p class="">
+				Are you sure you are done with the maintenance of <span class="clientname text-bold"></span>?
+			</p>
+			<!-- <p>Next maintenance schedule: <span id="next-maintenance-schedule"></p> -->
+			<div class="maintenance_info_footer">
+				<div  id="cancel_client_maintenance_button" class="button_1 pull-right">Cancel</div>
+				<div  id="complete_client_maintenance_button" class="button_1 pull-right">Done Maintenance</div>
+				<div style="display: none;" class="loader pull-right"></div>
+			</div>
+		</form>
+	</div>
 	<script type="text/javascript">
+
+		jQuery(document).on('click', '#complete_client_maintenance_button', function(){
+			jQuery('#complete_maintenance_dialog .maintenance_info_footer .loader').show();
+			var id = jQuery('#complete_mainternance_id').val();
+
+
+			jQuery.ajax({
+				type: "POST",
+				url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
+				data:{
+					'type' : 'complete_maintenance',
+					'data_id' : id				
+				},
+				success: function (data) {
+					var parsed = jQuery.parseJSON(data);
+					console.log(parsed);
+					jQuery('#client-maintenance-table tr#'+parsed.client_id+' .edit_client_next_schedule_maintenance').text(parsed.client_next_schedule_maintenance).removeClass('date_passed');
+					jQuery('#client-maintenance-table tr#'+parsed.client_id+' .hours').text(parsed.client_maintenance_hours);
+					jQuery('#client-maintenance-table tr#'+parsed.client_id+' .schedule-interval').text(parsed.client_maintenance_schedule);
+					jQuery('#table-status-message').text('Succesfully Updating Maintenanace Schedule!').fadeIn().delay(2000).fadeOut()
+					jQuery('#complete_maintenance_dialog .maintenance_info_footer .loader').hide();
+					jQuery('#complete_maintenance_dialog').dialog('close');
+				},
+				error: function (data) {
+					
+				}
+			});				
+		});
+
+		//show dialog box for complete maintenance
+		jQuery(document).on('click', '.complete_client_maintenance', function(){
+			var client = jQuery(this).closest('tr').find('.clientname').text();
+			var id = jQuery(this).closest('tr').attr('id');
+			jQuery('#complete_mainternance_id').val(id);
+
+			jQuery('#complete_maintenance_dialog .clientname').text(client);
+			jQuery('#complete_maintenance_dialog').dialog('open');
+		});
+
+		jQuery(document).on('click', '#cancel_client_maintenance_button', function(){
+			jQuery('#complete_maintenance_dialog').dialog('close');
+		});
 		jQuery(document).on('click', '#confirmed_next_maintenance_schedule', function(){
-
-
 			var client_id = jQuery('#client_maintenance_info_id').val();
 			var interval = jQuery('#client_maintenanace_intervat select').val();
 			var hour = jQuery('#maintenance_hours_client input').val();
@@ -309,20 +376,20 @@
 			close: function() {
 			}
 		});
+		jQuery( ".complete_maintenance_dialog" ).dialog({
+			autoOpen: false,
+			height: 180,
+			width: 350,
+			modal: true,
+			close: function() {
+			}
+		});
 		jQuery(document).on('click', '#done_maintenance_open_dialog', function(){
 			var clientname = jQuery('#maintenance_client').text();
 			var current_schedule = jQuery('#maintenance_schedule_date').text();
 			var schedule_interval = jQuery('#client_maintenanace_intervat select').val();
 
-			 var sptdate = String(current_schedule).split("-");
-			// console.log(date);
-
-			// var next_day = NextMaintenanceSchedule(sptdate, schedule_interval);
-
-			// jQuery
-
-
-
+			var sptdate = String(current_schedule).split("-");
 
 			jQuery('#confirm_done_maintenance_dialog p .clientname').text(clientname);
 			jQuery('.done_maintenance_dialog').dialog('open');

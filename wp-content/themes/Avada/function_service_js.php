@@ -2,7 +2,26 @@
 
 	jQuery('.service_start_date').datepicker();
 
-	jQuery(document).on('click ', '.delete-service-option', function(){
+	jQuery( "#delete_service_dialog" ).dialog({
+		autoOpen: false,
+		height: 180,
+		width: 350,
+		modal: true,
+		close: function() {
+		}
+	});
+
+	jQuery(document).on('click', '.delete-service-option', function(){
+		var service_name = jQuery('#service_name option:selected').text();
+		jQuery('#service_name_deleting').text(service_name);
+		jQuery('#delete_service_dialog').dialog('open');
+	});
+
+	jQuery(document).on('click', '#cancel_delete', function(){
+		jQuery('#delete_service_dialog').dialog('close');
+	});
+
+	jQuery(document).on('click ', '#confirmed_delete_client_service', function(){
 		jQuery('.loader').show();
 		var service_id = jQuery('#service_name').val();
 
@@ -18,6 +37,7 @@
 				jQuery("#service_name option[value='"+parsed.service_id+"']").remove();
 				jQuery('.loader').hide();
 				jQuery('.updating-service-status').fadeIn(1000).delay(2000).fadeOut(1000);
+				jQuery('#delete_service_dialog').dialog('close');
 			},
 			error: function (data) {
 
@@ -60,6 +80,7 @@
 				}else{
 
 				}
+				jQuery('.delete-service-option').show();
 			},
 			error: function (data) {
 

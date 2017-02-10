@@ -265,7 +265,7 @@ jQuery(window).load(function() {
 
 			jQuery('.tfs-slider').flexslider({
 				animation: "fade",
-				slideshow: true,
+				slideshow: false,
 				slideshowSpeed: 7000,
 				animationSpeed: 600,
 				smoothHeight: true,
@@ -333,7 +333,7 @@ jQuery(window).load(function() {
 		}
 
         jQuery('.grid-layout .flexslider').flexslider({
-            slideshow: true,
+            slideshow: false,
             slideshowSpeed: 7000,
             video: true,
             smoothHeight: page_smoothHeight,
@@ -397,7 +397,7 @@ jQuery(window).load(function() {
 		}
 
 		jQuery('.flexslider').flexslider({
-			slideshow: true,
+			slideshow: false,
 			slideshowSpeed: 7000,
 			video: true,
 			smoothHeight: flex_smoothHeight,
@@ -542,7 +542,7 @@ jQuery(document).ready(function() {
 	    jQuery('.reviews').cycle({
 			fx: 'fade',
 			after: onAfter,
-						timeout: 4000					});
+					});
 	}
 
 
@@ -560,14 +560,11 @@ jQuery(window).load(function($) {
 
 	if(jQuery().prettyPhoto) {
 		var ppArgs = {
-						animation_speed: 'fast',
-						overlay_gallery: true,
+						overlay_gallery: false,
 			autoplay_slideshow: false,
-						slideshow: 5000,
-									opacity: 0.8,
-						show_title: true,
-			show_desc: true,
-					};
+									show_title: false,
+			show_desc: false,
+			social_tools: "",		};
 
 		jQuery("a[rel^='prettyPhoto']").prettyPhoto(ppArgs);
 
@@ -612,11 +609,8 @@ jQuery(window).load(function($) {
 	
 	if(jQuery().eislideshow) {
         jQuery('#ei-slider').eislideshow({
-        	        	animation: 'sides',
-        	        	autoplay: true,
-        	        	slideshow_interval: 3000,
-        	        	        	speed: 800,
-        	        	        	thumbMaxWidth: 150        	        });
+        	        	autoplay: false,
+        	        	        	        });
 	}
 
     var retina = window.devicePixelRatio > 1 ? true : false;
@@ -670,7 +664,7 @@ jQuery(window).load(function($) {
 		}
 
 		jQuery('.flexslider').flexslider({
-			slideshow: true,
+			slideshow: false,
 			slideshowSpeed: 7000,
 			video: true,
 			pauseOnHover: false,
@@ -729,6 +723,15 @@ jQuery(window).load(function($) {
 		});
 		if(jQuery().prettyPhoto) { jQuery("a[rel^='prettyPhoto']").prettyPhoto(ppArgs); }
 		jQuery(posts).each(function() {
+			jQuery(this).find('.full-video, .video-shortcode, .wooslider .slide-content').fitVids();
+		});
+
+		if(jQuery().isotope) {
+			jQuery('#posts-container-infinite').isotope('reLayout');
+		}
+	});
+
+	});each(function() {
 			jQuery(this).find('.full-video, .video-shortcode, .wooslider .slide-content').fitVids();
 		});
 

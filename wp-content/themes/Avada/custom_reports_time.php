@@ -146,7 +146,12 @@ jQuery(document).ready(function(){
 
 					// $top_total_dwork_percent = round(100 -(($top_results->billable_hours / $top_dwork_total_hour_decimal ) * 100),2);
 
-					$top_total_dwork_percent = floor(($top_results->billable_hours / $top_dwork_total_hour_decimal ) * 100);
+					if($top_dwork_total_hour_decimal != 0){
+						$top_total_dwork_percent = floor(($top_results->billable_hours / $top_dwork_total_hour_decimal ) * 100);
+					}else{
+						$top_total_dwork_percent = 0;
+					}
+
 				?>
 				<div class="one_fourth"><p class="top_reports_label">Total Tracked</p><h1 class="top_hours_tracked"><?php echo $top_total_hours; ?></h1></div>
 				<!--  <div class="one_fourth"><p class="top_reports_label">Dwork</p><h1 class="top_hours_tracked"><?php echo round_quarter($total_hour_decimal); ?></h1></div>
@@ -245,7 +250,16 @@ jQuery(document).ready(function(){
 									}							
 								?>
 		
-								<?php $total_dwork_percent = floor(($person_tab_total_billable_hour / ($person_tab_total_hour - $person_all_total_no_work_hours)) * 100) ?>
+								<?php 
+									$all_total_working_hours = $person_tab_total_hour - $person_all_total_no_work_hours;
+
+									if($all_total_working_hours != 0){
+										$total_dwork_percent = floor(($person_tab_total_billable_hour / $all_total_working_hours) * 100);
+									}else{
+										$total_dwork_percent = 0;
+									}
+
+								?>
 								</div>
 								<div class="info_div_total">
 									<div class="first_column"><li><p class="report_total">Total</p></li></div>

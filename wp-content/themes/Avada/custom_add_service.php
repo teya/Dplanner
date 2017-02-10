@@ -23,15 +23,26 @@ if(isset($_POST['submit'])):
 
 	$service_info = $wpdb->get_row("SELECT * FROM ".$table_name_service_options." WHERE ID = ".$service_id);
 
-	$insert = $wpdb->insert( $table_name_services , array( 
-	'client_id'						=> $service_client_id,
-	'service_name'					=> $service_info->service_name,
-	'licenses'					=> $service_licenses,
-	'customer_price'				=> $service_customer_price,
+$arr = array( 
+	'client_id'				=> $service_client_id,
+	'service_id'			=> $service_id,
+	'licenses'				=> $service_licenses,
+	'customer_price'		=> $service_customer_price,
 	'our_price'				=> $service_our_price,
 	'start_date'			=> $service_start_date,
 	'invoice_interval'		=> $service_invoice_interval,
-	'notes'				=> $service_notes
+	'notes'					=> $service_notes
+	);
+
+	$insert = $wpdb->insert( $table_name_services , array( 
+	'client_id'						=> $service_client_id,
+	'service_id'					=> $service_id,
+	'licenses'						=> $service_licenses,
+	'customer_price'				=> $service_customer_price,
+	'our_price'						=> $service_our_price,
+	'start_date'					=> $service_start_date,
+	'invoice_interval'				=> $service_invoice_interval,
+	'notes'							=> $service_notes
 	), array( '%s', '%s' ));
 	
 	// $wpdb->show_errors();
@@ -169,6 +180,21 @@ endif;
 		<a class="button_2" href="<?php echo get_site_url(); ?>/manage-services/services/">Cancel</a>
 	</form>
 </div>
+</div>
+<!-- POP-Up to confirm delete Client service -->
+<div style="display:none;" class="delete_service_dialog" id="delete_service_dialog" title="Deleting Service">
+	<form class="" id="">
+
+		<p class="">
+			Are you sure you want to delete this <strong><span id="service_name_deleting"></span></strong> service?<br />
+			<span class="warning">WARNING!</span> This will also delete all client services related to this service.
+		</p>
+		<div class="dplan_dialog_footer">
+			<div  id="cancel_delete" class="button_1 pull-right">Cancel</div>
+			<div  id="confirmed_delete_client_service" class="button_1 pull-right">Delete</div>
+			<div style="display: none;" class="loader loader-delete pull-right"></div>
+		</div>
+	</form>
 </div>
 <?php require_once('function_service_js.php'); ?>
 <?php get_footer(); ?>

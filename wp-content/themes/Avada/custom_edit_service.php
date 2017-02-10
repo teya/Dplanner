@@ -27,7 +27,7 @@ if(isset($_POST['submit'])):
 	$service_info = $wpdb->get_row("SELECT * FROM ".$table_name_service_options." WHERE ID = ".$service_id);
 		
 	$update = $wpdb->update( $table_name_services , array( 
-		'service_name'					=> $service_info->service_name,
+		'service_id'					=> $service_id,
 		'licenses'					=> $service_licenses,
 		'customer_price'				=> $service_customer_price,
 		'our_price'				=> $service_our_price,
@@ -50,6 +50,7 @@ endif;
 ?>
 <?php 
 	$results_edit = $wpdb->get_row($query);
+
 	$current_status_array = array('Planned', 'In progress', 'Paused', 'Complete');
 	// $services = array('Wecloud','Kaseya Server', 'Kaseya Vserver', 'Kaseya Workstation', 'Webroot', 'Ahsey', 'Altaro Offline', 'Office 365', 'Ilait');
 	$invoice_intervals  = array('1M', '3M', '6M', '1Y', 'Lifetime');
@@ -77,7 +78,7 @@ endif;
 			<div class="right">	
 				<select class="service_name" id="service_name" name="service_id">
 					<?php foreach($service_options as $service): ?>
-						<option <?php echo ($results_edit->service_name == $service->service_name)? 'selected' : ' '; ?> value="<?php echo  $service->ID; ?>"><?php echo $service->service_name; ?></option>
+						<option <?php echo ($results_edit->service_id == $service->ID)? 'selected' : ' '; ?> value="<?php echo  $service->ID; ?>"><?php echo $service->service_name; ?></option>
 					<?php endforeach;?>
 					<option class="add-new-service" value="Add New Service Option">Add New Service</option>
 				</select>

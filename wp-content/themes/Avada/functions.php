@@ -4,6 +4,11 @@ require_once('function_page_timesheet.php');
 require_once('function_manage_website.php');
 require_once('function_client.php');
 require_once('function_reports_inventory.php');
+
+setcookie(TEST_COOKIE, 'WP Cookie check', 0, COOKIEPATH, COOKIE_DOMAIN);
+if ( SITECOOKIEPATH != COOKIEPATH )
+setcookie(TEST_COOKIE, 'WP Cookie check', 0, SITECOOKIEPATH, COOKIE_DOMAIN);
+
 // Translation
 load_theme_textdomain('Avada', TEMPLATEPATH.'/languages');
 
@@ -5916,6 +5921,7 @@ function add_new_service_option($option){
 
 		if($insert == 1){
 			$response = array(
+				'service_id' => $wpdb->insert_id,
 				'new_service_option' => $option,
 				'status' => 'save-new-service-option'
 			);	
@@ -6232,8 +6238,10 @@ function Get_TodoList_Info($id){
 
 	if(count($list_items) != 1){
 		foreach($list_items as $item){
-			$checked = (array_values($item)[0] == 1)? 'checked="checked"' : '';
-			$checklist .= '<input name="todo_checklist[]" type="checkbox" '.$checked.' value="'.trim(array_keys($item)[0]).'">'.trim(array_keys($item)[0]).'<br />';
+			$value = array_values($item);
+			$key = array_keys($item);
+			$checked = ($value[0] == 1)? 'checked="checked"' : '';
+			$checklist .= '<input name="todo_checklist[]" type="checkbox" '.$checked.' value="'.trim($key[0]).'">'.trim($key[0]).'<br />';
 		}
 	}else{
 		$checklist = "<p>No subtasks</p>";
@@ -6292,10 +6300,11 @@ function SaveTodoListProgress($data){
 
 	if($todolist_data['todo_checklist'] != ''){
 		foreach($list as $item){
-			if(in_array(trim(array_keys($item)[0]),$todolist_data['todo_checklist'])){
-				array_push($new_list, array(trim(array_keys($item)[0]) => 1));
+			$key = array_keys($item);
+			if(in_array(trim($key[0]),$todolist_data['todo_checklist'])){
+				array_push($new_list, array(trim($key[0]) => 1));
 			 }else{
-				array_push($new_list, array(trim(array_keys($item)[0]) => 0));
+				array_push($new_list, array(trim($key[0]) => 0));
 			}
 		}
 	}else{
@@ -6685,10 +6694,18 @@ function DeleteServiceOption($id){
 	$delete_result = $wpdb->delete( $table_services_options , array( 'ID' => $id ), array( '%d' ) );
 
 	if($delete_result == 1){
-		$reponse = array(
-			'service_id' => $id,
-			'status' => 'successfully-deleted-options'
-		);
+
+		$delete_result_client_services = $wpdb->delete( CLIENT_SERVICES_TABLE , array( 'service_id' => $id ), array( '%d' ) );
+
+		if($delete_result_client_services != 0){
+			$reponse = array(
+				'service_id' => $id,
+				'status' => 'successfully-deleted-options'
+			);			
+		}else{
+			die('FAILED DELETING CLIENT SERVICES');
+		}
+
 	}else{
 		die('FALED-DELETING-SERVICE-OPTION');
 	}
@@ -6777,7 +6794,9 @@ function UpdateTodoList($data){
 
 	//Convert Serialize Subtasks to single array.
 	foreach($todolist_checkboxes_data as $checbox_item){
-		$new_subtasks[array_keys($checbox_item)[0]] =  array_values($checbox_item)[0];
+		$key = array_keys($checbox_item);
+		$value = array_values($checbox_item);
+		$new_subtasks[$key[0]] =  $value[0];
 	}
 
 	//Compare exists Subtasks from new and DB.
@@ -7063,5 +7082,186 @@ function filter_report_time_project_query($filter){
 		lEFT OUTER JOIN wp_custom_client as c ON t.task_label = c.client_name 
 		WHERE ".$filter. " 
 		GROUP BY t.task_project_name, t.task_label");
+}
+function DeleteClientService($id){
+	global $wpdb;
+
+	$delete_service_status = $wpdb->delete(CLIENT_SERVICES_TABLE, array( 'ID' => $id ), array( '%d' ) );
+
+	if($delete_service_status == 1){
+		$response = array(
+			'service_id' => $id,
+			'delete_client_service_status' => 'successfully-deleting-client-service'
+		);
+	}else{
+		die("FAILED DELETING CLIENT SERVICE!");
+	}
+	return $response;
+}
+function FIlterClientServices($data){
+	extract($data);
+	global $wpdb;
+
+	$filter_client = "";
+	$service_filter = "";
+	$filter_services_table_string_html = "";
+
+	if($client_id != 0){
+		$filter_client = " AND c.id = ".$client_id;
+	}
+
+	if($service_id != 0){
+		$service_filter = " AND cs.service_id = ".$service_id;
+	}
+
+	switch ($due_value) {
+		case 1:
+			$due_sql = " AND STR_TO_DATE(cs.start_date, '%m/%d/%Y') <= CURRENT_DATE() + INTERVAL 3 MONTH AND DATEDIFF( STR_TO_DATE(cs.start_date, '%m/%d/%Y'), CURRENT_DATE()) >= 1";
+			break;
+		case 2:
+			$due_sql = " AND STR_TO_DATE(cs.start_date, '%m/%d/%Y') <= CURRENT_DATE() + INTERVAL 1 MONTH AND DATEDIFF( STR_TO_DATE(cs.start_date, '%m/%d/%Y'), CURRENT_DATE()) >= 1";
+			break;
+		case 3:
+			$due_sql = " AND cs.start_date <> '' AND STR_TO_DATE(cs.start_date, '%m/%d/%Y') <=  CURRENT_DATE()";
+			break;
+		default:
+			$due_sql = "";
+			break;
+	}
+
+	$filter_client_sql = "SELECT c.id, c.client_name FROM ".CLIENT_TABLE." as c LEFT OUTER JOIN ".CLIENT_SERVICES_TABLE." as cs ON c.id = cs.client_id WHERE cs.service_name IS NOT NULL ".$filter_client." ".$service_filter." ".$due_sql." GROUP BY c.client_name";
+
+	$filter_client_services = $wpdb->get_results($filter_client_sql);
+	if(!empty($filter_client_services)){
+		foreach($filter_client_services as $client){
+			$filter_services_table_string_html .="
+				<thead>
+					<tr class='top_row'>
+						<th class='client_name'>".$client->client_name."</th>
+						<th>Licenses</th>
+						<th>Price</th>
+						<th>Total Revenue</th>
+						<th>Next Invoice</th>
+						<th></th>
+					</tr>				
+				</thead>";
+				$filter_services_table_string_html .= "<tbody>";
+				$filter_services_sql = "SELECT  cs.ID, so.service_name, cs.licenses, cs.customer_price, cs.our_price, cs.start_date   FROM ".CLIENT_TABLE." as c LEFT OUTER JOIN ".CLIENT_SERVICES_TABLE." as cs ON c.id = cs.client_id  LEFT OUTER JOIN ".SEVICES_OPTION_TABLE." as so ON cs.service_id = so.id WHERE cs.service_name IS NOT NULL AND cs.client_id = ".$client->id." ".$service_filter . " ". $due_sql;
+
+				$services = $wpdb->get_results($filter_services_sql);
+
+				foreach ($services as $service) {
+					$date_passed_class = "";
+					$total = $service->customer_price * $service->licenses;
+					$revenue = $total - ($service->our_price * $service->licenses);
+					$date_passed = IfDatePassed($service->start_date);
+					if($service->invoice_interval == 'Lifetime'){
+						$service->start_date = 'Lifetime';
+						$hide = 'hide';
+						$date_passed = '';
+					}
+					if($service->start_date != ''){
+						$next_invoice_date = $service->start_date;
+					}else{
+						$next_invoice_date = '--';
+						$hide_btn_invoice = 'hide';
+					}
+
+					if($date_passed == 1){
+						$date_passed_class = "date-passed";
+					}
+
+					$price = ($service->customer_price != '')? $service->customer_price : 0;
+					$filter_services_table_string_html .= "
+						<tr id='service_id_".$service->ID."'>
+							<td class='service_name'>".$service->service_name."</td>
+							<td>". $service->licenses."</td>
+							<td>". $price ."</td>
+							<td>". $total ."</td>
+							<td class='invoice-date'><span class='".$date_passed_class."'>".$next_invoice_date."</span></td>
+							<td>
+								<ul class='table-action-btn'>
+									<li>
+										<div style='display: none;' class='loader invoice-loader'></div>
+									</li>
+									<li>";
+							if($service->start_date != ''){
+					$filter_services_table_string_html .= "<i title='Invoice' class='fa fa-file-text-o invoiced_service' aria-hidden='true'></i>";
+							} 
+					$filter_services_table_string_html .= "
+									</li>
+									<li>
+										<a href='".get_site_url()."/manage-projects/edit-service/?editID=".$service->ID."'><i title='Edit' class='fa fa-pencil-square-o' aria-hidden='true'></i></a>
+									</li>
+									<li>
+										<i title='Delete' class='fa fa-trash-o delete_client_service' aria-hidden='true'></i>
+									</li>
+								</ul>
+							</td>
+						</tr>
+					";
+				}
+				$filter_services_table_string_html .= "<tbody>";
+		}
+	}else{
+		$filter_services_table_string_html = '<tbody><tr><td>No Record Found.</td></tr></tbody>';
+	}
+
+	$response = array('client_services_html' => $filter_services_table_string_html );
+	return $response;
+}
+function CompleteMaintenance($id){
+	global $wpdb;
+
+	$client_info = $wpdb->get_row("SELECT client_next_schedule_maintenance, client_maintenance_schedule FROM ". CLIENT_TABLE ." WHERE ID = ". $id);
+	$date = ($client_info->client_next_schedule_maintenance == '')? date("Y-m-d") : $client_info->client_next_schedule_maintenance;
+
+
+	if($client_info->client_maintenance_schedule == '1W'){
+		$date = strtotime("+7 days", strtotime($date));
+   		$new_date =  date("Y-m-d", $date);
+	}else if($client_info->client_maintenance_schedule == '2W'){
+		$date = strtotime("+14 days", strtotime($date));
+   		$new_date =  date("Y-m-d", $date);		
+	}else if($client_info->client_maintenance_schedule == '1M'){
+		$date = strtotime("+1 month", strtotime($date));
+   		$new_date =  date("Y-m-d", $date);		
+	}else if($client_info->client_maintenance_schedule == '2M'){
+		$date = strtotime("+2 month", strtotime($date));
+   		$new_date =  date("Y-m-d", $date);		
+	}else if($client_info->client_maintenance_schedule == '3M'){
+		$date = strtotime("+3 month", strtotime($date));
+   		$new_date =  date("Y-m-d", $date);		
+	}else if($client_info->client_maintenance_schedule == '4M'){
+		$date = strtotime("+4 month", strtotime($date));
+   		$new_date =  date("Y-m-d", $date);		
+	}else if($client_info->client_maintenance_schedule == '6M'){
+		$date = strtotime("+6 month", strtotime($date));
+   		$new_date =  date("Y-m-d", $date);		
+	}else if($client_info->client_maintenance_schedule == '1Y'){
+		$date = strtotime("+12 month", strtotime($date));
+   		$new_date =  date("Y-m-d", $date);		
+	}
+
+	$update_maintenance_status = $wpdb->update( 
+			CLIENT_TABLE, 
+			array( 
+				'client_next_schedule_maintenance' => date("m/d/Y", $date),
+			), 
+			array( 'id' => $id ),
+			array( 
+				'%s'
+			)
+	);
+
+	if($update_maintenance_status == 1){
+		$response = array(
+			'client_next_schedule_maintenance' => $new_date,
+			'client_id' => $id	
+		);
+	}else{
+		die('FAILED COMPLETE MAINTENANCE');
+	}
+	return $response;
 }
 ?>

@@ -471,7 +471,7 @@
 		});	
 		jQuery( ".view_todolist" ).dialog({
 			autoOpen: false,
-			height: 400,
+			height: 600,
 			width: 350,
 			modal: true,
 			close: function() {

@@ -13,7 +13,6 @@ $persons = $wpdb->get_results('SELECT * FROM wp_custom_person');
 
 foreach($persons as $person){
 	if($person->person_email_notification == 1){
-<<<<<<< HEAD
 			/* empty task */
 			$end_date = date("Y-m-d", strtotime("yesterday"));
 			$list_empty_dates = '';
@@ -46,8 +45,6 @@ foreach($persons as $person){
 							}
 						}
 					}
-=======
->>>>>>> bf10af1d19872f4d38729839c2cabe251c662c25
 
 		$query = 'SELECT 
 					client_tbl.id,
@@ -127,7 +124,7 @@ foreach($persons as $person){
 		}
 		$list_empty_dates .="</ul>";
 
-<<<<<<< HEAD
+
 			//Create the Email Template
 			if($days_count > 0){
 				$body = '
@@ -156,7 +153,7 @@ foreach($persons as $person){
 				echo $email_status;				
 			}
 
-=======
+
 		//Create the Email Template
 		if($days_count > 0){
 			$body = '
@@ -184,7 +181,7 @@ foreach($persons as $person){
 			// echo $body;
 			echo $email_status;		
 		}
->>>>>>> bf10af1d19872f4d38729839c2cabe251c662c25
+
 	}
 }
 ?>
