@@ -6886,18 +6886,42 @@ function ClientMaintenanceUpdateDate($data){
 	global $wpdb;
 
 	extract($data);
-
-	$data_array = explode("_", $client_id);
-
 	$client_tablename = $wpdb->prefix . "custom_client";
 
-	$client_info = $wpdb->get_row("SELECT client_next_schedule_maintenance FROM ". $client_tablename ." WHERE ID = ". $data_array[2]);
+	$update_date = date("m/d/Y", strtotime($new_date));
 
-	if($client_info->client_next_schedule_maintenance == $new_date){
+	$client_info = $wpdb->get_row("SELECT client_next_schedule_maintenance FROM ". $client_tablename ." WHERE ID = ". $client_id);
 
+	if($client_info->client_next_schedule_maintenance == $update_date){
+		$response = array(
+			'update_maintenance_status' => 'successfully_client_maintenance_date',
+			'clien_id' => $client_id,
+			'new_date' => $update_date
+		);
 	}else{
+		$update = $wpdb->update( 
+				$client_tablename, 
+				array( 
+					'client_next_schedule_maintenance'	=> $update_date
+				), 
+				array( 'id' => $client_id ),
+				array(
+					'%s', 
+				)
+			);
 
+			if ($update == 1) {
+				$response = array(
+					'update_maintenance_status' => 'successfully_client_maintenance_date',
+					'clien_id' => $client_id,
+					'new_date' => date("Y-m-d", strtotime($new_date))
+				);
+			}else{
+				die("FAILED UPDATED CLIENT MAINTENANCE!");
+			}		
 	}
+
+	return $response;
 }
 function ViewClientMaintenanceInfo($data){
 	extract($data);

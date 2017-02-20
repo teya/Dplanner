@@ -20,7 +20,7 @@
 									INNER JOIN ".PERSON_TABLE." as p 
 									ON c.client_default_consultant_id = p.id
 									WHERE c.client_service_agreement = 'Yes'
-									ORDER BY client_next_schedule_maintenance ASC"); ?> 
+									ORDER BY client_next_schedule_maintenance DESC"); ?> 
  	<?php get_header(); ?>
 	<table id="client-maintenance-table" class="dplan-table">
 		<thead>
@@ -57,9 +57,9 @@
 					<td>
 						<div class="option-list">
 						<i class="fa fa-eye view_client_maintenance pull-right" aria-hidden="true" title="View Client Details"></i>
-						<?php if($client->client_next_schedule_maintenance != '--'): ?>
-							<i class="fa fa-check-square complete_client_maintenance pull-right" aria-hidden="true" title="Comp[ete Maintenanace"></i>
-						<?php endif; ?>
+						<?php // if($client->client_next_schedule_maintenance != '--'): ?>
+							<i class="fa fa-check-square complete_client_maintenance pull-right" aria-hidden="true" title="Complete Maintenanace"></i>
+						<?php // endif; ?>
 						</div>
 					</td>
 				</tr>
@@ -208,7 +208,6 @@
 		</form>
 	</div>
 	<script type="text/javascript">
-
 		jQuery(document).on('click', '#complete_client_maintenance_button', function(){
 			jQuery('#complete_maintenance_dialog .maintenance_info_footer .loader').show();
 			var id = jQuery('#complete_mainternance_id').val();
@@ -591,6 +590,7 @@
 					},
 					success: function (data) {
 						var filter_data = jQuery.parseJSON(data);
+						jQuery('#client-maintenance-table tbody #'+filter_data.clien_id+' td .edit_client_next_schedule_maintenance').text(filter_data.new_date);
 
 					},
 					error: function (data) {
