@@ -20,7 +20,7 @@
 									INNER JOIN ".PERSON_TABLE." as p 
 									ON c.client_default_consultant_id = p.id
 									WHERE c.client_service_agreement = 'Yes'
-									ORDER BY client_next_schedule_maintenance DESC"); ?> 
+									ORDER BY if(client_next_schedule_maintenance = '' or client_next_schedule_maintenance is null,1,0),client_next_schedule_maintenance"); ?> 
  	<?php get_header(); ?>
 	<table id="client-maintenance-table" class="dplan-table">
 		<thead>
