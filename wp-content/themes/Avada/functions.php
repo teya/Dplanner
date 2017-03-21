@@ -1565,6 +1565,12 @@ function getStartAndEndDate($week, $year) {
 	$return[1] = date('Y-n-j', strtotime($date_string . '7'));
 	return $return;
 }
+function getStartAndEndDate2($week, $year) {
+	$date_string = $year . 'W' . sprintf('%02d', $week);
+	$return[0] = date('d/m/Y', strtotime($date_string));
+	$return[1] = date('d/m/Y', strtotime($date_string . '7'));
+	return $return;
+}
 /* ==================================== END GET START AND END DATE ==================================== */
 
 /* ==================================== EDIT MODAL FORM ==================================== */
@@ -2895,7 +2901,8 @@ function filter_report_time($filter_details){
 	
 	/* Filter Week */	
 	if(	$week_number != 'null' && $month_number != 'null' && $year != 'null' && $from_month == 'null' && $to_month == 'null' && $from_date == 'null' && $to_date == 'null'){
-		$filter = "STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$start_month/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$end_month/$year', '%d/%m/%Y') AND week_number = '$week_number'";
+		$date_range_week = getStartAndEndDate2($week_number, $year);
+		$filter = "STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$date_range_week[0]."', '%d/%m/%Y') AND STR_TO_DATE('".$date_range_week[1]."', '%d/%m/%Y') AND week_number = '".$week_number."'";
 	}
 	/* Filter Month */
 	elseif(	$week_number == 'null' && $month_number != 'null' && $year != 'null' &&	$from_month == 'null' && $to_month == 'null' &&	$from_date == 'null' &&	$to_date == 'null'){
@@ -3093,7 +3100,7 @@ function filter_report_time_project($filter_details){
 		$project_tab_total_billable_amount += $project->billable_amount;
 		$project_tab_total_unbillable_amount += $project->unbillable_amount;
 		
-		$project_details = $project->task_name ."_". $project->task_label ."_". substr(convertTime($project->total_hours), 0, -3) ."_". substr(convertTime($project->billable_hours), 0, -3) ."_". number_format($project->billable_amount, 0) ."_". substr(convertTime($project->unbillable_hours), 0, -3) . "_". number_format($project->unbillable_amount, 0);
+		$project_details = $project->task_project_name ."_". $project->task_label ."_". substr(convertTime($project->total_hours), 0, -3) ."_". substr(convertTime($project->billable_hours), 0, -3) ."_". number_format($project->billable_amount, 0) ."_". substr(convertTime($project->unbillable_hours), 0, -3) . "_". number_format($project->unbillable_amount, 0);
 		$project_details_array[] = $project_details;
 		$report_details['project_details'] = $project_details_array;		
 	}
@@ -7057,6 +7064,8 @@ function filter_report_time_client_query($filter){
 				GROUP BY t.task_label");
 }
 function filter_report_time_staff_query($filter){
+
+
 	global $wpdb;
 	return $wpdb->get_results("SELECT 
 			s.person_fullname, 

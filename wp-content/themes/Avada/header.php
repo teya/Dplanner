@@ -2397,6 +2397,7 @@ function prev_filter(){
 	}
 	
 	var filter_details = week_number +'_'+ month_number +'_'+ year_number +'_'+ from_month +'_'+ to_month +'_'+ 'null' +'_'+ 'null';
+	console.log(filter_details);
 	filter_ajax_function(filter_details, report_sorting_type);
 }
 function next_filter(){
@@ -2509,14 +2510,13 @@ function next_filter(){
 	}	
 	
 	var filter_details = week_number +'_'+ month_number +'_'+ year_number +'_'+ from_month +'_'+ to_month +'_'+ 'null' +'_'+ 'null';
+	console.log(filter_details);
 	filter_ajax_function(filter_details, report_sorting_type);
 }
 function filter_ajax_function(filter_details, report_sorting_type){
+
 	jQuery('.top_detail_loader').show();	
 	jQuery('.tab_loader').show();
-
-
-
 	jQuery.ajax({
 		type: "POST",
 		url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
@@ -2532,7 +2532,6 @@ function filter_ajax_function(filter_details, report_sorting_type){
 			
 			var top_report_detail = parsed.top_report_detail;
 
-			console.log(top_report_detail);
 			var top_report_detail_split = top_report_detail.split("_");
 			var top_hours_tracked = top_report_detail_split[0];
 			var top_billable_hours = top_report_detail_split[1];
@@ -2697,11 +2696,12 @@ function filter_ajax_function(filter_details, report_sorting_type){
 			jQuery('.staff_detail_loader').hide();
 			jQuery('#staff .sort_name_container').empty();
 			var parsed = jQuery.parseJSON(data);
-			console.log(parsed);
 			var staff_tab_counter = 1;
 			jQuery.each(parsed.person_details, function(index, value){
 
 				var person_details_split = value.split("_");
+
+				// console.log(person_details_split);
 				var person_name_title = person_details_split[0];
 				var total_person_hour = person_details_split[1];
 				var total_dwork_hour = person_details_split[2];
@@ -4298,7 +4298,6 @@ jQuery(document).ready(function(){
 	jQuery('.detailed_time_nav_week .detailed_time_nav_previous').click(function(){
 		jQuery('#show_desc_task').show();
 		jQuery('#hide_desc_task').hide();
-		console.log('detailed_time_nav_week');
 		prev_detailed_time_filter();
 	});
 	jQuery('.detailed_time_nav_week .detailed_time_nav_next').click(function(){
@@ -4309,7 +4308,6 @@ jQuery(document).ready(function(){
 	jQuery('.detailed_time_nav_month .detailed_time_nav_previous').click(function(){
 		jQuery('#show_desc_task').show();
 		jQuery('#hide_desc_task').hide();
-		console.log('detailed_time_nav_month');
 		prev_detailed_time_filter();
 	});
 	jQuery('.detailed_time_nav_month .detailed_time_nav_next').click(function(){
@@ -4524,8 +4522,6 @@ function next_detailed_time_filter(){
 }
 
 function filter_ajax_function_detailed_time(filter_details_detailed_time, report_sorting_type = "Custom"){
-
-	console.log(filter_details_detailed_time);
 
 	jQuery('.custom_filter_loader').show();
 	jQuery.ajax({
@@ -5047,8 +5043,6 @@ jQuery(document).ready(function(){
 			var div_id = jQuery(this).attr('id');
 			var div_id_split = div_id.split('_');
 			var data_id = div_id_split[4];
-
-			console.log(data_id);
 
 			jQuery('#task_description_id_'+data_id).slideToggle();    
 	});	

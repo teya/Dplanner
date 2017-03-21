@@ -389,8 +389,8 @@ jQuery(document).ready(function(){
 								</div>
 								<div class="project_client_sort_container sort_name_container">
 									<?php
-										$project_clients = filter_report_time_project_query($filter_month);
 
+										$project_clients = filter_report_time_project_query($filter_month);
 										$project_tab_counter = 1;
 										foreach($project_clients as $project_client){
 
@@ -407,8 +407,8 @@ jQuery(document).ready(function(){
 
 										?>
 										<div id="info_div_<?php echo $project_tab_counter; ?>" class='info_div'>
-											<div class="first_column"><li><?php echo $project_client->task_name; ?></li></div>
-											<div class=" second_column"><li><?php echo $project_client->task_label; ?></li></div>
+											<div class="first_column"><li><?php echo $project_client->task_project_name; ?></li></div>
+											<div class="second_column"><li><?php echo $project_client->task_label; ?></li></div>
 											<div class="third_column"><li><?php echo $total_project_hour; ?></li></div>
 											<div class="fourth_column"><li><?php echo $billable_total_hour_decimal; ?></li></div>
 											<div class="fifth_column"><li><?php echo $unbillable_total_hour_decimal; ?></li></div>
