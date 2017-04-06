@@ -1,8 +1,9 @@
 <?php /* Template Name: Reports Detailed Time */ ?>
 <?php get_header(); ?>
 <?php 
-	$table_name_color = $wpdb->prefix . "custom_project";
 	$table_taskname = $wpdb->prefix . "custom_task";
+	$tasks = $wpdb->get_results("SELECT * FROM {$table_taskname}");
+	$table_name_color = $wpdb->prefix . "custom_project";
 	$projects = $wpdb->get_results("SELECT DISTINCT project_name FROM {$table_name_color}");
 	$table_name_client = $wpdb->prefix . "custom_client";
 	$clients = $wpdb->get_results("SELECT * FROM {$table_name_client}");
@@ -70,8 +71,9 @@
 					<select id="filter_sorting_type" class="report_filter_selection">
 						<option>Date</option>
 						<option>Client</option>
-						<option>Order No</option>
 						<option>Consultant</option>
+						<option>Order No</option>
+						<option>Task</option>
 					</select>	
 				</li>	
 				<li>
@@ -123,6 +125,19 @@
 							<option><?php echo $person_name; ?></option>	
 						<?php } ?>
 					</select>
+					<select class="task_name" name="task_name">
+						<option>Any Tasks</option>
+						<?php 
+							$task_name_array = array();
+							foreach($tasks as $task){
+								$task_name_array[] = $task->task_name;
+							}
+							sort($task_name_array);
+							foreach($task_name_array as $task_name){
+						?>
+							<option><?php echo $task_name; ?></option>	
+						<?php } ?>
+					</select>
 				</div>
 				<div class="one_half last">
 					<div class="filter_date_inputs">
@@ -163,7 +178,7 @@
 		$total_task_dates = array_unique($total_date_now_array);
 		foreach($total_task_dates as $total_task_date){ 
 			$total_timesheets = $wpdb->get_results("SELECT * FROM {$table_name} WHERE date_now = '$total_task_date'");
-			$total_day_hours_total = "";
+			$total_day_hours_total = 0;
 			foreach($total_timesheets as $total_timesheet){
 				$total_task_hour = $total_timesheet->task_hour;
 				$total_task_hour_decimal 	= round(decimalHours($total_task_hour), 2);
@@ -184,13 +199,13 @@
 			$task_dates = array_unique($date_now_array);
 			foreach($task_dates as $task_date){ 
 				$timesheets = $wpdb->get_results("SELECT * FROM {$table_name} WHERE date_now = '$task_date'");
-				$total_day_hours = "";
-				$total_km = "";
-				$total_tid_hours = "";
-				$total_tid_1_hours = "";
-				$total_tid_2_hours = "";
-				$total_billable_hours = "";
-				$total_unbillable_hours = "";
+				$total_day_hours = 0;
+				$total_km = 0;
+				$total_tid_hours = 0;
+				$total_tid_1_hours = 0;
+				$total_tid_2_hours = 0;
+				$total_billable_hours = 0;
+				$total_unbillable_hours = 0;
 				// print_r($timesheets);
 				foreach($timesheets as $timesheet){
 					$task_hour = $timesheet->task_hour;
@@ -224,12 +239,12 @@
 				<div class="date_header"><p><?php echo $task_date; ?></p>
 					<p class="total_day_hour"><?php /* echo round_quarter($total_day_hours); */ ?></p>
 					<p class="total_km_row">KM: <?php echo $total_km; ?></p>
-					<p class="total_hours_row">Total: <?php echo ($total_day_hours != "")? $total_day_hours : 0; ?></p>
-					<p class="unbillable_hours_row">Unbillable: <?php echo ($total_unbillable_hours != "")? $total_unbillable_hours : 0; ?>
-					<p class="billable_hours_row">Billable: <?php echo ($total_billable_hours != "")? $total_billable_hours : 0; ?></p>
-					<p class="tid_1_total_hours">Ö2: <?php echo ($total_tid_2_hours != "")?$total_tid_2_hours : 0; ?></p>
-					<p class="tid_1_total_hours">Ö1: <?php echo ($total_tid_1_hours != "")? $total_tid_1_hours : 0; ?></p>
-					<p class="tid_total_hours">Tid: <?php echo ($total_tid_hours != "")? $total_tid_hours : 0; ?></p>
+					<p class="total_hours_row">Total: <?php echo ($total_day_hours != 0)? $total_day_hours : 0; ?></p>
+					<p class="unbillable_hours_row">Unbillable: <?php echo ($total_unbillable_hours != 0)? $total_unbillable_hours : 0; ?>
+					<p class="billable_hours_row">Billable: <?php echo ($total_billable_hours != 0)? $total_billable_hours : 0; ?></p>
+					<p class="tid_1_total_hours">Ö2: <?php echo ($total_tid_2_hours != 0)?$total_tid_2_hours : 0; ?></p>
+					<p class="tid_1_total_hours">Ö1: <?php echo ($total_tid_1_hours != 0)? $total_tid_1_hours : 0; ?></p>
+					<p class="tid_total_hours">Tid: <?php echo ($total_tid_hours != 0)? $total_tid_hours : 0; ?></p>
 				</div>
 				<div class="header_titles">
 					<div class="first_column column">
@@ -309,7 +324,7 @@
 									<p><?php echo $task_name; ?></p>
 									<div style="display:none;" id="taskname_loader_<?php echo $task_id; ?>" class="loader"></div>
 								</div>
-								<div class="third_column column orderno-col"><p><?php echo $orderno; ?></p></div>								
+								<div class="third_column column orderno-col edit_detailed_time_order_no"><p><?php echo $orderno; ?></p></div>								
 								<div class="fifth_column column"><p><?php echo $person_name; ?></p></div>
 								<div class="sixth_column column"><p><?php echo round_quarter($task_hour_decimal); ?></p></div>
 								<div class="seventh_column column"><p><?php echo $kilometer; ?></p></div>

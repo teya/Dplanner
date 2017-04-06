@@ -2510,7 +2510,6 @@ function next_filter(){
 	}	
 	
 	var filter_details = week_number +'_'+ month_number +'_'+ year_number +'_'+ from_month +'_'+ to_month +'_'+ 'null' +'_'+ 'null';
-	console.log(filter_details);
 	filter_ajax_function(filter_details, report_sorting_type);
 }
 function filter_ajax_function(filter_details, report_sorting_type){
@@ -2543,7 +2542,7 @@ function filter_ajax_function(filter_details, report_sorting_type){
 
 			var total_bill_amount = (top_billable_amount == 0 || top_billable_amount == "")? 0 :  top_billable_amount;
 			jQuery('.report_container .top_reports h1.top_hours_tracked').html(top_hours_tracked);
-			jQuery('.report_container .top_reports h1.top_billable_amount').html("kr "+top_billable_amount);
+			jQuery('.report_container .top_reports h1.top_billable_amount').html(top_billable_amount+"kr ");
 			jQuery('.report_container .top_reports h1.top_dwork_hours_percent').html(top_dwork_percent+"%");
 			jQuery('.report_container .top_reports h1.top_ledig_hours').html(top_no_work);
 			jQuery('.report_container .top_reports h1.top_unbillable_hours').html(top_unbillable_hours);
@@ -2565,31 +2564,35 @@ function filter_ajax_function(filter_details, report_sorting_type){
 			jQuery('#clients .sort_name_container').empty();
 			var parsed = jQuery.parseJSON(data);
 			var client_tab_counter = 1;
-			jQuery.each(parsed.client_details, function(index, value){
-				var client_details_split = value.split("_");
-				var client_name = client_details_split[0];
-				var total_client_hours = client_details_split[1];
-				var billable_total_hour_decimal = client_details_split[2];
-				var total_billable_amount = client_details_split[3];
-				var unbillable_total_hour_decimal = client_details_split[4];
-				var total_unbillable_amount = client_details_split[5];
-				
-				jQuery('#clients .sort_name_container').append('<div id="info_div_'+client_tab_counter+'" class="info_div">'
-				+'<div class="first_column"><li>'+client_name+'</li></div>'
-				+'<div class="second_column"><li>'+total_client_hours+'</li></div>'
-				+'<div class="third_column"><li>'+billable_total_hour_decimal+'</li></div>'
-				+'<div class="fourth_column"><li>'+unbillable_total_hour_decimal+'</li></div>'
-				+'<div class="fifth_column"><li>'+total_billable_amount+'</li></div>'
-				+'<div class="sixth_column"><li>'+total_unbillable_amount+'</li></div>'
-				+'</div>');
-				
-				client_tab_counter++;
-			});
-			jQuery('#clients .info_div_total .second_column p').text(parsed.client_tab_total_hour);
-			jQuery('#clients .info_div_total .third_column p').text(parsed.client_tab_total_billable_hour);
-			jQuery('#clients .info_div_total .fourth_column p').text(parsed.client_tab_total_unbillable_hour);
-			jQuery('#clients .info_div_total .fifth_column p').text(parsed.client_tab_total_billable_amount);
-			jQuery('#clients .info_div_total .sixth_column p').text(parsed.client_tab_total_unbillable_amount);
+
+			if(parsed.client_details != undefined){
+				jQuery.each(parsed.client_details, function(index, value){
+					var client_details_split = value.split("_");
+					var client_name = client_details_split[0];
+					var total_client_hours = client_details_split[1];
+					var billable_total_hour_decimal = client_details_split[2];
+					var total_billable_amount = client_details_split[3];
+					var unbillable_total_hour_decimal = client_details_split[4];
+					var total_unbillable_amount = client_details_split[5];
+					
+					jQuery('#clients .sort_name_container').append('<div id="info_div_'+client_tab_counter+'" class="info_div">'
+					+'<div class="first_column"><li>'+client_name+'</li></div>'
+					+'<div class="second_column"><li>'+total_client_hours+'</li></div>'
+					+'<div class="third_column"><li>'+billable_total_hour_decimal+'</li></div>'
+					+'<div class="fourth_column"><li>'+unbillable_total_hour_decimal+'</li></div>'
+					+'<div class="fifth_column"><li>'+total_billable_amount+'</li></div>'
+					+'<div class="sixth_column"><li>'+total_unbillable_amount+'</li></div>'
+					+'</div>');
+					
+					client_tab_counter++;
+				});				
+			}
+
+			jQuery('#clients .info_div_total .second_column p').html(parsed.client_tab_total_hour);
+			jQuery('#clients .info_div_total .third_column p').html(parsed.client_tab_total_billable_hour);
+			jQuery('#clients .info_div_total .fourth_column p').html(parsed.client_tab_total_unbillable_hour);
+			jQuery('#clients .info_div_total .fifth_column p').html(parsed.client_tab_total_billable_amount);
+			jQuery('#clients .info_div_total .sixth_column p').html(parsed.client_tab_total_unbillable_amount);
 
 		},		
 		error: function (data) {
@@ -2609,33 +2612,37 @@ function filter_ajax_function(filter_details, report_sorting_type){
 			jQuery('#projects .sort_name_container').empty();
 			var parsed = jQuery.parseJSON(data);
 			var project_tab_counter = 1; 
-			jQuery.each(parsed.project_details, function(index, value){
-				var project_details_split = value.split("_");
-				var project_name_title = project_details_split[0];
-				var project_client_name = project_details_split[1];
-				var total_project_hour = project_details_split[2];
-				var billable_total_hour_decimal = project_details_split[3];
-				var unbillable_total_hour_decimal = project_details_split[5];
-				var total_billable_amount = project_details_split[4];
-				var total_unbillable_amount = project_details_split[6];
-				
-				jQuery('#projects .sort_name_container').append('<div id="info_div_'+project_tab_counter+'" class="info_div">'
-				+'<div class="first_column"><li>'+project_name_title+'</li></div>'
-				+'<div class="second_column"><li>'+project_client_name+'</li></div>'
-				+'<div class="third_column"><li>'+total_project_hour+'</li></div>'
-				+'<div class="fourth_column"><li>'+billable_total_hour_decimal+'</li></div>'
-				+'<div class="fifth_column"><li>'+unbillable_total_hour_decimal+'</li></div>'
-				+'<div class="sixth_column"><li>'+total_billable_amount+'</li></div>'
-				+'<div class="seventh_column"><li>'+total_unbillable_amount+'</li></div>'
-				+'</div>');
+
+			if(parsed.project_details != undefined){
+				jQuery.each(parsed.project_details, function(index, value){
+					var project_details_split = value.split("_");
+					var project_name_title = project_details_split[0];
+					var project_client_name = project_details_split[1];
+					var total_project_hour = project_details_split[2];
+					var billable_total_hour_decimal = project_details_split[3];
+					var unbillable_total_hour_decimal = project_details_split[5];
+					var total_billable_amount = project_details_split[4];
+					var total_unbillable_amount = project_details_split[6];
 					
-				project_tab_counter++;
-			});
-			jQuery('#projects .info_div_total .third_column p').text(parsed.project_tab_total_hour);
-			jQuery('#projects .info_div_total .fourth_column p').text(parsed.project_tab_total_billable_hour);
-			jQuery('#projects .info_div_total .fifth_column p').text(parsed.project_tab_total_unbillable_hour);
-			jQuery('#projects .info_div_total .sixth_column p').text(parsed.project_tab_total_billable_amount);
-			jQuery('#projects .info_div_total .seventh_column p').text(parsed.project_tab_total_unbillable_amount);
+					jQuery('#projects .sort_name_container').append('<div id="info_div_'+project_tab_counter+'" class="info_div">'
+					+'<div class="first_column"><li>'+project_name_title+'</li></div>'
+					+'<div class="second_column"><li>'+project_client_name+'</li></div>'
+					+'<div class="third_column"><li>'+total_project_hour+'</li></div>'
+					+'<div class="fourth_column"><li>'+billable_total_hour_decimal+'</li></div>'
+					+'<div class="fifth_column"><li>'+unbillable_total_hour_decimal+'</li></div>'
+					+'<div class="sixth_column"><li>'+total_billable_amount+'</li></div>'
+					+'<div class="seventh_column"><li>'+total_unbillable_amount+'</li></div>'
+					+'</div>');
+						
+					project_tab_counter++;
+				});				
+			}
+
+			jQuery('#projects .info_div_total .third_column p').html(parsed.project_tab_total_hour);
+			jQuery('#projects .info_div_total .fourth_column p').html(parsed.project_tab_total_billable_hour);
+			jQuery('#projects .info_div_total .fifth_column p').html(parsed.project_tab_total_unbillable_hour);
+			jQuery('#projects .info_div_total .sixth_column p').html(parsed.project_tab_total_billable_amount);
+			jQuery('#projects .info_div_total .seventh_column p').html(parsed.project_tab_total_unbillable_amount);
 		},		
 		error: function (data) {
 			alert('error');
@@ -2654,31 +2661,34 @@ function filter_ajax_function(filter_details, report_sorting_type){
 			jQuery('#tasks .sort_name_container').empty();
 			var parsed = jQuery.parseJSON(data);
 			var task_tab_counter = 1;
-			jQuery.each(parsed.task_details, function(index, value){
-				var task_details_split = value.split("_");
-				var task_name_title = task_details_split[0];
-				var total_task_hour = task_details_split[1];
-				var billable_total_hour_decimal = task_details_split[2];
-				var unbillable_total_hour_decimal = task_details_split[4]
-				var total_billable_amount = task_details_split[3];
-				var total_unbillable_amount = task_details_split[5];
+			if(parsed.task_details != undefined){
+				jQuery.each(parsed.task_details, function(index, value){
+					var task_details_split = value.split("_");
+					var task_name_title = task_details_split[0];
+					var total_task_hour = task_details_split[1];
+					var billable_total_hour_decimal = task_details_split[2];
+					var unbillable_total_hour_decimal = task_details_split[4]
+					var total_billable_amount = task_details_split[3];
+					var total_unbillable_amount = task_details_split[5];
 
-				jQuery('#tasks .sort_name_container').append('<div id="info_div_'+task_tab_counter+'" class="info_div">'
-				+'<div class="first_column"><li>'+task_name_title+'</li></div>'
-				+'<div class="second_column"><li>'+total_task_hour+'</li></div>'
-				+'<div class="third_column"><li>'+billable_total_hour_decimal+'</li></div>'
-				+'<div class="fourth_column"><li>'+unbillable_total_hour_decimal+'</li></div>'
-				+'<div class="fifth_column"><li>'+total_billable_amount+'</li></div>'
-				+'<div class="sixth_column"><li>'+total_unbillable_amount+'</li></div>'
-				+'</div>');
-				
-				task_tab_counter++;
-			});
-			jQuery('#tasks .info_div_total .second_column p').text(parsed.task_tab_total_hour);
-			jQuery('#tasks .info_div_total .third_column p').text(parsed.task_tab_total_billable_hour);
-			jQuery('#tasks .info_div_total .fourth_column p').text(parsed.task_tab_total_unbillable_hour);
-			jQuery('#tasks .info_div_total .fifth_column p').text(parsed.task_tab_total_billable_amount);
-			jQuery('#tasks .info_div_total .sixth_column p').text(parsed.task_tab_total_unbillable_amount);
+					jQuery('#tasks .sort_name_container').append('<div id="info_div_'+task_tab_counter+'" class="info_div">'
+					+'<div class="first_column"><li>'+task_name_title+'</li></div>'
+					+'<div class="second_column"><li>'+total_task_hour+'</li></div>'
+					+'<div class="third_column"><li>'+billable_total_hour_decimal+'</li></div>'
+					+'<div class="fourth_column"><li>'+unbillable_total_hour_decimal+'</li></div>'
+					+'<div class="fifth_column"><li>'+total_billable_amount+'</li></div>'
+					+'<div class="sixth_column"><li>'+total_unbillable_amount+'</li></div>'
+					+'</div>');
+					
+					task_tab_counter++;
+				});				
+			}
+
+			jQuery('#tasks .info_div_total .second_column p').html(parsed.task_tab_total_hour);
+			jQuery('#tasks .info_div_total .third_column p').html(parsed.task_tab_total_billable_hour);
+			jQuery('#tasks .info_div_total .fourth_column p').html(parsed.task_tab_total_unbillable_hour);
+			jQuery('#tasks .info_div_total .fifth_column p').html(parsed.task_tab_total_billable_amount);
+			jQuery('#tasks .info_div_total .sixth_column p').html(parsed.task_tab_total_unbillable_amount);
 		},		
 		error: function (data) {
 			alert('error');
@@ -2696,50 +2706,55 @@ function filter_ajax_function(filter_details, report_sorting_type){
 			jQuery('.staff_detail_loader').hide();
 			jQuery('#staff .sort_name_container').empty();
 			var parsed = jQuery.parseJSON(data);
+			console.log(parsed);
 			var staff_tab_counter = 1;
-			jQuery.each(parsed.person_details, function(index, value){
 
-				var person_details_split = value.split("_");
+			if(parsed.person_details != undefined){
+				jQuery.each(parsed.person_details, function(index, value){
 
-				// console.log(person_details_split);
-				var person_name_title = person_details_split[0];
-				var total_person_hour = person_details_split[1];
-				var total_dwork_hour = person_details_split[2];
-				var billable_total_hour_decimal = person_details_split[3];
-				var unbillable_total_hour_decimal = person_details_split[4];
-				var total_billable_amount = person_details_split[5];
-				var legdig_total_hour_decimal = person_details_split[6];
-				var holiday_total_hour_decimal = person_details_split[7];
-				var vacation_total_hour_decimal = person_details_split[8];
-				var sickness_total_hour_decimal = person_details_split[9];
-				var Dworkpercent = person_details_split[10];
-				
-				jQuery('#staff .sort_name_container').append('<div id="info_div_'+staff_tab_counter+'" class="info_div">'
-				+'<div class="first_column"><li>'+person_name_title+'</li></div>'
-				+'<div class="second_column"><li>'+total_person_hour+'</li></div>'
-				+'<div class="third_column"><li>'+total_dwork_hour+'</li></div>'
-				+'<div class="fourth_column"><li>'+billable_total_hour_decimal+'</li></div>'
-				+'<div class="fifth_column"><li>'+unbillable_total_hour_decimal+'</li></div>'
-				+'<div class="sixth_column"><li>'+total_billable_amount+'</li></div>'
-				+'<div class="seventh_column"><li>'+Dworkpercent+'%</li></div>'
-				+'<div class="eight_column"><li>'+legdig_total_hour_decimal+'</li></div>'
-				+'<div class="ninth_column"><li>'+holiday_total_hour_decimal+'</li></div>'
-				+'<div class="tenth_column"><li>'+vacation_total_hour_decimal+'</li></div>'
-				+'<div class="eleventh_column"><li>'+sickness_total_hour_decimal+'</li></div>'
-				+'</div>');
-				
-				staff_tab_counter++;
-			});
-			jQuery('#staff .info_div_total .second_column p').text(parsed.person_tab_total_hour);
-			jQuery('#staff .info_div_total .third_column p').text(parsed.person_tab_total_dwork_hour);
-			jQuery('#staff .info_div_total .fourth_column p').text(parsed.person_tab_total_billable_hour);
-			jQuery('#staff .info_div_total .fifth_column p').text(parsed.person_tab_total_unbillable_hour);
-			jQuery('#staff .info_div_total .sixth_column p').text(parsed.person_tab_total_billable_amount);
-			jQuery('#staff .info_div_total .seventh_column p').text(parsed.person_tab_total_dwork_pecent + '%');
-			jQuery('#staff .info_div_total .eight_column p').text(parsed.person_tab_total_ledig_hour);
-			jQuery('#staff .info_div_total .ninth_column p').text(parsed.person_tab_total_holiday_hour);
-			jQuery('#staff .info_div_total .tenth_column p').text(parsed.person_tab_total_vacation_hour);
-			jQuery('#staff .info_div_total .eleventh_column p').text(parsed.person_tab_total_sickness_hour);
+					var person_details_split = value.split("_");
+
+					var person_name_title = person_details_split[0];
+					var total_person_hour = person_details_split[1];
+					var total_dwork_hour = person_details_split[2];
+					var billable_total_hour_decimal = person_details_split[3];
+					var unbillable_total_hour_decimal = person_details_split[4];
+					var total_billable_amount = person_details_split[5];
+					var legdig_total_hour_decimal = person_details_split[6];
+					var holiday_total_hour_decimal = person_details_split[7];
+					var vacation_total_hour_decimal = person_details_split[8];
+					var sickness_total_hour_decimal = person_details_split[9];
+					var Dworkpercent = person_details_split[10];
+					
+					jQuery('#staff .sort_name_container').append('<div id="info_div_'+staff_tab_counter+'" class="info_div">'
+					+'<div class="first_column"><li>'+person_name_title+'</li></div>'
+					+'<div class="second_column"><li>'+total_person_hour+'</li></div>'
+					+'<div class="third_column"><li>'+total_dwork_hour+'</li></div>'
+					+'<div class="fourth_column"><li>'+billable_total_hour_decimal+'</li></div>'
+					+'<div class="fifth_column"><li>'+unbillable_total_hour_decimal+'</li></div>'
+					+'<div class="sixth_column"><li>'+total_billable_amount+'</li></div>'
+					+'<div class="seventh_column"><li>'+Dworkpercent+'%</li></div>'
+					+'<div class="eight_column"><li>'+legdig_total_hour_decimal+'</li></div>'
+					+'<div class="ninth_column"><li>'+holiday_total_hour_decimal+'</li></div>'
+					+'<div class="tenth_column"><li>'+vacation_total_hour_decimal+'</li></div>'
+					+'<div class="eleventh_column"><li>'+sickness_total_hour_decimal+'</li></div>'
+					+'</div>');
+					
+					staff_tab_counter++;
+				});
+			}
+
+
+			jQuery('#staff .info_div_total .second_column p').html(parsed.person_tab_total_hour);
+			jQuery('#staff .info_div_total .third_column p').html(parsed.person_tab_total_dwork_hour);
+			jQuery('#staff .info_div_total .fourth_column p').html(parsed.person_tab_total_billable_hour);
+			jQuery('#staff .info_div_total .fifth_column p').html(parsed.person_tab_total_unbillable_hour);
+			jQuery('#staff .info_div_total .sixth_column p').html(parsed.person_tab_total_billable_amount);
+			jQuery('#staff .info_div_total .seventh_column p').html(parsed.person_tab_total_dwork_pecent + '%');
+			jQuery('#staff .info_div_total .eight_column p').html(parsed.person_tab_total_ledig_hour);
+			jQuery('#staff .info_div_total .ninth_column p').html(parsed.person_tab_total_holiday_hour);
+			jQuery('#staff .info_div_total .tenth_column p').html(parsed.person_tab_total_vacation_hour);
+			jQuery('#staff .info_div_total .eleventh_column p').html(parsed.person_tab_total_sickness_hour);
 			 jQuery('.report_container .top_reports h1.top_dwork_hours').html(parsed.person_tab_total_dwork_pecent+ '%');
 			
 		},		
@@ -4293,6 +4308,54 @@ jQuery("div.tab_content.active .report_name_sort_desc").waitUntilExists(function
 
 /* END custom_reports_time.php FILTER TIME */
 
+//EDIT ORDER NO TAKS ON DETAILED TIME REPORT.
+jQuery(document).on('dblclick', '.edit_detailed_time_order_no', function(){
+	var id_string = jQuery(this).prev('.detailed_time_edit_taskname').attr('id').split('_');
+	var value = jQuery(this).text();
+
+	jQuery(this).html('<input value="'+value+'" class="edit_tasks_order_no" /><div class="check_update_order_no" id="task_order_number_id_'+id_string[2]+'"></div><div class="row-update-loader" id="order_no_loader_'+id_string[2]+'" style="display: none;"></div>');
+});
+
+jQuery(document).on('click', '.check_update_order_no', function(){
+	var this_element = jQuery(this);
+	var id = this_element.attr('id').split('_')[4];
+
+	this_element.hide();
+	jQuery('#order_no_loader_'+id).css({'display' : 'inline-block'});
+
+	var value = this_element.prev('.edit_tasks_order_no').val();
+
+	if(value == ''){
+		return false;
+	}
+
+	var data = {
+		'value' : value,
+		'id' : id
+	}
+
+	jQuery.ajax({
+	type : "POST",
+	url : '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
+	data:{
+		'type' : 'edit_detailed_time_order_no',
+		'data_object' : data				
+	},
+	success: function (data) {			
+		var parsed = jQuery.parseJSON(data);
+
+		if(parsed.status == 'successfully-update-order-no'){
+			jQuery('#taskname_id_'+parsed.id).next('.edit_detailed_time_order_no').html('<p>'+parsed.value+"</p>");
+		}else{
+			alert('error');
+		}
+	},
+	error: function (data) {
+		alert('error');
+	}
+	});
+});
+
 /* END custom_reports_detailed_time.php FILTER TIME */
 jQuery(document).ready(function(){
 	jQuery('.detailed_time_nav_week .detailed_time_nav_previous').click(function(){
@@ -4320,8 +4383,6 @@ jQuery(document).ready(function(){
 
 		var time_filter = jQuery('#detailed_time_custom_filter').val();
 		var report_sorting_type = jQuery('#filter_sorting_type').val();
-
-		// console.log(time_filter);
 
 		if(report_sorting_type == null){
 			report_sorting_type = 'Date';
@@ -4400,13 +4461,16 @@ jQuery(document).ready(function(){
 				}
 			});
 			
-			jQuery('.custom_date_filter_go').click(function(){				
+			jQuery('.custom_date_filter_go').click(function(){			
 				var project_name = jQuery('.custom_date_filter .project_name').val();
 				var client_name = jQuery('.custom_date_filter .client_name').val();
 				var person_name = jQuery('.custom_date_filter .person_name').val();
 				var from_date = jQuery('.custom_date_filter .from_date').val();
 				var to_date = jQuery('.custom_date_filter .to_date').val();
-				var filter_details = 'null' +'_'+ 'null' +'_'+ 'null' +'_'+ project_name +'_'+ client_name +'_'+ person_name +'_'+ from_date +'_'+ to_date;
+				var filter_unbillable_checkbox = jQuery('#filter_unbillable_checkbox').is(':checked');
+				var task_name = jQuery('.custom_date_filter .task_name').val();
+
+				var filter_details = 'null' +'_'+ 'null' +'_'+ 'null' +'_'+ project_name +'_'+ client_name +'_'+ person_name +'_'+ from_date +'_'+ to_date+'_'+filter_unbillable_checkbox+'_'+task_name;
 				filter_ajax_function_detailed_time(filter_details);
 			});
 		}
@@ -4645,7 +4709,7 @@ function filter_ajax_function_detailed_time(filter_details_detailed_time, report
 						+'<div style="display:none;" id="project_name_loader_'+ task_id +'" class="loader"></div>'
 						+'</div>'
 						+'<div id="taskname_id_'+task_id+'" class="fourth_column column detailed_time_edit_taskname"><p>'+task_name+'</p><div class="loader" id="taskname_loader_'+ task_id +'" style="display:none;"></div></div>'
-						+'<div class="third_column column"><p>'+orderno+'</p></div>'					
+						+'<div class="third_column column orderno-col edit_detailed_time_order_no"><p>'+orderno+'</p></div>'					
 						+'<div class="fifth_column column"><p>'+person_name+'</p></div>'
 						+'<div class="sixth_column column"><p>'+task_hour+'</p></div>'
 						+'<div class="seventh_column column"><p>'+kilometer+'</p></div>'
@@ -4730,7 +4794,7 @@ function filter_ajax_function_detailed_time(filter_details_detailed_time, report
 						+'<div style="display:none;" id="project_name_loader_'+ task_id +'" class="loader"></div>'
 						+'</div>'
 						+'<div id="taskname_id_'+task_id+'" class="fourth_column column detailed_time_edit_taskname"><p>'+task_name+'</p><div class="loader" id="taskname_loader_'+ task_id +'" style="display:none;"></div></div>'
-						+'<div class="third_column column"><p>'+orderno+'</p></div>'					
+						+'<div class="third_column column orderno-col edit_detailed_time_order_no"><p>'+orderno+'</p></div>'					
 						+'<div class="fifth_column column"><p>'+person_name+'</p></div>'
 						+'<div class="sixth_column column"><p>'+task_hour+'</p></div>'
 						+'<div class="seventh_column column"><p>'+kilometer+'</p></div>'
@@ -4756,7 +4820,6 @@ function filter_ajax_function_detailed_time(filter_details_detailed_time, report
 						);
 						jQuery('.header_titles .first_column .table_header').text('Date');
 					}
-
 					if(report_sorting_type == 'Order No'){
 						if(task_client_temp != orderno){
 							task_client_temp = orderno;																														              
@@ -4849,7 +4912,6 @@ function filter_ajax_function_detailed_time(filter_details_detailed_time, report
 						jQuery('.header_titles .first_column .table_header').text('Date');
 						jQuery('.order_number_column .third_column.column.edit_client_name').show();
 					}
-
 					if(report_sorting_type == 'Consultant'){
 						// jQuery('.column_group .fifth_column').show();
 						if(task_client_temp != person_name){
@@ -4863,6 +4925,7 @@ function filter_ajax_function_detailed_time(filter_details_detailed_time, report
 							 unbillable_hours_row = 0;
 							 total_kilometer = 0;			
 						}
+
 						if(task_name == "Tid"){
 							tid_hour += parseFloat(timeStringToFloat(task_hour));
 						}
@@ -4885,7 +4948,8 @@ function filter_ajax_function_detailed_time(filter_details_detailed_time, report
 						jQuery('#task_person_'+person_name.replace(/ /g,"")+' .total_hours_row').text("Total: " + total_hours_row);
 						jQuery('#task_person_'+person_name.replace(/ /g,"")+' .billable_hours_row').text("Billable: " + billable_hours_row);
 						jQuery('#task_person_'+person_name.replace(/ /g,"")+' .unbillable_hours_row').text("Unbillable: " + unbillable_hours_row);
-						jQuery('#task_person_'+person_name.replace(/ /g,"")+' .total_km_row').text("KM: " + total_kilometer);			
+						jQuery('#task_person_'+person_name.replace(/ /g,"")+' .total_km_row').text("KM: " + total_kilometer);	
+
 						jQuery('.detailed_time #task_person_'+person_name.replace(/ /g,"")+'.date_container').append('<div class="info_div">'
 						+'<div class="first_column"><p>'+task_date+'</p></div>'
 						+'<div id="colsultant_column" class="column_group">'
@@ -4912,6 +4976,102 @@ function filter_ajax_function_detailed_time(filter_details_detailed_time, report
 						+'</div>'
 						// +'<div class="third_column column"><p>'+orderno+'</p></div>'	
 						+'<div id="taskname_id_'+task_id+'" class="fourth_column column detailed_time_edit_taskname"><p class="column_align2">'+task_name+'</p><div class="loader" id="taskname_loader_'+ task_id +'" style="display:none;"></div></div>'
+						+'<div class="fourth_column column"><p class="column_align2">'+orderno+'</p></div>'					
+						+'<div class="fifth_column column"><p>'+person_name+'</p></div>'
+						+'<div class="sixth_column column"><p>'+task_hour+'</p></div>'
+						+'<div class="seventh_column column"><p>'+kilometer+'</p></div>'
+						//+'<div class="eighth_column column"><div id="task_desc_btn_id_'+task_id+'" class="show_desc_btn" title="Show Task Description"></div></div>'
+						+'<div id="task_description_id_'+task_id+'" class="full_width task_description" style="display: none;"><p>'+task_description+'</p></div>'
+						+'<div id="accordian_'+ task_id +'" style="display:none;" class="accordian task_done_today_display full_width">'
+						+'<h5 class="toggle">'
+						+'<a href="#"><li class="">Done Today<span class="arrow"></span></li></a>'
+						+'</h5>'
+						+'<div class="toggle-content" style="display: none;">'
+						+'<div class="full_width">'
+						+'<div class="header_titles">'
+						+'<div class="three_fourth"><p class="table_header">Task Description</p></div>'
+						+'<div class="one_fourth last"><p class="table_header">Task Hour</p></div>'										
+						+'</div>'
+						+'<div class="task_done_today_display_container">'					
+						+'</div>'
+						+'</div>'
+						+'</div>'
+						+'</div>'
+						+'</div>'
+						+'</div>'
+						);
+						jQuery('.column_group .fifth_column').hide();
+						jQuery('.column_group .client-title').show();
+						jQuery('.header_titles .first_column .table_header').text('Date');
+					}
+					if(report_sorting_type == 'Task'){
+						if(task_client_temp != task_name){
+							task_client_temp = task_name;																														              
+							jQuery('.detailed_time .detailed_time_details').append('<div id="task_name_'+task_name.replace(/ /g,"")+'" class="date_container"><div class="date_header"><p>'+task_name+'</p><p class="total_day_hour"></p><p class="total_km_row"></p><p class="total_hours_row"></p><p class="unbillable_hours_row"></p><p class="billable_hours_row"></p><p class="tid_2_total_hours"></p><p class="tid_1_total_hours"></p><p class="tid_total_hours"></p></div><div class="header_titles"> <div class="first_column column"> <p class="table_header">Date</p> </div> <div class="column_group"> <div class="second_column column client-title" > <p class="table_header">Client</p> </div> <div class="second_column column"> <p class="table_header">Project</p> </div> <div class="fourth_column column"> <p class="table_header" >Consultant</p> </div> <div class="third_column" style="width: 16.5%;" > <p class="table_header">Order No.</p> </div> <div class="fifth_column column"> <p class="table_header">Person</p> </div> <div class="sixth_column column"> <p class="table_header">Hours</p> </div> <div class="seventh_column column"> <p class="table_header">KM</p> </div> </div> </div></div>'); 
+
+								tid_hour = 0;
+								tid_1_hour = 0;
+								tid_2_hour = 0;
+								total_hours_row = 0;
+								billable_hours_row = 0;
+								unbillable_hours_row = 0;
+								total_kilometer = 0;			
+						}
+
+
+
+						if(task_name == "Tid"){
+							tid_hour += parseFloat(timeStringToFloat(task_hour));
+						}
+						if(task_name == "Tid-Ö1"){
+							tid_1_hour += parseFloat(timeStringToFloat(task_hour));
+						}
+						if(task_name == "Tid-Ö2"){
+							tid_2_hour += parseFloat(timeStringToFloat(task_hour));
+						}
+						if(billable == 1){
+							billable_hours_row += parseFloat(timeStringToFloat(task_hour));
+						}else{
+							unbillable_hours_row += parseFloat(timeStringToFloat(task_hour));
+						}
+						total_hours_row += parseFloat(timeStringToFloat(task_hour));
+						total_kilometer += Number(kilometer);
+
+						jQuery('#task_name_'+task_name.replace(/ /g,"")+' .tid_total_hours').text("Tid: " + tid_hour);
+						jQuery('#task_name_'+task_name.replace(/ /g,"")+' .tid_1_total_hours').text("Ö1: " + tid_1_hour);
+						jQuery('#task_name_'+task_name.replace(/ /g,"")+' .tid_2_total_hours').text("Ö2: " + tid_2_hour);
+						jQuery('#task_name_'+task_name.replace(/ /g,"")+' .total_hours_row').text("Total: " + total_hours_row);
+						jQuery('#task_name_'+task_name.replace(/ /g,"")+' .billable_hours_row').text("Billable: " + billable_hours_row);
+						jQuery('#task_name_'+task_name.replace(/ /g,"")+' .unbillable_hours_row').text("Unbillable: " + unbillable_hours_row);
+						jQuery('#task_name_'+task_name.replace(/ /g,"")+' .total_km_row').text("KM: " + total_kilometer);
+
+
+						jQuery('.detailed_time #task_name_'+task_name.replace(/ /g,"")+'.date_container').append('<div class="info_div">'
+						+'<div class="first_column"><p>'+task_date+'</p></div>'
+						+'<div id="colsultant_column" class="column_group">'
+						+'<div id="client_name_'+ task_id +'" class="third_column column edit_client_name">'
+						+'<p class="column_align2">'+ client_name +'</p>'	
+						+'<div style="display:none;" class="client_name_edit_container">'
+						+'<select name="client_name_edit" class="client_name_edit">'
+						+'<option>'+ client_name +'</option>'
+						+'</select>'
+						+'<div id="check_edit_'+ task_id +'" class="check_edit_client_name"></div>'
+						+'</div>'
+						+'<div style="display:none;" id="client_name_loader_'+ task_id +'" class="loader"></div>'
+						+'</div>'	
+						+'<div id="project_name_'+ task_id +'" class="second_column column detailed_time_edit_project_name">'
+						+'<input id="detailed_time_clientname_'+task_id+'" type="hidden" value="'+client_name+'">'
+						+'<p class="column_align2">'+ project_name +'</p>'
+						// +'<div style="display:none;" class="project_name_edit_container">'
+						// +'<select name="project_name_edit" class="project_name_edit">'
+						// +'<option>'+ project_name +'</option>'
+						// +'</select>'
+						+'<div id="check_edit_'+ task_id +'" class="check_edit_project_name"></div>'
+						// +'</div>'
+						+'<div style="display:none;" id="project_name_loader_'+ task_id +'" class="loader"></div>'
+						+'</div>'
+						+'<div class="fourth_column column"><p>'+person_name+'</p></div>'	
+						// +'<div id="taskname_id_'+task_id+'" class="third_column column "><p class="column_align2">'+task_name+'</p><div class="loader" id="taskname_loader_'+ task_id +'" style="display:none;"></div></div>'
 						+'<div class="fourth_column column"><p class="column_align2">'+orderno+'</p></div>'					
 						+'<div class="fifth_column column"><p>'+person_name+'</p></div>'
 						+'<div class="sixth_column column"><p>'+task_hour+'</p></div>'

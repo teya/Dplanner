@@ -617,7 +617,13 @@ if(isset($_GET['deleteID'])) {
 
 				$timesheet_month_details = $wpdb->get_results("SELECT * FROM {$table_name} WHERE task_person = '$current_user_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$month_number/$year', '%d/%m/%Y')"); 
 
-				
+				$Tidbank_hours = $wpdb->get_row("SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM {$table_name} as t WHERE task_person = '$current_user_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$month_number/$year', '%d/%m/%Y') AND task_name = 'Tidbank'");
+
+				if($Tidbank_hours->tidbank_total_hrs < 0){
+					$tidbank_total_hrs = abs($Tidbank_hours->tidbank_total_hrs);
+				}else if($Tidbank_hours->tidbank_total_hrs == 0){
+					$tidbank_total_hrs = 0;
+				}
 
 				$holiday_date = array();
 
@@ -815,9 +821,18 @@ if(isset($_GET['deleteID'])) {
 
 				$yesterday_format = date('Y/m/d',strtotime("-1 days"));
 
-				$timesheet_month_details = $wpdb->get_results("SELECT * FROM {$table_name} WHERE task_person = '$current_user_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('$yesterday', '%d/%m/%Y')"); 
-
+				$timesheet_month_details = $wpdb->get_results("SELECT * FROM {$table_name} WHERE task_person = '$current_user_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('$yesterday', '%d/%m/%Y') AND task_name <> 'Tidbank'"); 
 				$holiday_date = array();
+
+
+				$Tidbank_hours = $wpdb->get_row("SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM {$table_name} as t WHERE task_person = '$current_user_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$month_number/$year', '%d/%m/%Y') AND task_name = 'Tidbank'");
+
+				if($Tidbank_hours->tidbank_total_hrs < 0){
+					$tidbank_total_hrs = abs($Tidbank_hours->tidbank_total_hrs);
+				}else if($Tidbank_hours->tidbank_total_hrs == 0){
+					$tidbank_total_hrs = 0;
+				}
+
 
 				foreach($timesheet_month_details as $timesheet_month_detail){
 
@@ -841,30 +856,21 @@ if(isset($_GET['deleteID'])) {
 
 				$date1 = "$year/$month_number/01";
 
-				$date2 =  $yesterday_format;
+				$date2 =  date('Y/m/d');
 
 				$working_days = getWorkingDays($date1, $date2);
 
 				$worked_hours = (($working_days * $hour_per_day) - $holiday_hours);
 
-				
-
 				$total_month_hours = 0;
 
 				foreach($timesheet_month_details as $timesheet_month_detail){
-
 					$task_name = format_task_name($timesheet_month_detail->task_name);
-
 					if($task_name != 'Helg'){					
-
 						$task_hour 			= $timesheet_month_detail->task_hour;					
-
 						$task_hour_decimal 	= round(decimalHours($task_hour), 2);					
-
 						$total_month_hours	+= $task_hour_decimal;
-
 					}					
-
 				}
 
 				$total_hours_worked = $total_month_hours;
@@ -972,7 +978,7 @@ if(isset($_GET['deleteID'])) {
 
 				<div class="month_details">
 
-					<p class="label">Overtime/undertime Balance:</p>
+					<p class="label">Report balance:</p>
 
 					<p class="hours hour_balance <?php echo $p_class; ?>"><?php echo $hour_balance; ?></p>
 
@@ -1009,7 +1015,16 @@ if(isset($_GET['deleteID'])) {
 
 					<p class="hours holiday_hours"><?php echo $holiday_hours; ?></p>
 
+				</div>				
+
+				<div class="month_details">
+
+					<p class="label">Tidbank:</p>
+
+					<p class="hours hour_tidbank"><?php  echo $tidbank_total_hrs; ?></p>
+
 				</div>
+
 
 <!-- 				<div class="month_details">
 
@@ -1023,16 +1038,24 @@ if(isset($_GET['deleteID'])) {
 
 		</div>
 
-	
+	<?php 
+		$date_range = date_range($start_num, $end_num);
+		$dwork_filter = array(
+			'person_name' => $current_user_name,
+			'date_start' => date('d/m/Y', strtotime($start_num)),
+			'date_end' =>  date('d/m/Y', strtotime($end_num))
+		);	
+
+		$person_dwork = calculate_person_dwork($dwork_filter);
+	?>
 
 	<div class="right_div">
 
-		<div class="header_person_name"><h1>Your Timesheet:</h1></div>
+		<div class="header_person_name"><h1> Week <span class="top_nav_week_number"><?php echo $week_number_date_picker; ?></span> : <span class="week"><?php echo $start .' '.'-'.' '. $end?> - </span><?php echo $user_name; ?> - WD: <span class="total_dwork"><?php echo $person_dwork; ?></span>%</h1></div>
 
 		<div class="top_nav">
-
 			<div class="week_section">
-				<h3 class="week">Week: <?php echo $start .' '.'-'.' '. $end?> / Time: <span id="dplan_hours"><?php echo date('h'); ?></span>:<span id="dplan_minutes"><?php echo date('i'); ?></span></span></h3>
+				<h3 class=""><span class="header_day_date"><?php echo date('l'); ?> <?php  echo date('d M'); ?></span> - Time: <span id="dplan_hours"><?php echo date('h'); ?></span>:<span id="dplan_minutes"><?php echo date('i'); ?></span></span></h3>
 			</div>
 
 			<div style="display:none" class="status_message timesheet_message"><p></p><div class="loader"></div></div>
@@ -1056,23 +1079,15 @@ if(isset($_GET['deleteID'])) {
 
 		</div>
 
-		<?php 
+		<?php 	
 
-		$date_range = date_range($start_num, $end_num);		 
-
-		$monday_date_label = date("d M", strtotime(str_replace('/', '-', $date_range[0])));
-
-		$tuesday_date_label = date("d M", strtotime(str_replace('/', '-', $date_range[1])));
-
-		$wednesday_date_label = date("d M", strtotime(str_replace('/', '-', $date_range[2])));
-
-		$thursday_date_label = date("d M", strtotime(str_replace('/', '-', $date_range[3])));
-
-		$friday_date_label = date("d M", strtotime(str_replace('/', '-', $date_range[4])));
-
-		$saturday_date_label = date("d M", strtotime(str_replace('/', '-', $date_range[5])));
-
-		$sunday_date_label = date("d M", strtotime(str_replace('/', '-', $date_range[6])));
+			$monday_date_label = date("d M", strtotime(str_replace('/', '-', $date_range[0])));
+			$tuesday_date_label = date("d M", strtotime(str_replace('/', '-', $date_range[1])));
+			$wednesday_date_label = date("d M", strtotime(str_replace('/', '-', $date_range[2])));
+			$thursday_date_label = date("d M", strtotime(str_replace('/', '-', $date_range[3])));
+			$friday_date_label = date("d M", strtotime(str_replace('/', '-', $date_range[4])));
+			$saturday_date_label = date("d M", strtotime(str_replace('/', '-', $date_range[5])));
+			$sunday_date_label = date("d M", strtotime(str_replace('/', '-', $date_range[6])));
 
 		?>
 
@@ -1136,7 +1151,7 @@ if(isset($_GET['deleteID'])) {
 
 							<div class="import_button">		
 
-								<p class="label team-member-name">Team Member: <strong><?php echo $user_name; ?></strong></p>						
+													
 
 								<!-- <div id="import_kanban_task_monday" class="button_1 import_kanban_task button_import">Import</div>	 -->
 															
@@ -1416,6 +1431,7 @@ if(isset($_GET['deleteID'])) {
 								<!-- new_entry_save_1 -->
  								<li class="new_entry_button_1">
 									<div class="button_1 save_button_timesheet import_save_not_current" id="save_kanban_monday">+</div>
+									<div style="display: none;" class="loader loader-save-entry"></div>
 								</li>
 
 
@@ -1448,6 +1464,10 @@ if(isset($_GET['deleteID'])) {
 									<div id="delete_loader_<?php echo $import_item->ID?>" class="row-delete-loader" style="visibility: hidden;"></div>
 
 									<?php  if(!empty($import_item->edited_by)): ?>
+										<?php 
+											$edit_time_string = date('h:i A', strtotime(substr($import_item->edited_by, -5)));
+											$import_item->edited_by = substr($import_item->edited_by , 0, -5 ) . " " .$edit_time_string;
+										?>
 										<div id="edited_data_<?php echo  $import_item->ID; ?>" class="info_help" ></div>
 										<p id="edited_note_id_<?php echo  $import_item->ID; ?>" style="display: none;" class="edit_note">Edited By: <?php echo $import_item->edited_by; ?> </p>
 									<?php  endif;  ?>
@@ -1482,23 +1502,16 @@ if(isset($_GET['deleteID'])) {
 
 								// $all_hours = "";
 
-								$total_hour_decimal = "";
+								$total_hour_decimal = 0;
 
 								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Monday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[0]'");
 
 								foreach($timesheet_hours as $timesheet_hour){
-
 									$task_hour = $timesheet_hour->task_hour;
-
 									$task_hour_decimal = decimalHours($task_hour);
-
 									$total_hour_decimal += $task_hour_decimal;
-
 									
-
 								}
-
-								
 
 								$total_hour_unformat =  gmdate('H:i', floor($total_hour_decimal * 3600));
 
@@ -1553,12 +1566,8 @@ if(isset($_GET['deleteID'])) {
 						</div>
 
 						<div class="total_hours">
-
 							<div class="task_total"><h3>TOTAL</h3></div>
-
 							<div class="task_total_hour"><h3><?php echo $total_hour_format; ?></h3><input type="hidden" name="monday_status_color" value="<?php echo $color_status; ?>"></div>
-
-
 						</div>						
 
 <!-- 						<div class="clear_add_buttons">							
@@ -1570,11 +1579,8 @@ if(isset($_GET['deleteID'])) {
 						</div> -->
 
 						<div style="display:none;" class="import_message">
-
 							<p>Press save if Imported time is correct, else clear.</p>
-
 							<div style="display:none;" class="loader kanban_save_loader"></div>
-
 						</div>						
 
 					</div>
@@ -1611,7 +1617,7 @@ if(isset($_GET['deleteID'])) {
 
 							<div class="import_button">	
 
-								<p class="label team-member-name">Team Member: <strong><?php echo $user_name; ?></strong></p>								
+								<!-- <p class="label team-member-name">Team Member: <strong><?php echo $user_name; ?></strong></p>								 -->
 
 								<!-- <div id="import_kanban_task_tuesday" class="button_1 import_kanban_task button_import">Import</div> -->
 
@@ -1885,6 +1891,7 @@ if(isset($_GET['deleteID'])) {
 								<!-- new_entry_save_1 -->
  								<li class="new_entry_button_1">
 									<div class="button_1 save_button_timesheet import_save_not_current" id="save_kanban_tuesday">+</div>
+									<div style="display: none;" class="loader loader-save-entry"></div>
 								</li>
 
 							</div>													
@@ -1916,6 +1923,10 @@ if(isset($_GET['deleteID'])) {
 									<div id="delete_loader_<?php echo $import_item->ID?>" class="row-delete-loader" style="visibility: hidden;"></div>
 
 									<?php  if(!empty($import_item->edited_by)): ?>
+										<?php 
+											$edit_time_string = date('h:i A', strtotime(substr($import_item->edited_by, -5)));
+											$import_item->edited_by = substr($import_item->edited_by , 0, -5 ) . " " .$edit_time_string;
+										?>
 										<div id="edited_data_<?php echo  $import_item->ID; ?>" class="info_help" ></div>
 										<p id="edited_note_id_<?php echo  $import_item->ID; ?>" style="display: none;" class="edit_note">Edited By: <?php echo $import_item->edited_by; ?> </p>
 									<?php  endif;  ?>
@@ -1950,23 +1961,15 @@ if(isset($_GET['deleteID'])) {
 
 								// $all_hours = "";
 
-								$total_hour_decimal = "";						
+								$total_hour_decimal = 0;						
 
 								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Tuesday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[1]'");
 
 								foreach($timesheet_hours as $timesheet_hour){
-
 									$task_hour = $timesheet_hour->task_hour;
-
 									$task_hour_decimal = decimalHours($task_hour);
-
-									$total_hour_decimal += $task_hour_decimal;
-
-									
-
+									$total_hour_decimal += $task_hour_decimal;									
 								}
-
-								
 
 								$total_hour_unformat =  gmdate('H:i', floor($total_hour_decimal * 3600));
 
@@ -2019,11 +2022,8 @@ if(isset($_GET['deleteID'])) {
 						</div>
 
 						<div class="total_hours">
-
 							<div class="task_total"><h3>TOTAL</h3></div>
-
 							<div class="task_total_hour"><h3><?php echo $total_hour_format; ?></h3><input type="hidden" name="wednesday_status_color" value="<?php echo $color_status; ?>"></div>
-
 						</div>						
 <!-- 
 						<div class="clear_add_buttons">							
@@ -2077,7 +2077,7 @@ if(isset($_GET['deleteID'])) {
 
 							<div class="import_button">				
 
-								<p class="label team-member-name">Team Member: <strong><?php echo $user_name; ?></strong></p>					
+								<!-- <p class="label team-member-name">Team Member: <strong><?php echo $user_name; ?></strong></p>					 -->
 
 								<!-- <div id="import_kanban_task_wednesday" class="button_1 import_kanban_task button_import">Import</div> -->
 
@@ -2351,6 +2351,7 @@ if(isset($_GET['deleteID'])) {
 								<!-- new_entry_save_1 -->
 								<li class="new_entry_button_1">
 									<div class="button_1 save_button_timesheet import_save_not_current" id="save_kanban_wednesday">+</div>
+									<div style="display: none;" class="loader loader-save-entry"></div>
 								</li>
 
 
@@ -2384,6 +2385,10 @@ if(isset($_GET['deleteID'])) {
 									<div id="delete_loader_<?php echo $import_item->ID?>" class="row-delete-loader" style="visibility: hidden;"></div>
 
 									<?php  if(!empty($import_item->edited_by)): ?>
+										<?php 
+											$edit_time_string = date('h:i A', strtotime(substr($import_item->edited_by, -5)));
+											$import_item->edited_by = substr($import_item->edited_by , 0, -5 ) . " " .$edit_time_string;
+										?>
 										<div id="edited_data_<?php echo  $import_item->ID; ?>" class="info_help" ></div>
 										<p id="edited_note_id_<?php echo  $import_item->ID; ?>" style="display: none;" class="edit_note">Edited By: <?php echo $import_item->edited_by; ?> </p>
 									<?php  endif;  ?>
@@ -2419,24 +2424,17 @@ if(isset($_GET['deleteID'])) {
 
 								// $all_hours = "";
 
-								$total_hour_decimal = "";
+								$total_hour_decimal = 0;
 
 								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Wednesday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[2]'");
 
 								foreach($timesheet_hours as $timesheet_hour){
-
 									$task_hour = $timesheet_hour->task_hour;
-
 									$task_hour_decimal = decimalHours($task_hour);
-
-									$total_hour_decimal += $task_hour_decimal;
-
-									
-
+									$total_hour_decimal += $task_hour_decimal;									
 								}
 
-								
-
+							
 								$total_hour_unformat =  gmdate('H:i', floor($total_hour_decimal * 3600));
 
 								$total_hour_explode = explode(":", $total_hour_unformat);
@@ -2489,11 +2487,8 @@ if(isset($_GET['deleteID'])) {
 						</div>
 
 						<div class="total_hours">
-
 							<div class="task_total"><h3>TOTAL</h3></div>
-
 							<div class="task_total_hour"><h3><?php echo $total_hour_format; ?></h3><input type="hidden" name="wednesday_status_color" value="<?php echo $color_status; ?>"></div>
-
 						</div>						
 
 						<!-- <div class="clear_add_buttons"> -->
@@ -2546,7 +2541,7 @@ if(isset($_GET['deleteID'])) {
 
 							<div class="import_button">								
 
-								<p class="label team-member-name">Team Member: <strong><?php echo $user_name; ?></strong></p>	
+								<!-- <p class="label team-member-name">Team Member: <strong><?php echo $user_name; ?></strong></p>	 -->
 								<!-- <div id="import_kanban_task_thursday" class="button_1 import_kanban_task button_import">Import</div> -->
 								<!-- <div id="add_new_row" class="button_1 button_import add_task"> + </div> -->
 								<div id="add_kanban_task_thursday" class="button_1 button_import add_task">Add Entry</div>
@@ -2815,6 +2810,7 @@ if(isset($_GET['deleteID'])) {
 								<!-- new_entry_save_1 -->
 								<li class="new_entry_button_1">
 									<div class="button_1 save_button_timesheet import_save_not_current" id="save_kanban_thursday">+</div>
+									<div style="display: none;" class="loader loader-save-entry"></div>
 								</li>
 
 
@@ -2848,6 +2844,10 @@ if(isset($_GET['deleteID'])) {
 									<div id="delete_loader_<?php echo $import_item->ID?>" class="row-delete-loader" style="visibility: hidden;"></div>
 
 									<?php  if(!empty($import_item->edited_by)): ?>
+										<?php 
+											$edit_time_string = date('h:i A', strtotime(substr($import_item->edited_by, -5)));
+											$import_item->edited_by = substr($import_item->edited_by , 0, -5 ) . " " .$edit_time_string;
+										?>
 										<div id="edited_data_<?php echo  $import_item->ID; ?>" class="info_help" ></div>
 										<p id="edited_note_id_<?php echo  $import_item->ID; ?>" style="display: none;" class="edit_note">Edited By: <?php echo $import_item->edited_by; ?> </p>
 									<?php  endif;  ?>
@@ -2882,22 +2882,15 @@ if(isset($_GET['deleteID'])) {
 
 								// $all_hours = "";
 
-								$total_hour_decimal = "";
+								$total_hour_decimal = 0;
 
 								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Thursday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[3]'");
 
 								foreach($timesheet_hours as $timesheet_hour){
-
-									$task_hour = $timesheet_hour->task_hour;									
-
+									$task_hour = $timesheet_hour->task_hour;
 									$task_hour_decimal = decimalHours($task_hour);
-
-									$total_hour_decimal += $task_hour_decimal;
-
-									
-
+									$total_hour_decimal += $task_hour_decimal;									
 								}
-
 								
 
 								$total_hour_unformat =  gmdate('H:i', floor($total_hour_decimal * 3600));
@@ -2951,11 +2944,8 @@ if(isset($_GET['deleteID'])) {
 						</div>
 
 						<div class="total_hours">
-
 							<div class="task_total"><h3>TOTAL</h3></div>
-
 							<div class="task_total_hour"><h3><?php echo $total_hour_format; ?></h3><input type="hidden" name="thursday_status_color" value="<?php echo $color_status; ?>"></div>
-
 						</div>
 <!-- 
 						<div class="clear_add_buttons">
@@ -3011,7 +3001,7 @@ if(isset($_GET['deleteID'])) {
 
 							<div class="import_button">		
 
-								<p class="label team-member-name">Team Member: <strong><?php echo $user_name; ?></strong></p>							
+								<!-- <p class="label team-member-name">Team Member: <strong><?php echo $user_name; ?></strong></p>							 -->
 
 <!-- 								<div id="import_kanban_task_friday" class="button_1 import_kanban_task button_import">Import</div>
 
@@ -3282,6 +3272,7 @@ if(isset($_GET['deleteID'])) {
 
 								<li class="new_entry_button_1">
 									<div class="button_1 save_button_timesheet import_save_not_current" id="save_kanban_friday">+</div>
+									<div style="display: none;" class="loader loader-save-entry"></div>
 								</li>
 
 							</div>	
@@ -3314,6 +3305,11 @@ if(isset($_GET['deleteID'])) {
 									<div id="delete_loader_<?php echo $import_item->ID?>" class="row-delete-loader" style="visibility: hidden;"></div>
 
 									<?php  if(!empty($import_item->edited_by)): ?>
+
+										<?php 
+											$edit_time_string = date('h:i A', strtotime(substr($import_item->edited_by, -5)));
+											$import_item->edited_by = substr($import_item->edited_by , 0, -5 ) . " " .$edit_time_string;
+										?>
 										<div id="edited_data_<?php echo  $import_item->ID; ?>" class="info_help" ></div>
 										<p id="edited_note_id_<?php echo  $import_item->ID; ?>" style="display: none;" class="edit_note">Edited By: <?php echo $import_item->edited_by; ?> </p>
 									<?php  endif;  ?>
@@ -3348,22 +3344,15 @@ if(isset($_GET['deleteID'])) {
 
 								// $all_hours = "";
 
-								$total_hour_decimal = "";
+								$total_hour_decimal = 0;
 
 								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Friday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[4]'");
 
 								foreach($timesheet_hours as $timesheet_hour){
-
 									$task_hour = $timesheet_hour->task_hour;
-
 									$task_hour_decimal = decimalHours($task_hour);
-
-									$total_hour_decimal += $task_hour_decimal;
-
-									
-
+									$total_hour_decimal += $task_hour_decimal;									
 								}
-
 								
 
 								$total_hour_unformat =  gmdate('H:i', floor($total_hour_decimal * 3600));
@@ -3417,11 +3406,8 @@ if(isset($_GET['deleteID'])) {
 						</div>
 
 						<div class="total_hours">
-
 							<div class="task_total"><h3>TOTAL</h3></div>
-
 							<div class="task_total_hour"><h3><?php echo $total_hour_format; ?></h3><input type="hidden" name="friday_status_color" value="<?php echo $color_status; ?>"></div>
-
 						</div>						
 
 <!-- 						<div class="clear_add_buttons">
@@ -3474,7 +3460,7 @@ if(isset($_GET['deleteID'])) {
 
 							<div class="import_button">		
 
-								<p class="label team-member-name">Team Member: <strong><?php echo $user_name; ?></strong></p>							
+								<!-- <p class="label team-member-name">Team Member: <strong><?php echo $user_name; ?></strong></p>							 -->
 
 <!-- 								<div id="import_kanban_task_saturday" class="button_1 import_kanban_task button_import">Import</div>
 
@@ -3745,6 +3731,7 @@ if(isset($_GET['deleteID'])) {
 								<!-- new_entry_save_1 -->
 								<li class="new_entry_button_1">
 									<div class="button_1 save_button_timesheet import_save_not_current" id="save_kanban_sunday">+</div>
+									<div style="display: none;" class="loader loader-save-entry"></div>
 								</li> 
 
 							</div>	
@@ -3777,6 +3764,10 @@ if(isset($_GET['deleteID'])) {
 									<div id="delete_loader_<?php echo $import_item->ID?>" class="row-delete-loader" style="visibility: hidden;"></div>
 
 									<?php  if(!empty($import_item->edited_by)): ?>
+										<?php 
+											$edit_time_string = date('h:i A', strtotime(substr($import_item->edited_by, -5)));
+											$import_item->edited_by = substr($import_item->edited_by , 0, -5 ) . " " .$edit_time_string;
+										?>
 										<div id="edited_data_<?php echo  $import_item->ID; ?>" class="info_help" ></div>
 										<p id="edited_note_id_<?php echo  $import_item->ID; ?>" style="display: none;" class="edit_note">Edited By: <?php echo $import_item->edited_by; ?> </p>
 									<?php  endif;  ?>
@@ -3811,20 +3802,14 @@ if(isset($_GET['deleteID'])) {
 
 								// $all_hours = "";
 
-								$total_hour_decimal = "";
+								$total_hour_decimal = 0;
 
 								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Saturday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[5]'");
 
 								foreach($timesheet_hours as $timesheet_hour){
-
 									$task_hour = $timesheet_hour->task_hour;
-
 									$task_hour_decimal = decimalHours($task_hour);
-
-									$total_hour_decimal += $task_hour_decimal;
-
-									
-
+									$total_hour_decimal += $task_hour_decimal;									
 								}
 
 								
@@ -3881,11 +3866,8 @@ if(isset($_GET['deleteID'])) {
 						</div>
 
 						<div class="total_hours">
-
 							<div class="task_total"><h3>TOTAL</h3></div>
-
 							<div class="task_total_hour"><h3><?php echo $total_hour_format; ?></h3><input type="hidden" name="saturday_status_color" value="<?php echo $color_status; ?>"></div>
-
 						</div>
 
 <!-- 						<div class="clear_add_buttons">
@@ -3939,7 +3921,7 @@ if(isset($_GET['deleteID'])) {
 
 							<div class="import_button">		
 
-								<p class="label team-member-name">Team Member: <strong><?php echo $user_name; ?></strong></p>							
+								<!-- <p class="label team-member-name">Team Member: <strong><?php echo $user_name; ?></strong></p>							 -->
 
 <!-- 								<div id="import_kanban_task_sunday" class="button_1 import_kanban_task button_import">Import</div>
 
@@ -4219,6 +4201,7 @@ if(isset($_GET['deleteID'])) {
 								<!-- new_entry_save_1 -->
  								<li class="new_entry_button_1">
 									<div class="button_1 save_button_timesheet import_save_not_current" id="save_kanban_sunday">+</div>
+									<div style="display: none;" class="loader loader-save-entry"></div>
 								</li>
 
 
@@ -4251,6 +4234,10 @@ if(isset($_GET['deleteID'])) {
 									<div id="delete_loader_<?php echo $import_item->ID?>" class="row-delete-loader" style="visibility: hidden;"></div>
 
 									<?php  if(!empty($import_item->edited_by)): ?>
+										<?php 
+											$edit_time_string = date('h:i A', strtotime(substr($import_item->edited_by, -5)));
+											$import_item->edited_by = substr($import_item->edited_by , 0, -5 ) . " " .$edit_time_string;
+										?>
 										<div id="edited_data_<?php echo  $import_item->ID; ?>" class="info_help" ></div>
 										<p id="edited_note_id_<?php echo  $import_item->ID; ?>" style="display: none;" class="edit_note">Edited By: <?php echo $import_item->edited_by; ?> </p>
 									<?php  endif;  ?>
@@ -4285,20 +4272,14 @@ if(isset($_GET['deleteID'])) {
 
 								// $all_hours = "";
 
-								$total_hour_decimal = "";
+								$total_hour_decimal = 0;
 
 								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Sunday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[6]'");
 
 								foreach($timesheet_hours as $timesheet_hour){
-
 									$task_hour = $timesheet_hour->task_hour;
-
 									$task_hour_decimal = decimalHours($task_hour);
-
-									$total_hour_decimal += $task_hour_decimal;
-
-									
-
+									$total_hour_decimal += $task_hour_decimal;									
 								}
 
 						
@@ -4354,11 +4335,8 @@ if(isset($_GET['deleteID'])) {
 						</div>
 
 						<div class="total_hours">
-
 							<div class="task_total"><h3>TOTAL</h3></div>
-
 							<div class="task_total_hour"><h3><?php echo $total_hour_format; ?></h3><input type="hidden" name="sunday_status_color" value="<?php echo $color_status; ?>"></div>
-
 						</div>
 
 <!-- 						<div class="clear_add_buttons">
@@ -4455,8 +4433,6 @@ $duedt = explode("/", $date_now);
 $date  = mktime(0, 0, 0, $duedt[1], $duedt[2], $duedt[0]);
 
 $week_number  = (int)date('W', $date);
-
- 
 
 if(isset($_POST['import'])):
 

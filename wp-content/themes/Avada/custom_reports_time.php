@@ -138,13 +138,11 @@ jQuery(document).ready(function(){
 				<?php
 					$top_results = filter_report_time_top_query($filter_month);
 
-					$top_total_hours = substr(convertTime($top_results->total_hours), 0, -3);
+					$top_total_hours = (float)$top_results->total_hours;
 					$top_total_billable_amount = $top_results->billable_amount;
-					$top_total_no_work_hours = substr(convertTime($top_results->total_no_work_hours), 0, -3);
-					$top_total_unbillable_amount = substr(convertTime($top_results->unbillable_hours), 0, -3);
+					$top_total_no_work_hours = (float)$top_results->total_no_work_hours;
+					$top_total_unbillable_amount = (float)$top_results->unbillable_hours;
 					$top_dwork_total_hour_decimal = $top_results->total_hours - $top_results->total_no_work_hours;
-
-					// $top_total_dwork_percent = round(100 -(($top_results->billable_hours / $top_dwork_total_hour_decimal ) * 100),2);
 
 					if($top_dwork_total_hour_decimal != 0){
 						$top_total_dwork_percent = floor(($top_results->billable_hours / $top_dwork_total_hour_decimal ) * 100);
@@ -156,7 +154,7 @@ jQuery(document).ready(function(){
 				<div class="one_fourth"><p class="top_reports_label">Total Tracked</p><h1 class="top_hours_tracked"><?php echo $top_total_hours; ?></h1></div>
 				<!--  <div class="one_fourth"><p class="top_reports_label">Dwork</p><h1 class="top_hours_tracked"><?php echo round_quarter($total_hour_decimal); ?></h1></div>
 				<div class="one_fourth"><p class="top_reports_label">Billable Hours</p><h1 class="top_billable_hours"><?php echo round_quarter($billable_total_hour_decimal); ?></h1></div> -->
-				<div class="one_fourth"><p class="top_reports_label">Billable A</p><h1 class="top_billable_amount">kr&nbsp;<?php echo number_format($top_total_billable_amount, 0); ?></h1></div>
+				<div class="one_fourth"><p class="top_reports_label">Billable A</p><h1 class="top_billable_amount"><?php echo (int)$top_total_billable_amount; ?>kr</h1></div>
 				<div class="one_fourth"><p class="top_reports_label">D%</p><h1 class="top_dwork_hours_percent"><?php echo $top_total_dwork_percent; ?>%</h1></div>
 				<div class="one_fourth"><p class="top_reports_label">No Work</p><h1 class="top_ledig_hours"><?php echo $top_total_no_work_hours;  ?></h1></div>
 				<div class="one_fourth last"><p class="top_reports_label">Unbillable Hours</p><h1 class="top_unbillable_hours"><?php echo $top_total_unbillable_amount ?></h1></div>
@@ -197,21 +195,21 @@ jQuery(document).ready(function(){
 									<div class="seventh_column"><h3>D%</h3></div>
 									<div class="eight_column"><h3>Ledig</h3></div>
 									<div class="ninth_column"><h3>Holiday</h3></div>
-									<div class="tenth_column"><h3>Vacation</h3></div>
-									<div class="eleventh_column"><h3>Sick</h3></div>
+									<div class="tenth_column"><h3>Sick</h3></div>
+									<div class="eleventh_column"><h3>Vacation</h3></div>
 								</div>
 								<div class="project_hour_sort_container sort_name_container">
 								<?php
 									$person_name = filter_report_time_staff_query($filter_month);
 									foreach($person_name as $person){
-										$person_total_hours = substr(convertTime($person->total_hours), 0, -3);
-										$dwork_total_hour_decimal_hour = substr(convertTime($person->total_dwork_hours), 0, -3);
-										$billable_total_hour_decimal = substr(convertTime($person->billable_hours), 0, -3);
-										$unbillable_total_hour_decimal = substr(convertTime($person->unbillable_hours), 0, -3);
-										$ledig_total_hour_decimal = substr(convertTime($person->ledig_hours), 0, -3);
-										$holiday_total_hour_decimal = substr(convertTime($person->holiday_hours), 0, -3);
-										$vacation_total_hour_decimal = substr(convertTime($person->vacation_hours), 0, -3);
-										$sickness_total_hour_decimal = substr(convertTime($person->sick_hours), 0, -3);
+										$person_total_hours = $person->total_hours;
+										$dwork_total_hour_decimal_hour = $person->total_dwork_hours;
+										$billable_total_hour_decimal = $person->billable_hours;
+										$unbillable_total_hour_decimal = $person->unbillable_hours;
+										$ledig_total_hour_decimal = $person->ledig_hours;
+										$holiday_total_hour_decimal = $person->holiday_hours;
+										$vacation_total_hour_decimal = $person->vacation_hours;
+										$sickness_total_hour_decimal = $person->sick_hours;
 
 
 										if($billable_total_hour_decimal != 0){
@@ -223,16 +221,16 @@ jQuery(document).ready(function(){
 								?>
 										<div id="info_div_<?php echo $staff_tab_counter; ?>" class='info_div'>
 											<div class="first_column"><li><?php echo $person->person_fullname; ?></li></div>
-											<div class="second_column"><li><?php echo $person_total_hours; ?></li></div>
-											<div class="third_column"><li><?php echo $dwork_total_hour_decimal_hour; ?></li></div>
-											<div class="fourth_column"><li><?php echo $billable_total_hour_decimal; ?></li></div>
-											<div class="fifth_column"><li><?php echo $unbillable_total_hour_decimal; ?></li></div>
-											<div class="sixth_column"><li><?php echo number_format($person->billable_amount,0); ?></li></div>
+											<div class="second_column"><li><?php echo CleanDecimal($person_total_hours); ?></li></div>
+											<div class="third_column"><li><?php echo CleanDecimal($dwork_total_hour_decimal_hour); ?></li></div>
+											<div class="fourth_column"><li><?php echo CleanDecimal($billable_total_hour_decimal); ?></li></div>
+											<div class="fifth_column"><li><?php echo CleanDecimal($unbillable_total_hour_decimal); ?></li></div>
+											<div class="sixth_column"><li><?php echo CleanDecimal($person->billable_amount); ?></li></div>
 											<div class="seventh_column"><li><?php echo  floor($dwork_percent); ?>%</li></div> 
-											<div class="eight_column"><li><?php  echo $ledig_total_hour_decimal; ?></li></div>
-											<div class="ninth_column"><li><?php echo $holiday_total_hour_decimal; ?></li></div>
-											<div class="tenth_column"><li><?php echo $vacation_total_hour_decimal; ?></li></div>
-											<div class="eleventh_column"><li><?php echo $sickness_total_hour_decimal; ?></li></div>
+											<div class="eight_column"><li><?php  echo CleanDecimal($ledig_total_hour_decimal); ?></li></div>
+											<div class="ninth_column"><li><?php echo CleanDecimal($holiday_total_hour_decimal); ?></li></div>
+											<div class="tenth_column"><li><?php echo CleanDecimal($vacation_total_hour_decimal); ?></li></div>
+											<div class="eleventh_column"><li><?php echo CleanDecimal($sickness_total_hour_decimal); ?></li></div>
 										</div>
 								<?php
 										$staff_tab_counter++;
@@ -263,16 +261,16 @@ jQuery(document).ready(function(){
 								</div>
 								<div class="info_div_total">
 									<div class="first_column"><li><p class="report_total">Total</p></li></div>
-									<div class="second_column"><li><p class="report_total"><?php echo substr(convertTime($person_tab_total_hour), 0, -3); ?></p></li></div>
-									<div class="third_column"><li><p class="report_total"><?php echo substr(convertTime($person_tab_total_dwork_hour), 0, -3); ?></p></li></div>
-									<div class="fourth_column"><li><p class="report_total"><?php echo substr(convertTime($person_tab_total_billable_hour), 0, -3); ?></p></li></div>
-									<div class="fifth_column"><li><p class="report_total"><?php echo substr(convertTime($person_tab_total_unbillable_hour), 0, -3); ?></p></li></div>
-									<div class="sixth_column"><li><p class="report_total"><?php echo number_format($person_tab_total_billable_amount, 0); ?></p></li></div>
+									<div class="second_column"><li><p class="report_total"><?php echo CleanDecimal($person_tab_total_hour); ?></p></li></div>
+									<div class="third_column"><li><p class="report_total"><?php echo CleanDecimal($person_tab_total_dwork_hour); ?></p></li></div>
+									<div class="fourth_column"><li><p class="report_total"><?php echo CleanDecimal($person_tab_total_billable_hour); ?></p></li></div>
+									<div class="fifth_column"><li><p class="report_total"><?php echo CleanDecimal($person_tab_total_unbillable_hour); ?></p></li></div>
+									<div class="sixth_column"><li><p class="report_total"><?php echo CleanDecimal($person_tab_total_billable_amount); ?></p></li></div>
 									<div class="seventh_column"><li><p class="report_total"><?php echo $total_dwork_percent; ?>%</p></li></div>
-									<div class="eight_column"><li><p class="report_total"><?php echo substr(convertTime($person_tab_total_ledig_hour), 0, -3); ?></p></li></div>
-									<div class="ninth_column"><li><p class="report_total"><?php echo substr(convertTime($person_tab_total_holiday_hour), 0, -3); ?></p></li></div>
-									<div class="tenth_column"><li><p class="report_total"><?php echo substr(convertTime($person_tab_total_vacation_hour), 0, -3); ?></p></li></div>
-									<div class="eleventh_column"><li><p class="report_total"><?php echo substr(convertTime($person_tab_total_sickness_hour), 0, -3);  ?></p></li></div>
+									<div class="eight_column"><li><p class="report_total"><?php echo CleanDecimal($person_tab_total_ledig_hour); ?></p></li></div>
+									<div class="ninth_column"><li><p class="report_total"><?php echo CleanDecimal($person_tab_total_holiday_hour); ?></p></li></div>
+									<div class="tenth_column"><li><p class="report_total"><?php echo CleanDecimal($person_tab_total_vacation_hour); ?></p></li></div>
+									<div class="eleventh_column"><li><p class="report_total"><?php echo CleanDecimal($person_tab_total_sickness_hour);  ?></p></li></div>
 								</div>
 							</div>
 							<!-- CLIENTS -->
@@ -315,16 +313,16 @@ jQuery(document).ready(function(){
 										<div style="display:none" class="report_unbillable_a_sort_loader loader"></div>
 									</div>
 								</div>
-								<div class="project_hour_sort_container sort_name_container">
+							<div class="project_hour_sort_container sort_name_container">
 								<?php
 									$client_tab_counter = 1;
 									$client_names = filter_report_time_client_query($filter_month);
 
 									foreach($client_names as $client){ 
-										$total_client_hours =  substr(convertTime($client->total_hours), 0, -3);
-										$billable_total_hour_decimal = substr(convertTime($client->billable_hours), 0, -3);
+										$total_client_hours =  $client->total_hours;
+										$billable_total_hour_decimal = $client->billable_hours;
 										$total_billable_amount = $client->billable_amount;
-										$unbillable_total_hour_decimal = substr(convertTime($client->unbillable_hours), 0, -3);
+										$unbillable_total_hour_decimal = $client->unbillable_hours;
 										$total_unbillable_amount = $client->unbillable_amount;
 
 										$client_tab_total_hour += $client->total_hours;
@@ -336,11 +334,11 @@ jQuery(document).ready(function(){
 									?>
 									<div id="info_div_<?php echo $client_tab_counter; ?>" class='info_div'>
 										<div class="first_column"><li><?php echo $client->task_label; ?></li></div>
-										<div class="second_column"><li><?php echo $total_client_hours ?></li></div>
-										<div class="third_column"><li><?php echo $billable_total_hour_decimal; ?></li></div>
-										<div class="fourth_column"><li><?php echo $unbillable_total_hour_decimal ?></li></div>
-										<div class="fifth_column"><li><?php echo number_format($total_billable_amount, 0); ?></li></div>
-										<div class="sixth_column"><li><?php echo number_format($total_unbillable_amount, 0); ?></li></div>
+										<div class="second_column"><li><?php echo CleanDecimal($total_client_hours); ?></li></div>
+										<div class="third_column"><li><?php echo CleanDecimal($billable_total_hour_decimal); ?></li></div>
+										<div class="fourth_column"><li><?php echo CleanDecimal($unbillable_total_hour_decimal); ?></li></div>
+										<div class="fifth_column"><li><?php echo CleanDecimal($total_billable_amount); ?></li></div>
+										<div class="sixth_column"><li><?php echo CleanDecimal($total_unbillable_amount); ?></li></div>
 									</div>								
 								<?php 
 									$client_tab_counter++;
@@ -349,11 +347,11 @@ jQuery(document).ready(function(){
 								</div>
 								<div class="info_div_total">
 									<div class="first_column"><li><p class="report_total">Total</p></li></div>
-									<div class="second_column"><li><p class="report_total"><?php echo substr(convertTime($client_tab_total_hour), 0, -3); ?></p></li></div>
-									<div class="third_column"><li><p class="report_total"><?php echo substr(convertTime($client_tab_total_billable_hour), 0, -3); ?></p></li></div>
-									<div class="fourth_column"><li><p class="report_total"><?php echo substr(convertTime($client_tab_total_unbillable_hour), 0, -3); ?></p></li></div>
-									<div class="fifth_column"><li><p class="report_total"><?php echo number_format($client_tab_total_billable_amount, 0); ?></p></li></div>
-									<div class="sixth_column"><li><p class="report_total"><?php echo number_format($client_tab_total_unbillable_amount, 0); ?></p></li></div>
+									<div class="second_column"><li><p class="report_total"><?php echo CleanDecimal($client_tab_total_hour); ?></p></li></div>
+									<div class="third_column"><li><p class="report_total"><?php echo CleanDecimal($client_tab_total_billable_hour); ?></p></li></div>
+									<div class="fourth_column"><li><p class="report_total"><?php echo CleanDecimal($client_tab_total_unbillable_hour); ?></p></li></div>
+									<div class="fifth_column"><li><p class="report_total"><?php echo CleanDecimal($client_tab_total_billable_amount); ?></p></li></div>
+									<div class="sixth_column"><li><p class="report_total"><?php echo CleanDecimal($client_tab_total_unbillable_amount); ?></p></li></div>
 								</div>
 							</div>
 							<!-- PROJECTS -->
@@ -394,11 +392,10 @@ jQuery(document).ready(function(){
 										$project_tab_counter = 1;
 										foreach($project_clients as $project_client){
 
-											$total_project_hour = substr(convertTime($project_client->total_hours), 0, -3);
-											$billable_total_hour_decimal = substr(convertTime($project_client->total_hours), 0, -3);
-											$unbillable_total_hour_decimal = substr(convertTime($project_client->unbillable_hours), 0, -3);
+											$total_project_hour = CleanDecimal($project_client->total_hours);
+											$billable_total_hour_decimal = CleanDecimal($project_client->total_hours);
+											$unbillable_total_hour_decimal = CleanDecimal($project_client->unbillable_hours);
 	
-											
 											$project_tab_total_hour += $project_client->total_hours;
 											$project_tab_total_billable_hour += $project_client->billable_hours;
 											$project_tab_total_unbillable_hour += $project_client->unbillable_hours;
@@ -412,8 +409,8 @@ jQuery(document).ready(function(){
 											<div class="third_column"><li><?php echo $total_project_hour; ?></li></div>
 											<div class="fourth_column"><li><?php echo $billable_total_hour_decimal; ?></li></div>
 											<div class="fifth_column"><li><?php echo $unbillable_total_hour_decimal; ?></li></div>
-											<div class="sixth_column"><li><?php echo number_format($project_client->billable_amount, 0); ?></li></div>
-											<div class="seventh_column"><li><?php  echo number_format($project_client->unbillable_amount, 0); ?></li></div>
+											<div class="sixth_column"><li><?php echo CleanDecimal($project_client->billable_amount); ?></li></div>
+											<div class="seventh_column"><li><?php  echo CleanDecimal($project_client->unbillable_amount); ?></li></div>
 										</div>
 									<?php 
 										$project_tab_counter++;
@@ -423,11 +420,11 @@ jQuery(document).ready(function(){
 								<div class="info_div_total">
 									<div class="first_column"><li><p class="report_total">Total</p></li></div>
 									<div class="second_column"><li><p class="report_total">&nbsp;</p></li></div>
-									<div class="third_column"><li><p class="report_total"><?php echo substr(convertTime($project_tab_total_hour), 0, -3); ?></p></li></div>
-									<div class="fourth_column"><li><p class="report_total"><?php echo substr(convertTime($project_tab_total_billable_hour), 0, -3); ?></p></li></div>
-									<div class="fifth_column"><li><p class="report_total"><?php echo substr(convertTime($project_tab_total_unbillable_hour), 0, -3);; ?></p></li></div>
-									<div class="sixth_column"><li><p class="report_total"><?php echo number_format($project_tab_total_billable_amount, 0); ?></p></li></div>
-									<div class="seventh_column"><li><p class="report_total"><?php echo number_format($project_tab_total_unbillable_amount, 0); ?></p></li></div>
+									<div class="third_column"><li><p class="report_total"><?php echo CleanDecimal($project_tab_total_hour); ?></p></li></div>
+									<div class="fourth_column"><li><p class="report_total"><?php echo CleanDecimal($project_tab_total_billable_hour); ?></p></li></div>
+									<div class="fifth_column"><li><p class="report_total"><?php echo CleanDecimal($project_tab_total_unbillable_hour); ?></p></li></div>
+									<div class="sixth_column"><li><p class="report_total"><?php echo CleanDecimal($project_tab_total_billable_amount); ?></p></li></div>
+									<div class="seventh_column"><li><p class="report_total"><?php echo CleanDecimal($project_tab_total_unbillable_amount); ?></p></li></div>
 								</div>								
 							</div>
 							<!-- TASKS -->
@@ -464,11 +461,11 @@ jQuery(document).ready(function(){
 									$import_data_task = filter_report_time_task_query($filter_month);
 
 									foreach ($import_data_task as $timesheet_data){
-										$total_task_hour = substr(convertTime($timesheet_data->total_hours), 0, -3);
-										$billable_total_hour_decimal = substr(convertTime($timesheet_data->billable_hours), 0, -3);
-										$total_billable_amount = number_format($timesheet_data->billable_amount, 0);
-										$unbillable_total_hour_decimal = substr(convertTime($timesheet_data->unbillable_hours), 0, -3);
-										$total_unbillable_amount = number_format($timesheet_data->unbillable_amount, 0);
+										$total_task_hour = CleanDecimal($timesheet_data->total_hours);
+										$billable_total_hour_decimal = CleanDecimal($timesheet_data->billable_hours);
+										$total_billable_amount = CleanDecimal($timesheet_data->billable_amount);
+										$unbillable_total_hour_decimal = CleanDecimal($timesheet_data->unbillable_hours);
+										$total_unbillable_amount = CleanDecimal($timesheet_data->unbillable_amount);
 										
 
 										$task_tab_total_hour += $timesheet_data->total_hours;
@@ -493,11 +490,11 @@ jQuery(document).ready(function(){
 								</div>
 								<div class="info_div_total">
 									<div class="first_column"><li><p class="report_total">Total</p></li></div>
-									<div class="second_column"><li><p class="report_total"><?php echo substr(convertTime($task_tab_total_hour), 0, -3); ?></p></li></div>
-									<div class="third_column"><li><p class="report_total"><?php echo substr(convertTime($task_tab_total_billable_hour), 0, -3); ?></p></li></div>
-									<div class="fourth_column"><li><p class="report_total"><?php echo substr(convertTime($task_tab_total_unbillable_hour), 0, -3); ?></p></li></div>
-									<div class="fifth_column"><li><p class="report_total"><?php echo number_format($task_tab_total_billable_amount, 0); ?></p></li></div>
-									<div class="sixth_column"><li><p class="report_total"><?php echo number_format($task_tab_total_unbillable_amount, 0); ?></p></li></div>
+									<div class="second_column"><li><p class="report_total"><?php echo CleanDecimal($task_tab_total_hour); ?></p></li></div>
+									<div class="third_column"><li><p class="report_total"><?php echo CleanDecimal($task_tab_total_billable_hour); ?></p></li></div>
+									<div class="fourth_column"><li><p class="report_total"><?php echo CleanDecimal($task_tab_total_unbillable_hour); ?></p></li></div>
+									<div class="fifth_column"><li><p class="report_total"><?php echo CleanDecimal($task_tab_total_billable_amount); ?></p></li></div>
+									<div class="sixth_column"><li><p class="report_total"><?php echo CleanDecimal($task_tab_total_unbillable_amount); ?></p></li></div>
 								</div>
 							</div>
 						</div>

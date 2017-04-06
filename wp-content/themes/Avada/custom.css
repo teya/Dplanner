@@ -378,7 +378,7 @@ p.right_label{
 	line-height: normal;    
 	outline: medium none;    
 	padding: 6px 15px;    
-	text-shadow: 0 1px 0 #FFFFFF;    
+	/*text-shadow: 0 1px 0 #FFFFFF;    */
 }
 
 .tab-holder .tabs li.active a{	 border-color: #EAEAEA !important;}
@@ -396,7 +396,7 @@ p.right_label{
 	line-height: normal;    
 	outline: medium none;    
 	padding: 6px 15px;    
-	text-shadow: 0 1px 0 #FFFFFF;
+	/*text-shadow: 0 1px 0 #FFFFFF;*/
 }
 
 .tab-holder .tabs li:last-child a {    
@@ -615,7 +615,7 @@ figure.person_image{
 .timesheet .top_nav .week_section{	
 	float: left;    
 	line-height: 0;    
-	width: 35%;
+	width: 45%;
 }
 
 .timesheet .info_div{
@@ -638,6 +638,7 @@ figure.person_image{
 
 .timesheet .right_div .header_person_name h1{
 	margin-top: 0px;
+	font-size: 17px;
 }
 
 .timesheet .right_div .tab-holder .tabs-container .info_div:last-child{
@@ -1319,12 +1320,12 @@ figure.person_image{
 	margin: 0px;
 }
 
-.total_hours .task_total{	
-	width: 43.5%;	
+.total_hours .task_total, .total_hours .task_total_dwork{	
+	width: 25.5%;	
 	float: left;
 }
 
-.total_hours .task_total_hour{	width: 18%;	float: left;}
+.total_hours .task_total_hour, .total_hours .task_total_dwork_hour{	width: 10%;	float: left;}
 .import_function{	float: left;}
 
 .body_id_time  .avada-row,	
@@ -7277,7 +7278,7 @@ body.single .post-content li{
 	background: linear-gradient(#f8f293, #faf051) repeat scroll 0 0 rgba(0, 0, 0, 0.6) !important;
 }
 .team-member-name{
-	margin-left: 7px !important;
+	margin-left: 0px !important;
 }
 .save_new_entry_row, .delete_row_entry{
  	padding-left: 5px;
@@ -7316,7 +7317,7 @@ body.single .post-content li{
     width: auto !important;
     visibility: hidden !important;
  }
- .update_todolist_row, .check_update_timesheet, .check_update_timesheet_project, .check_update_timesheet_taskname, .check_update_detailed_time_taskname, .detailed_time_update_project, .edit_client_scheduled_date{
+ .update_todolist_row, .check_update_timesheet, .check_update_order_no, .check_update_timesheet_project, .check_update_timesheet_taskname, .check_update_detailed_time_taskname, .detailed_time_update_project, .edit_client_scheduled_date{
  	background-image: url("img/check.png");
     background-size: 20px auto;
     display: inline-block;
@@ -7357,7 +7358,8 @@ body.single .post-content li{
  	display: block;
  }
  .tabs_li.active .day_date{
- 	display: block
+ 	display: block;
+ 	font-weight:600 !important;
 
  }
 @media screen and (max-width: 1366px){`
@@ -8045,4 +8047,9 @@ table.dataTable.no-footer{
 }
 #complete_maintenance_dialog .maintenance_info_footer .loader{
 	margin-right: 10px;
+}
+.loader-save-entry{
+	float: none !important;
+	margin-left: 0px !important;
+	margin-top: 5px !important;
 }
