@@ -57,7 +57,36 @@
 				$start = date("Y-m-d", strtotime($start_num));
 				$end = date("Y-m-d", strtotime($end_num));
 			?>
+
+			<?php 		
+				$week_start = date("d/m/Y", strtotime($start_num));
+				$week_end = date("d/m/Y", strtotime($end_num));
+				global $wpdb;
+				$week = date('W');
+				$table_name = $wpdb->prefix . "custom_timesheet";
+				$filter = "STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('$week_start', '%d/%m/%Y') AND STR_TO_DATE('$week_end', '%d/%m/%Y') AND week_number = '$week'";
+				$timesheets = $wpdb->get_results("SELECT * FROM {$table_name} WHERE $filter ORDER BY STR_TO_DATE(date_now, '%d/%m/%Y') ASC");
+				
+				$total_date_now_array = array();
+				foreach($timesheets as $timesheet){
+					$total_date_now = $timesheet->date_now;
+					$total_date_now_array[] = $total_date_now;
+				}
+				$total_task_dates = array_unique($total_date_now_array);
+				foreach($total_task_dates as $total_task_date){ 
+					$total_timesheets = $wpdb->get_results("SELECT * FROM {$table_name} WHERE date_now = '$total_task_date'");
+					$total_day_hours_total = 0;
+					foreach($total_timesheets as $total_timesheet){
+						$total_task_hour = $total_timesheet->task_hour;
+						$total_task_hour_decimal 	= round(decimalHours($total_task_hour), 2);
+						$total_day_hours_total	+= $total_task_hour_decimal;				
+					}
+					$total_hours += $total_day_hours_total;
+				}
+			?>
+
 			<div class="report_top_label"><h1><?php echo "Week " . $week_number . " : " . $start . " / " . $end; ?></h1></div>
+		
 		</div>
 		<div class="right">	
 			<ul class="top-menu-filter">
@@ -160,34 +189,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="border_separator"></div>
-	<?php 		
-		$week_start = date("d/m/Y", strtotime($start_num));
-		$week_end = date("d/m/Y", strtotime($end_num));
-		global $wpdb;
-		$week = date('W');
-		$table_name = $wpdb->prefix . "custom_timesheet";
-		$filter = "STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('$week_start', '%d/%m/%Y') AND STR_TO_DATE('$week_end', '%d/%m/%Y') AND week_number = '$week'";
-		$timesheets = $wpdb->get_results("SELECT * FROM {$table_name} WHERE $filter ORDER BY STR_TO_DATE(date_now, '%d/%m/%Y') ASC");
-		
-		$total_date_now_array = array();
-		foreach($timesheets as $timesheet){
-			$total_date_now = $timesheet->date_now;
-			$total_date_now_array[] = $total_date_now;
-		}
-		$total_task_dates = array_unique($total_date_now_array);
-		foreach($total_task_dates as $total_task_date){ 
-			$total_timesheets = $wpdb->get_results("SELECT * FROM {$table_name} WHERE date_now = '$total_task_date'");
-			$total_day_hours_total = 0;
-			foreach($total_timesheets as $total_timesheet){
-				$total_task_hour = $total_timesheet->task_hour;
-				$total_task_hour_decimal 	= round(decimalHours($total_task_hour), 2);
-				$total_day_hours_total	+= $total_task_hour_decimal;				
-			}
-			$total_hours += $total_day_hours_total;
-		}
-	?>
 	<h3 class="detailed_total_hours" style="float: left; margin-bottom: 5px;">Total Hours: <?php echo round_quarter($total_hours); ?></h3>
+	<div class="border_separator"></div>
 	<div class="detailed_time_details">
 		<?php
 			$date_now_array = array();

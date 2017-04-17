@@ -63,7 +63,7 @@ foreach($persons as $person){
 		$Todolist_html_table = '';
 
 		if(!empty($Todolist)){
-			$Todolist_html_table = '<p>You have a Urgent Todolist/s</P>';
+			$Todolist_html_table = '<p>You have urgent Todo lists.</P>';
 			$Todolist_html_table .= '<table border="1">';
 			$Todolist_html_table .= '<teadh><tr><th>Todolist name</th><th>Client</th><th>Priority</th><th>Deadline</th></tr></thead>';
 			foreach($Todolist as $list){
@@ -133,11 +133,11 @@ foreach($persons as $person){
 				<p>Here are the dates::</p>
 				'.$list_empty_dates.'
 				<br />
-				<p>I have spend many hours creating this function, so please use it properly by filling in your timesheet ASAP!</p>
+				<p>Please login to Dplan here and fill in your time as soon as you can.</p>
 				<p>Thank you and have a good day.</p>
 				<p>Regards,<br />
 				Gray</p>
-				<p><a href="http://dplan.seowebsolutions.com/" target="_blank">Login to Dplan Here Now!</a></p>
+				<p><a href="https://tid.digerati.se/" target="_blank">Login to Dplan here</a></p>
 				<br />
 				';
 
@@ -162,11 +162,11 @@ foreach($persons as $person){
 			<p>Here are the dates:</p>
 			'.$list_empty_dates.'
 			<br />'.$Todolist_html_table 
-			.'<p>I have spend many hours creating this function, so please use it properly by filling in your timesheet ASAP!</p>
+			.'<p>Please login to Dplan here and fill in your time as soon as you can.</p>
 			<p>Thank you and have a good day.</p>
 			<p>Regards,<br />
 			Gray</p>
-			<p><a href="http://dplan.seowebsolutions.com/" target="_blank">Login to Dplan Here Now!</a></p>
+			<p><a href="https://tid.digerati.se/" target="_blank">Login to Dplan here</a></p>
 			<br />
 			';
 

@@ -1,3 +1,13 @@
+<?php 
+	$homepage = home_url();
+	$page = home_url(add_query_arg(array(),$wp->request));
+	if( $homepage !=  $page ){
+		if ( !is_user_logged_in() ) {
+		    header('Location: ' . get_site_url());
+		    exit;
+		}		
+	}
+?>
 <!DOCTYPE html>
 <html xmlns="http<?php echo (is_ssl())? 's' : ''; ?>://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
 <head>
@@ -2706,7 +2716,6 @@ function filter_ajax_function(filter_details, report_sorting_type){
 			jQuery('.staff_detail_loader').hide();
 			jQuery('#staff .sort_name_container').empty();
 			var parsed = jQuery.parseJSON(data);
-			console.log(parsed);
 			var staff_tab_counter = 1;
 
 			if(parsed.person_details != undefined){
@@ -2736,8 +2745,8 @@ function filter_ajax_function(filter_details, report_sorting_type){
 					+'<div class="seventh_column"><li>'+Dworkpercent+'%</li></div>'
 					+'<div class="eight_column"><li>'+legdig_total_hour_decimal+'</li></div>'
 					+'<div class="ninth_column"><li>'+holiday_total_hour_decimal+'</li></div>'
-					+'<div class="tenth_column"><li>'+vacation_total_hour_decimal+'</li></div>'
-					+'<div class="eleventh_column"><li>'+sickness_total_hour_decimal+'</li></div>'
+					+'<div class="tenth_column"><li>'+sickness_total_hour_decimal+'</li></div>'
+					+'<div class="eleventh_column"><li>'+vacation_total_hour_decimal+'</li></div>'
 					+'</div>');
 					
 					staff_tab_counter++;
@@ -2753,8 +2762,8 @@ function filter_ajax_function(filter_details, report_sorting_type){
 			jQuery('#staff .info_div_total .seventh_column p').html(parsed.person_tab_total_dwork_pecent + '%');
 			jQuery('#staff .info_div_total .eight_column p').html(parsed.person_tab_total_ledig_hour);
 			jQuery('#staff .info_div_total .ninth_column p').html(parsed.person_tab_total_holiday_hour);
-			jQuery('#staff .info_div_total .tenth_column p').html(parsed.person_tab_total_vacation_hour);
-			jQuery('#staff .info_div_total .eleventh_column p').html(parsed.person_tab_total_sickness_hour);
+			jQuery('#staff .info_div_total .tenth_column p').html(parsed.person_tab_total_sickness_hour);
+			jQuery('#staff .info_div_total .eleventh_column p').html(parsed.person_tab_total_vacation_hour);
 			 jQuery('.report_container .top_reports h1.top_dwork_hours').html(parsed.person_tab_total_dwork_pecent+ '%');
 			
 		},		
@@ -4585,7 +4594,9 @@ function next_detailed_time_filter(){
 	filter_ajax_function_detailed_time(filter_details, report_sorting_type);
 }
 
-function filter_ajax_function_detailed_time(filter_details_detailed_time, report_sorting_type = "Custom"){
+function filter_ajax_function_detailed_time(filter_details_detailed_time, report_sorting_type){
+
+	report_sorting_type = (report_sorting_type == undefined)? "Custom" : report_sorting_type;
 
 	jQuery('.custom_filter_loader').show();
 	jQuery.ajax({
@@ -4598,7 +4609,7 @@ function filter_ajax_function_detailed_time(filter_details_detailed_time, report
 		},
 		success: function (data) {			
 			jQuery('.detailed_time .detailed_time_details').empty();
-			jQuery('.detailed_time .detailed_total_hours').remove();
+			// jQuery('.detailed_time .detailed_total_hours').remove();
 			var parsed = jQuery.parseJSON(data);
 		
 			var report_top_label = parsed.report_top_label;
@@ -4606,7 +4617,8 @@ function filter_ajax_function_detailed_time(filter_details_detailed_time, report
 			
 			var check_empty = parsed.detailed_time_details.length;
 			if(check_empty != 0){
-				jQuery('<h3 class="detailed_total_hours" style="float: left; margin-bottom: 5px;">Total Hours: '+ parsed.total_hours +'</h3>').insertAfter('.header_titles');
+				console.log(parsed.total_hours);
+				jQuery('.detailed_time .detailed_total_hours').text( 'Total Hours: '+ parsed.total_hours +'');
 				var task_date_temp = "";
 				var task_client_temp = "";
 				var tid_hour = 0;

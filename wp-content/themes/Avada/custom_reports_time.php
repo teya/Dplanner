@@ -194,9 +194,9 @@ jQuery(document).ready(function(){
 									<div class="sixth_column"><h3>Billable A</h3></div>
 									<div class="seventh_column"><h3>D%</h3></div>
 									<div class="eight_column"><h3>Ledig</h3></div>
-									<div class="ninth_column"><h3>Holiday</h3></div>
-									<div class="tenth_column"><h3>Sick</h3></div>
-									<div class="eleventh_column"><h3>Vacation</h3></div>
+									<div class="ninth_column"><h3>Helg</h3></div>
+									<div class="tenth_column"><h3>Sjuk</h3></div>
+									<div class="eleventh_column"><h3>Semester</h3></div>
 								</div>
 								<div class="project_hour_sort_container sort_name_container">
 								<?php
@@ -229,8 +229,8 @@ jQuery(document).ready(function(){
 											<div class="seventh_column"><li><?php echo  floor($dwork_percent); ?>%</li></div> 
 											<div class="eight_column"><li><?php  echo CleanDecimal($ledig_total_hour_decimal); ?></li></div>
 											<div class="ninth_column"><li><?php echo CleanDecimal($holiday_total_hour_decimal); ?></li></div>
-											<div class="tenth_column"><li><?php echo CleanDecimal($vacation_total_hour_decimal); ?></li></div>
-											<div class="eleventh_column"><li><?php echo CleanDecimal($sickness_total_hour_decimal); ?></li></div>
+											<div class="tenth_column"><li><?php echo CleanDecimal($sickness_total_hour_decimal); ?></li></div>
+											<div class="eleventh_column"><li><?php echo CleanDecimal($vacation_total_hour_decimal); ?></li></div>
 										</div>
 								<?php
 										$staff_tab_counter++;
@@ -269,8 +269,8 @@ jQuery(document).ready(function(){
 									<div class="seventh_column"><li><p class="report_total"><?php echo $total_dwork_percent; ?>%</p></li></div>
 									<div class="eight_column"><li><p class="report_total"><?php echo CleanDecimal($person_tab_total_ledig_hour); ?></p></li></div>
 									<div class="ninth_column"><li><p class="report_total"><?php echo CleanDecimal($person_tab_total_holiday_hour); ?></p></li></div>
-									<div class="tenth_column"><li><p class="report_total"><?php echo CleanDecimal($person_tab_total_vacation_hour); ?></p></li></div>
-									<div class="eleventh_column"><li><p class="report_total"><?php echo CleanDecimal($person_tab_total_sickness_hour);  ?></p></li></div>
+									<div class="tenth_column"><li><p class="report_total"><?php echo CleanDecimal($person_tab_total_sickness_hour);  ?></p></li></div>
+									<div class="eleventh_column"><li><p class="report_total"><?php echo CleanDecimal($person_tab_total_vacation_hour); ?></p></li></div>
 								</div>
 							</div>
 							<!-- CLIENTS -->

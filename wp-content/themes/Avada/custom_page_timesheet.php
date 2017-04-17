@@ -619,10 +619,12 @@ if(isset($_GET['deleteID'])) {
 
 				$Tidbank_hours = $wpdb->get_row("SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM {$table_name} as t WHERE task_person = '$current_user_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$month_number/$year', '%d/%m/%Y') AND task_name = 'Tidbank'");
 
-				if($Tidbank_hours->tidbank_total_hrs < 0){
+				if($Tidbank_hours->tidbank_total_hrs <= 0){
 					$tidbank_total_hrs = abs($Tidbank_hours->tidbank_total_hrs);
-				}else if($Tidbank_hours->tidbank_total_hrs == 0){
-					$tidbank_total_hrs = 0;
+					$tid_hours_class = "";
+				}else{
+					$tidbank_total_hrs = "-" . (string)$Tidbank_hours->tidbank_total_hrs;
+					$tid_hours_class = "text_red";
 				}
 
 				$holiday_date = array();
@@ -673,6 +675,17 @@ if(isset($_GET['deleteID'])) {
 
 					}					
 
+				}
+
+				// Total Hours for Ledig
+				$total_month_helg = 0;
+				foreach($timesheet_month_details as $timesheet_month_detail){
+					$task_name = format_task_name($timesheet_month_detail->task_name);
+					if($task_name == 'Helg'){					
+						$task_hour 			= $timesheet_month_detail->task_hour;					
+						$task_hour_decimal 	= round(decimalHours($task_hour), 2);					
+						$total_month_helg	+= $task_hour_decimal;
+					}					
 				}
 
 
@@ -821,7 +834,7 @@ if(isset($_GET['deleteID'])) {
 
 				$yesterday_format = date('Y/m/d',strtotime("-1 days"));
 
-				$timesheet_month_details = $wpdb->get_results("SELECT * FROM {$table_name} WHERE task_person = '$current_user_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('$yesterday', '%d/%m/%Y') AND task_name <> 'Tidbank'"); 
+				$timesheet_month_details = $wpdb->get_results("SELECT * FROM {$table_name} WHERE task_person = '$current_user_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$month_number/$year', '%d/%m/%Y') AND task_name <> 'Tidbank'"); 
 				$holiday_date = array();
 
 
@@ -872,6 +885,53 @@ if(isset($_GET['deleteID'])) {
 						$total_month_hours	+= $task_hour_decimal;
 					}					
 				}
+
+				// Total Hours for Helg
+				$total_month_helg = 0;
+				foreach($timesheet_month_details as $timesheet_month_detail){
+					$task_name = format_task_name($timesheet_month_detail->task_name);
+					if($task_name == 'Helg'){					
+						$task_hour 			= $timesheet_month_detail->task_hour;					
+						$task_hour_decimal 	= round(decimalHours($task_hour), 2);					
+						$total_month_helg	+= $task_hour_decimal;
+					}					
+				}
+
+
+				// Total Hours for Semester
+				$total_month_semester = 0;
+				foreach($timesheet_month_details as $timesheet_month_detail){
+					$task_name = format_task_name($timesheet_month_detail->task_name);
+					if($task_name == 'Semester'){					
+						$task_hour 			= $timesheet_month_detail->task_hour;					
+						$task_hour_decimal 	= round(decimalHours($task_hour), 2);					
+						$total_month_semester	+= $task_hour_decimal;
+					}					
+				}	
+
+
+				// Total Hours for Sjuk
+				$total_month_sjuk = 0;
+				foreach($timesheet_month_details as $timesheet_month_detail){
+					$task_name = format_task_name($timesheet_month_detail->task_name);
+					if($task_name == 'Sjuk'){					
+						$task_hour 			= $timesheet_month_detail->task_hour;					
+						$task_hour_decimal 	= round(decimalHours($task_hour), 2);					
+						$total_month_sjuk	+= $task_hour_decimal;
+					}					
+				}	
+
+
+				// Total Hours for Ledig
+				$total_month_ledig = 0;
+				foreach($timesheet_month_details as $timesheet_month_detail){
+					$task_name = format_task_name($timesheet_month_detail->task_name);
+					if($task_name == 'Ledig'){					
+						$task_hour 			= $timesheet_month_detail->task_hour;					
+						$task_hour_decimal 	= round(decimalHours($task_hour), 2);					
+						$total_month_ledig	+= $task_hour_decimal;
+					}					
+				}																		
 
 				$total_hours_worked = $total_month_hours;
 
@@ -959,81 +1019,42 @@ if(isset($_GET['deleteID'])) {
 
 			<div class="month_stat">			
 				<h1><?php echo $month_year; ?></h1>	
-
 				<div class="month_details">
-
 					<p class="label">Workable hours so far:</p>		
-
 					<p class="hours worked_hours"><?php echo $worked_hours; ?></p>
-
 				</div>
-
 				<div class="month_details">
-
-					<p class="label">Total hours worked:</p>
-
+					<p class="label">Total hours reported:</p>
 					<p class="hours total_hours_worked"><?php echo $format_total_hours_worked; ?></p>
-
 				</div>
-
 				<div class="month_details">
-
 					<p class="label">Report balance:</p>
-
 					<p class="hours hour_balance <?php echo $p_class; ?>"><?php echo $hour_balance; ?></p>
-
 				</div>
-
-
 				<div class="month_details">
-
-					<p class="label">Vacation:</p>
-
-					<p class="hours hour_vacation"><?php echo ($total_month_semester)? $total_month_semester : 0; ?></p>
-
-				</div>
-
-				<div class="month_details">
-
-					<p class="label">Ledig:</p>
-
-					<p class="hours hour_ledig"><?php echo ($total_month_ledig)? $total_month_ledig : 0; ?></p>
-
-				</div>
-
-				<div class="month_details">
-
-					<p class="label">Sjuk:</p>
-
-					<p class="hours hour_sjuk"><?php echo ($total_month_sjuk)? $total_month_sjuk : 0; ?></p>
-
-				</div>
-
-				<div class="month_details">
-
-					<p class="label">Holiday Hours:</p>
-
-					<p class="hours holiday_hours"><?php echo $holiday_hours; ?></p>
-
-				</div>				
-
-				<div class="month_details">
-
 					<p class="label">Tidbank:</p>
-
-					<p class="hours hour_tidbank"><?php  echo $tidbank_total_hrs; ?></p>
-
+					<p class="hours hour_tidbank <?php echo $tid_hours_class; ?>"><?php  echo floatval($tidbank_total_hrs); ?></p>
 				</div>
-
-
+				<div class="month_details">
+					<p class="label">Semester:</p>
+					<p class="hours hour_vacation"><?php echo ($total_month_semester)? $total_month_semester : 0; ?></p>
+				</div>
+				<div class="month_details">
+					<p class="label">Ledig:</p>
+					<p class="hours hour_ledig"><?php echo ($total_month_ledig)? $total_month_ledig : 0; ?></p>
+				</div>
+				<div class="month_details">
+					<p class="label">Sjuk:</p>
+					<p class="hours hour_sjuk"><?php echo ($total_month_sjuk)? $total_month_sjuk : 0; ?></p>
+				</div>
+				<div class="month_details">
+					<p class="label">Helg:</p>
+					<p class="hours holiday_hours"><?php echo $total_month_helg; ?></p>
+				</div>				
 <!-- 				<div class="month_details">
-
 					<p class="label">Holiday Balance:</p>
-
 					<p class="hours holiday_balance"><?php echo $total_holiday_work; ?></p>
-
 				</div> -->
-
 			</div>
 
 		</div>
@@ -1051,7 +1072,7 @@ if(isset($_GET['deleteID'])) {
 
 	<div class="right_div">
 
-		<div class="header_person_name"><h1> Week <span class="top_nav_week_number"><?php echo $week_number_date_picker; ?></span> : <span class="week"><?php echo $start .' '.'-'.' '. $end?> - </span><?php echo $user_name; ?> - WD: <span class="total_dwork"><?php echo $person_dwork; ?></span>%</h1></div>
+		<div class="header_person_name"><h1> Week <span class="top_nav_week_number"><?php echo $week_number_date_picker; ?></span> ( <span class="week"><?php echo $start .' '.'-'.' '. $end?> ) </span><?php echo $user_name; ?> - WD: <span class="total_dwork"><?php echo $person_dwork; ?></span>%</h1></div>
 
 		<div class="top_nav">
 			<div class="week_section">
@@ -1178,7 +1199,7 @@ if(isset($_GET['deleteID'])) {
 								<h3 class="top_label">Client</h3>
 
 								<?php foreach ($import_data as $import_item): ?>
-									<li id="client_list_<?php echo $import_item->ID?>" class="client_info data_list_monday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_label)) ? $import_item->task_label : "--" ; ?></li>
+									<li id="client_list_<?php echo $import_item->ID; ?>" class="client_info data_list_monday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_label)) ? $import_item->task_label : "--" ; ?></li>
 								<?php endforeach; ?>
 
 								<!-- New Row Client Entry -->
@@ -1199,7 +1220,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-								<li id="project_id_<?php echo $import_item->ID?>" class="data_list_monday edit_project_record timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_project_name)) ? $import_item->task_project_name : "--" ; ?><div id="project_loader_<?php echo $import_item->ID?>" class="row-update-loader-project" style="display: none;"></div></li>
+								<li id="project_id_<?php echo $import_item->ID; ?>" class="data_list_monday edit_project_record timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_project_name)) ? $import_item->task_project_name : "--" ; ?><div id="project_loader_<?php echo $import_item->ID; ?>" class="row-update-loader-project" style="display: none;"></div></li>
 
 								<?php endforeach;  ?>
 
@@ -1207,7 +1228,7 @@ if(isset($_GET['deleteID'])) {
 								<li class="new_entry_project_1">
 									<select>
 										<?php 
-											$client_projects = $wpdb->get_results("SELECT * FROM {$table_name_project} WHERE project_client_id = '{$clients[0]->ID}'");
+											$client_projects = $wpdb->get_results("SELECT * FROM {$table_name_project} WHERE project_client_id = '{$clients[0]->ID}' ORDER BY project_name");
 											foreach($client_projects as $client_project){
 												$select = ($client_project->ID == $clients[0]->client_default_project)? 'selected' : '';
 												echo  "<option value='" . $client_project->project_name . "' ". $select .">" . $client_project->project_name . "</option>";
@@ -1256,7 +1277,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-									<li id="taskname_id_<?php echo $import_item->ID?>" class="data_list_monday edit_taskname_record timesheet_data_id_<?php echo $import_item->ID?>"><?php echo $task_name_trimmed; ?><div id="taskname_loader_<?php echo $import_item->ID?>" class="row-update-loader-project" style="display: none;"></div></li>
+									<li id="taskname_id_<?php echo $import_item->ID; ?>" class="data_list_monday edit_taskname_record timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo $task_name_trimmed; ?><div id="taskname_loader_<?php echo $import_item->ID; ?>" class="row-update-loader-project" style="display: none;"></div></li>
 
 								<?php endforeach; ?>
 
@@ -1283,7 +1304,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="timesheet_orderno_id_<?php echo $import_item->ID?>" class="data_list_monday edit_column_field timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->orderno)) ? $import_item->orderno : "--" ; ?>
+									<li id="timesheet_orderno_id_<?php echo $import_item->ID; ?>" class="data_list_monday edit_column_field timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->orderno)) ? $import_item->orderno : "--" ; ?>
 									</li>
 
 								<?php endforeach;  ?>
@@ -1307,7 +1328,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-								<li id="timesheet_hour_id_<?php echo $import_item->ID?>" class="data_list_monday edit_column_field timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($task_hour)) ? $task_hour : "--" ; ?></li>
+								<li id="timesheet_hour_id_<?php echo $import_item->ID; ?>" class="data_list_monday edit_column_field timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($task_hour)) ? $task_hour : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -1325,7 +1346,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="timesheet_kilometer_id_<?php echo $import_item->ID?>" class="data_list_monday edit_column_field timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->km)) ? $import_item->km : "--" ; ?>
+									<li id="timesheet_kilometer_id_<?php echo $import_item->ID; ?>" class="data_list_monday edit_column_field timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->km)) ? $import_item->km : "--" ; ?>
 									</li>
 
 								<?php endforeach;  ?>
@@ -1348,7 +1369,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-								<li class="data_list_monday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($task_hour_billable)) ? $task_hour_billable : "--" ; ?></li>
+								<li class="data_list_monday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($task_hour_billable)) ? $task_hour_billable : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -1360,7 +1381,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-								<li class="data_list_monday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_person)) ? $import_item->task_person : "--" ; ?></li>
+								<li class="data_list_monday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_person)) ? $import_item->task_person : "--" ; ?></li>
 
 								<?php  endforeach; ?>						
 
@@ -1388,15 +1409,15 @@ if(isset($_GET['deleteID'])) {
 
 								?>						
 
-								<div class="accordian accordian_<?php echo $import_item->ID?>">
+								<div class="accordian accordian_<?php echo $import_item->ID; ?>">
 
 									<h5 class="toggle">
 
-										<div id="toggle_description_id_<?php echo $import_item->ID?>" class="edit_column_field desc"><li class="data_list_monday timesheet_data_id_<?php echo $import_item->ID?> description_data_id_<?php echo $import_item->ID?>"><?php echo $task_description ; ?><span class="arrow"></span></li></div>
+										<div id="toggle_description_id_<?php echo $import_item->ID; ?>" class="edit_column_field desc"><li class="data_list_monday timesheet_data_id_<?php echo $import_item->ID; ?> description_data_id_<?php echo $import_item->ID; ?>"><?php echo $task_description ; ?><span class="arrow"></span></li></div>
 
 									</h5>
 
-									<div id="timesheet_description_id_<?php echo $import_item->ID?>" class="toggle-content" style="display: none;">
+									<div id="timesheet_description_id_<?php echo $import_item->ID; ?>" class="toggle-content" style="display: none;">
 
 										<?php echo stripslashes($import_item->task_description); ?>
 
@@ -1421,9 +1442,9 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_monday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_monday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
-									<div id="edit_kanban_monday_<?php echo $import_item->ID?>" class="button_1 edit_button edit_kanban">E</div>
+									<div id="edit_kanban_monday_<?php echo $import_item->ID; ?>" class="button_1 edit_button edit_kanban">E</div>
 
 								</li>
 
@@ -1443,9 +1464,9 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_monday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_monday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
-									<div id="delete_kanban_monday_<?php echo $import_item->ID?>" class="button_1 delete_button delete_edit_kanban">-</div>
+									<div id="delete_kanban_monday_<?php echo $import_item->ID; ?>" class="button_1 delete_button delete_edit_kanban">-</div>
 
 								</li>
 
@@ -1459,9 +1480,9 @@ if(isset($_GET['deleteID'])) {
 								<h3 class="top_label">&nbsp;&nbsp;&nbsp;&nbsp;</h3>
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_monday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_monday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
-									<div id="delete_loader_<?php echo $import_item->ID?>" class="row-delete-loader" style="visibility: hidden;"></div>
+									<div id="delete_loader_<?php echo $import_item->ID; ?>" class="row-delete-loader" style="visibility: hidden;"></div>
 
 									<?php  if(!empty($import_item->edited_by)): ?>
 										<?php 
@@ -1486,7 +1507,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_monday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_monday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
 									<div id="done_today_kanban_monday_<?php echo $import_item->ID; ?>" class="button_1 done_today_button done_today_kanban">Done Today</div>
 
@@ -1506,11 +1527,15 @@ if(isset($_GET['deleteID'])) {
 
 								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Monday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[0]'");
 
+								$tid_hours = 0;
 								foreach($timesheet_hours as $timesheet_hour){
 									$task_hour = $timesheet_hour->task_hour;
-									$task_hour_decimal = decimalHours($task_hour);
-									$total_hour_decimal += $task_hour_decimal;
-									
+									if (strpos($task_hour, '-') !== false) {
+									    $tid_hours +=  decimalHours(str_replace("-","",$task_hour));
+									}else{
+										$task_hour_decimal = decimalHours($task_hour);
+										$total_hour_decimal += $task_hour_decimal;									
+									}
 								}
 
 								$total_hour_unformat =  gmdate('H:i', floor($total_hour_decimal * 3600));
@@ -1544,12 +1569,9 @@ if(isset($_GET['deleteID'])) {
 								}
 
 								$total_hour = $format_hour .":". $rounded_minute;
-
-								$total_hour_decimal = decimalHours($total_hour);
-
+								$total_hour_decimal = decimalHours($total_hour) - $tid_hours;
+								$total_hour_decimal = ($total_hour_decimal < 0)? 0 : $total_hour_decimal;
 								$total_hour_format =  gmdate('H:i', floor($total_hour_decimal * 3600));
-
-
 
 								if($date_pass == true){
 									$color_status = "gray";
@@ -1642,7 +1664,7 @@ if(isset($_GET['deleteID'])) {
 								<h3 class="top_label">Client</h3>
 
 								<?php foreach ($import_data as $import_item): ?>
-									<li id="client_list_<?php echo $import_item->ID?>" class="client_info data_list_tuesday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_label)) ? $import_item->task_label : "--" ; ?></li>
+									<li id="client_list_<?php echo $import_item->ID; ?>" class="client_info data_list_tuesday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_label)) ? $import_item->task_label : "--" ; ?></li>
 								<?php endforeach; ?>
 
 
@@ -1665,7 +1687,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="project_id_<?php echo $import_item->ID?>" class="data_list_tuesday edit_project_record timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_project_name)) ? $import_item->task_project_name : "--" ; ?><div id="project_loader_<?php echo $import_item->ID?>" class="row-update-loader-project" style="display: none;"></div></li>
+									<li id="project_id_<?php echo $import_item->ID; ?>" class="data_list_tuesday edit_project_record timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_project_name)) ? $import_item->task_project_name : "--" ; ?><div id="project_loader_<?php echo $import_item->ID; ?>" class="row-update-loader-project" style="display: none;"></div></li>
 
 								<?php endforeach;  ?>
 
@@ -1673,7 +1695,7 @@ if(isset($_GET['deleteID'])) {
 								<li class=" new_entry_project_1">
 									<select>
 										<?php 
-											$client_projects = $wpdb->get_results("SELECT * FROM {$table_name_project} WHERE project_client_id = '{$clients[0]->ID}'");
+											$client_projects = $wpdb->get_results("SELECT * FROM {$table_name_project} WHERE project_client_id = '{$clients[0]->ID}' ORDER BY project_name");
 											foreach($client_projects as $client_project){
 												$select = ($client_project->ID == $clients[0]->client_default_project)? 'selected' : '';
 												echo  "<option value='" . $client_project->project_name . "' ". $select .">" . $client_project->project_name . "</option>";
@@ -1722,7 +1744,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-									<li id="taskname_id_<?php echo $import_item->ID?>" class="data_list_tuesday edit_taskname_record timesheet_data_id_<?php echo $import_item->ID?>"><?php echo $task_name_trimmed; ?><div id="taskname_loader_<?php echo $import_item->ID?>" class="row-update-loader-project" style="display: none;"></div></li>
+									<li id="taskname_id_<?php echo $import_item->ID; ?>" class="data_list_tuesday edit_taskname_record timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo $task_name_trimmed; ?><div id="taskname_loader_<?php echo $import_item->ID; ?>" class="row-update-loader-project" style="display: none;"></div></li>
 
 								<?php endforeach; ?>
 
@@ -1747,7 +1769,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="timesheet_orderno_id_<?php echo $import_item->ID?>" class="data_list_tuesday edit_column_field timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->orderno)) ? $import_item->orderno : "--" ; ?>
+									<li id="timesheet_orderno_id_<?php echo $import_item->ID; ?>" class="data_list_tuesday edit_column_field timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->orderno)) ? $import_item->orderno : "--" ; ?>
 									</li>
 
 								<?php endforeach;  ?>
@@ -1770,7 +1792,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-								<li id="timesheet_hour_id_<?php echo $import_item->ID?>" class="data_list_tuesday edit_column_field timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($task_hour)) ? $task_hour : "--" ; ?></li>
+								<li id="timesheet_hour_id_<?php echo $import_item->ID; ?>" class="data_list_tuesday edit_column_field timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($task_hour)) ? $task_hour : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -1788,7 +1810,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="timesheet_kilometer_id_<?php echo $import_item->ID?>" class="data_list_tuesday edit_column_field timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->km)) ? $import_item->km : "--" ; ?>
+									<li id="timesheet_kilometer_id_<?php echo $import_item->ID; ?>" class="data_list_tuesday edit_column_field timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->km)) ? $import_item->km : "--" ; ?>
 									</li>
 
 								<?php endforeach;  ?>
@@ -1809,7 +1831,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-								<li class="data_list_tuesday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($task_hour_billable)) ? $task_hour_billable : "--" ; ?></li>
+								<li class="data_list_tuesday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($task_hour_billable)) ? $task_hour_billable : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -1821,7 +1843,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php  foreach ($import_data as $import_item): ?>
 
-								<li class="data_list_tuesday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_person)) ? $import_item->task_person : "--" ; ?></li>
+								<li class="data_list_tuesday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_person)) ? $import_item->task_person : "--" ; ?></li>
 
 								<?php  endforeach; ?>
 
@@ -1849,15 +1871,15 @@ if(isset($_GET['deleteID'])) {
 
 								?>						
 
-								<div class="accordian accordian_<?php echo $import_item->ID?>">
+								<div class="accordian accordian_<?php echo $import_item->ID; ?>">
 
 									<h5 class="toggle">
 
-										<div id="toggle_description_id_<?php echo $import_item->ID?>" class="edit_column_field desc"><li class="data_list_tuesday timesheet_data_id_<?php echo $import_item->ID?> description_data_id_<?php echo $import_item->ID?>"><?php echo $task_description ; ?><span class="arrow"></span></li></div>
+										<div id="toggle_description_id_<?php echo $import_item->ID; ?>" class="edit_column_field desc"><li class="data_list_tuesday timesheet_data_id_<?php echo $import_item->ID; ?> description_data_id_<?php echo $import_item->ID; ?>"><?php echo $task_description ; ?><span class="arrow"></span></li></div>
 
 									</h5>
 
-									<div id="timesheet_description_id_<?php echo $import_item->ID?>" class="toggle-content edit_column_field" style="display: none;">
+									<div id="timesheet_description_id_<?php echo $import_item->ID; ?>" class="toggle-content edit_column_field" style="display: none;">
 
 										<?php echo stripslashes($import_item->task_description); ?>
 
@@ -1881,9 +1903,9 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_tuesday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_tuesday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
-									<div id="edit_kanban_tuesday_<?php echo $import_item->ID?>" class="button_1 edit_button edit_kanban">E</div>
+									<div id="edit_kanban_tuesday_<?php echo $import_item->ID; ?>" class="button_1 edit_button edit_kanban">E</div>
 
 								</li>								
 
@@ -1902,9 +1924,9 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_tuesday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_tuesday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
-									<div id="delete_kanban_tuesday_<?php echo $import_item->ID?>" class="button_1 delete_button delete_edit_kanban">-</div>
+									<div id="delete_kanban_tuesday_<?php echo $import_item->ID; ?>" class="button_1 delete_button delete_edit_kanban">-</div>
 
 								</li>
 
@@ -1918,9 +1940,9 @@ if(isset($_GET['deleteID'])) {
 								<h3 class="top_label">&nbsp;&nbsp;&nbsp;&nbsp;</h3>
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_tuesday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_tuesday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
-									<div id="delete_loader_<?php echo $import_item->ID?>" class="row-delete-loader" style="visibility: hidden;"></div>
+									<div id="delete_loader_<?php echo $import_item->ID; ?>" class="row-delete-loader" style="visibility: hidden;"></div>
 
 									<?php  if(!empty($import_item->edited_by)): ?>
 										<?php 
@@ -1945,7 +1967,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_tuesday timesheet_data_id_<?php echo $import_item->ID?>">
+								<li class="data_list_tuesday timesheet_data_id_<?php echo $import_item->ID; ?>">
 
 									<div id="done_today_kanban_tuesday_<?php echo $import_item->ID; ?>" class="button_1 done_today_button done_today_kanban">Done Today</div>
 
@@ -1965,10 +1987,15 @@ if(isset($_GET['deleteID'])) {
 
 								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Tuesday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[1]'");
 
+								$tid_hours = 0;
 								foreach($timesheet_hours as $timesheet_hour){
 									$task_hour = $timesheet_hour->task_hour;
-									$task_hour_decimal = decimalHours($task_hour);
-									$total_hour_decimal += $task_hour_decimal;									
+									if (strpos($task_hour, '-') !== false) {
+									    $tid_hours +=  decimalHours(str_replace("-","",$task_hour));
+									}else{
+										$task_hour_decimal = decimalHours($task_hour);
+										$total_hour_decimal += $task_hour_decimal;									
+									}
 								}
 
 								$total_hour_unformat =  gmdate('H:i', floor($total_hour_decimal * 3600));
@@ -2002,9 +2029,8 @@ if(isset($_GET['deleteID'])) {
 								}
 
 								$total_hour = $format_hour .":". $rounded_minute;
-
-								$total_hour_decimal = decimalHours($total_hour);
-
+								$total_hour_decimal = decimalHours($total_hour) - $tid_hours;
+								$total_hour_decimal = ($total_hour_decimal < 0)? 0 : $total_hour_decimal;
 								$total_hour_format =  gmdate('H:i', floor($total_hour_decimal * 3600));
 
 								if($date_pass == true){
@@ -2023,7 +2049,7 @@ if(isset($_GET['deleteID'])) {
 
 						<div class="total_hours">
 							<div class="task_total"><h3>TOTAL</h3></div>
-							<div class="task_total_hour"><h3><?php echo $total_hour_format; ?></h3><input type="hidden" name="wednesday_status_color" value="<?php echo $color_status; ?>"></div>
+							<div class="task_total_hour"><h3><?php echo $total_hour_format; ?></h3><input type="hidden" name="tuesday_status_color" value="<?php echo $color_status; ?>"></div>
 						</div>						
 <!-- 
 						<div class="clear_add_buttons">							
@@ -2102,7 +2128,7 @@ if(isset($_GET['deleteID'])) {
 								<h3 class="top_label">Client</h3>
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="client_list_<?php echo $import_item->ID?>" class="client_info data_list_wednesday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_label)) ? $import_item->task_label : "--" ; ?></li>
+									<li id="client_list_<?php echo $import_item->ID; ?>" class="client_info data_list_wednesday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_label)) ? $import_item->task_label : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -2127,7 +2153,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="project_id_<?php echo $import_item->ID?>" class="data_list_wednesday edit_project_record timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_project_name)) ? $import_item->task_project_name : "--" ; ?><div id="project_loader_<?php echo $import_item->ID?>" class="row-update-loader-project" style="display: none;"></div></li>
+									<li id="project_id_<?php echo $import_item->ID; ?>" class="data_list_wednesday edit_project_record timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_project_name)) ? $import_item->task_project_name : "--" ; ?><div id="project_loader_<?php echo $import_item->ID; ?>" class="row-update-loader-project" style="display: none;"></div></li>
 
 								<?php endforeach;  ?>
 
@@ -2135,7 +2161,7 @@ if(isset($_GET['deleteID'])) {
 								<li class=" new_entry_project_1">
 									<select>
 										<?php 
-											$client_projects = $wpdb->get_results("SELECT * FROM {$table_name_project} WHERE project_client_id = '{$clients[0]->ID}'");
+											$client_projects = $wpdb->get_results("SELECT * FROM {$table_name_project} WHERE project_client_id = '{$clients[0]->ID}' ORDER BY project_name");
 											foreach($client_projects as $client_project){
 												$select = ($client_project->ID == $clients[0]->client_default_project)? 'selected' : '';
 												echo  "<option value='" . $client_project->project_name . "' ". $select .">" . $client_project->project_name . "</option>";
@@ -2184,7 +2210,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-									<li id="taskname_id_<?php echo $import_item->ID?>" class="data_list_wednesday edit_taskname_record timesheet_data_id_<?php echo $import_item->ID?>"><?php echo $task_name_trimmed; ?><div id="taskname_loader_<?php echo $import_item->ID?>" class="row-update-loader-project" style="display: none;"></div></li>
+									<li id="taskname_id_<?php echo $import_item->ID; ?>" class="data_list_wednesday edit_taskname_record timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo $task_name_trimmed; ?><div id="taskname_loader_<?php echo $import_item->ID; ?>" class="row-update-loader-project" style="display: none;"></div></li>
 
 								<?php endforeach; ?>
 
@@ -2209,7 +2235,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="timesheet_orderno_id_<?php echo $import_item->ID?>" class="data_list_wednesday edit_column_field timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->orderno)) ? $import_item->orderno : "--" ; ?>
+									<li id="timesheet_orderno_id_<?php echo $import_item->ID; ?>" class="data_list_wednesday edit_column_field timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->orderno)) ? $import_item->orderno : "--" ; ?>
 									</li>
 
 								<?php endforeach;  ?>
@@ -2231,7 +2257,7 @@ if(isset($_GET['deleteID'])) {
 									$task_hour = time_format($task_hms);
 
 								?>
-								<li id="timesheet_hour_id_<?php echo $import_item->ID?>" class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID?> edit_column_field"><?php echo (!empty($task_hour)) ? $task_hour : "--" ; ?></li>
+								<li id="timesheet_hour_id_<?php echo $import_item->ID; ?>" class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID; ?> edit_column_field"><?php echo (!empty($task_hour)) ? $task_hour : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -2249,7 +2275,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="timesheet_kilometer_id_<?php echo $import_item->ID?>" class="data_list_wednesday edit_column_field timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->km)) ? $import_item->km : "--" ; ?>
+									<li id="timesheet_kilometer_id_<?php echo $import_item->ID; ?>" class="data_list_wednesday edit_column_field timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->km)) ? $import_item->km : "--" ; ?>
 									</li>
 
 								<?php endforeach;  ?>
@@ -2270,7 +2296,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-								<li class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($task_hour_billable)) ? $task_hour_billable : "--" ; ?></li>
+								<li class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($task_hour_billable)) ? $task_hour_billable : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -2282,7 +2308,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-								<li class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_person)) ? $import_item->task_person : "--" ; ?></li>
+								<li class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_person)) ? $import_item->task_person : "--" ; ?></li>
 
 								<?php endforeach; ?>						
 
@@ -2310,15 +2336,15 @@ if(isset($_GET['deleteID'])) {
 
 								?>						
 
-								<div class="accordian accordian_<?php echo $import_item->ID?>">
+								<div class="accordian accordian_<?php echo $import_item->ID; ?>">
 
 									<h5 class="toggle">
 
-										<div id="toggle_description_id_<?php echo $import_item->ID?>" class="edit_column_field desc"><li class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID?> description_data_id_<?php echo $import_item->ID?>"><?php echo $task_description ; ?><span class="arrow"></span></li></div>
+										<div id="toggle_description_id_<?php echo $import_item->ID; ?>" class="edit_column_field desc"><li class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID; ?> description_data_id_<?php echo $import_item->ID; ?>"><?php echo $task_description ; ?><span class="arrow"></span></li></div>
 
 									</h5>
 
-									<div id="timesheet_description_id_<?php echo $import_item->ID?>" class="toggle-content edit_column_field" style="display: none;">
+									<div id="timesheet_description_id_<?php echo $import_item->ID; ?>" class="toggle-content edit_column_field" style="display: none;">
 
 										<?php echo stripslashes($import_item->task_description); ?>
 
@@ -2342,9 +2368,9 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
-									<div id="edit_kanban_wednesday_<?php echo $import_item->ID?>" class="button_1 edit_button edit_kanban">E</div>
+									<div id="edit_kanban_wednesday_<?php echo $import_item->ID; ?>" class="button_1 edit_button edit_kanban">E</div>
 								</li>								
 
 								<?php endforeach; ?>
@@ -2363,9 +2389,9 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
-									<div id="delete_kanban_wednesday_<?php echo $import_item->ID?>" class="button_1 delete_button delete_edit_kanban">-</div>
+									<div id="delete_kanban_wednesday_<?php echo $import_item->ID; ?>" class="button_1 delete_button delete_edit_kanban">-</div>
 
 								</li>
 
@@ -2380,9 +2406,9 @@ if(isset($_GET['deleteID'])) {
 								<h3 class="top_label">&nbsp;&nbsp;&nbsp;&nbsp;</h3>
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
-									<div id="delete_loader_<?php echo $import_item->ID?>" class="row-delete-loader" style="visibility: hidden;"></div>
+									<div id="delete_loader_<?php echo $import_item->ID; ?>" class="row-delete-loader" style="visibility: hidden;"></div>
 
 									<?php  if(!empty($import_item->edited_by)): ?>
 										<?php 
@@ -2408,7 +2434,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID?>">
+								<li class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID; ?>">
 
 									<div id="done_today_kanban_wednesday_<?php echo $import_item->ID; ?>" class="button_1 done_today_button done_today_kanban">Done Today</div>
 
@@ -2428,10 +2454,15 @@ if(isset($_GET['deleteID'])) {
 
 								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Wednesday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[2]'");
 
+								$tid_hours = 0;
 								foreach($timesheet_hours as $timesheet_hour){
 									$task_hour = $timesheet_hour->task_hour;
-									$task_hour_decimal = decimalHours($task_hour);
-									$total_hour_decimal += $task_hour_decimal;									
+									if (strpos($task_hour, '-') !== false) {
+									    $tid_hours +=  decimalHours(str_replace("-","",$task_hour));
+									}else{
+										$task_hour_decimal = decimalHours($task_hour);
+										$total_hour_decimal += $task_hour_decimal;									
+									}
 								}
 
 							
@@ -2466,9 +2497,8 @@ if(isset($_GET['deleteID'])) {
 								}
 
 								$total_hour = $format_hour .":". $rounded_minute;
-
-								$total_hour_decimal = decimalHours($total_hour);
-
+								$total_hour_decimal = decimalHours($total_hour) - $tid_hours;
+								$total_hour_decimal = ($total_hour_decimal < 0)? 0 : $total_hour_decimal;
 								$total_hour_format =  gmdate('H:i', floor($total_hour_decimal * 3600));
 
 								if($date_pass == true){
@@ -2564,7 +2594,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="client_list_<?php echo $import_item->ID?>" class="client_info data_list_thursday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_label)) ? $import_item->task_label : "--" ; ?></li>
+									<li id="client_list_<?php echo $import_item->ID; ?>" class="client_info data_list_thursday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_label)) ? $import_item->task_label : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -2586,14 +2616,14 @@ if(isset($_GET['deleteID'])) {
 								<h3 class="top_label">Project</h3>
 
 								<?php foreach ($import_data as $import_item): ?>
-									<li id="project_id_<?php echo $import_item->ID?>" class="data_list_thursday edit_project_record timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_project_name)) ? $import_item->task_project_name : "--" ; ?><div id="project_loader_<?php echo $import_item->ID?>" class="row-update-loader-project" style="display: none;"></div></li>
+									<li id="project_id_<?php echo $import_item->ID; ?>" class="data_list_thursday edit_project_record timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_project_name)) ? $import_item->task_project_name : "--" ; ?><div id="project_loader_<?php echo $import_item->ID; ?>" class="row-update-loader-project" style="display: none;"></div></li>
 								<?php endforeach;  ?>
 
 								<!-- New Row Project Entry -->
 								<li class=" new_entry_project_1">
 									<select>
 										<?php 
-											$client_projects = $wpdb->get_results("SELECT * FROM {$table_name_project} WHERE project_client_id = '{$clients[0]->ID}'");
+											$client_projects = $wpdb->get_results("SELECT * FROM {$table_name_project} WHERE project_client_id = '{$clients[0]->ID}' ORDER BY project_name");
 											foreach($client_projects as $client_project){
 												$select = ($client_project->ID == $clients[0]->client_default_project)? 'selected' : '';
 												echo  "<option value='" . $client_project->project_name . "' ". $select .">" . $client_project->project_name . "</option>";
@@ -2642,7 +2672,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-								<li id="taskname_id_<?php echo $import_item->ID?>" class="data_list_thursday edit_taskname_record timesheet_data_id_<?php echo $import_item->ID?>"><?php echo $task_name_trimmed; ?><div id="taskname_loader_<?php echo $import_item->ID?>" class="row-update-loader-project" style="display: none;"></div></li>
+								<li id="taskname_id_<?php echo $import_item->ID; ?>" class="data_list_thursday edit_taskname_record timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo $task_name_trimmed; ?><div id="taskname_loader_<?php echo $import_item->ID; ?>" class="row-update-loader-project" style="display: none;"></div></li>
 								<?php endforeach; ?>
 
 								<!-- New Row Task Name Entry -->
@@ -2665,7 +2695,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="timesheet_orderno_id_<?php echo $import_item->ID?>" class="data_list_thursday edit_column_field timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->orderno)) ? $import_item->orderno : "--" ; ?>
+									<li id="timesheet_orderno_id_<?php echo $import_item->ID; ?>" class="data_list_thursday edit_column_field timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->orderno)) ? $import_item->orderno : "--" ; ?>
 									</li>
 
 								<?php endforeach;  ?>
@@ -2689,7 +2719,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-								<li id="timesheet_hour_id_<?php echo $import_item->ID?>" class="data_list_thursday timesheet_data_id_<?php echo $import_item->ID?> edit_column_field"><?php echo (!empty($task_hour)) ? $task_hour : "--" ; ?></li>
+								<li id="timesheet_hour_id_<?php echo $import_item->ID; ?>" class="data_list_thursday timesheet_data_id_<?php echo $import_item->ID; ?> edit_column_field"><?php echo (!empty($task_hour)) ? $task_hour : "--" ; ?></li>
 
 
 								<?php endforeach; ?>
@@ -2707,7 +2737,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="timesheet_kilometer_id_<?php echo $import_item->ID?>" class="data_list_thursday edit_column_field timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->km)) ? $import_item->km : "--" ; ?>
+									<li id="timesheet_kilometer_id_<?php echo $import_item->ID; ?>" class="data_list_thursday edit_column_field timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->km)) ? $import_item->km : "--" ; ?>
 									</li>
 
 								<?php endforeach;  ?>
@@ -2728,7 +2758,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-								<li class="data_list_thursday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($task_hour_billable)) ? $task_hour_billable : "--" ; ?></li>
+								<li class="data_list_thursday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($task_hour_billable)) ? $task_hour_billable : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -2740,7 +2770,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-								<li class="data_list_thursday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_person)) ? $import_item->task_person : "--" ; ?></li>
+								<li class="data_list_thursday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_person)) ? $import_item->task_person : "--" ; ?></li>
 
 								<?php endforeach; ?>						
 
@@ -2768,15 +2798,15 @@ if(isset($_GET['deleteID'])) {
 
 								?>						
 
-								<div class="accordian accordian_<?php echo $import_item->ID?>">
+								<div class="accordian accordian_<?php echo $import_item->ID; ?>">
 
 									<h5 class="toggle">
 
-										<div id="toggle_description_id_<?php echo $import_item->ID?>" class="edit_column_field desc"><li class="data_list_thursday timesheet_data_id_<?php echo $import_item->ID?> description_data_id_<?php echo $import_item->ID?>"><?php echo $task_description ; ?><span class="arrow"></span></li></div>
+										<div id="toggle_description_id_<?php echo $import_item->ID; ?>" class="edit_column_field desc"><li class="data_list_thursday timesheet_data_id_<?php echo $import_item->ID; ?> description_data_id_<?php echo $import_item->ID; ?>"><?php echo $task_description ; ?><span class="arrow"></span></li></div>
 
 									</h5>
 
-									<div id="timesheet_description_id_<?php echo $import_item->ID?>" class="toggle-content edit_column_field" style="display: none;">
+									<div id="timesheet_description_id_<?php echo $import_item->ID; ?>" class="toggle-content edit_column_field" style="display: none;">
 
 										<?php echo stripslashes($import_item->task_description); ?>
 
@@ -2800,7 +2830,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_thursday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_thursday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
 									<div id="edit_kanban_thursday_<?php echo $impoxrt_item->ID?>" class="button_1 edit_button edit_kanban">E</div>
 
@@ -2822,9 +2852,9 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_thursday timesheet_data_id_<?php echo $import_item->ID?>">
+								<li class="data_list_thursday timesheet_data_id_<?php echo $import_item->ID; ?>">
 
-									<div id="delete_kanban_thursday_<?php echo $import_item->ID?>" class="button_1 delete_button delete_edit_kanban">-</div>
+									<div id="delete_kanban_thursday_<?php echo $import_item->ID; ?>" class="button_1 delete_button delete_edit_kanban">-</div>
 
 								</li>
 
@@ -2839,9 +2869,9 @@ if(isset($_GET['deleteID'])) {
 								<h3 class="top_label">&nbsp;&nbsp;&nbsp;&nbsp;</h3>
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_thursday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_thursday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
-									<div id="delete_loader_<?php echo $import_item->ID?>" class="row-delete-loader" style="visibility: hidden;"></div>
+									<div id="delete_loader_<?php echo $import_item->ID; ?>" class="row-delete-loader" style="visibility: hidden;"></div>
 
 									<?php  if(!empty($import_item->edited_by)): ?>
 										<?php 
@@ -2866,7 +2896,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_thursday timesheet_data_id_<?php echo $import_item->ID?>">
+								<li class="data_list_thursday timesheet_data_id_<?php echo $import_item->ID; ?>">
 
 									<div id="done_today_kanban_thursday_<?php echo $import_item->ID; ?>" class="button_1 done_today_button done_today_kanban">Done Today</div>
 
@@ -2886,12 +2916,16 @@ if(isset($_GET['deleteID'])) {
 
 								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Thursday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[3]'");
 
+								$tid_hours = 0;
 								foreach($timesheet_hours as $timesheet_hour){
 									$task_hour = $timesheet_hour->task_hour;
-									$task_hour_decimal = decimalHours($task_hour);
-									$total_hour_decimal += $task_hour_decimal;									
+									if (strpos($task_hour, '-') !== false) {
+									    $tid_hours +=  decimalHours(str_replace("-","",$task_hour));
+									}else{
+										$task_hour_decimal = decimalHours($task_hour);
+										$total_hour_decimal += $task_hour_decimal;									
+									}
 								}
-								
 
 								$total_hour_unformat =  gmdate('H:i', floor($total_hour_decimal * 3600));
 
@@ -2924,11 +2958,9 @@ if(isset($_GET['deleteID'])) {
 								}
 
 								$total_hour = $format_hour .":". $rounded_minute;
-
-								$total_hour_decimal = decimalHours($total_hour);
-
+								$total_hour_decimal = decimalHours($total_hour) - $tid_hours;
+								$total_hour_decimal = ($total_hour_decimal < 0)? 0 : $total_hour_decimal;
 								$total_hour_format =  gmdate('H:i', floor($total_hour_decimal * 3600));
-
 
 								if($date_pass == true){
 									$color_status = "gray";
@@ -3027,7 +3059,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-								<li id="client_list_<?php echo $import_item->ID?>" class="client_info data_list_friday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_label)) ? $import_item->task_label : "--" ; ?></li>
+								<li id="client_list_<?php echo $import_item->ID; ?>" class="client_info data_list_friday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_label)) ? $import_item->task_label : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -3048,14 +3080,14 @@ if(isset($_GET['deleteID'])) {
 								<h3 class="top_label">Project</h3>
 								<?php foreach ($import_data as $import_item){ ?>
 
-								<li id="project_id_<?php echo $import_item->ID?>" class="data_list_friday edit_project_record timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_project_name)) ? $import_item->task_project_name : "--" ; ?><div id="project_loader_<?php echo $import_item->ID?>" class="row-update-loader-project" style="display: none;"></div></li>
+								<li id="project_id_<?php echo $import_item->ID; ?>" class="data_list_friday edit_project_record timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_project_name)) ? $import_item->task_project_name : "--" ; ?><div id="project_loader_<?php echo $import_item->ID; ?>" class="row-update-loader-project" style="display: none;"></div></li>
 								<?php } ?>
 
 								<!-- New Row Project Entry -->
 								<li class=" new_entry_project_1">
 									<select>
 										<?php 
-											$client_projects = $wpdb->get_results("SELECT * FROM {$table_name_project} WHERE project_client_id = '{$clients[0]->ID}'");
+											$client_projects = $wpdb->get_results("SELECT * FROM {$table_name_project} WHERE project_client_id = '{$clients[0]->ID}' ORDER BY project_name");
 											foreach($client_projects as $client_project){
 												$select = ($client_project->ID == $clients[0]->client_default_project)? 'selected' : '';
 												echo  "<option value='" . $client_project->project_name . "' ". $select .">" . $client_project->project_name . "</option>";
@@ -3103,7 +3135,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-								<li id="taskname_id_<?php echo $import_item->ID?>" class="data_list_friday edit_taskname_record timesheet_data_id_<?php echo $import_item->ID?>"><?php echo $task_name_trimmed; ?><div id="taskname_loader_<?php echo $import_item->ID?>" class="row-update-loader-project" style="display: none;"></div></li>
+								<li id="taskname_id_<?php echo $import_item->ID; ?>" class="data_list_friday edit_taskname_record timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo $task_name_trimmed; ?><div id="taskname_loader_<?php echo $import_item->ID; ?>" class="row-update-loader-project" style="display: none;"></div></li>
 
 								<?php endforeach; ?>
 								<!-- New Row Task Name Entry -->
@@ -3127,7 +3159,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="timesheet_orderno_id_<?php echo $import_item->ID?>" class="data_list_friday edit_column_field timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->orderno)) ? $import_item->orderno : "--" ; ?>
+									<li id="timesheet_orderno_id_<?php echo $import_item->ID; ?>" class="data_list_friday edit_column_field timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->orderno)) ? $import_item->orderno : "--" ; ?>
 									</li>
 
 								<?php endforeach;  ?>
@@ -3150,7 +3182,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-								<li id="timesheet_hour_id_<?php echo $import_item->ID?>" class="data_list_friday  timesheet_data_id_<?php echo $import_item->ID?> edit_column_field"><?php echo (!empty($task_hour)) ? $task_hour : "--" ; ?></li>
+								<li id="timesheet_hour_id_<?php echo $import_item->ID; ?>" class="data_list_friday  timesheet_data_id_<?php echo $import_item->ID; ?> edit_column_field"><?php echo (!empty($task_hour)) ? $task_hour : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -3167,7 +3199,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="timesheet_kilometer_id_<?php echo $import_item->ID?>" class="data_list_friday edit_column_field timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->km)) ? $import_item->km : "--" ; ?>
+									<li id="timesheet_kilometer_id_<?php echo $import_item->ID; ?>" class="data_list_friday edit_column_field timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->km)) ? $import_item->km : "--" ; ?>
 									</li>
 
 								<?php endforeach;  ?>
@@ -3188,7 +3220,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-								<li class="data_list_friday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($task_hour_billable)) ? $task_hour_billable : "--" ; ?></li>
+								<li class="data_list_friday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($task_hour_billable)) ? $task_hour_billable : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -3200,7 +3232,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-								<li class="data_list_friday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_person)) ? $import_item->task_person : "--" ; ?></li>
+								<li class="data_list_friday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_person)) ? $import_item->task_person : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -3228,15 +3260,15 @@ if(isset($_GET['deleteID'])) {
 
 								  ?>						
 
-								<div class="accordian accordian_<?php echo $import_item->ID?>">
+								<div class="accordian accordian_<?php echo $import_item->ID; ?>">
 
 									<h5 class="toggle">
 
-										<div id="toggle_description_id_<?php echo $import_item->ID?>" class="edit_column_field desc"><li class="data_list_friday timesheet_data_id_<?php echo $import_item->ID?> description_data_id_<?php echo $import_item->ID?>"><?php echo $task_description ; ?><span class="arrow"></span></li></div>
+										<div id="toggle_description_id_<?php echo $import_item->ID; ?>" class="edit_column_field desc"><li class="data_list_friday timesheet_data_id_<?php echo $import_item->ID; ?> description_data_id_<?php echo $import_item->ID; ?>"><?php echo $task_description ; ?><span class="arrow"></span></li></div>
 
 									</h5>
 
-									<div id="timesheet_description_id_<?php echo $import_item->ID?>" class="toggle-content edit_column_field" style="display: none;">
+									<div id="timesheet_description_id_<?php echo $import_item->ID; ?>" class="toggle-content edit_column_field" style="display: none;">
 
 										<?php echo stripslashes($import_item->task_description); ?>
 
@@ -3262,9 +3294,9 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_friday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_friday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
-									<div id="edit_kanban_friday_<?php echo $import_item->ID?>" class="button_1 edit_button edit_kanban">E</div>
+									<div id="edit_kanban_friday_<?php echo $import_item->ID; ?>" class="button_1 edit_button edit_kanban">E</div>
 
 								</li>								
 
@@ -3283,9 +3315,9 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_friday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_friday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
-									<div id="delete_kanban_friday_<?php echo $import_item->ID?>" class="button_1 delete_button delete_edit_kanban">-</div>
+									<div id="delete_kanban_friday_<?php echo $import_item->ID; ?>" class="button_1 delete_button delete_edit_kanban">-</div>
 			
 								</li>
 
@@ -3300,9 +3332,9 @@ if(isset($_GET['deleteID'])) {
 								<h3 class="top_label">&nbsp;&nbsp;&nbsp;&nbsp;</h3>
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_friday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_friday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
-									<div id="delete_loader_<?php echo $import_item->ID?>" class="row-delete-loader" style="visibility: hidden;"></div>
+									<div id="delete_loader_<?php echo $import_item->ID; ?>" class="row-delete-loader" style="visibility: hidden;"></div>
 
 									<?php  if(!empty($import_item->edited_by)): ?>
 
@@ -3328,7 +3360,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_friday timesheet_data_id_<?php echo $import_item->ID?>">
+								<li class="data_list_friday timesheet_data_id_<?php echo $import_item->ID; ?>">
 
 									<div id="done_today_kanban_friday_<?php echo $import_item->ID; ?>" class="button_1 done_today_button done_today_kanban">Done Today</div>
 
@@ -3348,10 +3380,15 @@ if(isset($_GET['deleteID'])) {
 
 								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Friday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[4]'");
 
+								$tid_hours = 0;
 								foreach($timesheet_hours as $timesheet_hour){
 									$task_hour = $timesheet_hour->task_hour;
-									$task_hour_decimal = decimalHours($task_hour);
-									$total_hour_decimal += $task_hour_decimal;									
+									if (strpos($task_hour, '-') !== false) {
+									    $tid_hours +=  decimalHours(str_replace("-","",$task_hour));
+									}else{
+										$task_hour_decimal = decimalHours($task_hour);
+										$total_hour_decimal += $task_hour_decimal;									
+									}
 								}
 								
 
@@ -3386,9 +3423,8 @@ if(isset($_GET['deleteID'])) {
 								}
 
 								$total_hour = $format_hour .":". $rounded_minute;
-
-								$total_hour_decimal = decimalHours($total_hour);
-
+								$total_hour_decimal = decimalHours($total_hour) - $tid_hours;
+								$total_hour_decimal = ($total_hour_decimal < 0)? 0 : $total_hour_decimal;
 								$total_hour_format =  gmdate('H:i', floor($total_hour_decimal * 3600));
 
 								if($date_pass == true){
@@ -3487,7 +3523,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="client_list_<?php echo $import_item->ID?>" class="client_info data_list_saturday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_label)) ? $import_item->task_label : "--" ; ?></li>
+									<li id="client_list_<?php echo $import_item->ID; ?>" class="client_info data_list_saturday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_label)) ? $import_item->task_label : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -3509,7 +3545,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="project_id_<?php echo $import_item->ID?>" class="data_list_saturday edit_project_record timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_project_name)) ? $import_item->task_project_name : "--" ; ?><div id="project_loader_<?php echo $import_item->ID?>" class="row-update-loader-project" style="display: none;"></div></li>
+									<li id="project_id_<?php echo $import_item->ID; ?>" class="data_list_saturday edit_project_record timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_project_name)) ? $import_item->task_project_name : "--" ; ?><div id="project_loader_<?php echo $import_item->ID; ?>" class="row-update-loader-project" style="display: none;"></div></li>
 
 								<?php endforeach;  ?>
 
@@ -3517,7 +3553,7 @@ if(isset($_GET['deleteID'])) {
 								<li class=" new_entry_project_1">
 									<select>
 										<?php 
-											$client_projects = $wpdb->get_results("SELECT * FROM {$table_name_project} WHERE project_client_id = '{$clients[0]->ID}'");
+											$client_projects = $wpdb->get_results("SELECT * FROM {$table_name_project} WHERE project_client_id = '{$clients[0]->ID}' ORDER BY project_name");
 											foreach($client_projects as $client_project){
 												$select = ($client_project->ID == $clients[0]->client_default_project)? 'selected' : '';
 												echo  "<option value='" . $client_project->project_name . "' ". $select .">" . $client_project->project_name . "</option>";
@@ -3565,7 +3601,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-								<li id="taskname_id_<?php echo $import_item->ID?>" class="data_list_saturday edit_taskname_record timesheet_data_id_<?php echo $import_item->ID?>"><?php echo $task_name_trimmed; ?><div id="taskname_loader_<?php echo $import_item->ID?>" class="row-update-loader-project" style="display: none;"></div></li>
+								<li id="taskname_id_<?php echo $import_item->ID; ?>" class="data_list_saturday edit_taskname_record timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo $task_name_trimmed; ?><div id="taskname_loader_<?php echo $import_item->ID; ?>" class="row-update-loader-project" style="display: none;"></div></li>
 								<?php endforeach; ?>
 
 								<!-- New Row Task Name Entry -->
@@ -3589,7 +3625,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="timesheet_orderno_id_<?php echo $import_item->ID?>" class="data_list_saturday edit_column_field timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->orderno)) ? $import_item->orderno : "--" ; ?>
+									<li id="timesheet_orderno_id_<?php echo $import_item->ID; ?>" class="data_list_saturday edit_column_field timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->orderno)) ? $import_item->orderno : "--" ; ?>
 									</li>
 
 								<?php endforeach;  ?>
@@ -3611,8 +3647,7 @@ if(isset($_GET['deleteID'])) {
 									$task_hour = time_format($task_hms);
 
 								?>
-
-							<li id="timesheet_hour_id_<?php echo $import_item->ID?>" class="data_list_saturday edit_column_field"><?php echo (!empty($task_hour)) ? $task_hour : "--" ; ?></li>
+								<li id="timesheet_hour_id_<?php echo $import_item->ID; ?>" class="data_list_saturday  timesheet_data_id_<?php echo $import_item->ID; ?> edit_column_field"><?php echo (!empty($task_hour)) ? $task_hour : "--" ; ?></li>
 
 								<?php endforeach; ?>
 								<!-- New Row Hours Entry -->
@@ -3627,7 +3662,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="timesheet_kilometer_id_<?php echo $import_item->ID?>" class="data_list_saturday edit_column_field timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->km)) ? $import_item->km : "--" ; ?>
+									<li id="timesheet_kilometer_id_<?php echo $import_item->ID; ?>" class="data_list_saturday edit_column_field timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->km)) ? $import_item->km : "--" ; ?>
 									</li>
 
 								<?php endforeach;  ?>
@@ -3648,7 +3683,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-								<li class="data_list_saturday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($task_hour_billable)) ? $task_hour_billable : "--" ; ?></li>
+								<li class="data_list_saturday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($task_hour_billable)) ? $task_hour_billable : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -3660,7 +3695,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-								<li class="data_list_saturday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_person)) ? $import_item->task_person : "--" ; ?></li>
+								<li class="data_list_saturday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_person)) ? $import_item->task_person : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -3688,15 +3723,15 @@ if(isset($_GET['deleteID'])) {
 
 								?>						
 
-								<div class="accordian accordian_<?php echo $import_item->ID?>">
+								<div class="accordian accordian_<?php echo $import_item->ID; ?>">
 
 									<h5 class="toggle">
 
-										<div id="toggle_description_id_<?php echo $import_item->ID?>" class="edit_column_field desc"><li class="data_list_saturday timesheet_data_id_<?php echo $import_item->ID?> description_data_id_<?php echo $import_item->ID?>"><?php echo $task_description ; ?><span class="arrow"></span></li></div>
+										<div id="toggle_description_id_<?php echo $import_item->ID; ?>" class="edit_column_field desc"><li class="data_list_saturday timesheet_data_id_<?php echo $import_item->ID; ?> description_data_id_<?php echo $import_item->ID; ?>"><?php echo $task_description ; ?><span class="arrow"></span></li></div>
 
 									</h5>
 
-									<div id="timesheet_description_id_<?php echo $import_item->ID?>" class="toggle-content edit_column_field" style="display: none;">
+									<div id="timesheet_description_id_<?php echo $import_item->ID; ?>" class="toggle-content edit_column_field" style="display: none;">
 
 										<?php echo stripslashes($import_item->task_description); ?>
 
@@ -3721,9 +3756,9 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_saturday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_saturday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
-									<div id="edit_kanban_saturday_<?php echo $import_item->ID?>" class="button_1 edit_button edit_kanban">E</div>
+									<div id="edit_kanban_saturday_<?php echo $import_item->ID; ?>" class="button_1 edit_button edit_kanban">E</div>
 
 								</li>								
 
@@ -3742,9 +3777,9 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_saturday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_saturday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
-									<div id="delete_kanban_saturday_<?php echo $import_item->ID?>" class="button_1 delete_button delete_edit_kanban">-</div>
+									<div id="delete_kanban_saturday_<?php echo $import_item->ID; ?>" class="button_1 delete_button delete_edit_kanban">-</div>
 
 								</li>
 
@@ -3759,9 +3794,9 @@ if(isset($_GET['deleteID'])) {
 								<h3 class="top_label">&nbsp;&nbsp;&nbsp;&nbsp;</h3>
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_saturday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_saturday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
-									<div id="delete_loader_<?php echo $import_item->ID?>" class="row-delete-loader" style="visibility: hidden;"></div>
+									<div id="delete_loader_<?php echo $import_item->ID; ?>" class="row-delete-loader" style="visibility: hidden;"></div>
 
 									<?php  if(!empty($import_item->edited_by)): ?>
 										<?php 
@@ -3786,7 +3821,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_saturday timesheet_data_id_<?php echo $import_item->ID?>">
+								<li class="data_list_saturday timesheet_data_id_<?php echo $import_item->ID; ?>">
 
 									<div id="done_today_kanban_saturday_<?php echo $import_item->ID; ?>" class="button_1 done_today_button done_today_kanban">Done Today</div>
 
@@ -3806,30 +3841,26 @@ if(isset($_GET['deleteID'])) {
 
 								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Saturday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[5]'");
 
+								$tid_hours = 0;
 								foreach($timesheet_hours as $timesheet_hour){
 									$task_hour = $timesheet_hour->task_hour;
-									$task_hour_decimal = decimalHours($task_hour);
-									$total_hour_decimal += $task_hour_decimal;									
+									if (strpos($task_hour, '-') !== false) {
+									    $tid_hours +=  decimalHours(str_replace("-","",$task_hour));
+									}else{
+										$task_hour_decimal = decimalHours($task_hour);
+										$total_hour_decimal += $task_hour_decimal;									
+									}
 								}
 
-								
-
 								$total_hour_unformat =  gmdate('H:i', floor($total_hour_decimal * 3600));
-
 								$total_hour_explode = explode(":", $total_hour_unformat);
-
 								$hour = $total_hour_explode[0];
-
 								$minutes = $total_hour_explode[1];
 
 								if(strlen($hour) == 1){
-
 									$format_hour = "0" . $hour;
-
 									}elseif(strlen($hour) == 2 ){
-
 									$format_hour = $hour;
-
 								}
 
 								$round_minutes = round_nearest($minutes, 5);
@@ -3845,9 +3876,8 @@ if(isset($_GET['deleteID'])) {
 								}
 
 								$total_hour = $format_hour .":". $rounded_minute;
-
-								$total_hour_decimal = decimalHours($total_hour);
-
+								$total_hour_decimal = decimalHours($total_hour) - $tid_hours;
+								$total_hour_decimal = ($total_hour_decimal < 0)? 0 : $total_hour_decimal;
 								$total_hour_format =  gmdate('H:i', floor($total_hour_decimal * 3600));
 
 								if($date_pass == true){
@@ -3947,7 +3977,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="client_list_<?php echo $import_item->ID?>" class="client_info data_list_sunday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_label)) ? $import_item->task_label : "--" ; ?></li>
+									<li id="client_list_<?php echo $import_item->ID; ?>" class="client_info data_list_sunday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_label)) ? $import_item->task_label : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -3971,7 +4001,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="project_id_<?php echo $import_item->ID?>" class="data_list_sunday edit_project_record timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_project_name)) ? $import_item->task_project_name : "--" ; ?><div id="project_loader_<?php echo $import_item->ID?>" class="row-update-loader-project" style="display: none;"></div></li>
+									<li id="project_id_<?php echo $import_item->ID; ?>" class="data_list_sunday edit_project_record timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_project_name)) ? $import_item->task_project_name : "--" ; ?><div id="project_loader_<?php echo $import_item->ID; ?>" class="row-update-loader-project" style="display: none;"></div></li>
 
 								<?php endforeach;  ?>
 
@@ -3979,7 +4009,7 @@ if(isset($_GET['deleteID'])) {
 								<li class=" new_entry_project_1">
 									<select>
 										<?php 
-											$client_projects = $wpdb->get_results("SELECT * FROM {$table_name_project} WHERE project_client_id = '{$clients[0]->ID}'");
+											$client_projects = $wpdb->get_results("SELECT * FROM {$table_name_project} WHERE project_client_id = '{$clients[0]->ID}' ORDER BY project_name");
 											foreach($client_projects as $client_project){
 												$select = ($client_project->ID == $clients[0]->client_default_project)? 'selected' : '';
 												echo  "<option value='" . $client_project->project_name . "' ". $select .">" . $client_project->project_name . "</option>";
@@ -4028,7 +4058,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-								<li id="taskname_id_<?php echo $import_item->ID?>" class="data_list_sunday edit_taskname_record timesheet_data_id_<?php echo $import_item->ID?>"><?php echo $task_name_trimmed; ?><div id="taskname_loader_<?php echo $import_item->ID?>" class="row-update-loader-project" style="display: none;"></div></li>
+								<li id="taskname_id_<?php echo $import_item->ID; ?>" class="data_list_sunday edit_taskname_record timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo $task_name_trimmed; ?><div id="taskname_loader_<?php echo $import_item->ID; ?>" class="row-update-loader-project" style="display: none;"></div></li>
 
 								<?php endforeach; ?>
 
@@ -4053,7 +4083,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="timesheet_orderno_id_<?php echo $import_item->ID?>" class="data_list_sunday edit_column_field timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->orderno)) ? $import_item->orderno : "--" ; ?>
+									<li id="timesheet_orderno_id_<?php echo $import_item->ID; ?>" class="data_list_sunday edit_column_field timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->orderno)) ? $import_item->orderno : "--" ; ?>
 									</li>
 
 								<?php endforeach;  ?>
@@ -4076,7 +4106,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-								<li id="timesheet_hour_id_<?php echo $import_item->ID?>" class="data_list_sunday edit_column_field"><?php echo (!empty($task_hour)) ? $task_hour : "--" ; ?></li>
+								<li id="timesheet_hour_id_<?php echo $import_item->ID; ?>" class="data_list_sunday edit_column_field"><?php echo (!empty($task_hour)) ? $task_hour : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -4096,7 +4126,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-									<li id="timesheet_kilometer_id_<?php echo $import_item->ID?>" class="data_list_sunday edit_column_field timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->km)) ? $import_item->km : "--" ; ?>
+									<li id="timesheet_kilometer_id_<?php echo $import_item->ID; ?>" class="data_list_sunday edit_column_field timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->km)) ? $import_item->km : "--" ; ?>
 									</li>
 
 								<?php endforeach;  ?>
@@ -4117,7 +4147,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-								<li class="data_list_sunday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($task_hour_billable)) ? $task_hour_billable : "--" ; ?></li>
+								<li class="data_list_sunday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($task_hour_billable)) ? $task_hour_billable : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -4129,7 +4159,7 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>
 
-								<li class="data_list_sunday timesheet_data_id_<?php echo $import_item->ID?>"><?php echo (!empty($import_item->task_person)) ? $import_item->task_person : "--" ; ?></li>
+								<li class="data_list_sunday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_person)) ? $import_item->task_person : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -4157,15 +4187,15 @@ if(isset($_GET['deleteID'])) {
 
 								?>						
 
-								<div class="accordian accordian_<?php echo $import_item->ID?>">
+								<div class="accordian accordian_<?php echo $import_item->ID; ?>">
 
 									<h5 class="toggle">
 
-										<div id="toggle_description_id_<?php echo $import_item->ID?>" class="edit_column_field desc"><li class="data_list_sunday timesheet_data_id_<?php echo $import_item->ID?> description_data_id_<?php echo $import_item->ID?>"><?php echo $task_description ; ?><span class="arrow"></span></li></div>
+										<div id="toggle_description_id_<?php echo $import_item->ID; ?>" class="edit_column_field desc"><li class="data_list_sunday timesheet_data_id_<?php echo $import_item->ID; ?> description_data_id_<?php echo $import_item->ID; ?>"><?php echo $task_description ; ?><span class="arrow"></span></li></div>
 
 									</h5>
 
-									<div id="timesheet_description_id_<?php echo $import_item->ID?>" class="toggle-content edit_column_field" style="display: none;">
+									<div id="timesheet_description_id_<?php echo $import_item->ID; ?>" class="toggle-content edit_column_field" style="display: none;">
 
 										<?php echo stripslashes($import_item->task_description); ?>
 
@@ -4191,9 +4221,9 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_sunday timesheet_data_id_<?php echo $import_item->ID?>">
+								<li class="data_list_sunday timesheet_data_id_<?php echo $import_item->ID; ?>">
 
-									<div id="edit_kanban_sunday_<?php echo $import_item->ID?>" class="button_1 edit_button edit_kanban">E</div>
+									<div id="edit_kanban_sunday_<?php echo $import_item->ID; ?>" class="button_1 edit_button edit_kanban">E</div>
 
 								</li>								
 
@@ -4213,9 +4243,9 @@ if(isset($_GET['deleteID'])) {
 
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_sunday timesheet_data_id_<?php echo $import_item->ID?>">
+								<li class="data_list_sunday timesheet_data_id_<?php echo $import_item->ID; ?>">
 
-									<div id="delete_kanban_sunday_<?php echo $import_item->ID?>" class="button_1 delete_button delete_edit_kanban">-</div>
+									<div id="delete_kanban_sunday_<?php echo $import_item->ID; ?>" class="button_1 delete_button delete_edit_kanban">-</div>
 
 								</li>
 
@@ -4229,9 +4259,9 @@ if(isset($_GET['deleteID'])) {
 								<h3 class="top_label">&nbsp;&nbsp;&nbsp;&nbsp;</h3>
 								<?php foreach ($import_data as $import_item): ?>								
 
-								<li class="data_list_sunday timesheet_data_id_<?php echo $import_item->ID?>">									
+								<li class="data_list_sunday timesheet_data_id_<?php echo $import_item->ID; ?>">									
 
-									<div id="delete_loader_<?php echo $import_item->ID?>" class="row-delete-loader" style="visibility: hidden;"></div>
+									<div id="delete_loader_<?php echo $import_item->ID; ?>" class="row-delete-loader" style="visibility: hidden;"></div>
 
 									<?php  if(!empty($import_item->edited_by)): ?>
 										<?php 
@@ -4256,7 +4286,7 @@ if(isset($_GET['deleteID'])) {
 
 									<?php foreach ($import_data as $import_item): ?>									
 
-									<li class="data_list_sunday timesheet_data_id_<?php echo $import_item->ID?>">
+									<li class="data_list_sunday timesheet_data_id_<?php echo $import_item->ID; ?>">
 
 										<div id="done_today_kanban_sunday_<?php echo $import_item->ID; ?>" class="button_1 done_today_button done_today_kanban">Done Today</div>
 
@@ -4276,13 +4306,16 @@ if(isset($_GET['deleteID'])) {
 
 								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Sunday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[6]'");
 
+								$tid_hours = 0;
 								foreach($timesheet_hours as $timesheet_hour){
 									$task_hour = $timesheet_hour->task_hour;
-									$task_hour_decimal = decimalHours($task_hour);
-									$total_hour_decimal += $task_hour_decimal;									
+									if (strpos($task_hour, '-') !== false) {
+									    $tid_hours +=  decimalHours(str_replace("-","",$task_hour));
+									}else{
+										$task_hour_decimal = decimalHours($task_hour);
+										$total_hour_decimal += $task_hour_decimal;									
+									}
 								}
-
-						
 
 								$total_hour_unformat =  gmdate('H:i', floor($total_hour_decimal * 3600));
 
@@ -4315,20 +4348,19 @@ if(isset($_GET['deleteID'])) {
 								}
 
 								$total_hour = $format_hour .":". $rounded_minute;
-
-								$total_hour_decimal = decimalHours($total_hour);
-
+								$total_hour_decimal = decimalHours($total_hour) - $tid_hours;
+								$total_hour_decimal = ($total_hour_decimal < 0)? 0 : $total_hour_decimal;
 								$total_hour_format =  gmdate('H:i', floor($total_hour_decimal * 3600));
 
-									if($date_pass == true){
-										$color_status = "gray";
+								if($date_pass == true){
+									$color_status = "gray";
+								}else{
+									if($total_hour_format >= $quota_time){
+										$color_status = "green";
 									}else{
-										if($total_hour_format >= $quota_time){
-											$color_status = "green";
-										}else{
-											$color_status = 'red';
-										}
+										$color_status = 'red';
 									}
+								}
 
 							?>
 

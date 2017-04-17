@@ -383,18 +383,9 @@ jQuery(document).on('click', '.delete_edit_kanban', function(){
 
 		success: function (data) {
 
-			// jQuery('#dialog_form_timesheet_delete_task .loader').hide();
-
-			// jQuery("#dialog_form_timesheet_delete_task").dialog("close");
-
-
 			var parsed = jQuery.parseJSON(data);
-
-
 			var task_hour = parsed[0].task_hour;
-
 			var task_id = parsed[0].task_id;				
-
 			var timesheet_delete_day = parsed.timesheet_delete_day;			
 
 			//Side Panel Info Update
@@ -411,31 +402,25 @@ jQuery(document).on('click', '.delete_edit_kanban', function(){
 				jQuery('.month_details .hour_balance ').removeClass('text_red').addClass('text_green');
 			}else{
 				jQuery('.month_details .hour_balance ').removeClass('text_green').addClass('text_red');
+			}
+
+			if(parsed.side_panel_tid_bank_class == 'red_text'){
+				jQuery('.month_details .hour_tidbank').addClass('text_red');
+			}else{
+				jQuery('.month_details .hour_tidbank').removeClass('text_red');
 			}	
 
 			jQuery('#'+timesheet_delete_day+' .total_hours .task_total_hour h3').html(task_hour);	
-
 			jQuery("#loader_id_"+task_id).hide();
-
 			jQuery('#'+timesheet_delete_day+' .timesheet_data_id_'+task_id).hide();
-
 			jQuery('#'+timesheet_delete_day+' .task_description .accordian_'+task_id).hide();
-
 			jQuery("#delete_loader_"+div_id).hide();
-
 			jQuery('.action_message p').text("Task Deleted");
-
 			jQuery('.action_message').fadeIn( "slow", function() {
-
 				jQuery(".action_message").delay(1000).fadeOut('slow');
-
 			});
 
 			jQuery('.month_details .total_hours_worked').text(parsed.total_month_hours_worked);
-
-			// jQuery('.month_details .hour_balance').text(parsed.total_month_hour_balance);
-
-
 			if(person_hours_per_day <= timeStringToFloat(task_hour)){
 				
 			}else{
@@ -1580,7 +1565,6 @@ jQuery(document).ready(function(){
 		jQuery('.timesheet .left_div .loader').show();
 
 		var todolist_table = jQuery('#manange-client-table');
-
 		todolist_table.fadeOut(300);
 		todolist_table.find('tbody').html('').html('<tr><td colspan="6"><div class="loading-table"></div></td></tr>');
 
@@ -1639,33 +1623,19 @@ jQuery(document).ready(function(){
 		}
 
 		var dates_range = get_date_range(start_date, end_date);
-
-		
-
 		var person_name = jQuery('.staff_timesheet_form .person_name').val();
-
 		var week_number = jQuery('.staff_timesheet_form .week_number').val();
-
 		var picked_year = jQuery('.staff_timesheet_form .picked_year').val();
-
 		var picked_month = jQuery('.staff_timesheet_form .picked_month').val();
 
 		var staff_timesheet_data = person_name +'_'+ week_number +'_'+ picked_year +'_'+ picked_month +'_'+ new_date_format(dates_range[0]) +'_'+ new_date_format(dates_range[6]);
 
-	
-
 		jQuery.ajax({
-
 			type: "POST",
-
 			url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
-
 			data:{
-
 				'type' : 'search_staff_timesheet',
-
 				'staff_timesheet_data' : staff_timesheet_data				
-
 			},
 
 			success: function (data) {
@@ -1674,52 +1644,35 @@ jQuery(document).ready(function(){
 
 				var parsed = jQuery.parseJSON(data);
 
+				console.log(parsed);
 				var person_dwork = parsed.person_dwork;
-
 				var check_same_user = parsed.check_same_user;
-
 				var month_name = parsed.month_name;
-
 				var year_name = parsed.year_name;
-
 				var rounded_total_month_hour = parsed.rounded_total_month_hour;
-
 				var worked_hours = parsed.worked_hours;
-
 				var total_hours_worked = parsed.total_hours_worked;
-
 				var hour_balance = parsed.hour_balance;
-
 				var holiday_hours = parsed.holiday_hours;
 
-				var total_holiday_work = parsed.total_holiday_work;
+				var tidbank_hours = parsed.tidbank_hours;
+				var tidbank_class = parsed.tidbank_class;
 
-				var total_ledig_hours = parsed.total_ledig_hours;
-
-				var total_sjuk_hours = parsed.total_sjuk_hours;
-
-				var total_semester_hours = parsed.total_semester_hours;
+				var total_ledig_hours = parsed.ledig_hours;
+				var total_holiday_work = parsed.holiday_hours;
+				var total_semester_hours = parsed.vacation_hours;
+				var total_sjuk_hours = parsed.sick_hours;
 
 				var total_month_hour = parsed.total_month_hour;
-
 				var total_holiday_hour = parsed.total_holiday_hour;
-
 				var total_hour_monday = parsed.total_hour_monday;
-
 				var total_hour_tuesday = parsed.total_hour_tuesday;
-
 				var total_hour_wednesday = parsed.total_hour_wednesday;
-
 				var total_hour_thursday = parsed.total_hour_thursday;
-
 				var total_hour_friday = parsed.total_hour_friday;
-
 				var total_hour_saturday = parsed.total_hour_saturday;
-
 				var total_hour_sunday = parsed.total_hour_sunday;
-
 				var edited_by = parsed.edited_by;
-
 				var hour_per_day = parsed.hour_per_day;
 
 				var day_date = jQuery('.tabs_li.active .day_date').text();
@@ -1733,26 +1686,18 @@ jQuery(document).ready(function(){
 
 				var weekNum = jQuery('.tab_content.active .datepicker_week').val();
 				
-				jQuery('.header_person_name h1').html('Week <span class="top_nav_week_number">'+weekNum+'</span>: <span class="week">'+change_date_format(parsed.week_start, 'dd/M/Y')+" - "+change_date_format(parsed.week_end, 'dd/M/Y')+"</span> - "+parsed.person_name + ' - WD: <span class="total_dwork">'+person_dwork+'%</span>');
+				jQuery('.header_person_name h1').html('Week <span class="top_nav_week_number">'+weekNum+'</span> ( <span class="week">'+change_date_format(parsed.week_start, 'dd/M/Y')+" - "+change_date_format(parsed.week_end, 'dd/M/Y')+"</span> ) "+parsed.person_name + ' - WD: <span class="total_dwork">'+person_dwork+'%</span>');
 
 				var days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]; 
 
 				jQuery.each(days, function(index, value){
-
 					jQuery('#'+value+ ' .data_list_'+value).remove();
-
 					jQuery('#'+value+ ' .data_title .accordian').remove();
-
 					if(check_same_user != 'yes'){
-
 						jQuery('.import_button').hide();
-
 					}else{
-
 						jQuery('.import_button').show();
-
 					}
-
 				});
 
 				jQuery('.total_hours .task_total_hour h3').text('00:00');
@@ -1821,18 +1766,18 @@ jQuery(document).ready(function(){
 				    time_array = parsed.total_hour_saturday.split(":");
 				    hh = time_array[0];
 				    if(parseInt(hh) > 0){
-				    	jQuery('#tabs .saturday a').addClass('gray-day');
+				    	jQuery('#tabs .saturday a').addClass('yellow-day');
 				    }else{
-				    	jQuery('#tabs .saturday a').removeClass('gray-day');
+				    	jQuery('#tabs .saturday a').removeClass('yellow-day');
 				    }
 
 				    //Sunday
 				    time_array = parsed.total_hour_sunday.split(":");
 				    hh = time_array[0];
 				    if(parseInt(hh) > 0){
-				    	jQuery('#tabs .saturday a').addClass('gray-day');
+				    	jQuery('#tabs .sunday a').addClass('yellow-day');
 				    }else{
-				    	jQuery('#tabs .saturday a').removeClass('gray-day');
+				    	jQuery('#tabs .sunday a').removeClass('yellow-day');
 				    }
 
 
@@ -2018,6 +1963,15 @@ jQuery(document).ready(function(){
 					jQuery('.month_stat .holiday_hours').html(holiday_hours);
 
 					jQuery('.month_stat .holiday_balance').html(total_holiday_work);
+
+
+					jQuery('.month_stat .hour_tidbank').html(tidbank_hours);
+
+					if(parsed.tidbank_class == 'red_text'){
+						jQuery('.month_details .hour_tidbank').addClass('text_red');
+					}else{
+						jQuery('.month_details .hour_tidbank').removeClass('text_red');
+					}
 
 					//jQuery('.month_summary').show();
 
@@ -2394,7 +2348,7 @@ jQuery(document).ready(function(){
 					jQuery('.week_section h3 span.header_day_date').text(full_day_name.capitalize()+ " " +day_date);
 
 				
-					jQuery('.header_person_name h1').html('Week <span class="top_nav_week_number">'+weekNum+'</span>: <span class="week">'+change_date_format(parsed.week_start, 'dd/M/Y')+" - "+change_date_format(parsed.week_end, 'dd/M/Y')+"</span> - "+parsed.person_name + ' - WD: <span class="total_dwork">'+person_dwork+'%</span>');
+					jQuery('.header_person_name h1').html('Week <span class="top_nav_week_number">'+weekNum+'</span> ( <span class="week">'+change_date_format(parsed.week_start, 'dd/M/Y')+" - "+change_date_format(parsed.week_end, 'dd/M/Y')+"</span> ) "+parsed.person_name + ' - WD: <span class="total_dwork">'+person_dwork+'%</span>');
 
 
 					var days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]; 
@@ -3020,7 +2974,6 @@ jQuery(document).on('click', '.tab_content.active .save_button_timesheet', funct
 	var active_day = jQuery('.tab_content.active').attr('id');
 	var week_number = jQuery('.tab_content.active .tab_week').val();
 	var date = jQuery('.tab_content.active .tab_date').val();
-	// var user_id =  jQuery('.tab_content.active .user_id').val();
 	var username =  jQuery('.staff_timesheet_form .choose_person .person_name').val();
 	 if ((new Number(hour) < 0)){
 	 	var negative_value = 1;
@@ -3036,8 +2989,6 @@ jQuery(document).on('click', '.tab_content.active .save_button_timesheet', funct
 	 	}
 	 }
 	var remove_comma_hour = hour.replace(',','.');
-
-
 
 	// console.log(remove_comma_hour);
 	if(hour != ""){
@@ -3098,27 +3049,6 @@ jQuery(document).on('click', '.tab_content.active .save_button_timesheet', funct
 			},
 			success: function (data) {				
 				var parsed = jQuery.parseJSON(data);
-
-				if(parsed.tidbank_save_status == 'not-enought-tidbank-hours'){
-					jQuery(".status_message").fadeIn( "slow", function() {
-						jQuery(".status_message p").html("<p class='error-msg'>Not Enough Tidbank Hours.</p>");
-					});
-					jQuery(".status_message").delay(1500).fadeOut('slow');
-					jQuery('#save-loader').css('visibility', 'hidden'); 	
-					this_button.show().next('.loader-save-entry').hide();
-					return false;
-				}
-
-				if(parsed.tidbank_save_status == 'not-enought-working-hours-today'){
-					jQuery(".status_message").fadeIn( "slow", function() {
-						jQuery(".status_message p").html("<p class='error-msg'>You should have 8 Working Hours.</p>");
-					});
-					jQuery(".status_message").delay(1500).fadeOut('slow');
-					jQuery('#save-loader').css('visibility', 'hidden'); 	
-					this_button.show().next('.loader-save-entry').hide();
-					return false;					
-				}
-
 				jQuery(".top_loader").hide();
 				if(task_description_count >= 24){
 
@@ -3171,16 +3101,22 @@ jQuery(document).on('click', '.tab_content.active .save_button_timesheet', funct
 					jQuery('<li class="data_list_'+active_day+' timesheet_data_id_'+parsed.id+'"><div id="delete_kanban_'+active_day+'_'+parsed.id+'" class="button_1 delete_button delete_edit_kanban">-</div></li>').insertBefore('.tab_content.active .task_delete li:last');
 				}	
 
-				console.log(parsed);
 				//Side Panel Info Update
 				jQuery('.month_details .worked_hours').text(parsed.side_panel_total_workable_hours);
 				jQuery('.month_details .hour_balance').text(parsed.side_panel_total_hour_balance);
 				jQuery('.month_details .total_hours_worked').text(parsed.side_panel_total_worked_hours);
 				jQuery('.month_details .hour_vacation').text(parsed.side_panel_total_semester);
+				jQuery('.month_details .holiday_hours').text(parsed.side_panel_total_helg);
 				jQuery('.month_details .hour_ledig').text(parsed.side_panel_total_ledig);
 				jQuery('.month_details .hour_sjuk').text(parsed.side_panel_total_sjuk);
 				jQuery('.month_details .hour_tidbank').text(parsed.side_panel_total_hours_tidbank);
 				jQuery('.header_person_name .total_dwork').text(parsed.dwork_percent);
+
+				if(parsed.side_panel_tid_bank_class == 'red_text'){
+					jQuery('.month_details .hour_tidbank').addClass('text_red');
+				}else{
+					jQuery('.month_details .hour_tidbank').removeClass('text_red');
+				}
 
 				if(parsed.side_panel_total_hour_balance_color == 'green'){
 					jQuery('.month_details .hour_balance ').removeClass('text_red').addClass('text_green');
@@ -3195,7 +3131,8 @@ jQuery(document).on('click', '.tab_content.active .save_button_timesheet', funct
 
 				trigger_accordion_toggle();
 
-				UpdateTotalTime(active_day, parsed.task_hour_format);
+				// UpdateTotalTime(active_day, parsed.task_hour_format);
+				jQuery('.tab_content.active .task_total_hour h3').text(parsed.day_total_work_hours);
 
 				jQuery('.action_message p').text("Task Saved!");
 
@@ -3207,12 +3144,12 @@ jQuery(document).on('click', '.tab_content.active .save_button_timesheet', funct
 				var total_hours_worked = jQuery('.tabs-container .tab_content.active .total_hours .task_total_hour h3').text();
 				var total_person_working_hours = jQuery('#person_hours_per_day').val();
 
-				if(timeStringToFloat(total_hours_worked) >= timeStringToFloat(total_person_working_hours)){
+				this_button.show().next('.loader-save-entry').hide();
+
+				if(timeStringToFloat(total_hours_worked) >= timeStringToFloat(8)){
 					jQuery('#tabs .tabs_li.active a').removeClass('red-day').addClass('green-day');
 				}
 
-				// jQuery('.row-save-loader').css('visibility', 'hidden');
-				this_button.show().next('.loader-save-entry').hide();
 			},
 
 			error: function (data) {
@@ -3474,7 +3411,7 @@ function MoveDaysCalendar(day_date){
 					var full_day_name = jQuery('.tab.tab_content.active').attr('id');
 					jQuery('.week_section h3 span.header_day_date').text(full_day_name.capitalize()+ " " +day_date);
 					console.log(person_dwork);
-					jQuery('.header_person_name h1').html('Week <span class="top_nav_week_number">'+weekNum+'</span>: <span class="week">'+change_date_format(parsed.week_start, 'dd/M/Y')+" - "+change_date_format(parsed.week_end, 'dd/M/Y')+"</span> - "+parsed.person_name + ' - WD: <span class="total_dwork">'+person_dwork+'%</span>');
+					jQuery('.header_person_name h1').html('Week <span class="top_nav_week_number">'+weekNum+'</span> ( <span class="week">'+change_date_format(parsed.week_start, 'dd/M/Y')+" - "+change_date_format(parsed.week_end, 'dd/M/Y')+"</span>  "+parsed.person_name + ' - WD: <span class="total_dwork">'+person_dwork+'%</span>');
 
 
 					var days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]; 
@@ -3573,9 +3510,9 @@ function MoveDaysCalendar(day_date){
 				    time_array = parsed.total_hour_sunday.split(":");
 				    hh = time_array[0];
 				    if(parseInt(hh) > 0){
-				    	jQuery('#tabs .saturday a').addClass('yellow-day');
+				    	jQuery('#tabs .sunday a').addClass('yellow-day');
 				    }else{
-				    	jQuery('#tabs .saturday a').removeClass('yellow-day');
+				    	jQuery('#tabs .sunday a').removeClass('yellow-day');
 				    }
 
 
@@ -3997,7 +3934,6 @@ jQuery(document).on('dblclick', '.tab_content.active .edit_column_field', functi
 jQuery(document).on('click', '.tab_content.active .check_update_timesheet', function(){
 	var string = jQuery(this).attr('id').split("_");
 	var active_day = jQuery('.tab_content.active').attr('id');
-	console.log('adasdsdasd');
 	var id = string[2];
 	var type = string[0];
 	var total_hours = '00:00';
@@ -4075,10 +4011,6 @@ jQuery(document).on('click', '.tab_content.active .check_update_timesheet', func
 
 					jQuery('#toggle_description_id_'+id).addClass('edit_column_field').html('<li class="data_list_'+active_day+' timesheet_data_id_'+id+' description_data_id_'+id+'">'+short_description+'<span class="arrow"></span></li>');
 					jQuery('#timesheet_description_id_'+id).text(parsed.value);
-
-					// jQuery('.tab_content.active .description_data_id_'+id).html(short_description + '<span class="arrow"></span>');
-					// jQuery('.tab_content.active .accordian_'+id+' .toggle').removeClass('active');
-					// jQuery('.tab_content.active .accordian_'+id+' .toggle div.desc .timesheet_data_id_'+id).html(short_description + '<span class="arrow"></span>');
 					trigger_accordion_toggle();
 					jQuery('.action_message p').text("Description Updated.");
 					jQuery('.action_message').fadeIn( "slow", function() {
@@ -4111,8 +4043,11 @@ jQuery(document).on('click', '.tab_content.active .check_update_timesheet', func
 				jQuery('.month_details .hour_balance').text(parsed.side_panel_total_hour_balance);
 				jQuery('.month_details .total_hours_worked').text(parsed.side_panel_total_worked_hours);
 				jQuery('.month_details .hour_vacation').text(parsed.side_panel_total_semester);
+				jQuery('.month_details .hour_vacation').text(parsed.side_panel_total_semester);
+				jQuery('.month_details .holiday_hours').text(parsed.side_panel_total_helg);
 				jQuery('.month_details .hour_ledig').text(parsed.side_panel_total_ledig);
 				jQuery('.month_details .hour_sjuk').text(parsed.side_panel_total_sjuk);
+
 
 				if(parsed.side_panel_total_hour_balance_color == 'green'){
 					jQuery('.month_details .hour_balance ').removeClass('text_red').addClass('text_green');

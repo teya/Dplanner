@@ -887,7 +887,7 @@ jQuery('.site_type_filter_loader').show();
 					+'<div class="ninth_column column">'+site_domain_name+'</div>'
 					+'<div class="tenth_column column">'
 					+'<p style="display:none" id="website_button_note_'+website_id+'" class="website_button_note"></p>'
-					+'<a id="login_button_'+website_id+'" class="button_2 display_button website_login_button website_login_button" href="http://'+site_login_url+'">L</a>'
+					+'<a id="login_button_'+website_id+'" class="button_2 display_button website_login_button website_login_button" href="https://'+site_login_url+'">L</a>'
 					+'<a id="edit_button_'+website_id+'" class="button_2 display_button website_edit_button" href="/edit-website/?editID='+website_id+'">E</a>'
 					+'<div class="ajax_action_buttons">'
 					+'<div id="delete_project_'+website_id+'" class="button_2 display_button float_right delete_website_button delete_ajax">D</div>'

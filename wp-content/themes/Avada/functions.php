@@ -4,6 +4,8 @@ require_once('function_page_timesheet.php');
 require_once('function_manage_website.php');
 require_once('function_client.php');
 require_once('function_reports_inventory.php');
+$timezone = get_option('timezone_string'); 
+date_default_timezone_set($timezone); 
 
 setcookie(TEST_COOKIE, 'WP Cookie check', 0, COOKIEPATH, COOKIE_DOMAIN);
 if ( SITECOOKIEPATH != COOKIEPATH )
@@ -1541,6 +1543,7 @@ function decimalHours($time){
 	$hms = explode(":", $time);
 	return ($hms[0] + ($hms[1]/60) + ($hms[2]/3600));
 }
+
 /* ==================================== END CONVERT HOURS TO DECIMAL ==================================== */
 
 /* ==================================== DECIMAL TO HOURS ==================================== */
@@ -6993,10 +6996,7 @@ function DoneMaintenanceSchedule($data){
 	extract($data);
 
 	$client_info = $wpdb->get_row("SELECT client_next_schedule_maintenance FROM ". CLIENT_TABLE ." WHERE ID = ". $client_id);
-
 	$date = ($client_info->client_next_schedule_maintenance == '')? date("Y-m-d") : $client_info->client_next_schedule_maintenance;
-
-
 
 	if($interval == '1W'){
 		$date = strtotime("+7 days", strtotime($date));
@@ -7125,6 +7125,21 @@ function calculate_person_dwork($data){
 			$person_total_dwork_percent = 0;
 		}
 		return $person_total_dwork_percent;
+}
+function GetPersonNoneWorkTasksCurrentMonth($data){
+	global $wpdb;
+	extract($data);
+
+	$sql_string = "SELECT 
+			ROUND(SUM(if(t.task_name = 'ledig',time_to_sec(t.task_hour) / (60 * 60),0)),2) as ledig_hours, 
+			ROUND(SUM(if(t.task_name = 'helg',time_to_sec(t.task_hour) / (60 * 60),0)),2) as holiday_hours, 
+			ROUND(SUM(if(t.task_name = 'semester',time_to_sec(t.task_hour) / (60 * 60),0)),2) as vacation_hours, 
+			ROUND(SUM(if(t.task_name = 'sjuk',time_to_sec(t.task_hour) / (60 * 60),0)),2) as sick_hours 
+			FROM  ".TIMESHEET_TABLE." as t 
+			lEFT OUTER JOIN ".PERSON_TABLE." as s ON t.task_person = s.person_fullname 
+			WHERE s.person_fullname = '".$person_name."' 
+			AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/".$month."/".$year."', '%d/%m/%Y') AND STR_TO_DATE('31/".$month."/".$year."', '%d/%m/%Y')";
+	return $wpdb->get_row($sql_string);
 }
 function filter_report_time_task_query($filter){
 	global $wpdb;
@@ -7382,4 +7397,8 @@ function CleanDecimal($value){
 		}
 	}
 }
+function admin_default_page() {
+  return  get_site_url();
+}
+add_filter('login_redirect', 'admin_default_page');
 ?>
