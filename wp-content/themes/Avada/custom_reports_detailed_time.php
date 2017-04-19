@@ -329,7 +329,7 @@
 								</div>
 								<div class="third_column column orderno-col edit_detailed_time_order_no"><p><?php echo $orderno; ?></p></div>								
 								<div class="fifth_column column"><p><?php echo $person_name; ?></p></div>
-								<div class="sixth_column column"><p><?php echo round_quarter($task_hour_decimal); ?></p></div>
+								<div class="sixth_column column"><p><?php echo decimal_to_hour_report($task_hour_decimal); ?></p></div>
 								<div class="seventh_column column"><p><?php echo $kilometer; ?></p></div>
 								<div id="task_description_id_<?php echo $task_id; ?>" class="full_width task_description" style="display: none; float: right;"><p><?php echo $task_description; ?></p></div>
 								<?php if($tasks_done_today != null){ ?>

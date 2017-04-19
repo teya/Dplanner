@@ -1470,7 +1470,7 @@ function confirm_delete_task($delete_form_details){
 			SUM(TIME_TO_SEC(task_hour)/3600) as totalhours 
 			FROM '.TIMESHEET_TABLE.' 
 			WHERE task_person = "'.$timesheet_data->task_person.' " 
-			AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("31/'.$month.'/'.$year.'", "%d/%m/%Y")'); 
+			AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("31/'.$month.'/'.$year.'", "%d/%m/%Y") AND task_name <> "Tidbank"'); 
 	$week = getStartAndEndDate($timesheet_week_number, $year);
 
 	$Tidbank_hours = $wpdb->get_row('SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM '.TIMESHEET_TABLE.' as t WHERE task_person = "'.$timesheet_data->task_person.'" AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("31/'.$month.'/'.$year.'", "%d/%m/%Y") AND task_name = "Tidbank"');
@@ -1478,10 +1478,17 @@ function confirm_delete_task($delete_form_details){
 	$current_date = $wpdb->get_row('SELECT 
 			ROUND(SUM(time_to_sec(task_hour) / (60 * 60)), 2) as total_hours
 			FROM '.TIMESHEET_TABLE.' 
-			WHERE task_person = "'.$timesheet_data->task_person.'" AND date_now = "'.$date.'"');
+			WHERE task_person = "'.$timesheet_data->task_person.'" AND date_now = "'.$timesheet_data->date_now.'"');
 
-	$current_date->total_hours = ($total_hours->total_hours < 0)? 0 : $current_date->total_hours;
-	
+
+	if($current_date->total_hours < 0){
+		$total_current_day_worked_hrs = abs($current_date->total_hours);
+		$negative_string = "-";
+	}else{
+		$total_current_day_worked_hrs = $current_date->total_hours;
+		$negative_string = "";
+	}
+
 	if($Tidbank_hours->tidbank_total_hrs <= 0){
 		$tidbank_total_hrs = abs($Tidbank_hours->tidbank_total_hrs);
 		$tid_bank_class= "";
@@ -1520,6 +1527,8 @@ function confirm_delete_task($delete_form_details){
 	$tasks_data['total_month_hours_worked'] = $total_month_hours_worked;
 	$tasks_data['total_month_hour_balance'] = $total_month_hour_balance;
 	$tasks_data['timesheet_delete_day'] = $timesheet_delete_day;
+	$tasks_data['total_current_day_worked_hrs'] = $negative_string."".decimal_to_hour($total_current_day_worked_hrs);
+	$tasks_data['total_current_day_worked_hrs_dec'] = $negative_string."".$total_current_day_worked_hrs;
 
 	return $tasks_data;
 }
@@ -1751,7 +1760,7 @@ function staff_timesheet($staff_timesheet_data){
 
 	$timesheet_month_details = $wpdb->get_results("SELECT * FROM {$table_name} WHERE task_person = '$person_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$picked_month/$picked_year', '%d/%m/%Y') AND STR_TO_DATE('31/$picked_month/$picked_year', '%d/%m/%Y')");
 
-	$timesheet_month_stats = $wpdb->get_results("SELECT * FROM {$table_name} WHERE task_person = '$person_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$month_number/$year', '%d/%m/%Y')"); 
+	$timesheet_month_stats = $wpdb->get_results("SELECT * FROM {$table_name} WHERE task_person = '$person_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$month_number/$year', '%d/%m/%Y') AND task_name <> 'Tidbank'"); 
 
 	foreach($persons as $person){
 		$person_hour_per_day = $person->person_hours_per_day;
@@ -2136,7 +2145,7 @@ function save_timesheet_entry($entry){
 		'date_now' 				=> $date,
 		'day_now' 				=> $active_day,
 		'week_number' 			=> $week_number,		
-		'task_hour' 			=> $negative_value_string . $hour,
+		'task_hour' 			=> $hour,
 		'task_hour_billable'	=> '',
 		'task_label' 			=> $client->client_name,
 		'task_project_name' 	=> $project,		
@@ -2150,7 +2159,6 @@ function save_timesheet_entry($entry){
 	array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%d' ));
 
 	if($insert == 1){
-
 		$updated_timesheet = $wpdb->get_row('SELECT 
 				ROUND(SUM(time_to_sec(task_hour) / (60 * 60)), 2) as total_hours,
 				SUM(IF(task_name = "Semester", TIME_TO_SEC(task_hour)/3600, 0 )) as vacation, 
@@ -2158,7 +2166,7 @@ function save_timesheet_entry($entry){
 				SUM(IF(task_name = "Sjuk", TIME_TO_SEC(task_hour)/3600, 0 )) as sickness, 
 				SUM(IF(task_name = "Ledig", TIME_TO_SEC(task_hour)/3600, 0 )) as ledig, 
 				SUM(TIME_TO_SEC(task_hour)/3600) as totalhours FROM '.TIMESHEET_TABLE.' 
-				WHERE task_person = "'.$person->person_fullname.' " AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("31/'.$month.'/'.$year.'", "%d/%m/%Y")');
+				WHERE task_person = "'.$person->person_fullname.' " AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("31/'.$month.'/'.$year.'", "%d/%m/%Y") AND task_name <> "Tidbank"');
 		$Tidbank_hours = $wpdb->get_row('SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM '.TIMESHEET_TABLE.' as t WHERE task_person = "'.$person->person_fullname.'" AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("31/'.$month.'/'.$year.'", "%d/%m/%Y") AND task_name = "Tidbank"');
 
 		$current_date = $wpdb->get_row('SELECT 
@@ -2166,8 +2174,14 @@ function save_timesheet_entry($entry){
 				FROM '.TIMESHEET_TABLE.' 
 				WHERE task_person = "'.$person->person_fullname.'" AND date_now = "'.$date.'"');
 
-		$current_date->total_hours = ($total_hours->total_hours < 0)? 0 : $current_date->total_hours;
-		
+		if($current_date->total_hours < 0){
+			$total_current_day_worked_hrs = abs($current_date->total_hours);
+			$negative_string = "-";
+		}else{
+			$total_current_day_worked_hrs = $current_date->total_hours;
+			$negative_string = "";
+		}
+
 		if($Tidbank_hours->tidbank_total_hrs <= 0){
 			$tidbank_total_hrs = abs($Tidbank_hours->tidbank_total_hrs);
 			$tid_bank_class= "";
@@ -2203,7 +2217,8 @@ function save_timesheet_entry($entry){
 		$save_add_timesheet_form_data['task_orderno'] = $ordernumber;
 		$save_add_timesheet_form_data['task_kilometer'] = $kilometer;
 		$save_add_timesheet_form_data['worked_hours'] = $worked_hours;
-		$save_add_timesheet_form_data['day_total_work_hours'] = ConvertDecimalTOTimeFormat($current_date->total_hours);
+		$save_add_timesheet_form_data['day_total_work_hours'] = $negative_string."".decimal_to_hour($total_current_day_worked_hrs);
+		$save_add_timesheet_form_data['day_total_work_hours_dec'] = $negative_string."".$total_current_day_worked_hrs;
 		$save_add_timesheet_form_data['side_panel_total_worked_hours'] = floatval(number_format(($updated_timesheet->totalhours > 0)? $updated_timesheet->totalhours : 0, 2));
 		$save_add_timesheet_form_data['side_panel_total_semester'] = floatval(number_format($updated_timesheet->vacation, 2));
 		$save_add_timesheet_form_data['side_panel_total_sjuk'] = floatval(number_format($updated_timesheet->sickness, 2));
@@ -2286,7 +2301,31 @@ function update_entry_column($update_entries){
 				$date_end_range = date("31/".$month."/".$month);		   
 			}
 
-			$updated_timesheet = $wpdb->get_row('SELECT SUM(IF(task_name = "Semester", TIME_TO_SEC(task_hour)/3600, 0 )) as vacation, SUM(IF(task_name = "Sjuk", TIME_TO_SEC(task_hour)/3600, 0 )) as sickness, SUM(IF(task_name = "Helg", TIME_TO_SEC(task_hour)/3600, 0 )) as holiday, SUM(IF(task_name = "Ledig", TIME_TO_SEC(task_hour)/3600, 0 )) as ledig, SUM(TIME_TO_SEC(task_hour)/3600) as totalhours FROM '.TIMESHEET_TABLE.' WHERE task_person = "'.$check_value->task_person.' " AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("'.$date_end_range.'", "%d/%m/%Y")');
+
+			$updated_timesheet = $wpdb->get_row('SELECT 
+					ROUND(SUM(time_to_sec(task_hour) / (60 * 60)), 2) as total_hours,
+					SUM(IF(task_name = "Semester", TIME_TO_SEC(task_hour)/3600, 0 )) as vacation, 
+					SUM(IF(task_name = "Helg", TIME_TO_SEC(task_hour)/3600, 0 )) as helg, 
+					SUM(IF(task_name = "Sjuk", TIME_TO_SEC(task_hour)/3600, 0 )) as sickness, 
+					SUM(IF(task_name = "Ledig", TIME_TO_SEC(task_hour)/3600, 0 )) as ledig, 
+					SUM(TIME_TO_SEC(task_hour)/3600) as totalhours FROM '.TIMESHEET_TABLE.' 
+					WHERE task_person = "'.$check_value->task_person.' " AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("31/'.$month.'/'.$year.'", "%d/%m/%Y") AND task_name <> "Tidbank"');
+
+			$Tidbank_hours = $wpdb->get_row('SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM '.TIMESHEET_TABLE.' as t WHERE task_person = "'.$check_value->task_person.'" AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("31/'.$month.'/'.$year.'", "%d/%m/%Y") AND task_name = "Tidbank"');
+
+			if($Tidbank_hours->tidbank_total_hrs <= 0){
+				$tidbank_total_hrs = abs($Tidbank_hours->tidbank_total_hrs);
+				$tid_bank_class= "";
+			}else{
+				$tidbank_total_hrs = "-".(string)$Tidbank_hours->tidbank_total_hrs;
+				$tid_bank_class = 'red_text';
+			}
+
+			$current_date = $wpdb->get_row('SELECT 
+				ROUND(SUM(time_to_sec(task_hour) / (60 * 60)), 2) as total_hours
+				FROM '.TIMESHEET_TABLE.' 
+				WHERE task_person = "'.$timesheet_data->task_person.'" AND date_now = "'.$timesheet_data->date_now.'"');
+
 
 			$working_days = getWorkingDays($date1, $date2);
 			$worked_hours = (($working_days * 8));
@@ -2306,6 +2345,8 @@ function update_entry_column($update_entries){
 				'side_panel_total_ledig' => floatval(number_format($updated_timesheet->ledig, 2)),
 				'side_panel_total_semester' => floatval(number_format($updated_timesheet->vacation, 2)),
 				'side_panel_total_helg' => floatval(number_format($updated_timesheet->holiday, 2)),
+				'side_panel_total_hours_tidbank' => floatval(number_format($tidbank_total_hrs, 2)),
+				'side_panel_total_hours_tidbank_class' => $tid_bank_class,
 				'side_panel_total_hour_balance_color' => $hour_balance_color
 			);
 
@@ -2380,12 +2421,12 @@ function UpdateTaskNameOnClient($entry){
 	$current_user = wp_get_current_user();
 
 	$edited_by = $current_user->display_name . ' - ' . date("Y-m-d H:i");
-	$check_value = $wpdb->get_row("SELECT task_name FROM {$table_timesheet_name} WHERE ID = ".$taskname_id);
+	$check_value = $wpdb->get_row("SELECT * FROM {$table_timesheet_name} WHERE ID = ".$taskname_id);
 
 	if((string)$check_value->task_name == (string)$taskname){
 		$response = array(
 			'taskname_id' => $taskname_id,
-			'taskname' => $taskname,
+			'taskname_name' => $taskname,
 			'status' => 'success-update-timesheet'
 		);
 	}else{
@@ -2406,12 +2447,94 @@ function UpdateTaskNameOnClient($entry){
 			$edit_time_string = date('h:i A', strtotime(substr($edited_by, -5)));
 			$edited_by = substr($edited_by, 0, -5 ) . " " .$edit_time_string;
 
+			$date_string = explode("/", $check_value->date_now);
+			$data_date = $date_string[1]."/".$date_string[2];
+			$year = $date_string[2];
+			$month = $date_string[1];
+
+			if($data_date == date('m/Y')) {
+				$date1 = $year."/".$month."/01";
+				$date2 =  date('Y/m/d');
+				$date_end_range = date("d/m/Y");
+			} else {
+				$date1 = $year."/".$month."/01";
+				$date2 =  date('Y/m/d');
+				$date_end_range = date("31/".$month."/".$month);		   
+			}
+
+			$update_timesheet_sql = 'SELECT 
+				SUM(IF(task_name = "Semester", TIME_TO_SEC(task_hour)/3600, 0 )) as vacation, 
+				SUM(IF(task_name = "Sjuk", TIME_TO_SEC(task_hour)/3600, 0 )) as sickness, 
+				SUM(IF(task_name = "Ledig", TIME_TO_SEC(task_hour)/3600, 0 )) as ledig,
+				SUM(IF(task_name = "Helg", TIME_TO_SEC(task_hour)/3600, 0 )) as holiday,  
+				SUM(TIME_TO_SEC(task_hour)/3600) as totalhours 
+				FROM '.TIMESHEET_TABLE.' 
+				WHERE task_person = "'.$check_value->task_person.' " 
+				AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("31/'.$month.'/'.$year.'", "%d/%m/%Y") AND task_name <> "Tidbank"';
+
+			$updated_timesheet = $wpdb->get_row($update_timesheet_sql);
+
+			$working_days = getWorkingDays($date1, $date2);
+			$worked_hours = (($working_days * 8)); 
+
+			$Tidbank_hours = $wpdb->get_row('SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM '.TIMESHEET_TABLE.' as t WHERE task_person = "'.$check_value->task_person.'" AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("31/'.$month.'/'.$year.'", "%d/%m/%Y") AND task_name = "Tidbank"');
+
+
+			$current_date = $wpdb->get_row('SELECT 
+				ROUND(SUM(time_to_sec(task_hour) / (60 * 60)), 2) as total_hours
+				FROM '.TIMESHEET_TABLE.' 
+				WHERE task_person = "'.$check_value->task_person.'" AND date_now = "'.$check_value->date_now.'"');
+
+			if($current_date->total_hours < 0){
+				$total_current_day_worked_hrs = abs($current_date->total_hours);
+				$negative_string = "-";
+			}else{
+				$total_current_day_worked_hrs = $current_date->total_hours;
+				$negative_string = "";
+			}
+
+			if($Tidbank_hours->tidbank_total_hrs <= 0){
+				$tidbank_total_hrs = abs($Tidbank_hours->tidbank_total_hrs);
+				$tid_bank_class= "";
+			}else{
+				$tidbank_total_hrs = "-".(string)$Tidbank_hours->tidbank_total_hrs;
+				$tid_bank_class = 'red_text';
+			}
+
+			$week = getStartAndEndDate($check_value->week_number, $year);
+
+			$dwork_filter = array(
+				'person_name' => $check_value->task_person,
+				'date_start' => date('d/m/Y', strtotime($week[0])),
+				'date_end' =>  date('d/m/Y', strtotime($week[1]))
+			);	
+
+			$dwork_percent = calculate_person_dwork($dwork_filter);
+
+			$working_days = getWorkingDays($date1, $date2);
+			$worked_hours = (($working_days * 8));
+			$hour_balance = ((float)$updated_timesheet->totalhours - (float)$worked_hours);
+			$hour_balance_color = ($hour_balance >= 0)? 'green' : 'red';		
+
 			$response = array(
 				'taskname_id' => $taskname_id,
 				'taskname_name' => $taskname,
 				'edited_by' => $edited_by,
+				'person_dwork_percent' => $dwork_percent,
+				'side_panel_total_worked_hours' =>floatval(number_format($updated_timesheet->totalhours, 2)),
+				'side_panel_total_tidbank_hours' =>floatval(number_format($updated_timesheet->totalhours, 2)),
+				'side_panel_total_semester' => floatval(number_format($updated_timesheet->vacation, 2)),
+				'side_panel_total_helg' => floatval(number_format($updated_timesheet->holiday, 2)),
+				'side_panel_total_sjuk' => floatval(number_format($updated_timesheet->sickness, 2)),
+				'side_panel_total_ledig' => floatval(number_format($updated_timesheet->ledig, 2)),
+				'side_panel_total_workable_hours' => floatval(number_format($worked_hours, 2)),
+				'side_panel_total_hour_balance' => floatval(number_format($hour_balance, 2)),
+				'side_panel_total_hour_balance_color' => $hour_balance_color,
+				'side_panel_total_hours_tidbank' => floatval(number_format($tidbank_total_hrs, 2)),
+				'side_panel_total_hours_tidbank_class' => $tid_bank_class,
 				'status' => 'success-update-timesheet'
 			);
+
 		}else{
 			$response = array(
 				'status' => 'failed-update-timesheet'
@@ -2471,8 +2594,8 @@ function UpdateProjectNameOnClient($entry){
 	return $response;
 }
 
-function ConvertDecimalTOTimeFormat($time){
-	return sprintf('%02d:%02d', (int) $time, fmod($time, 1) * 60);
-}
+// function ConvertDecimalTOTimeFormat($time){
+// 	return sprintf('%02d:%02d', (int) $time, fmod($time, 1) * 60);
+// }
 
 ?>

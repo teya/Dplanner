@@ -615,7 +615,19 @@ if(isset($_GET['deleteID'])) {
 
 			if($check_today_timesheet != null){ /* TODAY STAT */
 
-				$timesheet_month_details = $wpdb->get_results("SELECT * FROM {$table_name} WHERE task_person = '$current_user_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$month_number/$year', '%d/%m/%Y')"); 
+				$timesheet_month_details_sql = "SELECT 
+								ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as total_hours, 
+								ROUND(SUM(if(t.task_name = 'ledig',time_to_sec(t.task_hour) / (60 * 60),0)),2) as ledig_hours, 
+								ROUND(SUM(if(t.task_name = 'helg',time_to_sec(t.task_hour) / (60 * 60),0)),2) as helg_hours, 
+								ROUND(SUM(if(t.task_name = 'semester',time_to_sec(t.task_hour) / (60 * 60),0)),2) as semester_hours, 
+								ROUND(SUM(if(t.task_name = 'sjuk',time_to_sec(t.task_hour) / (60 * 60),0)),2) as sjuk_hours
+					FROM ".TIMESHEET_TABLE." as t WHERE task_person = '$current_user_name' 
+					AND STR_TO_DATE(date_now, '%d/%m/%Y') 
+					BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') 
+					AND STR_TO_DATE('31/$month_number/$year', '%d/%m/%Y')
+					AND task_name <> 'Tidbank'";
+
+				$timesheet_month_details = $wpdb->get_row($timesheet_month_details_sql);
 
 				$Tidbank_hours = $wpdb->get_row("SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM {$table_name} as t WHERE task_person = '$current_user_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$month_number/$year', '%d/%m/%Y') AND task_name = 'Tidbank'");
 
@@ -627,394 +639,70 @@ if(isset($_GET['deleteID'])) {
 					$tid_hours_class = "text_red";
 				}
 
-				$holiday_date = array();
-
-				foreach($timesheet_month_details as $timesheet_month_detail){
-
-					$task_name = format_task_name($timesheet_month_detail->task_name);
-
-					if($task_name == 'Helg'){
-
-						$date = date('Y/m/d', strtotime($timesheet_month_detail->date_now));
-
-						$holiday_date[] = $date;
-
-					}
-
-				}
-
 				$holiday_count = count($holiday_date);
-
 				$holiday_hours = $holiday_count * $hour_per_day;
-
 				
-
 				$date1 = "$year/$month_number/01";
-
 				$date2 =  date('Y/m/d');
-
 				$working_days = getWorkingDays($date1, $date2);
-
 				$worked_hours = (($working_days * $hour_per_day) - $holiday_hours);
 
-				
-
-				$total_month_hours = 0;
-
-				foreach($timesheet_month_details as $timesheet_month_detail){
-
-					$task_name = format_task_name($timesheet_month_detail->task_name);
-
-					if($task_name != 'Helg'){					
-
-						$task_hour 			= $timesheet_month_detail->task_hour;					
-
-						$task_hour_decimal 	= round(decimalHours($task_hour), 2);					
-
-						$total_month_hours	+= $task_hour_decimal;
-
-					}					
-
-				}
-
-				// Total Hours for Ledig
-				$total_month_helg = 0;
-				foreach($timesheet_month_details as $timesheet_month_detail){
-					$task_name = format_task_name($timesheet_month_detail->task_name);
-					if($task_name == 'Helg'){					
-						$task_hour 			= $timesheet_month_detail->task_hour;					
-						$task_hour_decimal 	= round(decimalHours($task_hour), 2);					
-						$total_month_helg	+= $task_hour_decimal;
-					}					
-				}
-
-
-				// Total Hours for Ledig
-				$total_month_ledig = 0;
-
-				foreach($timesheet_month_details as $timesheet_month_detail){
-
-					$task_name = format_task_name($timesheet_month_detail->task_name);
-
-					if($task_name == 'Ledig'){					
-
-						$task_hour 			= $timesheet_month_detail->task_hour;					
-
-						$task_hour_decimal 	= round(decimalHours($task_hour), 2);					
-
-						$total_month_ledig	+= $task_hour_decimal;
-
-					}					
-
-				}
-
-
-
-				// Total Hours for Sjuk
-				$total_month_sjuk = 0;
-
-				foreach($timesheet_month_details as $timesheet_month_detail){
-
-					$task_name = format_task_name($timesheet_month_detail->task_name);
-
-					if($task_name == 'Sjuk'){					
-
-						$task_hour 			= $timesheet_month_detail->task_hour;					
-
-						$task_hour_decimal 	= round(decimalHours($task_hour), 2);					
-
-						$total_month_sjuk	+= $task_hour_decimal;
-
-					}					
-
-				}
-
-				// Total Hours for Semester
-				$total_month_semester = 0;
-
-				foreach($timesheet_month_details as $timesheet_month_detail){
-
-					$task_name = format_task_name($timesheet_month_detail->task_name);
-
-					if($task_name == 'Semester'){					
-
-						$task_hour 			= $timesheet_month_detail->task_hour;					
-
-						$task_hour_decimal 	= round(decimalHours($task_hour), 2);					
-
-						$total_month_semester	+= $task_hour_decimal;
-
-					}					
-
-				}
-
-				$total_hours_worked = $total_month_hours;
-
-				if(strpos($total_hours_worked, ".") === false){
-
-					$format_total_hours_worked = $total_hours_worked;
-
-					}else{
-
-					$exploded_hours = explode(".",$total_hours_worked);				
-
-					$hours = $exploded_hours[0];
-
-					$minutes = $exploded_hours[1];
-
-					$round_minutes = round_nearest($minutes, 5);
-
-					if($round_minutes == 0){
-
-						$format_total_hours_worked = $hours;
-
-						}else{
-
-						$format_total_hours_worked = $hours .".". $round_minutes;
-
-					}
-
-				}
-
-				
-
-				$hour_balance = ($format_total_hours_worked - $worked_hours);
-
-				if($worked_hours  > $format_total_hours_worked){
-
+				$hour_balance = ($timesheet_month_details->total_hours - $worked_hours);
+				if($timesheet_month_details->total_hours  < $worked_hours){
 					$p_class = "text_red";
-
 					}else{
-
 					$p_class = "text_green";
-
 				}			
 
-				
-
-				foreach($timesheet_month_details as $timesheet_month_detail){
-
-					$task_name = format_task_name($timesheet_month_detail->task_name);				
-
-					if($task_name == 'Holiday Work'){
-
-						$holiday_work_date = $timesheet_month_detail->date_now;
-
-						$holiday_work_details = $wpdb->get_results("SELECT * FROM {$table_name} WHERE task_person = '$current_user_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$month_number/$year', '%d/%m/%Y') AND date_now ='$holiday_work_date'"); 
-
-						$holiday_work_hours = 0;
-
-						foreach ($holiday_work_details as $holiday_work_detail){
-
-							$task_hour = $holiday_work_detail->task_hour;
-
-							$task_hour_decimal 	= round(decimalHours($task_hour), 2);
-
-							$holiday_work_hours	+= $task_hour_decimal;
-
-						}
-
-					}					
-
-				}
-
-				if($holiday_work_hours != null){
-
-					$total_holiday_work = $holiday_work_hours;
-
-					}else{
-
-					$total_holiday_work = 0;
-
-				}
 
 			}else{ /* YESTERDAY STAT */
+
+			
 
 				$yesterday = date('d/m/Y',strtotime("-1 days"));
 
 				$yesterday_format = date('Y/m/d',strtotime("-1 days"));
 
-				$timesheet_month_details = $wpdb->get_results("SELECT * FROM {$table_name} WHERE task_person = '$current_user_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$month_number/$year', '%d/%m/%Y') AND task_name <> 'Tidbank'"); 
-				$holiday_date = array();
+				$timesheet_month_details_sql = "SELECT 
+								ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as total_hours, 
+								ROUND(SUM(if(t.task_name = 'ledig',time_to_sec(t.task_hour) / (60 * 60),0)),2) as ledig_hours, 
+								ROUND(SUM(if(t.task_name = 'helg',time_to_sec(t.task_hour) / (60 * 60),0)),2) as helg_hours, 
+								ROUND(SUM(if(t.task_name = 'semester',time_to_sec(t.task_hour) / (60 * 60),0)),2) as semester_hours, 
+								ROUND(SUM(if(t.task_name = 'sjuk',time_to_sec(t.task_hour) / (60 * 60),0)),2) as sjuk_hours
+					FROM ".TIMESHEET_TABLE." as t WHERE task_person = '$current_user_name' 
+					AND STR_TO_DATE(date_now, '%d/%m/%Y') 
+					BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') 
+					AND STR_TO_DATE('31/$month_number/$year', '%d/%m/%Y')
+					AND task_name <> 'Tidbank'";
 
+				$timesheet_month_details = $wpdb->get_row($timesheet_month_details_sql);
 
 				$Tidbank_hours = $wpdb->get_row("SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM {$table_name} as t WHERE task_person = '$current_user_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$month_number/$year', '%d/%m/%Y') AND task_name = 'Tidbank'");
 
-				if($Tidbank_hours->tidbank_total_hrs < 0){
+				if($Tidbank_hours->tidbank_total_hrs <= 0){
 					$tidbank_total_hrs = abs($Tidbank_hours->tidbank_total_hrs);
-				}else if($Tidbank_hours->tidbank_total_hrs == 0){
-					$tidbank_total_hrs = 0;
-				}
-
-
-				foreach($timesheet_month_details as $timesheet_month_detail){
-
-					$task_name = format_task_name($timesheet_month_detail->task_name);
-
-					if($task_name == 'Helg'){
-
-						$date = date('Y/m/d', strtotime($timesheet_month_detail->date_now));
-
-						$holiday_date[] = $date;
-
-					}
-
+					$tid_hours_class = "";
+				}else{
+					$tidbank_total_hrs = "-" . (string)$Tidbank_hours->tidbank_total_hrs;
+					$tid_hours_class = "text_red";
 				}
 
 				$holiday_count = count($holiday_date);
-
 				$holiday_hours = $holiday_count * $hour_per_day;
-
-				
-
 				$date1 = "$year/$month_number/01";
-
 				$date2 =  date('Y/m/d');
-
 				$working_days = getWorkingDays($date1, $date2);
-
 				$worked_hours = (($working_days * $hour_per_day) - $holiday_hours);
 
-				$total_month_hours = 0;
+				$hour_balance = ($timesheet_month_details->total_hours - $worked_hours);
 
-				foreach($timesheet_month_details as $timesheet_month_detail){
-					$task_name = format_task_name($timesheet_month_detail->task_name);
-					if($task_name != 'Helg'){					
-						$task_hour 			= $timesheet_month_detail->task_hour;					
-						$task_hour_decimal 	= round(decimalHours($task_hour), 2);					
-						$total_month_hours	+= $task_hour_decimal;
-					}					
-				}
-
-				// Total Hours for Helg
-				$total_month_helg = 0;
-				foreach($timesheet_month_details as $timesheet_month_detail){
-					$task_name = format_task_name($timesheet_month_detail->task_name);
-					if($task_name == 'Helg'){					
-						$task_hour 			= $timesheet_month_detail->task_hour;					
-						$task_hour_decimal 	= round(decimalHours($task_hour), 2);					
-						$total_month_helg	+= $task_hour_decimal;
-					}					
-				}
-
-
-				// Total Hours for Semester
-				$total_month_semester = 0;
-				foreach($timesheet_month_details as $timesheet_month_detail){
-					$task_name = format_task_name($timesheet_month_detail->task_name);
-					if($task_name == 'Semester'){					
-						$task_hour 			= $timesheet_month_detail->task_hour;					
-						$task_hour_decimal 	= round(decimalHours($task_hour), 2);					
-						$total_month_semester	+= $task_hour_decimal;
-					}					
-				}	
-
-
-				// Total Hours for Sjuk
-				$total_month_sjuk = 0;
-				foreach($timesheet_month_details as $timesheet_month_detail){
-					$task_name = format_task_name($timesheet_month_detail->task_name);
-					if($task_name == 'Sjuk'){					
-						$task_hour 			= $timesheet_month_detail->task_hour;					
-						$task_hour_decimal 	= round(decimalHours($task_hour), 2);					
-						$total_month_sjuk	+= $task_hour_decimal;
-					}					
-				}	
-
-
-				// Total Hours for Ledig
-				$total_month_ledig = 0;
-				foreach($timesheet_month_details as $timesheet_month_detail){
-					$task_name = format_task_name($timesheet_month_detail->task_name);
-					if($task_name == 'Ledig'){					
-						$task_hour 			= $timesheet_month_detail->task_hour;					
-						$task_hour_decimal 	= round(decimalHours($task_hour), 2);					
-						$total_month_ledig	+= $task_hour_decimal;
-					}					
-				}																		
-
-				$total_hours_worked = $total_month_hours;
-
-				if(strpos($total_hours_worked, ".") === false){
-
-					$format_total_hours_worked = $total_hours_worked;
-
-					}else{
-
-					$exploded_hours = explode(".",$total_hours_worked);				
-
-					$hours = $exploded_hours[0];
-
-					$minutes = $exploded_hours[1];
-
-					$round_minutes = round_nearest($minutes, 5);
-
-					if($round_minutes == 0){
-
-						$format_total_hours_worked = $hours;
-
-						}else{
-
-						$format_total_hours_worked = $hours .".". $round_minutes;
-
-					}
-
-				}
-
-				
-
-				$hour_balance = ($format_total_hours_worked - $worked_hours);
-
-				if($worked_hours  > $format_total_hours_worked){
-
+				if($timesheet_month_details->total_hours  < $worked_hours){
 					$p_class = "text_red";
-
-					}else{
-
+				}else{
 					$p_class = "text_green";
-
 				}			
 
-				
-
-				foreach($timesheet_month_details as $timesheet_month_detail){
-
-					$task_name = format_task_name($timesheet_month_detail->task_name);				
-
-					if($task_name == 'Holiday Work'){
-
-						$holiday_work_date = $timesheet_month_detail->date_now;
-
-						$holiday_work_details = $wpdb->get_results("SELECT * FROM {$table_name} WHERE task_person = '$current_user_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$month_number/$year', '%d/%m/%Y') AND date_now ='$holiday_work_date'"); 
-
-						$holiday_work_hours = 0;
-
-						foreach ($holiday_work_details as $holiday_work_detail){
-
-							$task_hour = $holiday_work_detail->task_hour;
-
-							$task_hour_decimal 	= round(decimalHours($task_hour), 2);
-
-							$holiday_work_hours	+= $task_hour_decimal;
-
-						}
-
-					}					
-
-				}
-
-				if($holiday_work_hours != null){
-
-					$total_holiday_work = $holiday_work_hours;
-
-				}else{
-
-					$total_holiday_work = 0;
-
-				}
-
 			}		
-
 			?>
 
 			<div class="month_stat">			
@@ -1025,7 +713,7 @@ if(isset($_GET['deleteID'])) {
 				</div>
 				<div class="month_details">
 					<p class="label">Total hours reported:</p>
-					<p class="hours total_hours_worked"><?php echo $format_total_hours_worked; ?></p>
+					<p class="hours total_hours_worked"><?php echo ($timesheet_month_details->total_hours)? cleanDecimal($timesheet_month_details->total_hours) : 0; ?></p>
 				</div>
 				<div class="month_details">
 					<p class="label">Report balance:</p>
@@ -1037,24 +725,20 @@ if(isset($_GET['deleteID'])) {
 				</div>
 				<div class="month_details">
 					<p class="label">Semester:</p>
-					<p class="hours hour_vacation"><?php echo ($total_month_semester)? $total_month_semester : 0; ?></p>
+					<p class="hours hour_vacation"><?php echo ($timesheet_month_details->semester_hours > 0)? cleanDecimal($timesheet_month_details->semester_hours) : 0; ?></p>
 				</div>
 				<div class="month_details">
 					<p class="label">Ledig:</p>
-					<p class="hours hour_ledig"><?php echo ($total_month_ledig)? $total_month_ledig : 0; ?></p>
+					<p class="hours hour_ledig"><?php echo ($timesheet_month_details->ledig_hours > 0)? cleanDecimal($timesheet_month_details->ledig_hours) : 0; ?></p>
 				</div>
 				<div class="month_details">
 					<p class="label">Sjuk:</p>
-					<p class="hours hour_sjuk"><?php echo ($total_month_sjuk)? $total_month_sjuk : 0; ?></p>
+					<p class="hours hour_sjuk"><?php echo ($timesheet_month_details->sjuk_hours > 0)? cleanDecimal($timesheet_month_details->sjuk_hours) : 0; ?></p>
 				</div>
 				<div class="month_details">
 					<p class="label">Helg:</p>
-					<p class="hours holiday_hours"><?php echo $total_month_helg; ?></p>
+					<p class="hours holiday_hours"><?php echo ($timesheet_month_details->helg_hours > 0)? cleanDecimal($timesheet_month_details->helg_hours) : 0; ?></p>
 				</div>				
-<!-- 				<div class="month_details">
-					<p class="label">Holiday Balance:</p>
-					<p class="hours holiday_balance"><?php echo $total_holiday_work; ?></p>
-				</div> -->
 			</div>
 
 		</div>
@@ -1079,7 +763,7 @@ if(isset($_GET['deleteID'])) {
 				<h3 class=""><span class="header_day_date"><?php echo date('l'); ?> <?php  echo date('d M'); ?></span> - Time: <span id="dplan_hours"><?php echo date('h'); ?></span>:<span id="dplan_minutes"><?php echo date('i'); ?></span></span></h3>
 			</div>
 
-			<div style="display:none" class="status_message timesheet_message"><p></p><div class="loader"></div></div>
+			<div style="display:none" class="status_message timesheet_message"><p></p><!-- <div class="loader"></div> --></div>
 
 			<div style="display:none" class="action_message timesheet_message"><p></p></div>
 
@@ -1500,106 +1184,41 @@ if(isset($_GET['deleteID'])) {
 									<div class="row-save-loader" style="visibility: hidden;">
 								</li>
 							</div>
-
-<!-- 							<div class="task_done_today">
-
-								<h5 class="top_label">Done Today<div class="button_help"></div></h5>
-
-								<?php foreach ($import_data as $import_item): ?>								
-
-								<li class="data_list_monday timesheet_data_id_<?php echo $import_item->ID; ?>">									
-
-									<div id="done_today_kanban_monday_<?php echo $import_item->ID; ?>" class="button_1 done_today_button done_today_kanban">Done Today</div>
-
-								</li>
-
-								<?php endforeach; ?>
-
-								<p style="display: none;" class="help_note">If task is not completely done, you can specify which task were done today.</p>
-
-							</div>	 -->					
-
 							<?php	
+								$monday_results_sql = "SELECT 
+									ROUND(SUM(time_to_sec(task_hour) / (60 * 60)), 2) as total_hours 
+									FROM {$table_name} 
+									WHERE user_id = '$user_id' 
+									AND day_now = 'Monday' 
+									AND week_number = '$week_number' 
+									AND status = '1' 
+									AND date_now = '$date_range[0]'";
 
-								// $all_hours = "";
-
-								$total_hour_decimal = 0;
-
-								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Monday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[0]'");
-
-								$tid_hours = 0;
-								foreach($timesheet_hours as $timesheet_hour){
-									$task_hour = $timesheet_hour->task_hour;
-									if (strpos($task_hour, '-') !== false) {
-									    $tid_hours +=  decimalHours(str_replace("-","",$task_hour));
-									}else{
-										$task_hour_decimal = decimalHours($task_hour);
-										$total_hour_decimal += $task_hour_decimal;									
-									}
-								}
-
-								$total_hour_unformat =  gmdate('H:i', floor($total_hour_decimal * 3600));
-
-								$total_hour_explode = explode(":", $total_hour_unformat);
-
-								$hour = $total_hour_explode[0];
-
-								$minutes = $total_hour_explode[1];
-
-								if(strlen($hour) == 1){
-
-									$format_hour = "0" . $hour;
-
-									}elseif(strlen($hour) == 2 ){
-
-									$format_hour = $hour;
-
-								}
-
-								$round_minutes = round_nearest($minutes, 5);
-
-								if(strlen($round_minutes) == 1){
-
-									$rounded_minute = "0" . $round_minutes;
-
-									}elseif(strlen($round_minutes) == 2){
-
-									$rounded_minute = $round_minutes;
-
-								}
-
-								$total_hour = $format_hour .":". $rounded_minute;
-								$total_hour_decimal = decimalHours($total_hour) - $tid_hours;
-								$total_hour_decimal = ($total_hour_decimal < 0)? 0 : $total_hour_decimal;
-								$total_hour_format =  gmdate('H:i', floor($total_hour_decimal * 3600));
+								$monday_results = $wpdb->get_row($monday_results_sql);
 
 								if($date_pass == true){
 									$color_status = "gray";
 								}else{
-									if($total_hour_format >= $quota_time){
+									if($monday_results->total_hours >= $quota_time){
 										$color_status = "green";
 									}else{
 										$color_status = 'red';
 									}
 								}
 
+								if((float)$monday_results->total_hours < 0){
+									$negative_string = "-";
+									$total_hours = abs($monday_results->total_hours);
+								}else{
+									$total_hours = $monday_results->total_hours;
+									$negative_string = "";
+								}
 							?>
-
 						</div>
-
 						<div class="total_hours">
 							<div class="task_total"><h3>TOTAL</h3></div>
-							<div class="task_total_hour"><h3><?php echo $total_hour_format; ?></h3><input type="hidden" name="monday_status_color" value="<?php echo $color_status; ?>"></div>
+							<div class="task_total_hour"><h3><?php echo $negative_string."".decimal_to_hour($total_hours); ?></h3><input type="hidden" name="monday_status_color" value="<?php echo $color_status; ?>"></div>
 						</div>						
-
-<!-- 						<div class="clear_add_buttons">							
-
-							<div style="display:none;" id="clear_kanban_monday" class="button_1 button_import">Clear</div>
-
-							<div  id="save_kanban_monday" class="button_1 button_import save_button_timesheet <?php echo ($day_now == 'Monday') ? '' : 'import_save_not_current' ?>">Add Entry</div>					
-
-						</div> -->
-
 						<div style="display:none;" class="import_message">
 							<p>Press save if Imported time is correct, else clear.</p>
 							<div style="display:none;" class="loader kanban_save_loader"></div>
@@ -1960,116 +1579,46 @@ if(isset($_GET['deleteID'])) {
 									<div class="row-save-loader" style="visibility: hidden;">
 								</li>
 							</div>
-
-<!-- 							<div class="task_done_today">
-
-								<h5 class="top_label">Done Today<div class="button_help"></div></h5>
-
-								<?php foreach ($import_data as $import_item): ?>								
-
-								<li class="data_list_tuesday timesheet_data_id_<?php echo $import_item->ID; ?>">
-
-									<div id="done_today_kanban_tuesday_<?php echo $import_item->ID; ?>" class="button_1 done_today_button done_today_kanban">Done Today</div>
-
-								</li>
-
-								<?php endforeach; ?>
-
-								<p style="display: none;" class="help_note">If task is not completely done, you can specify which task were done today.</p>
-
-							</div>	 -->
-
 							<?php	
+								$tuesday_results_sql = "SELECT 
+									ROUND(SUM(time_to_sec(task_hour) / (60 * 60)), 2) as total_hours 
+									FROM {$table_name} 
+									WHERE user_id = '$user_id' 
+									AND day_now = 'Tuesday' 
+									AND week_number = '$week_number' 
+									AND status = '1' 
+									AND date_now = '$date_range[1]'";
 
-								// $all_hours = "";
-
-								$total_hour_decimal = 0;						
-
-								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Tuesday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[1]'");
-
-								$tid_hours = 0;
-								foreach($timesheet_hours as $timesheet_hour){
-									$task_hour = $timesheet_hour->task_hour;
-									if (strpos($task_hour, '-') !== false) {
-									    $tid_hours +=  decimalHours(str_replace("-","",$task_hour));
-									}else{
-										$task_hour_decimal = decimalHours($task_hour);
-										$total_hour_decimal += $task_hour_decimal;									
-									}
-								}
-
-								$total_hour_unformat =  gmdate('H:i', floor($total_hour_decimal * 3600));
-
-								$total_hour_explode = explode(":", $total_hour_unformat);
-
-								$hour = $total_hour_explode[0];
-
-								$minutes = $total_hour_explode[1];
-
-								if(strlen($hour) == 1){
-
-									$format_hour = "0" . $hour;
-
-									}elseif(strlen($hour) == 2 ){
-
-									$format_hour = $hour;
-
-								}
-
-								$round_minutes = round_nearest($minutes, 5);
-
-								if(strlen($round_minutes) == 1){
-
-									$rounded_minute = "0" . $round_minutes;
-
-									}elseif(strlen($round_minutes) == 2){
-
-									$rounded_minute = $round_minutes;
-
-								}
-
-								$total_hour = $format_hour .":". $rounded_minute;
-								$total_hour_decimal = decimalHours($total_hour) - $tid_hours;
-								$total_hour_decimal = ($total_hour_decimal < 0)? 0 : $total_hour_decimal;
-								$total_hour_format =  gmdate('H:i', floor($total_hour_decimal * 3600));
+								$tuesday_results = $wpdb->get_row($tuesday_results_sql);
 
 								if($date_pass == true){
 									$color_status = "gray";
 								}else{
-									if($total_hour_format >= $quota_time){
+									if($tuesday_results->total_hours >= $quota_time){
 										$color_status = "green";
 									}else{
 										$color_status = 'red';
 									}
 								}
 
+								if((float)$tuesday_results->total_hours < 0){
+									$negative_string = "-";
+									$total_hours = abs($tuesday_results->total_hours);
+								}else{
+									$total_hours = $tuesday_results->total_hours;
+									$negative_string = "";
+								}
 							?>
-
 						</div>
-
 						<div class="total_hours">
 							<div class="task_total"><h3>TOTAL</h3></div>
-							<div class="task_total_hour"><h3><?php echo $total_hour_format; ?></h3><input type="hidden" name="tuesday_status_color" value="<?php echo $color_status; ?>"></div>
+							<div class="task_total_hour"><h3><?php echo $negative_string."".decimal_to_hour($total_hours); ?></h3><input type="hidden" name="tuesday_status_color" value="<?php echo $color_status; ?>"></div>
 						</div>						
-<!-- 
-						<div class="clear_add_buttons">							
-
-							<div style="display:none;" id="clear_kanban_tuesday" class="button_1 button_import">Clear</div>
-
-							<div id="save_kanban_tuesday" class="button_1 button_import save_button_timesheet <?php echo ($day_now == 'Tuesday') ? '' : 'import_save_not_current' ?>">Add Entry</div>					
-
-						</div>
- -->
 						<div style="display:none;" class="import_message">							
-
 							<p>Press save if Imported time is correct, else clear.</p>
-
 							<div style="display:none;" class="loader kanban_save_loader"></div>
-
 						</div>
-
 						
-
 					</div>
 
 					<!--WEDNESDAY -->
@@ -2103,11 +1652,6 @@ if(isset($_GET['deleteID'])) {
 
 							<div class="import_button">				
 
-								<!-- <p class="label team-member-name">Team Member: <strong><?php echo $user_name; ?></strong></p>					 -->
-
-								<!-- <div id="import_kanban_task_wednesday" class="button_1 import_kanban_task button_import">Import</div> -->
-
-								<!-- <div id="add_new_row" class="button_1 button_import add_task"> + </div> -->
 
 								<div id="add_kanban_task_wednesday" class="button_1 button_import add_task">Add Entry</div>						
 
@@ -2284,35 +1828,6 @@ if(isset($_GET['deleteID'])) {
 								</li>
 							</div>
 
-<!-- 							<div class="task_hour_billable data_title header_titles">
-
-								<h3 class="top_label">B. Hours</h3>
-
-								<?php foreach ($import_data as $import_item):
-
-									$task_hms = $import_item->task_hour_billable;
-
-									$task_hour_billable = time_format($task_hms);
-
-								?>
-
-								<li class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($task_hour_billable)) ? $task_hour_billable : "--" ; ?></li>
-
-								<?php endforeach; ?>
-
-							</div>	 -->						
-<!-- 
-							<div class="task_person data_title header_titles">
-
-								<h3 class="top_label">Done by</h3>
-
-								<?php foreach ($import_data as $import_item): ?>
-
-								<li class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_person)) ? $import_item->task_person : "--" ; ?></li>
-
-								<?php endforeach; ?>						
-
-							</div> -->
 
 							<div class="task_description data_title header_titles">
 
@@ -2427,107 +1942,42 @@ if(isset($_GET['deleteID'])) {
 								</li>
 							</div>
 
-<!-- 
-							<div class="task_done_today">
-
-								<h5 class="top_label">Done Today<div class="button_help"></div></h5>
-
-								<?php foreach ($import_data as $import_item): ?>								
-
-								<li class="data_list_wednesday timesheet_data_id_<?php echo $import_item->ID; ?>">
-
-									<div id="done_today_kanban_wednesday_<?php echo $import_item->ID; ?>" class="button_1 done_today_button done_today_kanban">Done Today</div>
-
-								</li>
-
-								<?php endforeach; ?>
-
-								<p style="display: none;" class="help_note">If task is not completely done, you can specify which task were done today.</p>
-
-							</div>		 -->
-
 							<?php	
+								$wednesday_results_sql = "SELECT 
+									ROUND(SUM(time_to_sec(task_hour) / (60 * 60)), 2) as total_hours 
+									FROM {$table_name} 
+									WHERE user_id = '$user_id' 
+									AND day_now = 'Wednesday' 
+									AND week_number = '$week_number' 
+									AND status = '1' 
+									AND date_now = '$date_range[2]'";
 
-								// $all_hours = "";
-
-								$total_hour_decimal = 0;
-
-								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Wednesday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[2]'");
-
-								$tid_hours = 0;
-								foreach($timesheet_hours as $timesheet_hour){
-									$task_hour = $timesheet_hour->task_hour;
-									if (strpos($task_hour, '-') !== false) {
-									    $tid_hours +=  decimalHours(str_replace("-","",$task_hour));
-									}else{
-										$task_hour_decimal = decimalHours($task_hour);
-										$total_hour_decimal += $task_hour_decimal;									
-									}
-								}
-
-							
-								$total_hour_unformat =  gmdate('H:i', floor($total_hour_decimal * 3600));
-
-								$total_hour_explode = explode(":", $total_hour_unformat);
-
-								$hour = $total_hour_explode[0];
-
-								$minutes = $total_hour_explode[1];
-
-								if(strlen($hour) == 1){
-
-									$format_hour = "0" . $hour;
-
-									}elseif(strlen($hour) == 2 ){
-
-									$format_hour = $hour;
-
-								}
-
-								$round_minutes = round_nearest($minutes, 5);
-
-								if(strlen($round_minutes) == 1){
-
-									$rounded_minute = "0" . $round_minutes;
-
-								}elseif(strlen($round_minutes) == 2){
-
-									$rounded_minute = $round_minutes;
-
-								}
-
-								$total_hour = $format_hour .":". $rounded_minute;
-								$total_hour_decimal = decimalHours($total_hour) - $tid_hours;
-								$total_hour_decimal = ($total_hour_decimal < 0)? 0 : $total_hour_decimal;
-								$total_hour_format =  gmdate('H:i', floor($total_hour_decimal * 3600));
+								$wednesday_results = $wpdb->get_row($wednesday_results_sql);
 
 								if($date_pass == true){
 									$color_status = "gray";
 								}else{
-									if($total_hour_format >= $quota_time){
+									if($wednesday_results->total_hours >= $quota_time){
 										$color_status = "green";
 									}else{
 										$color_status = 'red';
 									}
 								}
 
-
+								if((float)$wednesday_results->total_hours < 0){
+									$negative_string = "-";
+									$total_hours = abs($wednesday_results->total_hours);
+								}else{
+									$total_hours = $wednesday_results->total_hours;
+									$negative_string = "";
+								}
 							?>
-
 						</div>
 
 						<div class="total_hours">
 							<div class="task_total"><h3>TOTAL</h3></div>
-							<div class="task_total_hour"><h3><?php echo $total_hour_format; ?></h3><input type="hidden" name="wednesday_status_color" value="<?php echo $color_status; ?>"></div>
+							<div class="task_total_hour"><h3><?php echo $negative_string."".decimal_to_hour($total_hours); ?></h3><input type="hidden" name="wednesday_status_color" value="<?php echo $color_status; ?>"></div>
 						</div>						
-
-						<!-- <div class="clear_add_buttons"> -->
-
-							<div style="display:none;" id="clear_kanban_wednesday" class="button_1 button_import">Clear</div>
-
-							<!-- <div id="save_kanban_wednesday" class="button_1 button_import save_button_timesheet <?php echo ($day_now == 'Wednesday') ? '' : 'import_save_not_current' ?>">Add Entry</div>					 -->
-
-						<!-- </div> -->
 
 						<div style="display:none;" class="import_message">							
 
@@ -2890,116 +2340,48 @@ if(isset($_GET['deleteID'])) {
 								</li>
 							</div>
 
-<!-- 							<div class="task_done_today">
-
-								<h5 class="top_label">Done Today<div class="button_help"></div></h5>
-
-								<?php foreach ($import_data as $import_item): ?>								
-
-								<li class="data_list_thursday timesheet_data_id_<?php echo $import_item->ID; ?>">
-
-									<div id="done_today_kanban_thursday_<?php echo $import_item->ID; ?>" class="button_1 done_today_button done_today_kanban">Done Today</div>
-
-								</li>
-
-								<?php endforeach; ?>
-
-								<p style="display: none;" class="help_note">If task is not completely done, you can specify which task were done today.</p>
-
-							</div> -->
-
 							<?php	
+								$thursday_results_sql = "SELECT 
+									ROUND(SUM(time_to_sec(task_hour) / (60 * 60)), 2) as total_hours 
+									FROM {$table_name} 
+									WHERE user_id = '$user_id' 
+									AND day_now = 'Thursday' 
+									AND week_number = '$week_number' 
+									AND status = '1' 
+									AND date_now = '$date_range[3]'";
 
-								// $all_hours = "";
-
-								$total_hour_decimal = 0;
-
-								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Thursday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[3]'");
-
-								$tid_hours = 0;
-								foreach($timesheet_hours as $timesheet_hour){
-									$task_hour = $timesheet_hour->task_hour;
-									if (strpos($task_hour, '-') !== false) {
-									    $tid_hours +=  decimalHours(str_replace("-","",$task_hour));
-									}else{
-										$task_hour_decimal = decimalHours($task_hour);
-										$total_hour_decimal += $task_hour_decimal;									
-									}
-								}
-
-								$total_hour_unformat =  gmdate('H:i', floor($total_hour_decimal * 3600));
-
-								$total_hour_explode = explode(":", $total_hour_unformat);
-
-								$hour = $total_hour_explode[0];
-
-								$minutes = $total_hour_explode[1];
-
-								if(strlen($hour) == 1){
-
-									$format_hour = "0" . $hour;
-
-									}elseif(strlen($hour) == 2 ){
-
-									$format_hour = $hour;
-
-								}
-
-								$round_minutes = round_nearest($minutes, 5);
-
-								if(strlen($round_minutes) == 1){
-
-									$rounded_minute = "0" . $round_minutes;
-
-									}elseif(strlen($round_minutes) == 2){
-
-									$rounded_minute = $round_minutes;
-
-								}
-
-								$total_hour = $format_hour .":". $rounded_minute;
-								$total_hour_decimal = decimalHours($total_hour) - $tid_hours;
-								$total_hour_decimal = ($total_hour_decimal < 0)? 0 : $total_hour_decimal;
-								$total_hour_format =  gmdate('H:i', floor($total_hour_decimal * 3600));
+								$thursday_results = $wpdb->get_row($thursday_results_sql);
 
 								if($date_pass == true){
 									$color_status = "gray";
 								}else{
-									if($total_hour_format >= $quota_time){
+									if($thursday_results->total_hours >= $quota_time){
 										$color_status = "green";
 									}else{
 										$color_status = 'red';
 									}
 								}
+
+								if((float)$thursday_results->total_hours < 0){
+									$negative_string = "-";
+									$total_hours = abs($thursday_results->total_hours);
+								}else{
+									$total_hours = $thursday_results->total_hours;
+									$negative_string = "";
+								}
 							?>
-
 						</div>
-
 						<div class="total_hours">
 							<div class="task_total"><h3>TOTAL</h3></div>
-							<div class="task_total_hour"><h3><?php echo $total_hour_format; ?></h3><input type="hidden" name="thursday_status_color" value="<?php echo $color_status; ?>"></div>
+							<div class="task_total_hour"><h3><?php echo $negative_string."".decimal_to_hour($total_hours); ?></h3><input type="hidden" name="thursday_status_color" value="<?php echo $color_status; ?>"></div>
 						</div>
-<!-- 
-						<div class="clear_add_buttons">
-
-							<div style="display:none;" id="clear_kanban_thursday" class="button_1 button_import">Clear</div>
-
-							<div  id="save_kanban_thursday" class="button_1 button_import save_button_timesheet <?php echo ($day_now == 'Thursday') ? '' : 'import_save_not_current' ?>">Add Entry</div>					
-
-						</div> -->
-
 						<div style="display:none;" class="import_message">
-
 							<p>Press save if Imported time is correct, else clear.</p>
-
 							<div style="display:none;" class="loader kanban_save_loader"></div>
-
 						</div>						
-
 					</div>
 
 					<!-- FRIDAY -->
-
 					<div id="friday" class="tab tab_content <?php echo ($day_now == 'Friday') ? 'active' : ''; ?>" style="display: none;">
 
 						<input type="hidden" class="tab_date friday_date" value="<?php echo $date_range[4]; ?>" />
@@ -3353,115 +2735,46 @@ if(isset($_GET['deleteID'])) {
 									<div class="row-save-loader" style="visibility: hidden;">
 								</li>
 							</div>
-<!-- 
-							<div class="task_done_today">
-
-								<h5 class="top_label">Done Today<div class="button_help"></div></h5>
-
-								<?php foreach ($import_data as $import_item): ?>								
-
-								<li class="data_list_friday timesheet_data_id_<?php echo $import_item->ID; ?>">
-
-									<div id="done_today_kanban_friday_<?php echo $import_item->ID; ?>" class="button_1 done_today_button done_today_kanban">Done Today</div>
-
-								</li>
-
-								<?php endforeach; ?>
-
-								<p style="display: none;" class="help_note">If task is not completely done, you can specify which task were done today.</p>
-
-							</div>  -->
-
 							<?php	
+								$friday_results_sql = "SELECT 
+									ROUND(SUM(time_to_sec(task_hour) / (60 * 60)), 2) as total_hours 
+									FROM {$table_name} 
+									WHERE user_id = '$user_id' 
+									AND day_now = 'Friday' 
+									AND week_number = '$week_number' 
+									AND status = '1' 
+									AND date_now = '$date_range[4]'";
 
-								// $all_hours = "";
-
-								$total_hour_decimal = 0;
-
-								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Friday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[4]'");
-
-								$tid_hours = 0;
-								foreach($timesheet_hours as $timesheet_hour){
-									$task_hour = $timesheet_hour->task_hour;
-									if (strpos($task_hour, '-') !== false) {
-									    $tid_hours +=  decimalHours(str_replace("-","",$task_hour));
-									}else{
-										$task_hour_decimal = decimalHours($task_hour);
-										$total_hour_decimal += $task_hour_decimal;									
-									}
-								}
-								
-
-								$total_hour_unformat =  gmdate('H:i', floor($total_hour_decimal * 3600));
-
-								$total_hour_explode = explode(":", $total_hour_unformat);
-
-								$hour = $total_hour_explode[0];
-
-								$minutes = $total_hour_explode[1];
-
-								if(strlen($hour) == 1){
-
-									$format_hour = "0" . $hour;
-
-									}elseif(strlen($hour) == 2 ){
-
-									$format_hour = $hour;
-
-								}
-
-								$round_minutes = round_nearest($minutes, 5);
-
-								if(strlen($round_minutes) == 1){
-
-									$rounded_minute = "0" . $round_minutes;
-
-									}elseif(strlen($round_minutes) == 2){
-
-									$rounded_minute = $round_minutes;
-
-								}
-
-								$total_hour = $format_hour .":". $rounded_minute;
-								$total_hour_decimal = decimalHours($total_hour) - $tid_hours;
-								$total_hour_decimal = ($total_hour_decimal < 0)? 0 : $total_hour_decimal;
-								$total_hour_format =  gmdate('H:i', floor($total_hour_decimal * 3600));
+								$friday_results = $wpdb->get_row($friday_results_sql);
 
 								if($date_pass == true){
 									$color_status = "gray";
 								}else{
-									if($total_hour_format >= $quota_time){
+									if($friday_results->total_hours >= $quota_time){
 										$color_status = "green";
 									}else{
 										$color_status = 'red';
 									}
 								}
 
+								if((float)$friday_results->total_hours < 0){
+									$negative_string = "-";
+									$total_hours = abs($friday_results->total_hours);
+								}else{
+									$total_hours = $friday_results->total_hours;
+									$negative_string = "";
+								}
 							?>
 
 						</div>
-
 						<div class="total_hours">
 							<div class="task_total"><h3>TOTAL</h3></div>
-							<div class="task_total_hour"><h3><?php echo $total_hour_format; ?></h3><input type="hidden" name="friday_status_color" value="<?php echo $color_status; ?>"></div>
+							<div class="task_total_hour"><h3><?php echo $negative_string."".decimal_to_hour($total_hours); ?></h3><input type="hidden" name="friday_status_color" value="<?php echo $color_status; ?>"></div>
 						</div>						
-
-<!-- 						<div class="clear_add_buttons">
-
-							<div style="display:none;" id="clear_kanban_friday" class="button_1 button_import">Clear</div>
-
-							<div id="save_kanban_friday" class="button_1 button_import save_button_timesheet <?php echo ($day_now == 'Friday') ? '' : 'import_save_not_current' ?>">Add Entry</div>
-
-						</div> -->
-
 						<div style="display:none;" class="import_message">
-
 							<p>Press save if Imported time is correct, else clear.</p>
-
 							<div style="display:none;" class="loader kanban_save_loader"></div>
-
 						</div>						
-
 					</div>
 
 					<!-- SATURDAY -->
@@ -3814,108 +3127,45 @@ if(isset($_GET['deleteID'])) {
 									<div class="row-save-loader" style="visibility: hidden;">
 								</li>
 							</div>
-
-<!-- 							<div class="task_done_today">
-
-								<h5 class="top_label">Done Today<div class="button_help"></div></h5>
-
-								<?php foreach ($import_data as $import_item): ?>								
-
-								<li class="data_list_saturday timesheet_data_id_<?php echo $import_item->ID; ?>">
-
-									<div id="done_today_kanban_saturday_<?php echo $import_item->ID; ?>" class="button_1 done_today_button done_today_kanban">Done Today</div>
-
-								</li>
-
-								<?php endforeach; ?>
-
-								<p style="display: none;" class="help_note">If task is not completely done, you can specify which task were done today.</p>
-
-							</div> -->
-
 							<?php	
+								$saturday_results_sql = "SELECT 
+									ROUND(SUM(time_to_sec(task_hour) / (60 * 60)), 2) as total_hours 
+									FROM {$table_name} 
+									WHERE user_id = '$user_id' 
+									AND day_now = 'Saturday' 
+									AND week_number = '$week_number' 
+									AND status = '1' 
+									AND date_now = '$date_range[5]'";
 
-								// $all_hours = "";
-
-								$total_hour_decimal = 0;
-
-								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Saturday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[5]'");
-
-								$tid_hours = 0;
-								foreach($timesheet_hours as $timesheet_hour){
-									$task_hour = $timesheet_hour->task_hour;
-									if (strpos($task_hour, '-') !== false) {
-									    $tid_hours +=  decimalHours(str_replace("-","",$task_hour));
-									}else{
-										$task_hour_decimal = decimalHours($task_hour);
-										$total_hour_decimal += $task_hour_decimal;									
-									}
-								}
-
-								$total_hour_unformat =  gmdate('H:i', floor($total_hour_decimal * 3600));
-								$total_hour_explode = explode(":", $total_hour_unformat);
-								$hour = $total_hour_explode[0];
-								$minutes = $total_hour_explode[1];
-
-								if(strlen($hour) == 1){
-									$format_hour = "0" . $hour;
-									}elseif(strlen($hour) == 2 ){
-									$format_hour = $hour;
-								}
-
-								$round_minutes = round_nearest($minutes, 5);
-
-								if(strlen($round_minutes) == 1){
-
-									$rounded_minute = "0" . $round_minutes;
-
-									}elseif(strlen($round_minutes) == 2){
-
-									$rounded_minute = $round_minutes;
-
-								}
-
-								$total_hour = $format_hour .":". $rounded_minute;
-								$total_hour_decimal = decimalHours($total_hour) - $tid_hours;
-								$total_hour_decimal = ($total_hour_decimal < 0)? 0 : $total_hour_decimal;
-								$total_hour_format =  gmdate('H:i', floor($total_hour_decimal * 3600));
+								$saturday_results = $wpdb->get_row($saturday_results_sql);
 
 								if($date_pass == true){
 									$color_status = "gray";
 								}else{
-									if($total_hour_format >= $quota_time){
+									if($saturday_results->total_hours >= $quota_time){
 										$color_status = "green";
 									}else{
 										$color_status = 'red';
 									}
 								}
 
-
+								if((float)$saturday_results->total_hours < 0){
+									$negative_string = "-";
+									$total_hours = abs($saturday_results->total_hours);
+								}else{
+									$total_hours = $saturday_results->total_hours;
+									$negative_string = "";
+								}
 							?>
-
 						</div>
-
 						<div class="total_hours">
 							<div class="task_total"><h3>TOTAL</h3></div>
-							<div class="task_total_hour"><h3><?php echo $total_hour_format; ?></h3><input type="hidden" name="saturday_status_color" value="<?php echo $color_status; ?>"></div>
+							<div class="task_total_hour"><h3><?php echo $negative_string."".decimal_to_hour($total_hours); ?></h3><input type="hidden" name="saturday_status_color" value="<?php echo $color_status; ?>"></div>
 						</div>
-
-<!-- 						<div class="clear_add_buttons">
-
-							<div style="display:none;" id="clear_kanban_saturday" class="button_1 button_import">Clear</div>
-
-							<div id="save_kanban_saturday" class="button_1 button_import save_button_timesheet <?php echo ($day_now == 'Saturday') ? '' : 'import_save_not_current' ?>">Add Entry</div>					
-
-						</div> -->
-
 						<div style="display:none;" class="import_message">
-
 							<p>Press save if Imported time is correct, else clear.</p>
-
 							<div style="display:none;" class="loader kanban_save_loader"></div>
-
 						</div>						
-
 					</div>
 
 					<!-- SUNDAY -->
@@ -4106,7 +3356,7 @@ if(isset($_GET['deleteID'])) {
 
 								?>
 
-								<li id="timesheet_hour_id_<?php echo $import_item->ID; ?>" class="data_list_sunday edit_column_field"><?php echo (!empty($task_hour)) ? $task_hour : "--" ; ?></li>
+								<li id="timesheet_hour_id_<?php echo $import_item->ID; ?>" class="data_list_sunday edit_column_field timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($task_hour)) ? $task_hour : "--" ; ?></li>
 
 								<?php endforeach; ?>
 
@@ -4279,114 +3529,46 @@ if(isset($_GET['deleteID'])) {
 									<div class="row-save-loader" style="visibility: hidden;">
 								</li>
 							</div>
-<!-- 
-							<div class="task_done_today">
-
-								<h5 class="top_label">Done Today<div class="button_help"></div></h5>
-
-									<?php foreach ($import_data as $import_item): ?>									
-
-									<li class="data_list_sunday timesheet_data_id_<?php echo $import_item->ID; ?>">
-
-										<div id="done_today_kanban_sunday_<?php echo $import_item->ID; ?>" class="button_1 done_today_button done_today_kanban">Done Today</div>
-
-									</li>
-
-									<?php endforeach; ?>
-
-									<p style="display: none;" class="help_note">If task is not completely done, you can specify which task were done today.</p>
-
-							</div>
- -->
 							<?php	
+								$sunday_results_sql = "SELECT 
+									ROUND(SUM(time_to_sec(task_hour) / (60 * 60)), 2) as total_hours 
+									FROM {$table_name} 
+									WHERE user_id = '$user_id' 
+									AND day_now = 'Sunday' 
+									AND week_number = '$week_number' 
+									AND status = '1' 
+									AND date_now = '$date_range[6]'";
 
-								// $all_hours = "";
-
-								$total_hour_decimal = 0;
-
-								$timesheet_hours = $wpdb->get_results("SELECT * FROM {$table_name} WHERE user_id = '$user_id' AND day_now = 'Sunday' AND week_number = '$week_number' AND status = '1' AND date_now = '$date_range[6]'");
-
-								$tid_hours = 0;
-								foreach($timesheet_hours as $timesheet_hour){
-									$task_hour = $timesheet_hour->task_hour;
-									if (strpos($task_hour, '-') !== false) {
-									    $tid_hours +=  decimalHours(str_replace("-","",$task_hour));
-									}else{
-										$task_hour_decimal = decimalHours($task_hour);
-										$total_hour_decimal += $task_hour_decimal;									
-									}
-								}
-
-								$total_hour_unformat =  gmdate('H:i', floor($total_hour_decimal * 3600));
-
-								$total_hour_explode = explode(":", $total_hour_unformat);
-
-								$hour = $total_hour_explode[0];
-
-								$minutes = $total_hour_explode[1];
-
-								if(strlen($hour) == 1){
-
-									$format_hour = "0" . $hour;
-
-									}elseif(strlen($hour) == 2 ){
-
-									$format_hour = $hour;
-
-								}
-
-								$round_minutes = round_nearest($minutes, 5);
-
-								if(strlen($round_minutes) == 1){
-
-									$rounded_minute = "0" . $round_minutes;
-
-									}elseif(strlen($round_minutes) == 2){
-
-									$rounded_minute = $round_minutes;
-
-								}
-
-								$total_hour = $format_hour .":". $rounded_minute;
-								$total_hour_decimal = decimalHours($total_hour) - $tid_hours;
-								$total_hour_decimal = ($total_hour_decimal < 0)? 0 : $total_hour_decimal;
-								$total_hour_format =  gmdate('H:i', floor($total_hour_decimal * 3600));
+								$sunday_results = $wpdb->get_row($sunday_results_sql);
 
 								if($date_pass == true){
 									$color_status = "gray";
 								}else{
-									if($total_hour_format >= $quota_time){
+									if($sunday_results->total_hours >= $quota_time){
 										$color_status = "green";
 									}else{
 										$color_status = 'red';
 									}
 								}
 
+								if((float)$sunday_results->total_hours < 0){
+									$negative_string = "-";
+									$total_hours = abs($sunday_results->total_hours);
+								}else{
+									$total_hours = $sunday_results->total_hours;
+									$negative_string = "";
+								}
 							?>
-
 						</div>
 
 						<div class="total_hours">
 							<div class="task_total"><h3>TOTAL</h3></div>
-							<div class="task_total_hour"><h3><?php echo $total_hour_format; ?></h3><input type="hidden" name="sunday_status_color" value="<?php echo $color_status; ?>"></div>
+							<div class="task_total_hour"><h3><?php echo $negative_string."".decimal_to_hour($total_hours); ?></h3><input type="hidden" name="sunday_status_color" value="<?php echo $color_status; ?>"></div>
 						</div>
-
-<!-- 						<div class="clear_add_buttons">
-
-							<div style="display:none;" id="clear_kanban_sunday" class="button_1 button_import">Clear</div>
-
-							<div id="save_kanban_sunday" class="button_1 button_import save_button_timesheet <?php echo ($day_now == 'Sunday') ? '' : 'import_save_not_current' ?>">Add Entry</div>					
-
-						</div> -->
-
 						<div style="display:none;" class="import_message">
-
 							<p>Press save if Imported time is correct, else clear.</p>
-
 							<div style="display:none;" class="loader kanban_save_loader"></div>
-
 						</div>						
-
 					</div>
 
 					<!-- END DAYS -->

@@ -1556,7 +1556,19 @@ function convertTime($dec){
 	$seconds -= $minutes * 60;
 	return lz($hours).":".lz($minutes).":".lz($seconds);
 }
-	
+function decimal_to_hour($decTime) {
+	return gmdate('H:i', floor($decTime * 3600));
+}
+function decimal_to_hour_report($decTime) {
+	if($decTime < 0){
+		$decTime = str_replace("-", "", $decTime);
+		$hour = gmdate('H:i', floor($decTime * 3600));
+		return "-".$hour;
+	}else{
+		return gmdate('H:i', floor($decTime * 3600));	
+
+	}
+}
 function lz($num){
 	return (strlen($num) < 2) ? "0{$num}" : $num;
 }
@@ -3792,7 +3804,7 @@ function filter_report_time_detailed($filter_details_detailed_time, $report_sort
 			$total_day_hours		+= $task_hour_decimal;
 			$task_date 				= $task_timesheet->date_now;
 			$task_description 		= $task_timesheet->task_description;			
-			$detailed_time_details 	= $client_name ."<_>". $project_name ."<_>". $task_name ."<_>". $person_name ."<_>". round_quarter($task_hour_decimal) ."<_>". $task_description ."<_>". $task_date ."<_>". $task_id  ."<_>". $orderno  ."<_>".$kilometer ."<_>".$task_billable->task_billable;	;			
+			$detailed_time_details 	= $client_name ."<_>". $project_name ."<_>". $task_name ."<_>". $person_name ."<_>". decimal_to_hour_report($task_hour_decimal) ."<_>". $task_description ."<_>". $task_date ."<_>". $task_id  ."<_>". $orderno  ."<_>".$kilometer ."<_>".$task_billable->task_billable;	;			
 			$detailed_time_details_array[] = $detailed_time_details;
 			
 			$task_today_array = array();

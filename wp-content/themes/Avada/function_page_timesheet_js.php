@@ -386,8 +386,8 @@ jQuery(document).on('click', '.delete_edit_kanban', function(){
 			var parsed = jQuery.parseJSON(data);
 			var task_hour = parsed[0].task_hour;
 			var task_id = parsed[0].task_id;				
-			var timesheet_delete_day = parsed.timesheet_delete_day;			
-
+			var timesheet_delete_day = parsed.timesheet_delete_day;		
+	
 			//Side Panel Info Update
 			jQuery('.month_details .worked_hours').text(parsed.side_panel_total_workable_hours);
 			jQuery('.month_details .hour_balance').text(parsed.side_panel_total_hour_balance);
@@ -410,7 +410,8 @@ jQuery(document).on('click', '.delete_edit_kanban', function(){
 				jQuery('.month_details .hour_tidbank').removeClass('text_red');
 			}	
 
-			jQuery('#'+timesheet_delete_day+' .total_hours .task_total_hour h3').html(task_hour);	
+			jQuery('#'+timesheet_delete_day+' .total_hours .task_total_hour h3').html(parsed.total_current_day_worked_hrs);
+
 			jQuery("#loader_id_"+task_id).hide();
 			jQuery('#'+timesheet_delete_day+' .timesheet_data_id_'+task_id).hide();
 			jQuery('#'+timesheet_delete_day+' .task_description .accordian_'+task_id).hide();
@@ -420,8 +421,7 @@ jQuery(document).on('click', '.delete_edit_kanban', function(){
 				jQuery(".action_message").delay(1000).fadeOut('slow');
 			});
 
-			jQuery('.month_details .total_hours_worked').text(parsed.total_month_hours_worked);
-			if(person_hours_per_day <= timeStringToFloat(task_hour)){
+			if(8 <= parsed.total_current_day_worked_hrs_dec){
 				
 			}else{
 				jQuery('#tabs .tabs_li.active a').removeClass('green-day').addClass('red-day');
@@ -1780,7 +1780,6 @@ jQuery(document).ready(function(){
 				    	jQuery('#tabs .sunday a').removeClass('yellow-day');
 				    }
 
-
 				    //Remove status color if dates are in future.
 
 				    var d = new Date();
@@ -2975,51 +2974,27 @@ jQuery(document).on('click', '.tab_content.active .save_button_timesheet', funct
 	var week_number = jQuery('.tab_content.active .tab_week').val();
 	var date = jQuery('.tab_content.active .tab_date').val();
 	var username =  jQuery('.staff_timesheet_form .choose_person .person_name').val();
-	 if ((new Number(hour) < 0)){
-	 	var negative_value = 1;
-	 	hour = hour.replace('-', '');
-	 	if(taskname != 'Tidbank'){
-			jQuery(".status_message").fadeIn( "slow", function() {
-				jQuery(".status_message p").html("<p class='error-msg'>Only <b>Tidbank</b> task accept negative value.</p>");
-			});
-			jQuery(".status_message").delay(1000).fadeOut('slow');
-			jQuery('#save-loader').css('visibility', 'hidden');	 	
-			this_button.show().next('.loader-save-entry').hide();	
-	 		return false;
-	 	}
-	 }
-	var remove_comma_hour = hour.replace(',','.');
+	var task_description_count = description.length;
 
-	// console.log(remove_comma_hour);
-	if(hour != ""){
-		if(parseFloat(remove_comma_hour) < 1){
-			var new_hour = '0'+remove_comma_hour;
-		}else{
-			var new_hour = remove_comma_hour;
-		}
+	var validation_hour = input_time_validation(hour, taskname);
 
-		var task_description_count = description.length;
-		var isValidTime = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(new_hour);
-		
-		//Convert and validation for time format. Convert Decimal to hour format.
-		if(isValidTime == true){
-			var hour_input =  timesheet_format(new_hour);
-		}else{
-			var reg = /^\d+(\.\d{0,3})?$/.test(new_hour);
-			//If Decimal format
-			if(reg == true){
-				var hour_input = convertToHHMM(new_hour);
-			}else{
-				jQuery(".status_message").fadeIn( "slow", function() {
-					jQuery(".status_message p").html("<p class='error-msg'>Invalid Time Format.</p>");
-				});
-				jQuery(".status_message").delay(500).fadeOut('slow');
-				jQuery('#save-loader').css('visibility', 'hidden'); 	
-				return false;
-			}
-		}
-	}else{
-		hour_input = "00:00";
+	if(validation_hour.taskname_validation == false){
+		jQuery(".status_message").fadeIn( "slow", function() {
+			jQuery(".status_message p").html("<p class='error-msg'>Only <b>Tidbank</b> task accept negative value.</p>");
+		});
+		jQuery(".status_message").delay(1000).fadeOut('slow');
+		jQuery('#save-loader').css('visibility', 'hidden');	 	
+		this_button.show().next('.loader-save-entry').hide();	
+ 		return false;		
+	} 
+	if(validation_hour.input_time_format_validation == false){
+		jQuery(".status_message").fadeIn( "slow", function() {
+			jQuery(".status_message p").html("<p class='error-msg'>Invalid Time Format.</p>");
+		});
+		jQuery(".status_message").delay(1000).fadeOut('slow');
+		jQuery('#save-loader').css('visibility', 'hidden');	 	
+		this_button.show().next('.loader-save-entry').hide();	
+ 		return false;
 	}
 
 	var new_entry_obj = {
@@ -3027,11 +3002,11 @@ jQuery(document).on('click', '.tab_content.active .save_button_timesheet', funct
 		client_id : client,
 		project : project,
 		description : description,
-		negative_value : negative_value,
+		// negative_value : negative_value,
 		active_day : active_day,
 		week_number : week_number,
 		date : date,
-		hour : hour_input,
+		hour : validation_hour.hour,
 		username : username,
 		ordernumber : ordernumber,
 		kilometer : kilometer
@@ -3146,7 +3121,7 @@ jQuery(document).on('click', '.tab_content.active .save_button_timesheet', funct
 
 				this_button.show().next('.loader-save-entry').hide();
 
-				if(timeStringToFloat(total_hours_worked) >= timeStringToFloat(8)){
+				if(parsed.day_total_work_hours_dec >= 8){
 					jQuery('#tabs .tabs_li.active a').removeClass('red-day').addClass('green-day');
 				}
 
@@ -3913,7 +3888,8 @@ jQuery(document).on('dblclick', '.tab_content.active .edit_column_field', functi
 
 	var id = string[3];
 	var type = string[1];
-
+	var negative_string = "";
+	var decimal = 0;
 	if(type == 'hour'){
 		var value = jQuery(this).html().trim();
 		jQuery(this).html('<input type="text" value="'+value+'" id="'+type+'_update_field_'+id+'"><div class="check_update_timesheet" id="'+type+'_button_'+id+'"></div><div class="row-update-loader" id="'+type+'_loader_'+id+'" style="display: none;"></div>');
@@ -3937,32 +3913,31 @@ jQuery(document).on('click', '.tab_content.active .check_update_timesheet', func
 	var id = string[2];
 	var type = string[0];
 	var total_hours = '00:00';
-
+	var negative_string = "";
+	var value = "";
 	var input = jQuery('.tab_content.active #'+type+'_update_field_'+id).val();
+	var taskname = jQuery('.tab_content.active .person_task_timesheet #taskname_id_'+id).text();
 
-	var isValidTime = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(input);
+	var validation_hour = input_time_validation(input, taskname);
 
-	//Convert and validation for time format. Convert Decimal to hour format.
-	if(type == 'hour'){
-		if(isValidTime == true){
-			var value =  timesheet_format(input);
-		}else{
-			var reg = /^[1-9]\d*(\.\d+)?$/.test(input);
-			//If Decimal format
-			if(reg ==  true){
-				var value = convertToHHMM(input);
-			}else{
-				jQuery(".status_message").fadeIn( "slow", function() {
-					jQuery(".status_message p").html("<p class='error-msg'>Invalid Time Format.</p>");
-				});
-				jQuery(".status_message").delay(500).fadeOut('slow');
-				return false;
-			}
-		}
-	}else{
-		var value = input;
+	if(validation_hour.taskname_validation == false){
+		jQuery(".status_message").fadeIn( "slow", function() {
+			jQuery(".status_message p").html("<p class='error-msg'>Only <b>Tidbank</b> task accept negative value.</p>");
+		});
+		jQuery(".status_message").delay(1000).fadeOut('slow');
+		jQuery('#save-loader').css('visibility', 'hidden');	 	
+		this_button.show().next('.loader-save-entry').hide();	
+ 		return false;		
+	} 
+	if(validation_hour.input_time_format_validation == false){
+		jQuery(".status_message").fadeIn( "slow", function() {
+			jQuery(".status_message p").html("<p class='error-msg'>Invalid Time Format.</p>");
+		});
+		jQuery(".status_message").delay(1000).fadeOut('slow');
+		jQuery('#save-loader').css('visibility', 'hidden');	 	
+		this_button.show().next('.loader-save-entry').hide();	
+ 		return false;
 	}
-	
 	var current_hour = jQuery('#'+active_day+' .total_hours .task_total_hour h3').text();
 
 	jQuery('#'+type+'_button_'+id).hide().remove();
@@ -3972,7 +3947,7 @@ jQuery(document).on('click', '.tab_content.active .check_update_timesheet', func
 	var update_entries = {
 		input_type: type,
 		input_id: id,
-		input_value: value
+		input_value: validation_hour.hour
 	};
 
 	jQuery.ajax({
@@ -3996,6 +3971,7 @@ jQuery(document).on('click', '.tab_content.active .check_update_timesheet', func
 						var value = jQuery(this).html();
 						total_hours = addTime(total_hours, value);
 					});
+
 					jQuery('#'+active_day+'.tab_content .total_hours .task_total_hour h3').text(total_hours);
 					jQuery('<div class="info_help" id="edited_data_'+id+'"></div><p class="edit_note" style="display: none;" id="edited_note_id_'+id+'">Edited By: '+parsed.edited_by+' </p>').insertAfter('.task-complete #delete_loader_'+id);
 					jQuery('.action_message p').text("Hour Updated.");
@@ -4038,6 +4014,12 @@ jQuery(document).on('click', '.tab_content.active .check_update_timesheet', func
 					});
 				}
 
+				if(parsed.side_panel_total_hours_tidbank_class == "red_text"){
+					jQuery('.month_details .hour_tidbank').addClass('text_red');
+				}else{
+					jQuery('.month_details .hour_tidbank').removeClass('text_red');
+				}	
+
 				//Side Panel Info Update
 				jQuery('.month_details .worked_hours').text(parsed.side_panel_total_workable_hours);
 				jQuery('.month_details .hour_balance').text(parsed.side_panel_total_hour_balance);
@@ -4047,8 +4029,8 @@ jQuery(document).on('click', '.tab_content.active .check_update_timesheet', func
 				jQuery('.month_details .holiday_hours').text(parsed.side_panel_total_helg);
 				jQuery('.month_details .hour_ledig').text(parsed.side_panel_total_ledig);
 				jQuery('.month_details .hour_sjuk').text(parsed.side_panel_total_sjuk);
-
-
+				jQuery('.month_details .hour_tidbank').text(parsed.side_panel_total_hours_tidbank);
+				
 				if(parsed.side_panel_total_hour_balance_color == 'green'){
 					jQuery('.month_details .hour_balance ').removeClass('text_red').addClass('text_green');
 				}else{
@@ -4140,11 +4122,25 @@ jQuery(document).on('dblclick', '.tab_content.active .edit_project_record', func
 
 // Submit editing task name to save on DB
 jQuery(document).on('click', '.tab_content.active .check_update_timesheet_taskname', function(){
-	var string = jQuery(this).attr('id').split("_");4
+	var string = jQuery(this).attr('id').split("_");
+	var this_button = jQuery(this);
 	var id = string[2];
 	var select_value = jQuery('#taskname_id_'+id+' select').val();
-	jQuery(this).remove();
+	this_button.hide();
 	jQuery('#taskname_loader_'+id).css('display', 'inline-block');
+	var hour = jQuery('#timesheet_hour_id_'+id).text();
+
+	if(select_value != 'Tidbank'){
+		if (hour.indexOf('-') > -1){
+				jQuery(".status_message").fadeIn( "slow", function() {
+					jQuery(".status_message p").html("<p class='error-msg'>Only <b>Tidbank</b> task accept negative value.</p>");
+				});
+				jQuery(".status_message").delay(1000).fadeOut('slow');
+				jQuery('#taskname_loader_'+id).hide();	
+				this_button.show();
+		 		return false;	
+		}		
+	}
 
 	var taskname_edit_entry = {
 		taskname_id: id,
@@ -4161,7 +4157,30 @@ jQuery(document).on('click', '.tab_content.active .check_update_timesheet_taskna
 			},
 			success: function (data) {				
 				var parsed = jQuery.parseJSON(data);
+				console.log(parsed);
 				if(parsed.status == 'success-update-timesheet'){
+					
+
+					jQuery('.month_details .total_hours_worked').text(parsed.side_panel_total_worked_hours);
+					jQuery('.month_details .hour_balance').text(parsed.side_panel_total_hour_balance);
+					jQuery('.month_details .hour_tidbank').text(parsed.side_panel_total_hours_tidbank);
+					jQuery('.month_details .hour_vacation').text(parsed.side_panel_total_semester);
+					jQuery('.month_details .hour_ledig').text(parsed.side_panel_total_ledig);
+					jQuery('.month_details .hour_sjuk').text(parsed.side_panel_total_sjuk);
+					jQuery('.month_details .holiday_hours').text(parsed.side_panel_total_helg);
+					jQuery('.header_person_name .total_dwork').text(parsed.person_dwork_percent);
+					
+					if(parsed.side_panel_total_hours_tidbank_class == 'red_text'){
+						jQuery('.month_details .hour_tidbank').removeClass('text_green').addClass('text_red');
+					}else{
+						jQuery('.month_details .hour_tidbank').removeClass('text_red').addClass('text_green');
+					}
+					if(parsed.side_panel_total_hour_balance_color == 'red'){
+						jQuery('.month_details .hour_balance').removeClass('text_green').addClass('text_red');
+					}else{
+						jQuery('.month_details .hour_balance').removeClass('text_red').addClass('text_green');
+					}
+
 					jQuery('#taskname_id_'+parsed.taskname_id).html(parsed.taskname_name);
 					jQuery('#taskname_loader_'+parsed.taskname_id).css('display', 'none');
 					jQuery('.action_message p').text("Taskname Updated.");
@@ -4694,5 +4713,87 @@ function tConv24(time24) {
 };
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
+}
+function timeStringToFloat(time) {
+  var hoursMinutes = time.split(/[.:]/);
+  var hours = parseInt(hoursMinutes[0], 10);
+  var minutes = hoursMinutes[1] ? parseInt(hoursMinutes[1], 10) : 0;
+  return hours + minutes / 60;
+}
+function deciHours(time) {
+    return (function(i) {return i+(Math.round(((time-i)*60),10)/100);})(parseInt(time, 10));
+}
+function input_time_validation(value, taskname){
+	//FALSE is invalid value.
+	var response = {};
+	if(jQuery.isNumeric( value )){ //If Decimal format
+		if ((new Number(value) < 0)){ //If decimal is negative value
+			if(taskname != 'Tidbank'){ //If taskname is not Tidbank
+				return response = {
+					'taskname_validation' : false,
+					'input_time_format_validation' : '',
+					'hour' : ''
+				}
+			}else{
+				value = value.replace(/-/g ,'');//removed - sign to convert hour
+				hour_format = convertToHHMM(value); //Convert Decimal to hour Format
+				return response = {
+					'taskname_validation' : true,
+					'input_time_format_validation' : true,
+					'hour' : "-"+hour_format
+				}				
+			}
+		}else{
+			hour_format = convertToHHMM(value); //Convert Decimal to hour Format
+			return response = {
+				'taskname_validation' : true,
+				'input_time_format_validation' : true,
+				'hour' : hour_format
+			}	
+		}
+	}else{ //If Hour format
+	    var regexp = /([01][0-9]|[02][0-3]):[0-5][0-9]/;
+		if (value.indexOf('-') > -1){ //If negative Hour format
+			if(taskname != 'Tidbank'){
+				return response = {
+					'taskname_validation' : false,
+					'input_time_format_validation' : '',
+					'hour' : ''
+				}
+			}else{
+				value = value.replace(/-/g ,''); //removed - sign to convert hour
+				var validate_time_format = (value.search(regexp) >= 0) ? true : false;
+				console.log(validate_time_format);
+				if(validate_time_format == false){
+					return response = {
+						'taskname_validation' : true,
+						'input_time_format_validation' : false,
+						'hour' : ""
+					}				
+				}else{
+					return response = {
+						'taskname_validation' : true,
+						'input_time_format_validation' : true,
+						'hour' : "-"+value
+					}					
+				}
+			}
+		}else{
+			var validate_time_format = (value.search(regexp) >= 0) ? true : false;
+			if(validate_time_format == false){ //validate time format
+				return response = {
+					'taskname_validation' : true,
+					'input_time_format_validation' : false,
+					'hour' : ""
+				}				
+			}else{
+				return response = {
+					'taskname_validation' : true,
+					'input_time_format_validation' : true,
+					'hour' : value
+				}					
+			}
+		}
+	}
 }
 </script>
