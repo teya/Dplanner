@@ -7409,8 +7409,15 @@ function CleanDecimal($value){
 		}
 	}
 }
+
 function admin_default_page() {
   return  get_site_url();
 }
 add_filter('login_redirect', 'admin_default_page');
+
+function GetClientDefaultProject($client_id){
+	global $wpdb;
+	$client_default_project = $wpdb->get_row('SELECT c.client_name as clientname, p.project_name as default_project FROM '.CLIENT_TABLE.' as c LEFT JOIN '.PROJECT_TABLE.' as p ON c.client_default_project = p.ID WHERE c.ID = '.$client_id);
+	return $reponse = array('default_project' => $client_default_project->default_project);
+}
 ?>

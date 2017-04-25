@@ -6,191 +6,99 @@
 <script>
 
 var d = new Date();
-
 var weekday = new Array(7);
-
 weekday[0]=  "Sunday";
-
 weekday[1] = "Monday";
-
 weekday[2] = "Tuesday";
-
 weekday[3] = "Wednesday";
-
 weekday[4] = "Thursday";
-
 weekday[5] = "Friday";
-
 weekday[6] = "Saturday";
-
 var day_now_id = weekday[d.getDay()].toLowerCase();
-
-
 
 /* ==================================== IMPORT TASK ==================================== */
 
 jQuery(document).on('click', '.import_kanban_task', function(){
-
 	var div_id = jQuery(this).attr('id');		
-
 	var div_id_split = div_id.split('_');
-
 	var import_day = div_id_split[3];
-
 	var current_hour = jQuery('#'+import_day+' .total_hours .task_total_hour h3').text();
-
 	var day_not_current_capital = import_day.toLowerCase().replace(/\b[a-z]/g, function(letter) {
-
 		return letter.toUpperCase();
-
 	});		
-
 	var import_date = jQuery('.' + import_day + '_date').val();
-
 	var import_week = jQuery('.' + import_day + '_week').val();
-
 	var date_hour_day_week = import_date +"_"+ current_hour +"_"+ import_day +"_"+ import_week;
-
 	jQuery(".status_message").fadeIn( "slow", function() {
-
 		jQuery(".status_message p").text("Importing data from Kanban. This will take some time. Please be patient.");
-
 	});
-
 	jQuery.ajax({
-
 		type: "POST",
-
 		url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
-
 		data:{
-
 			'type' : 'import_task_kanban',
-
 			'date_hour_day_week' : date_hour_day_week
-
 		},
-
 		success: function (data) {
-
 			var parsed = jQuery.parseJSON(data);			
-
 			jQuery.each(parsed, function(index, value){
-
 				var task_name = (value.task_name == "") ? "--" : value.task_name;
-
 				var task_hour = (value.task_hour == "") ? "--" : value.task_hour;
-
 				var task_project_name = (value.task_project_name == "") ? "--" : value.task_project_name;
-
 				var task_color = (value.task_color == "") ? "--" : value.task_color;
-
 				var task_label = (value.task_label == "") ? "--" : value.task_label;
-
 				var person_full_name = (value.task_person == "") ? "--" : value.task_person;
-
 				var import_date = (value.import_date == "") ? "--" : value.import_date;
-
 				var import_day = (value.import_day == "") ? "--" : value.import_day;
-
 				var import_week = (value.import_week == "") ? "--" : value.import_week;
-
 				var user_id = (value.user_id == "") ? "--" : value.user_id;
-
 				var task_description = (value.task_description == "") ? "--" : value.task_description;
-
 				var short_description = jQuery.trim(task_description).substring(0, 24).split(" ").slice(0, -1).join(" ") + "...";
-
 				if(index != 'total_hour'){						
-
 					jQuery('#'+import_day+'.tab_content .task_name').append("<li class='data_list_"+index+" data_list_"+import_day+"'><p>"+task_name+"</p></li>");												
-
 					jQuery('#'+import_day+'.tab_content .task_hour').append("<li class='data_list_"+index+" data_list_"+import_day+"'><p>"+task_hour+"</p></li>");
-
 					jQuery('#'+import_day+'.tab_content .task_label').append("<li class='data_list_"+index+" data_list_"+import_day+"'><p>"+task_label+"</p></li>");
-
 					jQuery('#'+import_day+'.tab_content .task_color').append("<li class='data_list_"+index+" data_list_"+import_day+"'><p>"+task_project_name+"</p></li>");
-
 					jQuery('#'+import_day+'.tab_content .task_person').append("<li class='data_list_"+index+" data_list_"+import_day+"'><p>"+person_full_name+"</p></li>");
-
 					jQuery('#'+import_day+'.tab_content .task_description').append("<div id='accordian_"+index+"' class='accordian'><h5 class='toggle'><a href='#'><li class='data_list_"+day_now_id+"'>"+short_description+"<span class='arrow'></span></li></a></h5></div>");						
-
 					jQuery('#'+import_day+'.tab_content .task_description #accordian_'+index).append("<div class='toggle-content' style='display: none;'>"+task_description+"</div>");
-
 					
-
 					jQuery('#'+import_day+'.tab_content .import_save').append("<input type='hidden' name='import_date' value='"+import_date+"' />");
-
 					jQuery('#'+import_day+'.tab_content .import_save').append("<input type='hidden' name='import_day' value='"+import_day+"' />");
-
 					jQuery('#'+import_day+'.tab_content .import_save').append("<input type='hidden' name='import_week' value='"+import_week+"' />");
-
 					jQuery('#'+import_day+'.tab_content .import_save').append("<input type='hidden' name='task_name[]' value='"+task_name+"' />");
-
 					jQuery('#'+import_day+'.tab_content .import_save').append("<input type='hidden' name='task_hour[]' value='"+task_hour+"' />");												
-
 					jQuery('#'+import_day+'.tab_content .import_save').append("<input type='hidden' name='task_label[]' value='"+task_label+"' />");
-
 					jQuery('#'+import_day+'.tab_content .import_save').append("<input type='hidden' name='task_project_name[]' value='"+task_project_name+"' />");
-
 					jQuery('#'+import_day+'.tab_content .import_save').append("<input type='hidden' name='task_color[]' value='"+task_color+"' />");
-
 					jQuery('#'+import_day+'.tab_content .import_save').append("<input type='hidden' name='task_person[]' value='"+person_full_name+"' />");												
-
 					jQuery('#'+import_day+'.tab_content .import_save').append("<input type='hidden' name='user_id[]' value='"+user_id+"' />");												
-
 					jQuery('#'+import_day+'.tab_content .import_save').append('<input type="hidden" name="task_description[]" value="'+task_description+'" />');			
-
 					jQuery('#'+import_day+'.tab_content .import_save').append("<input type='hidden' name='task_color[]' value='"+task_color+"' />");
-
 					var total_hours_worked = jQuery('.month_details .total_hours_worked').text();
-
 					var hour_balance = jQuery('.month_details .hour_balance').text();
-
 					jQuery('.tab_content.active .import_save').append("<input type='hidden' name='total_hours_worked' value='"+total_hours_worked+"' />");
-
 					jQuery('.tab_content.active .import_save').append("<input type='hidden' name='hour_balance' value='"+hour_balance+"' />");
-
 				}				
-
 				jQuery('.import_message').show();
-
 				jQuery(".status_message").delay(500).fadeOut('slow');
-
 			});	
-
 			
-
 			if(parsed.no_task){
-
 				var empty_task_date = change_date_format(import_date,'full_date');
-
 				jQuery('<p class="no_task text_red">No Hours Detected for '+empty_task_date+'<span>You can add task manually by clicking "Add Task" button.</span></p>').insertBefore('#'+import_day+' .total_hours');
-
 				jQuery(".no_task").delay(7000).fadeOut('slow');
-
 			}
-
 			jQuery('#'+import_day+'.tab_content .total_hours .task_total_hour h3').text(parsed.total_hour);
-
 			jQuery('.clear_add_buttons').show();
-
 			jQuery('#save_kanban_'+import_day).show();
-
 			jQuery('#clear_kanban_'+import_day).show();
-
 			trigger_accordion_toggle();
-
 		},
-
 		error: function (data) {
-
 			alert('error');
-
 		}				
-
 	});
-
 });
 
 /* ==================================== END IMPORT TASK ==================================== */
@@ -201,107 +109,40 @@ jQuery(document).on('click', '.import_kanban_task', function(){
 
 jQuery(document).ready(function(){
 
-// var thetime = jQuery("#serverClock").val();
+	var thetime = '<?php echo date('H:i:s') ;?>';
+	var arr_time = thetime.split(':');
+	var ss = arr_time[2];
+	var mm = arr_time[1];
+	var hh = arr_time[0];
 
-// var thetime = '13:14:15';
-// this would be something like:
-var thetime = '<?php echo date('H:i:s') ;?>';
-var arr_time = thetime.split(':');
-var ss = arr_time[2];
-var mm = arr_time[1];
-var hh = arr_time[0];
+	var update_ss = setInterval(updatetime, 1000);
 
-var update_ss = setInterval(updatetime, 1000);
-
-function updatetime() {
-    ss++;
-    if (ss < 10) {
-        ss = '0' + ss;
-    }
-    if (ss == 60) {
-        ss = '00';
-        mm++;
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        if (mm == 60) {
-            mm = '00';
-            hh++;
-            if (hh < 10) {
-                hh = '0' + hh;
-            }
-            if (hh == 24) {
-                hh = '00';
-            }
-            jQuery("#dplan_hours").html(hh);
-        }
-        jQuery("#dplan_minutes").html(mm);
-    }
-    // $("#seconds").html(ss);
-}
-
-	// jQuery('.import_save_button').click(function(){
-
-	// 	jQuery('.kanban_save_loader').show();
-
-	// 	var save_timesheet_task_data = jQuery('.import_save').serialize();
-
-	// 	jQuery.ajax({
-
-	// 		type: "POST",
-
-	// 		url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
-
-	// 		data:{
-
-	// 			'type' : 'task_save_timesheet',
-
-	// 			'save_timesheet_task_data' : save_timesheet_task_data
-
-	// 		},
-
-	// 		success: function (data) {
-
-	// 			jQuery('.kanban_save_loader').hide();
-
-	// 			var parsed = jQuery.parseJSON(data);				
-
-	// 			jQuery.each(parsed.id, function(index, value){
-
-	// 				jQuery('.tab_content.active .task_delete').append("<li class='data_list_"+day_now_id+" timesheet_data_id_"+value+"'><div id='delete_kanban_"+day_now_id+"_"+value+"' class='button_1 confirm delete_button delete_kanban_"+day_now_id+"'>D</div></li>");
-
-	// 				jQuery('.tab_content.active .task_edit').append("<li class='data_list_"+day_now_id+" timesheet_data_id_"+value+"'><div id='edit_kanban_"+day_now_id+"_"+value+"' class='button_1 edit_button edit_kanban_"+day_now_id+"'>E</div></li>");
-
-	// 				jQuery('.tab_content.active .task_done_today').append("<li class=	'data_list_"+day_now_id+" timesheet_data_id_"+value+"'><div id='done_today_kanban_"+day_now_id+"_"+value+"' class='button_1 done_today_button done_today_kanban_"+day_now_id+"'>Done Today</div></li>");
-
-	// 				jQuery('.data_list_'+index).addClass('timesheet_data_id_'+value);
-
-	// 				jQuery('.tab_content.active .task_description #accordian_'+index).addClass("accordian_"+value);					
-
-	// 			});
-
-	// 			jQuery('#save_kanban_'+day_now_id).hide();
-
-	// 			jQuery('#clear_kanban_'+day_now_id).hide();
-
-	// 			jQuery('#'+day_now_id+' .import_message').hide();
-
-	// 			jQuery('.month_details .total_hours_worked').text(parsed.total_month_hours_worked);
-
-	// 			jQuery('.month_details .hour_balance').text(parsed.total_month_hour_balance);				
-
-	// 		},
-
-	// 		error: function (data) {
-
-	// 			alert('error');
-
-	// 		}				
-
-	// 	});
-
-	// });
-
+	function updatetime() {
+	    ss++;
+	    if (ss < 10) {
+	        ss = '0' + ss;
+	    }
+	    if (ss == 60) {
+	        ss = '00';
+	        mm++;
+	        if (mm < 10) {
+	            mm = '0' + mm;
+	        }
+	        if (mm == 60) {
+	            mm = '00';
+	            hh++;
+	            if (hh < 10) {
+	                hh = '0' + hh;
+	            }
+	            if (hh == 24) {
+	                hh = '00';
+	            }
+	            jQuery("#dplan_hours").html(hh);
+	        }
+	        jQuery("#dplan_minutes").html(mm);
+	    }
+	    // $("#seconds").html(ss);
+	}
 });
 
 /* ==================================== END SAVE IMPORT TASK ==================================== */
@@ -332,57 +173,89 @@ jQuery(document).ready(function(){
 
 });
 
+jQuery(document).on('change', '.new_entry_taskname_1', function(){
+	var this_element = jQuery(this);
+	var taskname = this_element.find('option:selected').val();
+	var clientname = jQuery('.tab_content.active .person_task_timesheet .new_entry_client_1 select').find('option:selected').text();
 
+	if(clientname == '0 Digerati' && taskname == 'Tidbank'){
+		jQuery('.tab_content.active .person_task_timesheet .task_color .new_entry_project_1 select').prop("selectedIndex", 5);
+	}
+
+	if(clientname ==  '0 Digerati'){
+		if(taskname == 'Helg' || taskname == 'Sjuk' || taskname == 'Ledig' || taskname == 'Semester'){
+			jQuery('.tab_content.active .person_task_timesheet .task_color .new_entry_project_1 select').prop("selectedIndex", 4);
+		}		
+	}else{
+		if(taskname == 'Tid' || taskname == 'BQ' || taskname == 'SEOWeb' || taskname == 'Utbildning'){
+			jQuery('.tab_content.active .person_task_timesheet .new_entry_button_1 .save_button_timesheet').hide();
+			jQuery('.tab_content.active .person_task_timesheet .new_entry_button_1 .loader-save-entry').show();
+
+			var client_id = jQuery('.tab_content.active .person_task_timesheet .new_entry_client_1 select').val();
+			if(taskname == 'Tid'){
+				jQuery.ajax({
+					type: "POST",
+					url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
+					data:{
+						'type' : 'get_client_default_project',
+						'data_id' : client_id
+					},
+					success: function (data) {
+						var parsed = jQuery.parseJSON(data);
+						jQuery('.tab_content.active .person_task_timesheet .new_entry_button_1 .save_button_timesheet').show();
+						jQuery('.tab_content.active .person_task_timesheet .new_entry_button_1 .loader-save-entry').hide();
+						if(parsed.default_project == 'Löpande'){
+							jQuery('.tab_content.active .person_task_timesheet .task_color .new_entry_project_1 select').prop("selectedIndex", 1);
+						}else{
+							console.log(clientname);
+							if(clientname == '0 Digerati' || clientname == 'SEOWeb Solutions'){
+								jQuery('.tab_content.active .person_task_timesheet .task_color .new_entry_project_1 select option').each(function() {
+								  // if(jQuery(this).text() == theText) {
+								  //   $(this).attr('selected', 'selected');            
+								  // }  
+								  console.log(jQuery(this).text());                      
+								});
+							}
+						}
+					},
+					error: function (data) {
+						alert('error');
+					}				
+				});	
+			}else{
+
+			}
+		}
+	}
+});
 
 jQuery(document).on('click', '.delete_edit_kanban', function(){
 
 	var div_id = jQuery(this).attr('id');
-
 	var div_id_split = div_id.split("_");
-
 	var data_day = div_id_split[2];
-
 	var data_id = div_id_split[3];
-
 	var person_hours_per_day = jQuery('#person_hours_per_day').val();
-
 	jQuery('.task-complete .timesheet_data_id_'+data_id+' .info_help').css('visibility', 'hidden');
 	jQuery("#delete_loader_"+data_id).css('visibility', 'visible');
-
 	var current_hour = jQuery('#'+data_day+'.tab_content .total_hours .task_total_hour h3').text();
-
 	var total_hours_worked = jQuery('.month_details .total_hours_worked').text();
-
 	var hour_balance = jQuery('.month_details .hour_balance').text();
-
 	jQuery("#dialog_form_timesheet_delete_task #timesheet_task_id").val(data_id);
-
 	jQuery("#dialog_form_timesheet_delete_task #timesheet_task_current_hour").val(current_hour);
-
 	jQuery("#dialog_form_timesheet_delete_task #timesheet_task_total_hours_worked").val(total_hours_worked);
-
 	jQuery("#dialog_form_timesheet_delete_task #timesheet_delete_day").val(data_day);
-
 	jQuery("#dialog_form_timesheet_delete_task #timesheet_task_hour_balance").val(hour_balance);	
-
 	var delete_form_details = jQuery('#timesheet_delete_task_form').serialize();
 
 	jQuery.ajax({
-
 		type: "POST",
-
 		url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
-
 		data:{
-
 			'type' : 'confirm_delete_task',
-
 			'delete_form_details' : delete_form_details
-
 		},
-
 		success: function (data) {
-
 			var parsed = jQuery.parseJSON(data);
 			var task_hour = parsed[0].task_hour;
 			var task_id = parsed[0].task_id;				
@@ -397,21 +270,17 @@ jQuery(document).on('click', '.delete_edit_kanban', function(){
 			jQuery('.month_details .hour_sjuk').text(parsed.side_panel_total_sjuk);
 			jQuery('.month_details .hour_tidbank').text(parsed.side_panel_total_hours_tidbank);
 			jQuery('.header_person_name .total_dwork').text(parsed.dwork_percent);
-
 			if(parsed.side_panel_total_hour_balance_color == 'green'){
 				jQuery('.month_details .hour_balance ').removeClass('text_red').addClass('text_green');
 			}else{
 				jQuery('.month_details .hour_balance ').removeClass('text_green').addClass('text_red');
 			}
-
 			if(parsed.side_panel_tid_bank_class == 'red_text'){
 				jQuery('.month_details .hour_tidbank').addClass('text_red');
 			}else{
 				jQuery('.month_details .hour_tidbank').removeClass('text_red');
 			}	
-
 			jQuery('#'+timesheet_delete_day+' .total_hours .task_total_hour h3').html(parsed.total_current_day_worked_hrs);
-
 			jQuery("#loader_id_"+task_id).hide();
 			jQuery('#'+timesheet_delete_day+' .timesheet_data_id_'+task_id).hide();
 			jQuery('#'+timesheet_delete_day+' .task_description .accordian_'+task_id).hide();
@@ -420,93 +289,17 @@ jQuery(document).on('click', '.delete_edit_kanban', function(){
 			jQuery('.action_message').fadeIn( "slow", function() {
 				jQuery(".action_message").delay(1000).fadeOut('slow');
 			});
-
 			if(8 <= parsed.total_current_day_worked_hrs_dec){
 				
 			}else{
 				jQuery('#tabs .tabs_li.active a').removeClass('green-day').addClass('red-day');
 			}
-
 		},
-
 		error: function (data) {
-
 			alert('error');
-
 		}				
-
 	});		
-
 });
-
-
-
-jQuery(document).on('click', '#dialog_form_timesheet_delete_task .delete_confirm', function(){
-
-	// jQuery('#dialog_form_timesheet_delete_task .loader').show();
-
-	// var delete_form_details = jQuery('#timesheet_delete_task_form').serialize();
-
-	// jQuery.ajax({
-
-	// 	type: "POST",
-
-	// 	url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
-
-	// 	data:{
-
-	// 		'type' : 'confirm_delete_task',
-
-	// 		'delete_form_details' : delete_form_details
-
-	// 	},
-
-	// 	success: function (data) {
-
-	// 		jQuery('#dialog_form_timesheet_delete_task .loader').hide();
-
-	// 		jQuery("#dialog_form_timesheet_delete_task").dialog("close");
-
-	// 		var parsed = jQuery.parseJSON(data);
-
-	// 		var task_hour = parsed[0].task_hour;
-
-	// 		var task_id = parsed[0].task_id;				
-
-	// 		var timesheet_delete_day = parsed.timesheet_delete_day;				
-
-	// 		jQuery('#'+timesheet_delete_day+' .total_hours .task_total_hour h3').html(task_hour);	
-
-	// 		jQuery("#loader_id_"+task_id).hide();
-
-	// 		jQuery('#'+timesheet_delete_day+' .timesheet_data_id_'+task_id).hide();
-
-	// 		jQuery('#'+timesheet_delete_day+' .task_description .accordian_'+task_id).hide();
-
-	// 		jQuery('.action_message p').text("Task Deleted");
-
-	// 		jQuery('.action_message').fadeIn( "slow", function() {
-
-	// 			jQuery(".action_message").delay(1000).fadeOut('slow');
-
-	// 		});
-
-	// 		jQuery('.month_details .total_hours_worked').text(parsed.total_month_hours_worked);
-
-	// 		jQuery('.month_details .hour_balance').text(parsed.total_month_hour_balance);
-
-	// 	},
-
-	// 	error: function (data) {
-
-	// 		alert('error');
-
-	// 	}				
-
-	// });
-
-});
-
 /* ==================================== END DELETE TASK ==================================== */
 
 
@@ -514,75 +307,42 @@ jQuery(document).on('click', '#dialog_form_timesheet_delete_task .delete_confirm
 /* ==================================== EDIT TASK ==================================== */
 
 jQuery(document).ready(function(){
-
 	jQuery( "#dialog_form_timesheet_edit_task" ).dialog({
-
 		autoOpen: false,
-
 		height: 300,
-
 		width: 350,
-
 		modal: true,
-
 		close: function() {
-
 		}
-
 	});
-
 });
-
 
 
 jQuery(document).on('click', '.edit_kanban', function(){
 
 	var div_id = jQuery(this).attr('id');
-
 	var div_id_split = div_id.split("_");
-
 	var data_day = div_id_split[2];
-
 	var data_div_id = div_id_split[3];	
-
 	var current_task_hour = jQuery('#'+data_day+' .task_hour .timesheet_data_id_'+data_div_id).text();
-
 	var data_id = data_div_id+"_"+current_task_hour;
-
 	jQuery('#loader_id_'+data_div_id).show();
-
 	jQuery.ajax({
-
 		type: "POST",
-
 		url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
-
 		data:{
-
 			'type' : 'task_edit_timesheet_task',
-
 			'data_id' : data_id
-
 		},
-
 		success: function (data) {
-
 			jQuery('#loader_id_'+data_div_id).hide();
-
 			jQuery('#dialog_form_timesheet_edit_task').dialog('open');
-
 			jQuery('#dialog_form_timesheet_edit_task').html(data);
-
 		},
-
 		error: function (data) {
-
 			alert('error');
-
 		}				
-
 	});
-
 });
 
 /* ==================================== END EDIT TASK ==================================== */
@@ -592,117 +352,61 @@ jQuery(document).on('click', '.edit_kanban', function(){
 /* ==================================== UPDATE TASK ==================================== */
 
 jQuery(document).on('click', '.update_button', function(){
-
 	jQuery('.update_timesheet .loader').show();
-
 	var current_total_hour = jQuery('.tab_content.active .total_hours .task_total_hour h3').text();
-
 	var total_hours_worked = jQuery('.month_details .total_hours_worked').text();
-
 	var hour_balance = jQuery('.month_details .hour_balance').text();
-
 	var update_timesheet_task_data = jQuery('#update_timesheet').serialize() + "&current_total_hour=" + current_total_hour + "&total_hours_worked=" + total_hours_worked + "&hour_balance=" + hour_balance;
-
 	jQuery.ajax({
-
 		type: "POST",
-
 		url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
-
 		data:{
-
 			'type' : 'task_update_timesheet',
-
 			'update_timesheet_task_data' : update_timesheet_task_data
-
 		},
-
 		success: function (data) {
-
 			jQuery('.update_timesheet .loader').hide();
-
 			var parsed = jQuery.parseJSON(data);
-
 			jQuery(".action_message p").text("Task Updated");
-
 				jQuery(".action_message").fadeIn( "slow", function() {
-
 				jQuery(".action_message").delay(1000).fadeOut('slow');
-
 			});
-
 			var task_id = parsed.id;
-
 			var task_name = parsed.task_name;
-
 			var task_suffix = parsed.task_suffix;
-
 			var task_hour = parsed.task_hour;
-
 			
-
 			if(task_suffix == ""){
-
 				var task_name_suffix = task_name;
-
 				}else{
-
 				var task_name_suffix = task_name +' - '+ task_suffix;
-
 			}
-
 			var task_name_suffix_count = task_name_suffix.length;
-
 			if(task_name_suffix_count <= 25){
-
 				var task_name = task_name_suffix;
-
 				}else{
-
 				var task_name = jQuery.trim(task_name_suffix).substring(0, 24).split(" ").slice(0, -1).join(" ") + "...";
-
 			}
-
 										
-
 			var task_description = parsed.task_description;
-
 			var short_description = jQuery.trim(task_description).substring(0, 24).split(" ").slice(0, -1).join(" ") + "...";
-
 			console.log('UPDATE TIME');
-
 			jQuery('.task_name .timesheet_data_id_'+task_id).text(task_name);
-
 			jQuery('.task_hour .timesheet_data_id_'+task_id).text(task_hour);
-
 			jQuery('info_div.same_user .timesheet_data_id_'+task_id+ '.second_column').text(task_hour);
-
 			jQuery('.task_total_hour h3').text(parsed.total_task_hour);
-
 			jQuery('.month_details .total_hours_worked').text(parsed.total_hours_worked);
-
 			jQuery('.month_details .hour_balance').text(parsed.hour_balance);
-
 			var toggle = jQuery('.accordian_'+task_id+' .timesheet_data_id_'+task_id).find('span');
-
 			jQuery('.accordian_'+task_id+' .timesheet_data_id_'+task_id).text(short_description);
-
 			jQuery('.accordian_'+task_id+' .timesheet_data_id_'+task_id).append(toggle);
-
 			jQuery('.accordian_'+task_id+' .toggle-content').text(task_description);
-
 			jQuery( "#dialog_form_timesheet_edit_task" ).dialog('close');
-
 		},
-
 		error: function (data) {
-
 			alert('error');
-
 		}
-
 	});
-
 });
 
 /* ==================================== END UPDATE TASK ==================================== */
@@ -726,231 +430,123 @@ jQuery(document).ready(function(){
 
 
 jQuery(document).on('click', '.done_today_button', function(){
-
 	jQuery('.timesheet_loader').show();
-
 	var div_id = jQuery(this).attr('id');
-
 	var div_id_split = div_id.split('_');
-
 	var data_id = div_id_split[4];	
-
 	jQuery.ajax({
-
 		type: "POST",
-
 		url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
-
 		data:{
-
 			'type' : 'done_today_edit',
-
 			'data_id' : data_id
-
 		},
-
 		success: function (data) {
-
 			jQuery('.timesheet_loader').hide();
-
 			jQuery( "#dialog_form_timesheet_done_today" ).dialog('open');
-
 			jQuery( "#dialog_form_timesheet_done_today" ).html(data);
-
 		},
-
 		error: function (data) {
-
 			alert('error');
-
 		}
-
 	});
-
 });
 
 
 
 var div_id_last = jQuery('.done_today_last').attr('id');	
-
 if(div_id_last != null && div_id_last != 'undefined'){
-
 	var div_id_last_split = div_id_last.split('_');
-
 	var last_counter = div_id_last_split[2];	
-
 	var counter = parseInt(last_counter, 10) + 1;
-
 }else{
-
 	var counter = 1;
-
 }	
 
-
-
 jQuery(document).on('click', '.add_more_done_today', function(){
-
 	var task_hour = jQuery().text();
-
 	var task_done_today_description = jQuery('textarea.task_done_today_description').val();
-
 	var task_done_today_hours = jQuery('textarea.task_done_today_hours').val();	
-
 	jQuery('.done_today_task_container').append('<li class="done_today_list" id="done_today_'+counter+'">'
-
 	+'<div class="full_width">'		
-
 	+'<input type="hidden" id="hidden_list_'+counter+'" name="submit_done_today[]" value="'+task_done_today_description+'_'+task_done_today_hours+'"/>'		
-
 	+'<div class="one_half"><p class="task_done_today_description">'+task_done_today_description+'</p></div>'
-
 	+'<div class="one_fourth"><p class="task_done_today_hours">'+task_done_today_hours+'</p></div>'		
-
 	+'<div class="one_fourth last">'		
-
 	+'<div id="done_today_edit_'+counter+'" class="done_today_edit button_2 done_today_action_button">E</div>'
-
 	+'<div id="done_today_delete_'+counter+'" class="confirm done_today_delete button_2 done_today_action_button">D</div>'
-
 	+'</div>'
-
 	+'</div>'
-
 	+'</li>'
-
 	+'<div class="edit_div" id="edit_div_'+counter+'" style="display:none;">'
-
 	+'<div class="full_width">'		
-
 	+'<div class="one_half"><textarea type="text" id="done_today_description_edit_area_'+counter+'" class="done_today_edit_area" /></textarea></div>'
-
 	+'<div class="one_fourth"><textarea type="text" id="done_today_task_hour_edit_area_'+counter+'" class="done_today_edit_area" /></textarea></div>'		
-
 	+'<div class="one_fourth last">'
-
 	+'<div id="check_edit_'+counter+'" class="check_edit"></div>'
-
 	+'</div>'
-
 	+'</div>'
-
 	+'</div>'
-
 	);
-
 	jQuery(".task_done_today_description").val("");
-
 	jQuery(".task_done_today_hours").val("");
-
 	counter++;
-
 });	
 
-
-
 jQuery(document).on('click', '.add_task_done_today', function(){
-
 	jQuery('#done_today_form .loader').show();
-
 	var done_today_form = jQuery('#done_today_form').serialize();
-
 	jQuery.ajax({
-
 		type: "POST",
-
 		url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
-
 		data:{
-
 			'type' : 'task_done_today_save',
-
 			'done_today_form' : done_today_form
-
 		},
-
 		success: function (data) {
-
 			jQuery('#done_today_form .loader').hide();
-
 			jQuery( "#dialog_form_timesheet_done_today" ).dialog('close');
-
 		},
-
 		error: function (data) {
-
 			alert('error');
-
 		}
-
 	});
-
 });
 
 /* DONE TODAY ACTIONS */
-
 jQuery(document).on('click', '.done_today_edit', function(){
-
 		var div_id = jQuery(this).attr('id');
-
 		var div_id_split = div_id.split('_');
-
 		var data_id = div_id_split[3];
-
 		var edit_task_done_today_description = jQuery('#done_today_'+data_id+' p.task_done_today_description').text();
-
 		var edit_task_done_today_hours = jQuery('#done_today_'+data_id+' p.task_done_today_hours').text();
-
 		jQuery('#done_today_'+data_id).hide();
-
 		jQuery('#edit_div_'+data_id).css('display', 'block');
-
 		jQuery('#done_today_description_edit_area_'+data_id).text(edit_task_done_today_description);
-
 		jQuery('#done_today_task_hour_edit_area_'+data_id).text(edit_task_done_today_hours);
-
 });
 
-
-
 jQuery(document).on('click', '.check_edit', function(){
-
 	var div_id = jQuery(this).attr('id');
-
 	var div_id_split = div_id.split('_');
-
 	var data_id = div_id_split[2];	
-
 	var edit_task_done_today_description = jQuery('#done_today_description_edit_area_'+data_id).val();
-
 	var edit_task_done_today_hours = jQuery('#done_today_task_hour_edit_area_'+data_id).val();
-
 	jQuery('#edit_div_'+data_id).css('display', 'none');
-
 	jQuery('#done_today_'+data_id).show();
-
 	jQuery('#done_today_'+data_id+' p.task_done_today_description').text(edit_task_done_today_description);
-
 	jQuery('#done_today_'+data_id+' p.task_done_today_hours').text(edit_task_done_today_hours);			
-
 	jQuery('#hidden_list_'+data_id).val(edit_task_done_today_description +"_"+ edit_task_done_today_hours);
-
 });		
 
 
 
 jQuery(document).on('click', '.done_today_delete', function(){
-
 	var div_id = jQuery(this).attr('id');
-
 	var div_id_split = div_id.split('_');
-
 	var data_id = div_id_split[3];	
-
 	jQuery('#done_today_'+data_id).remove();
-
 	jQuery('#edit_div_'+data_id).remove();
-
 });
 
 /* END DONE TODAY ACTIONS */
@@ -962,123 +558,67 @@ jQuery(document).on('click', '.done_today_delete', function(){
 /* ==================================== CLEAR TASK ==================================== */
 
 jQuery(document).ready(function(){
-
 	jQuery('#clear_kanban_'+day_now_id).click(function(){
-
 		jQuery('#'+day_now_id+' form.import_save').contents().remove();
-
 		jQuery('#'+day_now_id+' .data_list_'+day_now_id).remove();
-
 		jQuery('#'+day_now_id+' .task_description .accordian').remove();
-
 		jQuery('#'+day_now_id+' .task_total_hour h3').html("00:00");
-
 		jQuery('#'+day_now_id+' .clear_add_buttons').hide();
-
 		jQuery('#'+day_now_id+' .import_message').hide();
-
 	});
-
 });
 
 /* ==================================== END CLEAR TASK ==================================== */
 
 
-
 /* ==================================== ADD ENTRY TASK ==================================== */
 
 jQuery(document).ready(function(){
-
 	jQuery( "#dialog_form_timesheet_add_kanban_task" ).dialog({
-
 		autoOpen: false,
-
 		height: 300,
-
 		width: 350,
-
 		modal: true,
-
 		close: function() {
-
 		}
-
 	});
-
 });
 
-
-
 jQuery(document).on('click', '.add_task', function(){
-
 	var div_id = jQuery(this).attr('id');		
-
 	var div_id_split = div_id.split('_');
-
 	var add_day = div_id_split[3];
-
 	var current_hour = jQuery('#'+add_day+' .total_hours .task_total_hour h3').text();
-
 	var day_not_current_capital = add_day.toLowerCase().replace(/\b[a-z]/g, function(letter) {
-
 		return letter.toUpperCase();
-
 	});
-
 	var add_date = jQuery('.' + add_day + '_date').val();
-
 	var date_format = change_date_format(add_date, "dd/M");
-
 	var add_week = jQuery('#week_number').val();
-
 	var day_date_week = add_day +"_"+ add_date +"_"+ add_week +"_"+ current_hour;
-
 	jQuery(".top_loader").show();
-
 	jQuery.ajax({
-
 		type: "POST",
-
 		url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
-
 		data:{
-
 			'type' : 'timesheet_add_task',
-
 			'day_date_week' : day_date_week
-
 		},
-
 		success: function (data) {
-
 			jQuery(".top_loader").hide();			
-
 			var check_modal_title = jQuery('div[aria-describedby^="dialog_form_timesheet_add_kanban_task"] div.modal_header p.modal_date').length;
-
 			if(check_modal_title == 0){
-
 				jQuery('div[aria-describedby^="dialog_form_timesheet_add_kanban_task"] .ui-widget-header').append('<div class="modal_header"><p class="modal_title">New Time Entry</p><p class="modal_date">'+day_not_current_capital +", "+ date_format+'</p></div>');
-
 			}else{
-
 				jQuery('div[aria-describedby^="dialog_form_timesheet_add_kanban_task"] div.modal_header p.modal_date').text(day_not_current_capital +", "+ date_format);
-
 			}
-
 			jQuery("#dialog_form_timesheet_add_kanban_task").html(data);
-
 			jQuery('#dialog_form_timesheet_add_kanban_task').dialog('open');
-
 		},
-
 		error: function (data) {
-
 			alert('error');
-
 		}				
-
 	});
-
 });
 
 /* ==================================== END ADD ENTRY TASK ==================================== */
@@ -1096,232 +636,124 @@ jQuery(document).on('change', '.tab_content.active .new_entry_client_1 select', 
 	project_select_input.prop('disabled', 'disabled');
 	task_select_input.prop('disabled', 'disabled');
 	var client_id = this_element.val();
-
 	jQuery('.tab_content.active').find('.save_button_timesheet').hide();
 	jQuery('.tab_content.active').find('.loader-save-entry').show();
-
 	jQuery.ajax({
-
 		type: "POST",
-
 		url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
-
 		data:{
-
 			'type' : 'filter_project_client',
-
 			'client_id' : client_id
-
 		},
-
-
 		success: function (data) {
-
 			jQuery('.project_name_loader').hide();
-
 			var parsed = jQuery.parseJSON(data);
-
 			var client_name = parsed.client_name;
-
 			var project_name = parsed.project_name;
-
 			var check_project = parsed.check_project;
-
 			var client_id = parsed.client_id;
-
 			var tasks = parsed.tasks;
-
 			var project = parsed.projects;
-
 			jQuery('.tab_content.active .new_entry_project_1 select').empty();
 			jQuery('.tab_content.active .new_entry_taskname_1 select').empty();
-
 			if(check_project == 'not_null'){
-
 				jQuery('.tab_content.active .new_entry_project_1 select').html(project);
 				jQuery('.tab_content.active .new_entry_taskname_1 select').html(tasks);
-
 			}else{
-
 				jQuery('#add_project_client_confirm  h3.add_project_client_title').html('Add project to client: ' +client_name+ '?');
-
 				jQuery('#add_project_client_confirm #add_project_client_form .client_name').val(client_name);
 				jQuery('#add_project_client_confirm #add_project_client_form .client_id').val(project_name);
-
 				jQuery('#add_project_client_confirm #add_project_client_form .project_name').val(client_id);
-
 				jQuery('#add_project_client_confirm').dialog('open');
-
 			}
-
 			jQuery('.tab_content.active').find('.save_button_timesheet').show();
 			jQuery('.tab_content.active').find('.loader-save-entry').hide();
 			project_select_input.prop('disabled', false);
 			task_select_input.prop('disabled', false);
-
 		},
-
 		error: function (data) {
-
 			alert('error');
-
 		}
-
 	});
-
 });
-
-
 
 // ADD PROJECT NAME
-
 jQuery(document).on('click', '#add_project_client_confirm .add_project_buttons .add_project_client' , function(){
-
 	jQuery('#add_project_client_confirm .loader').show();
-
 	var client_name = jQuery('#add_project_client_confirm #add_project_client_form .client_name').val();
-
 	var project_name = jQuery('#add_project_client_confirm #add_project_client_form .project_name').val();
-
 	var client_id = jQuery('#add_project_client_confirm #add_project_client_form .client_id').val();
-
 	var add_project_details = project_name +'_'+ client_name  +'_'+  client_id;
-
 	jQuery.ajax({
-
 		type: "POST",
-
 		url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
-
 		data:{
-
 			'add_project_details' : add_project_details,
-
 			'type' : 'add_client_project'
-
 		},
-
 		success: function (data) {			
-
 			jQuery('#add_project_client_confirm .loader').hide();
-
 			jQuery('#add_project_client_confirm').dialog('close');
-
 			jQuery('#dialog_form_add_project_client').dialog('open');
-
 			jQuery("#dialog_form_add_project_client").html(data);
-
 			jQuery('.project_start_date').datepicker();
-
 			jQuery('.project_estimated_deadline').datepicker();
-
 		},
-
 		error: function (data) {
-
 			alert('error');
-
 		}				
-
 	});
-
 });
-
-
 
 jQuery(document).on('change', '#submit_project_client .project_name', function(){
-
 	var value = jQuery(this).val();
-
 	if(value == 'Other'){		
-
 		jQuery('#submit_project_client .add_peoject_name_section').slideDown();
-
 	}else{
-
 		jQuery('#submit_project_client .add_peoject_name_section').slideUp();
-
 	}
-
 });
-
 
 
 jQuery(document).on('click', '#submit_project_client .add_project_option', function(){
-
 	var value = jQuery('#submit_project_client .add_project_name').val();
-
 	jQuery('#submit_project_client .project_name').prepend('<option selected="selected">'+value+'</option>').prop('selected', true);
-
 	jQuery('#submit_project_client .add_peoject_name_section').slideUp();
-
 });
 
 
 //Adding new project on client when no available project for cleint.
 jQuery(document).on('click', '#submit_project_client .save_project_client', function(){
-
 	jQuery('#submit_project_client .loader').show();
-
 	var save_project_client = jQuery('#submit_project_client').serialize();
-
 		jQuery.ajax({
-
 		type: "POST",
-
 		url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
-
 		data:{
-
 		'save_project_client' : save_project_client,
-
 		'type' : 'save_client_project'
-
 		},
-
 		success: function (data) {
-
 			var parsed = jQuery.parseJSON(data);
-
-
 			var status = parsed.status;
-
 			var project_name = parsed.project_name;
-
 			var tasks = parsed.tasks;
-
 			jQuery('#submit_project_client .loader').hide();
-
 			
-
 			if(status == 1){
-
 				jQuery('#dialog_form_add_project_client').dialog('close');
-
 				jQuery('.tab_content.active .task_color .new_entry_project_1 select').prepend('<option selected="selected">'+project_name+'</option>').prop('selected', true);
-
 				jQuery('.tab_content.active .task_name .new_entry_taskname_1 select').prepend(tasks);
-
 			}else{
-
 				jQuery("<div class='status_message'><p>ERROR: Project was not saved</p></div>").fadeIn( "slow", function() {
-
 				jQuery(".status_message").delay(2000).fadeOut('slow');
-
 			});
-
 			}
-
 		},
-
 		error: function (data) {
-
 			alert('error');
-
 		}				
-
 	});
-
 });
 
 /* ====================================  END ADD FILTER PROJECT TASK ==================================== */
@@ -1331,111 +763,57 @@ jQuery(document).on('click', '#submit_project_client .save_project_client', func
 /* ==================================== SAVE ADD ENTRY TASK ==================================== */
 
 jQuery(document).on('click', '.save_add_button', function(){
-
 	var save_add_timesheet_task_data = jQuery('#add_task_timesheet').serialize();
-
-
-
 	jQuery.ajax({
-
 		type: "POST",
-
 		url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
-
 		data:{
-
 			'type' : 'task_save_add_timesheet',
-
 			'save_add_timesheet_task_data' : save_add_timesheet_task_data
-
 		},
-
 		success: function (data) {
-
 			var parsed = jQuery.parseJSON(data);
-
 			jQuery('#dialog_form_timesheet_add_kanban_task').dialog('close');
-
 			jQuery(".action_message p").text("Task Added");
-
 			jQuery(".action_message").fadeIn( "slow", function() {
-
 				jQuery(".action_message").delay(1000).fadeOut('slow');
-
 			});
-
 			
-
 			var task_name 			= (parsed.task_name == "") ? "--" : parsed.task_name;
-
 			var total_hour 			= (parsed.total_hour == "") ? "--" : parsed.total_hour;
-
 			var task_hour_format 	= (parsed.task_hour_format == "") ? "--" : parsed.task_hour_format;
-
 			var task_hour_billable_format 	= (parsed.task_hour_billable_format == "") ? "--" : parsed.task_hour_billable_format;
-
 			var task_label 			= (parsed.task_label == "") ? "--" : parsed.task_label;
-
 			var task_project_name 	= (parsed.task_project_name == "") ? "--" : parsed.task_project_name;
-
 			var task_person 		= (parsed.task_person == "") ? "--" : parsed.task_person;
-
 			var task_description 	= (parsed.task_description == "") ? "--" : parsed.task_description;
-
 			var description_length 	= task_description.length;
-
 			if(description_length >= 20){
-
 				var short_description = jQuery.trim(task_description).substring(0, 24).split(" ").slice(0, -1).join(" ") + "...";
-
 			}else{
-
 				var short_description = task_description +"...";
-
 			}
-
 			
-
 							
-
 			jQuery('.tab_content.active .task_name').append('<li class="data_list_'+day_now_id+' timesheet_data_id_'+parsed.id+'">'+task_name+'</li>');
-
 			jQuery('.tab_content.active .task_hour').append('<li class="data_list_'+day_now_id+' timesheet_data_id_'+parsed.id+'">'+task_hour_format+'</li>');
-
 			jQuery('.tab_content.active .task_hour_billable').append('<li class="data_list_'+day_now_id+' timesheet_data_id_'+parsed.id+'">'+task_hour_billable_format+'</li>');
-
 			jQuery('.tab_content.active .task_label').append('<li class="client_info data_list_'+day_now_id+' timesheet_data_id_'+parsed.id+'">'+task_label+'</li>');
-
 			jQuery('.tab_content.active .task_color').append('<li class="data_list_'+day_now_id+' timesheet_data_id_'+parsed.id+'">'+task_project_name+'</li>');
-
 			jQuery('.tab_content.active .task_person').append('<li class="data_list_'+day_now_id+' timesheet_data_id_'+parsed.id+'">'+task_person+'</li>');
-
 			jQuery('.tab_content.active .task_description').append('<div class="accordian accordian_'+parsed.id+'"><h5 class="toggle"><a href="#"><li class="data_list_'+day_now_id+' timesheet_data_id_'+parsed.id+'">'+short_description+'<span class="arrow"></span></li></a></h5></div>');						
-
 			jQuery('.tab_content.active .task_description .accordian_'+parsed.id).append("<div class='toggle-content' style='display: none;'>"+task_description+"</div>");
-
 			jQuery('.tab_content.active .task_delete').append('<li class="data_list_'+day_now_id+' timesheet_data_id_'+parsed.id+'"><div id="delete_kanban_'+day_now_id+'_'+parsed.id+'" class="button_1 confirm delete_button delete_kanban_'+day_now_id+'">Delete</div></li>');			
-
 			jQuery('.tab_content.active .task_edit').append('<li class="data_list_'+day_now_id+' timesheet_data_id_'+parsed.id+'"><div id="edit_kanban_'+day_now_id+'_'+parsed.id+'" class="button_1 edit_button edit_kanban">E</div></li>');			
-
 			jQuery('.tab_content.active .task_edit').append("<div id='loader_id_"+parsed.id+"' style='display: none;' class='loader timesheet_loader'></div>");
-
 			jQuery('.tab_content.active .task_done_today').append('<li class="data_list_'+day_now_id+' timesheet_data_id_'+parsed.id+'"><div id="done_today_kanban_'+day_now_id+'_'+parsed.id+'" class="button_1 done_today_button done_today_kanban_'+day_now_id+' done_today_not_current">Done Today</div></li>');
-
 			jQuery('.tab_content.active .total_hours .task_total_hour h3').text(total_hour);
-
 			trigger_accordion_toggle();
-
 		},
-
 		error: function (data) {
-
 			alert('error');
-
 		}
-
 	});
-
 });
 
 /* ==================================== END SAVE ADD ENTRY TASK ==================================== */
@@ -2997,6 +2375,9 @@ jQuery(document).on('click', '.tab_content.active .save_button_timesheet', funct
  		return false;
 	}
 
+	// console.log(validation_hour.hour);
+	// return false;
+
 	var new_entry_obj = {
 		taskname : taskname,
 		client_id : client,
@@ -3717,150 +3098,6 @@ function MoveDaysCalendar(day_date){
 			
 }
 
-// jQuery(document).on('click', '.tab_content.active .complete_button_timesheet', function(){
-
-// 	jQuery(this).prop('disabled', true);
-// 	jQuery(".top_loader").show();
-// 	var id = jQuery(this).attr('id').split('_')[3];
-
-// 	var taskname = jQuery('.tab_content.active .new_entry_taskname_1 select').val();
-// 	var client = jQuery('.tab_content.active .new_entry_client_1 select').val();
-// 	var project = jQuery('.tab_content.active .new_entry_project_1 select').val();
-// 	var hour = jQuery('.tab_content.active .new_entry_hours_1 input').val();
-// 	var description =  jQuery('.tab_content.active .new_entry_description_1 input').val();
-// 	var user = jQuery('.tab_content.active #current_logged_user').val();
-// 	var active_day = jQuery('.tab_content.active').attr('id');
-// 	var week_number = jQuery('.tab_content.active .tab_week').val();
-// 	var date = jQuery('.tab_content.active .tab_date').val();
-// 	var user_id =  jQuery('.tab_content.active .user_id').val();
-
-// 	var task_description_count = description.length;
-
-// 	var new_entry_obj = {
-// 		taskname : taskname,
-// 		client : client,
-// 		project : project,
-// 		description : description,
-// 		user : user,
-// 		active_day : active_day,
-// 		week_number : week_number,
-// 		date : date,
-// 		hour : time(hour),
-// 		user_id : user_id
-// 	};
-
-// 	jQuery.ajax({
-
-// 			type: "POST",
-// 			url: '<?php bloginfo("template_directory"); ?>/custom_ajax-functions.php',
-
-// 			data:{
-// 				'type' : 'save_timesheet_entry',
-// 				'save_timesheet_row' : new_entry_obj
-// 			},
-// 			success: function (data) {				
-// 				var parsed = jQuery.parseJSON(data);
-
-// 				jQuery(".top_loader").hide();
-
-
-// 				if(task_description_count >= 39){
-
-// 					var short_description = jQuery.trim(description).substring(0, 39).split(" ").slice(0, -1).join(" ") + "...";
-
-// 				}else{
-
-// 					var short_description = description +"...";
-
-// 				}				
-
-// 				jQuery('<li class="data_list_'+active_day+' timesheet_data_id_'+parsed.id+'">'+parsed.task_name+'</li>').insertBefore('.tab_content.active .task_name li:last');
-
-// 				jQuery('<li class="data_list_'+active_day+' timesheet_data_id_'+parsed.id+'">'+parsed.task_hour_format+'</li>').insertBefore('.tab_content.active .task_hour li:last');
-
-// 				// jQuery('.tab_content.active .task_hour_billable').insertBefore('<li class="data_list_'+active_day+' timesheet_data_id_'+parsed.id+'">'+task_hour_billable_format+'</li>');
-
-// 				jQuery('<li class="client_info data_list_'+active_day+' timesheet_data_id_'+parsed.id+'">'+parsed.task_label+'</li>').insertBefore('.tab_content.active .task_label li:last');
-
-// 				jQuery('<li id="project_id_'+parsed.id+'" class="data_list_'+active_day+' timesheet_data_id_'+parsed.id+' edit_project_record">'+parsed.task_project_name+'</li>').insertBefore('.tab_content.active .task_color li:last');
-
-// 				jQuery('<li class="data_list_'+active_day+' timesheet_data_id_'+parsed.id+'">'+parsed.task_person+'</li>').insertBefore('.tab_content.active .task_person li:last');
-
-// 				jQuery('<div class="accordian accordian_'+parsed.id+'"><h5 class="toggle"><a href="#"><li class="data_list_'+active_day+' timesheet_data_id_'+parsed.id+'">'+short_description+'<span class="arrow"></span></li></a></h5></div>').insertBefore('.tab_content.active .task_description div:last');						
-
-// 				jQuery("<div class='toggle-content' style='display: none;'>"+parsed.task_description+"</div>").insertBefore('.tab_content.active .task_description .accordian_'+parsed.id);
-
-		
-// 				jQuery('.tab_content.active .task_edit li:last').insertBefore('<li class="data_list_'+active_day+' timesheet_data_id_'+parsed.id+'"><div id="edit_kanban_'+active_day+'_'+parsed.id+'" class="button_1 edit_button edit_kanban">E</div></li>');	
-
-
-// 				jQuery('<li class="new_entry_button_1"><div class="button_1 complete_button_timesheet import_save_not_current" style="visibility: hidden;" id="complete_kanban_'+active_day+'thursday">C</div></li>').insertBefore('.tab_content.active .task-complete li:last');
-
-
-// 				if(jQuery('.tab_content.active .task_delete li').length == 0){
-// 					jQuery('<li class="data_list_'+active_day+' timesheet_data_id_'+parsed.id+'"><div id="delete_kanban_'+active_day+'_'+parsed.id+'" class="button_1 delete_button delete_edit_kanban">-</div></li>').insertAfter('.tab_content.active .task_delete h3');
-// 					// jQuery('<li class="data_list_'+active_day+' timesheet_data_id_'+parsed.id+'"><div id="edit_kanban_'+active_day+'_'+parsed.id+'" class="button_1 edit_button edit_kanban">E</div></li>').insertBefore('.tab_content.active .task_edit div');	
-// 				}else{
-// 					jQuery('<li class="data_list_'+active_day+' timesheet_data_id_'+parsed.id+'"><div id="delete_kanban_'+active_day+'_'+parsed.id+'" class="button_1 delete_button delete_edit_kanban">-</div></li>').insertBefore('.tab_content.active .task_delete li:last');
-// 					// jQuery('<li class="data_list_'+active_day+' timesheet_data_id_'+parsed.id+'"><div id="edit_kanban_'+active_day+'_'+parsed.id+'" class="button_1 edit_button edit_kanban">E</div></li>').insertBefore('.tab_content.active .task_edit li:last');	
-// 				}	
-
-
-// 				jQuery('.tab_content.active .new_entry_taskname_1 select').prop('selectedIndex',0);
-
-// 				jQuery('.tab_content.active .new_entry_description_1 input').val('');
-
-
-// 				// jQuery('.tab_content.active .task_edit').append("<div id='loader_id_"+parsed.id+"' style='display: none;' class='loader timesheet_loader'></div>");
-
-// 				// jQuery('.tab_content.active .task_done_today').append('<li class="data_list_'+active_day+' timesheet_data_id_'+parsed.id+'"><div id="done_today_kanban_'+active_day+'_'+parsed.id+'" class="button_1 done_today_button done_today_kanban_'+active_day+' done_today_not_current">Done Today</div></li>');
-
-// 				// jQuery('.tab_content.active .total_hours .task_total_hour h3').text(total_hour);
-
-
-
-// 				trigger_accordion_toggle();
-
-// 				//Remove input row
-// 				jQuery('.tab_content.active .task_name li:last').fadeOut();
-// 				jQuery('.tab_content.active .task_hour li:last').fadeOut();
-// 				jQuery('.tab_content.active .task_label li:last').fadeOut();
-// 				jQuery('.tab_content.active .task_color li:last').fadeOut();
-// 				jQuery('.tab_content.active .task_person li:last').fadeOut();
-// 				jQuery('.tab_content.active .task_description div:last').fadeOut();
-// 				jQuery('.tab_content.active .task_edit li:last').fadeOut();
-// 				jQuery('.tab_content.active .task-complete li:last').fadeOut();
-
-// 				if(jQuery('.tab_content.active .task_delete li').length == 0){
-// 					jQuery('.tab_content.active .task_edit div').fadeOut();	
-// 				}else{
-// 					jQuery('.tab_content.active .task_delete li:last').fadeOut();	
-// 				}	
-
-// 				jQuery('.action_message p').text("Task Saved!");
-
-// 				jQuery('.action_message').fadeIn( "slow", function() {
-
-// 					jQuery(".action_message").delay(1000).fadeOut('slow');
-
-// 				});
-
-// 				jQuery('.tab_content.active .complete_button_timesheet').prop('disabled', false);
-// 				jQuery('.tab_content.active .new_entry_hours_1 input').focus();
-
-				
-			
-// 			},
-
-// 			error: function (data) {
-// 				alert('error');
-// 			}				
-
-// 	});
-
-
-// });
-
 //Editing hour and description records.
 jQuery(document).on('click', '.tabs_li', function(){
 	jQuery('.tab_content.active .new_entry_hours_1 input').focus();
@@ -3908,6 +3145,7 @@ jQuery(document).on('dblclick', '.tab_content.active .edit_column_field', functi
 
 //Update Button when editing a column.
 jQuery(document).on('click', '.tab_content.active .check_update_timesheet', function(){
+	var this_button = jQuery(this);
 	var string = jQuery(this).attr('id').split("_");
 	var active_day = jQuery('.tab_content.active').attr('id');
 	var id = string[2];
@@ -3917,27 +3155,32 @@ jQuery(document).on('click', '.tab_content.active .check_update_timesheet', func
 	var value = "";
 	var input = jQuery('.tab_content.active #'+type+'_update_field_'+id).val();
 	var taskname = jQuery('.tab_content.active .person_task_timesheet #taskname_id_'+id).text();
-
-	var validation_hour = input_time_validation(input, taskname);
-
-	if(validation_hour.taskname_validation == false){
-		jQuery(".status_message").fadeIn( "slow", function() {
-			jQuery(".status_message p").html("<p class='error-msg'>Only <b>Tidbank</b> task accept negative value.</p>");
-		});
-		jQuery(".status_message").delay(1000).fadeOut('slow');
-		jQuery('#save-loader').css('visibility', 'hidden');	 	
-		this_button.show().next('.loader-save-entry').hide();	
- 		return false;		
-	} 
-	if(validation_hour.input_time_format_validation == false){
-		jQuery(".status_message").fadeIn( "slow", function() {
-			jQuery(".status_message p").html("<p class='error-msg'>Invalid Time Format.</p>");
-		});
-		jQuery(".status_message").delay(1000).fadeOut('slow');
-		jQuery('#save-loader').css('visibility', 'hidden');	 	
-		this_button.show().next('.loader-save-entry').hide();	
- 		return false;
+	var update_value = "";
+	if(type == 'hour'){
+		var validation_hour = input_time_validation(input, taskname);
+		if(validation_hour.taskname_validation == false){
+			jQuery(".status_message").fadeIn( "slow", function() {
+				jQuery(".status_message p").html("<p class='error-msg'>Only <b>Tidbank</b> task accept negative value.</p>");
+			});
+			jQuery(".status_message").delay(1000).fadeOut('slow');
+			jQuery('#save-loader').css('visibility', 'hidden');	 	
+			this_button.show().next('.loader-save-entry').hide();	
+	 		return false;		
+		} 
+		if(validation_hour.input_time_format_validation == false){
+			jQuery(".status_message").fadeIn( "slow", function() {
+				jQuery(".status_message p").html("<p class='error-msg'>Invalid Time Format.</p>");
+			});
+			jQuery(".status_message").delay(1000).fadeOut('slow');
+			jQuery('#save-loader').css('visibility', 'hidden');	 	
+			this_button.show().next('.loader-save-entry').hide();	
+	 		return false;
+		}
+		update_value = validation_hour.hour;	
+	}else{
+		update_value = input;
 	}
+
 	var current_hour = jQuery('#'+active_day+' .total_hours .task_total_hour h3').text();
 
 	jQuery('#'+type+'_button_'+id).hide().remove();
@@ -3947,7 +3190,7 @@ jQuery(document).on('click', '.tab_content.active .check_update_timesheet', func
 	var update_entries = {
 		input_type: type,
 		input_id: id,
-		input_value: validation_hour.hour
+		input_value: update_value
 	};
 
 	jQuery.ajax({
@@ -4726,6 +3969,10 @@ function deciHours(time) {
 function input_time_validation(value, taskname){
 	//FALSE is invalid value.
 	var response = {};
+	if (value.indexOf(',') > -1){
+		value = value.replace(',','.');
+	}
+	var regexp = /^(([0|1][0-9])|([2][0-3])):([0-5][0-9])$/;
 	if(jQuery.isNumeric( value )){ //If Decimal format
 		if ((new Number(value) < 0)){ //If decimal is negative value
 			if(taskname != 'Tidbank'){ //If taskname is not Tidbank
@@ -4752,7 +3999,6 @@ function input_time_validation(value, taskname){
 			}	
 		}
 	}else{ //If Hour format
-	    var regexp = /([01][0-9]|[02][0-3]):[0-5][0-9]/;
 		if (value.indexOf('-') > -1){ //If negative Hour format
 			if(taskname != 'Tidbank'){
 				return response = {
@@ -4763,13 +4009,32 @@ function input_time_validation(value, taskname){
 			}else{
 				value = value.replace(/-/g ,''); //removed - sign to convert hour
 				var validate_time_format = (value.search(regexp) >= 0) ? true : false;
-				console.log(validate_time_format);
 				if(validate_time_format == false){
-					return response = {
-						'taskname_validation' : true,
-						'input_time_format_validation' : false,
-						'hour' : ""
-					}				
+					if(value.length == 4){
+						var hour = value.charAt(0)
+						value = value.replace(hour+':','');
+						var new_hour_format = '0'+hour+':'+value;
+						var validate_time_format_2 = (new_hour_format.search(regexp) >= 0) ? true : false;
+						if(validate_time_format_2 == true){
+							return response = {
+								'taskname_validation' : true,
+								'input_time_format_validation' : true,
+								'hour' : '-'+new_hour_format
+							}	
+						}else{
+							return response = {
+								'taskname_validation' : true,
+								'input_time_format_validation' : false,
+								'hour' : ''
+							}	
+						}
+					}else{
+						return response = {
+							'taskname_validation' : true,
+							'input_time_format_validation' : false,
+							'hour' : ''
+						}							
+					}		
 				}else{
 					return response = {
 						'taskname_validation' : true,
@@ -4781,16 +4046,37 @@ function input_time_validation(value, taskname){
 		}else{
 			var validate_time_format = (value.search(regexp) >= 0) ? true : false;
 			if(validate_time_format == false){ //validate time format
-				return response = {
-					'taskname_validation' : true,
-					'input_time_format_validation' : false,
-					'hour' : ""
-				}				
+				if(value.length == 4){
+					var hour = value.charAt(0)
+					value = value.replace(hour+':','');
+					var new_hour_format = '0'+hour+':'+value;
+					var validate_time_format_2 = (new_hour_format.search(regexp) >= 0) ? true : false;
+					if(validate_time_format_2 == true){
+						return response = {
+							'taskname_validation' : true,
+							'input_time_format_validation' : true,
+							'hour' : new_hour_format
+						}	
+					}else{
+						return response = {
+							'taskname_validation' : true,
+							'input_time_format_validation' : false,
+							'hour' : ''
+						}	
+					}
+				}else{
+					return response = {
+						'taskname_validation' : true,
+						'input_time_format_validation' : false,
+						'hour' : ""
+					}					
+				}
+				
 			}else{
 				return response = {
 					'taskname_validation' : true,
 					'input_time_format_validation' : true,
-					'hour' : value
+					'hour' : value.replace(/[^0-9\:]/g,'')
 				}					
 			}
 		}
