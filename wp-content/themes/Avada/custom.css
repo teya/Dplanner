@@ -7911,13 +7911,13 @@ table.dataTable.no-footer{
 	width: 10% !important;
 }
 #client_services_table thead tr th:nth-child(3){
-	width: 15% !important;
+	width: 7% !important;
 }
 #client_services_table thead tr th:nth-child(5){
-	width: 16% !important;
+	width: 10% !important;
 }
 #client_services_table thead tr th:nth-child(6){
-	width: 15% !important;
+	width: 24% !important;
 }
 .table-action-btn li{
 	display: inline-block;
@@ -8052,4 +8052,21 @@ table.dataTable.no-footer{
 	float: none !important;
 	margin-left: 0px !important;
 	margin-top: 5px !important;
+}
+#client_services_table tbody td .accordian .toggle-content{
+	border: 1px solid #d3d2d2;
+	width: 90%;
+	padding: 10px;
+	position: absolute;
+	word-wrap: break-word;
+	background-color: #ebeaea !important;
+	/*max-height: 100%;*/
+	/*overflow-y: auto;*/
+	z-index: 1;
+}
+#client_services_table.dplan-table tr th:nth-child(4){
+	width: 8% !important;
+}
+.total_hours .task_total{
+	width: 47% !important;
 }

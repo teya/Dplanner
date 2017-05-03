@@ -52,15 +52,16 @@
 					<th class="client_name"><?php echo $client->client_name; ?></th>
 					<th>Licenses</th>
 					<th>Price</th>
-					<th>Total Revenue</th>
-					<th>Next Invoice</th>
+					<th>Revenue</th>
+					<th>Renewal</th>
+					<th>Notes</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<?php 
 					//Get client services
-					$sql_get_services = "SELECT cs.ID, so.service_name, cs.licenses, cs.customer_price, cs.our_price, cs.start_date, cs.invoice_interval  FROM ".CLIENT_SERVICES_TABLE." as cs LEFT OUTER JOIN ".SEVICES_OPTION_TABLE." as so ON cs.service_id = so.id  WHERE client_id = ".$client->id;
+					$sql_get_services = "SELECT cs.ID, so.service_name, cs.licenses, cs.customer_price, cs.our_price, cs.start_date, cs.invoice_interval, cs.notes as notes  FROM ".CLIENT_SERVICES_TABLE." as cs LEFT OUTER JOIN ".SEVICES_OPTION_TABLE." as so ON cs.service_id = so.id  WHERE client_id = ".$client->id;
 
 					$get_client_services = $wpdb->get_results($sql_get_services);
 				?>
@@ -75,11 +76,17 @@
 							$date_passed = '';
 						}
 						if($service->start_date != ''){
-							$next_invoice_date = $service->start_date;
+							$next_invoice_date = date("Y-m-d", strtotime($service->start_date));
 						}else{
 							$next_invoice_date = '--';
 							$hide_btn_invoice = 'hide';
 						}
+
+						$description = (!empty($service->notes))? $service->notes : '--';
+						$no_desc = ($description == '--')? '' : '...';
+						$short_description = substr($description, 0, 35) . $no_desc;
+
+
 					?>
 					<tr id="service_id_<?php echo $service->ID; ?>">
 						<td class="service_name"><?php echo $service->service_name; ?></td>
@@ -87,6 +94,23 @@
 						<td><?php echo ($service->customer_price != '')? $service->customer_price : 0; ?></td>
 						<td><?php echo $total; ?></td>
 						<td class="invoice-date"><span class="<?php echo ($date_passed == 1)? 'date-passed' : ''; ?>"><?php echo $next_invoice_date; ?></span></td>
+						<td>
+							<div class="accordian">
+								<h5 class="toggle">
+									<div class="desc">
+										<div>
+											<?php echo $short_description; ?>
+											<span class="arrow">
+												
+											</span>
+										</div>
+									</div>
+								</h5>
+								<div class="toggle-content" style="display: none;">
+									<?php echo $description ?>
+								</div>
+							</div>
+						</td>
 						<td>
 							<ul class="table-action-btn">
 								<li>
@@ -152,6 +176,13 @@
 		</form>
 	</div>
 	<script type="text/javascript">
+		function trigger_accordion_toggle(){
+			jQuery('.toggle-content').each(function() {
+				if(!jQuery(this).hasClass('default-open')){
+					jQuery(this).hide();
+				}
+			});
+		}
 		jQuery( "#invoice_service_dialog" ).dialog({
 			autoOpen: false,
 			height: 180,
@@ -204,6 +235,7 @@
 						var parsed = jQuery.parseJSON(data);
 						jQuery('#client_services_table').html(parsed.client_services_html).fadeIn();;
 						jQuery('.filter_loader').hide();
+						trigger_accordion_toggle();
 					},
 					error: function(){
 						
@@ -316,5 +348,6 @@
 				});
 			});
 		});
+		trigger_accordion_toggle();
 	</script> 
 <?php get_footer(); ?>

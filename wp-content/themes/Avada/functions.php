@@ -7241,13 +7241,14 @@ function FIlterClientServices($data){
 						<th class='client_name'>".$client->client_name."</th>
 						<th>Licenses</th>
 						<th>Price</th>
-						<th>Total Revenue</th>
-						<th>Next Invoice</th>
+						<th>Revenue</th>
+						<th>Renewal</th>
+						<th>Notes</th>
 						<th></th>
 					</tr>				
 				</thead>";
 				$filter_services_table_string_html .= "<tbody>";
-				$filter_services_sql = "SELECT  cs.ID, so.service_name, cs.licenses, cs.customer_price, cs.our_price, cs.start_date   FROM ".CLIENT_TABLE." as c LEFT OUTER JOIN ".CLIENT_SERVICES_TABLE." as cs ON c.id = cs.client_id  LEFT OUTER JOIN ".SEVICES_OPTION_TABLE." as so ON cs.service_id = so.id WHERE cs.service_name IS NOT NULL AND cs.client_id = ".$client->id." ".$service_filter . " ". $due_sql;
+				$filter_services_sql = "SELECT  cs.ID, so.service_name, cs.licenses, cs.customer_price, cs.our_price, cs.start_date, cs.notes   FROM ".CLIENT_TABLE." as c LEFT OUTER JOIN ".CLIENT_SERVICES_TABLE." as cs ON c.id = cs.client_id  LEFT OUTER JOIN ".SEVICES_OPTION_TABLE." as so ON cs.service_id = so.id WHERE cs.service_name IS NOT NULL AND cs.client_id = ".$client->id." ".$service_filter . " ". $due_sql;
 
 				$services = $wpdb->get_results($filter_services_sql);
 
@@ -7262,7 +7263,7 @@ function FIlterClientServices($data){
 						$date_passed = '';
 					}
 					if($service->start_date != ''){
-						$next_invoice_date = $service->start_date;
+						$next_invoice_date = date("Y-m-d", strtotime($service->start_date));
 					}else{
 						$next_invoice_date = '--';
 						$hide_btn_invoice = 'hide';
@@ -7272,6 +7273,10 @@ function FIlterClientServices($data){
 						$date_passed_class = "date-passed";
 					}
 
+					$description = (!empty($service->notes))? $service->notes : '--';
+					$no_desc = ($description == '--')? '' : '...';
+					$short_description = substr(trim(preg_replace('/\s\s+/', ' ', $description)), 0, 30) . $no_desc;
+
 					$price = ($service->customer_price != '')? $service->customer_price : 0;
 					$filter_services_table_string_html .= "
 						<tr id='service_id_".$service->ID."'>
@@ -7280,6 +7285,22 @@ function FIlterClientServices($data){
 							<td>". $price ."</td>
 							<td>". $total ."</td>
 							<td class='invoice-date'><span class='".$date_passed_class."'>".$next_invoice_date."</span></td>
+							<td>
+								<div class='accordian'>
+									<h5 class='toggle'>
+									<div class='desc'>
+										<div>
+											".trim($short_description)."
+											<span class='arrow'>	
+											</span>
+										</div>
+									</div>
+									</h5>
+									<div class='toggle-content' style='display: none;'>
+										".$description."
+									</div>
+								</div>
+							</td>								
 							<td>
 								<ul class='table-action-btn'>
 									<li>

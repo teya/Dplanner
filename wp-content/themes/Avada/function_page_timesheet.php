@@ -1850,21 +1850,31 @@ function staff_timesheet($staff_timesheet_data){
 	foreach($timesheet_details as $timesheet_detail){
 		if(strtolower($timesheet_detail->day_now) == 'monday'){
 			$task_hour 						= $timesheet_detail->task_hour;
-			$task_hour_decimal 				= decimalHours($task_hour);
-			$monday_total_hour_decimal		+= $task_hour_decimal;
+			$negative = "";
+			if(strpos($task_hour,"-") !== false){
+				$task_hour = str_replace('-', '', $task_hour);
+				$negative = "-";
+			}
+			$task_hour_decimal 				= 	decimalHours($task_hour);
+			$monday_total_hour_decimal		+= (float)($negative . $task_hour_decimal);
 			$edit_time_string = date('h:i A', strtotime(substr($timesheet_detail->edited_by, -5)));
 			$edited_by = substr($timesheet_detail->edited_by, 0, -5 ) . " " .$edit_time_string;
 		}
 	}	
 
-	$total_hour_monday =  gmdate('H:i', floor($monday_total_hour_decimal * 3600));
 
+	$total_hour_monday =  gmdate('H:i', floor($monday_total_hour_decimal * 3600));
 	$tuesday_total_hour_decimal = 0;
 	foreach($timesheet_details as $timesheet_detail){
 		if(strtolower($timesheet_detail->day_now) == 'tuesday'){
 			$task_hour 						= $timesheet_detail->task_hour;
-			$task_hour_decimal 				= decimalHours($task_hour);
-			$tuesday_total_hour_decimal		+= $task_hour_decimal;
+			$negative = "";
+			if(strpos($task_hour,"-") !== false){
+				$task_hour = str_replace('-', '', $task_hour);
+				$negative = "-";
+			}
+			$task_hour_decimal 				= 	decimalHours($task_hour);
+			$tuesday_total_hour_decimal		+= (float)($negative . $task_hour_decimal);
 			$edit_time_string = date('h:i A', strtotime(substr($timesheet_detail->edited_by, -5)));
 			$edited_by = substr($timesheet_detail->edited_by, 0, -5 ) . " " .$edit_time_string;
 		}
@@ -1876,8 +1886,13 @@ function staff_timesheet($staff_timesheet_data){
 	foreach($timesheet_details as $timesheet_detail){
 		if(strtolower($timesheet_detail->day_now) == 'wednesday'){
 			$task_hour 						= $timesheet_detail->task_hour;
-			$task_hour_decimal 				= decimalHours($task_hour);
-			$wednesday_total_hour_decimal	+= $task_hour_decimal;
+			$negative = "";
+			if(strpos($task_hour,"-") !== false){
+				$task_hour = str_replace('-', '', $task_hour);
+				$negative = "-";
+			}
+			$task_hour_decimal 				= 	decimalHours($task_hour);
+			$wednesday_total_hour_decimal	+= (float)($negative . $task_hour_decimal);
 			$edit_time_string = date('h:i A', strtotime(substr($timesheet_detail->edited_by, -5)));
 			$edited_by = substr($timesheet_detail->edited_by, 0, -5 ) . " " .$edit_time_string;
 		}
@@ -1889,8 +1904,13 @@ function staff_timesheet($staff_timesheet_data){
 	foreach($timesheet_details as $timesheet_detail){
 		if(strtolower($timesheet_detail->day_now) == 'thursday'){
 			$task_hour 						= $timesheet_detail->task_hour;
-			$task_hour_decimal 				= decimalHours($task_hour);
-			$thursday_total_hour_decimal	+= $task_hour_decimal;
+			$negative = "";
+			if(strpos($task_hour,"-") !== false){
+				$task_hour = str_replace('-', '', $task_hour);
+				$negative = "-";
+			}
+			$task_hour_decimal 				= 	decimalHours($task_hour);
+			$thursday_total_hour_decimal	+=  (float)($negative . $task_hour_decimal);
 			$edit_time_string = date('h:i A', strtotime(substr($timesheet_detail->edited_by, -5)));
 			$edited_by = substr($timesheet_detail->edited_by, 0, -5 ) . " " .$edit_time_string;
 		}
@@ -1902,8 +1922,13 @@ function staff_timesheet($staff_timesheet_data){
 	foreach($timesheet_details as $timesheet_detail){
 		if(strtolower($timesheet_detail->day_now) == 'friday'){
 			$task_hour 						= $timesheet_detail->task_hour;
+			$negative = "";
+			if(strpos($task_hour,"-") !== false){
+				$task_hour = str_replace('-', '', $task_hour);
+				$negative = "-";
+			}
 			$task_hour_decimal 				= decimalHours($task_hour);
-			$friday_total_hour_decimal		+= $task_hour_decimal;
+			$friday_total_hour_decimal		+= (float)($negative . $task_hour_decimal);
 			$edit_time_string = date('h:i A', strtotime(substr($timesheet_detail->edited_by, -5)));
 			$edited_by = substr($timesheet_detail->edited_by, 0, -5 ) . " " .$edit_time_string;
 		}
@@ -1915,8 +1940,13 @@ function staff_timesheet($staff_timesheet_data){
 	foreach($timesheet_details as $timesheet_detail){
 		if(strtolower($timesheet_detail->day_now) == 'saturday'){
 			$task_hour 						= $timesheet_detail->task_hour;
+			$negative = "";
+			if(strpos($task_hour,"-") !== false){
+				$task_hour = str_replace('-', '', $task_hour);
+				$negative = "-";
+			}
 			$task_hour_decimal 				= decimalHours($task_hour);
-			$saturday_total_hour_decimal	+= $task_hour_decimal;
+			$saturday_total_hour_decimal	+= (float)($negative . $task_hour_decimal);
 			$edit_time_string = date('h:i A', strtotime(substr($timesheet_detail->edited_by, -5)));
 			$edited_by = substr($timesheet_detail->edited_by, 0, -5 ) . " " .$edit_time_string;
 		}
@@ -1928,8 +1958,13 @@ function staff_timesheet($staff_timesheet_data){
 	foreach($timesheet_details as $timesheet_detail){
 		if(strtolower($timesheet_detail->day_now) == 'sunday'){
 			$task_hour 						= $timesheet_detail->task_hour;
+			$negative = "";
+			if(strpos($task_hour,"-") !== false){
+				$task_hour = str_replace('-', '', $task_hour);
+				$negative = "-";
+			}
 			$task_hour_decimal 				= decimalHours($task_hour);
-			$sunday_total_hour_decimal		+= $task_hour_decimal;
+			$sunday_total_hour_decimal		+= (float)($negative . $task_hour_decimal);
 			$edit_time_string = date('h:i A', strtotime(substr($timesheet_detail->edited_by, -5)));
 			$edited_by = substr($timesheet_detail->edited_by, 0, -5 ) . " " .$edit_time_string;
 		}
@@ -2324,8 +2359,16 @@ function update_entry_column($update_entries){
 			$current_date = $wpdb->get_row('SELECT 
 				ROUND(SUM(time_to_sec(task_hour) / (60 * 60)), 2) as total_hours
 				FROM '.TIMESHEET_TABLE.' 
-				WHERE task_person = "'.$timesheet_data->task_person.'" AND date_now = "'.$timesheet_data->date_now.'"');
+				WHERE task_person = "'.$check_value->task_person.'" AND date_now = "'.$check_value->date_now.'"');
 
+
+			if($current_date->total_hours < 0){
+				$total_current_day_worked_hrs = abs($current_date->total_hours);
+				$negative_string = "-";
+			}else{
+				$total_current_day_worked_hrs = $current_date->total_hours;
+				$negative_string = "";
+			}
 
 			$working_days = getWorkingDays($date1, $date2);
 			$worked_hours = (($working_days * 8));
@@ -2338,6 +2381,7 @@ function update_entry_column($update_entries){
 				'type' => $field_name,
 				'edited_by' => $edited_by,
 				'status' => 'success-update',
+				'current_day_total_hours' => $negative_string."".decimal_to_hour($total_current_day_worked_hrs),
 				'side_panel_total_worked_hours' => floatval(number_format($updated_timesheet->totalhours, 2)),
 				'side_panel_total_workable_hours' => floatval(number_format($worked_hours, 2)),
 				'side_panel_total_sjuk' => floatval(number_format($updated_timesheet->sickness, 2)),

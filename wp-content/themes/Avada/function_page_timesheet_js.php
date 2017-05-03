@@ -152,26 +152,33 @@ jQuery(document).ready(function(){
 /* ==================================== DELETE TASK ==================================== */
 
 jQuery(document).ready(function(){
-
 	jQuery( "#dialog_form_timesheet_delete_task" ).dialog({
-
 		autoOpen: false,
-
 		height: 300,
-
 		width: 350,
-
 		modal: true,
-
 		close: function() {
-
 			jQuery('.loader').hide();
-
 		}
-
 	});	
 
+	jQuery(document).keypress(function(e){
+		if(e.charCode == 43){
+			var taskname = jQuery('.tab_content.active .person_task_timesheet .task_name .new_entry_taskname_1 select').val();
+			var clientname = jQuery('.tab_content.active .person_task_timesheet .task_label .new_entry_client_1 select').find('option:selected').text();
+			// if(clientname == '0 Digerati' && taskname =='Ledig'){
+			// 	jQuery('.tab_content.active .person_task_timesheet .task_color .new_entry_project_1 select').prop("selectedIndex", 2);
+			// 	jQuery('.tab_content.active .person_task_timesheet .task_name .new_entry_taskname_1 select').prop("selectedIndex", 7);
+			// }
+			if(clientname == '0 Digerati'){
+				jQuery('.tab_content.active .person_task_timesheet .task_color .new_entry_project_1 select').prop("selectedIndex", 2);
+				jQuery('.tab_content.active .person_task_timesheet .task_name .new_entry_taskname_1 select').prop("selectedIndex", 7);
+			}
+		}
+	});
 });
+
+
 
 jQuery(document).on('change', '.new_entry_taskname_1', function(){
 	var this_element = jQuery(this);
@@ -3273,6 +3280,8 @@ jQuery(document).on('click', '.tab_content.active .check_update_timesheet', func
 				jQuery('.month_details .hour_ledig').text(parsed.side_panel_total_ledig);
 				jQuery('.month_details .hour_sjuk').text(parsed.side_panel_total_sjuk);
 				jQuery('.month_details .hour_tidbank').text(parsed.side_panel_total_hours_tidbank);
+
+				jQuery('.tab_content.active .total_hours .task_total_hour h3').text(parsed.current_day_total_hours);
 				
 				if(parsed.side_panel_total_hour_balance_color == 'green'){
 					jQuery('.month_details .hour_balance ').removeClass('text_red').addClass('text_green');

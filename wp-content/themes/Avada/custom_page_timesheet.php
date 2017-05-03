@@ -856,15 +856,7 @@ if(isset($_GET['deleteID'])) {
 
 							<div class="import_button">		
 
-													
-
-								<!-- <div id="import_kanban_task_monday" class="button_1 import_kanban_task button_import">Import</div>	 -->
-															
-								<!-- <div id="add_new_row" class="button_1 button_import add_task"> + </div> -->
-
 								<div id="add_kanban_task_monday" class="button_1 button_import add_task">Add Entry</div>
-
-
 								<form class="import_save <?php echo ($day_now == 'Monday') ? '' : 'import_save_not_current' ?>"></form>
 
 							</div>
@@ -1038,38 +1030,6 @@ if(isset($_GET['deleteID'])) {
 									<input type="text"></li>
 								</li>
 							</div>
-
-
-
-<!-- 							<div class="task_hour_billable data_title header_titles">
-
-								<h3 class="top_label">B. Hours</h3>
-
-								<?php foreach ($import_data as $import_item):
-
-									$task_hms = $import_item->task_hour_billable;
-
-									$task_hour_billable = time_format($task_hms);
-
-								?>
-
-								<li class="data_list_monday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($task_hour_billable)) ? $task_hour_billable : "--" ; ?></li>
-
-								<?php endforeach; ?>
-
-							</div>	 -->							
-
-<!-- 							<div class="task_person data_title header_titles">
-
-								<h3 class="top_label">Done by</h3>
-
-								<?php foreach ($import_data as $import_item): ?>
-
-								<li class="data_list_monday timesheet_data_id_<?php echo $import_item->ID; ?>"><?php echo (!empty($import_item->task_person)) ? $import_item->task_person : "--" ; ?></li>
-
-								<?php  endforeach; ?>						
-
-							</div> -->
 
 							<div class="task_description data_title header_titles">
 
