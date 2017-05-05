@@ -1473,7 +1473,9 @@ function confirm_delete_task($delete_form_details){
 			AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("31/'.$month.'/'.$year.'", "%d/%m/%Y") AND task_name <> "Tidbank"'); 
 	$week = getStartAndEndDate($timesheet_week_number, $year);
 
-	$Tidbank_hours = $wpdb->get_row('SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM '.TIMESHEET_TABLE.' as t WHERE task_person = "'.$timesheet_data->task_person.'" AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("31/'.$month.'/'.$year.'", "%d/%m/%Y") AND task_name = "Tidbank"');
+	$Tidbank_hours = $wpdb->get_row('SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM '.TIMESHEET_TABLE.' as t WHERE task_person = "'.$timesheet_data->task_person.'" AND task_name = "Tidbank"');
+
+	$Tidbank_month_hours = $wpdb->get_row('SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM '.TIMESHEET_TABLE.' as t WHERE task_person = "'.$timesheet_data->task_person.'" AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("31/'.$month.'/'.$year.'", "%d/%m/%Y") AND task_name = "Tidbank"');
 
 	$current_date = $wpdb->get_row('SELECT 
 			ROUND(SUM(time_to_sec(task_hour) / (60 * 60)), 2) as total_hours
@@ -1495,6 +1497,14 @@ function confirm_delete_task($delete_form_details){
 	}else{
 		$tidbank_total_hrs = "-".(string)$Tidbank_hours->tidbank_total_hrs;
 		$tid_bank_class = 'red_text';
+	}
+
+	if($Tidbank_month_hours->tidbank_total_hrs <= 0){
+		$tidbank_month_total_hrs = abs($Tidbank_month_hours->tidbank_total_hrs);
+		$tid_bank_class_month= "";
+	}else{
+		$tidbank_month_total_hrs = "-".(string)$Tidbank_month_hours->tidbank_total_hrs;
+		$tid_bank_class_month = 'red_text';
 	}
 
 	$dwork_filter = array(
@@ -1522,6 +1532,10 @@ function confirm_delete_task($delete_form_details){
 	$tasks_data['side_panel_total_hour_balance'] = floatval(number_format($hour_balance, 2));
 	$tasks_data['side_panel_total_hours_tidbank'] = floatval(number_format($tidbank_total_hrs, 2));
 	$tasks_data['side_panel_tid_bank_class'] = $tid_bank_class;
+
+	$tasks_data['side_panel_total_hours_tidbank_month'] = floatval(number_format($tidbank_month_total_hrs, 2));
+	$tasks_data['side_panel_tid_bank_class_month'] = $tid_bank_class_month;
+
 	$tasks_data['side_panel_total_hour_balance_color'] = $hour_balance_color;
 	$tasks_data['dwork_percent'] = $dwork_percent;
 	$tasks_data['total_month_hours_worked'] = $total_month_hours_worked;
@@ -2013,9 +2027,11 @@ function staff_timesheet($staff_timesheet_data){
 			SUM(IF(task_name = "Sjuk", TIME_TO_SEC(task_hour)/3600, 0 )) as sickness, 
 			SUM(IF(task_name = "Ledig", TIME_TO_SEC(task_hour)/3600, 0 )) as ledig, 
 			SUM(TIME_TO_SEC(task_hour)/3600) as totalhours FROM '.TIMESHEET_TABLE.' 
-			WHERE task_person = "'.$person_name.'" AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$picked_month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("31/'.$picked_month.'/'.$year.'", "%d/%m/%Y")');
+			WHERE task_person = "'.$person_name.'" AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$picked_month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("31/'.$picked_month.'/'.$year.'", "%d/%m/%Y") AND task_name <> "Tidbank"');
 
 	$Tidbank_hours = $wpdb->get_row('SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM '.TIMESHEET_TABLE.' as t WHERE task_person = "'.$person->person_fullname.'" AND task_name = "Tidbank"');
+
+	$Tidbank_hours_month = $wpdb->get_row('SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM '.TIMESHEET_TABLE.' as t WHERE task_person = "'.$person->person_fullname.'" AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$picked_month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("31/'.$picked_month.'/'.$year.'", "%d/%m/%Y") AND task_name = "Tidbank"');
 
 	$current_worked_hours_balance = ((float)$updated_timesheet->total_hours - (float)$current_month_workable_total_hours);
 	$current_worked_hours_balance_class = ($current_worked_hours_balance < 0)? "red_text" : '';
@@ -2027,6 +2043,16 @@ function staff_timesheet($staff_timesheet_data){
 		$tidbank_total_hrs = "-".(string)$Tidbank_hours->tidbank_total_hrs;
 		$tid_bank_class = 'red_text';
 	}
+
+
+
+	if($Tidbank_hours_month->tidbank_total_hrs <= 0){
+		$tidbank_total_hrs_month = abs($Tidbank_hours_month->tidbank_total_hrs);
+		$tid_bank_class_month= "";
+	}else{
+		$tidbank_total_hrs_month = "-".(string)$Tidbank_hours_month->tidbank_total_hrs;
+		$tid_bank_class_month = 'red_text';
+	}	
 	
 	$rounded_total_month_hour = round($month_total_hour_decimal, 2);
 	$timesheet_details['person_dwork'] = $person_dwork;
@@ -2049,6 +2075,9 @@ function staff_timesheet($staff_timesheet_data){
 	$timesheet_details['sick_hours'] = floatval(number_format($total_no_work_hours_tasks->sick_hours, 2));
 	$timesheet_details['tidbank_hours'] = floatval(number_format($tidbank_total_hrs, 2));
 	$timesheet_details['tidbank_class'] = $tid_bank_class;
+
+	$timesheet_details['tidbank_hours_month'] = floatval(number_format($tidbank_total_hrs_month, 2));
+	$timesheet_details['tidbank_class_month'] = $tid_bank_class_month;	
 
 	$timesheet_details['total_holiday_hour'] = $total_holiday_hour;
 	$timesheet_details['rounded_total_month_hour'] = $rounded_total_month_hour;
@@ -2238,6 +2267,7 @@ function save_timesheet_entry($entry){
 				WHERE task_person = "'.$person->person_fullname.' " AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("31/'.$month.'/'.$year.'", "%d/%m/%Y") AND task_name <> "Tidbank"');
 		$Tidbank_hours = $wpdb->get_row('SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM '.TIMESHEET_TABLE.' as t WHERE task_person = "'.$person->person_fullname.'" AND task_name = "Tidbank"');
 
+		$Tidbank_current_month_hours = $wpdb->get_row('SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM '.TIMESHEET_TABLE.' as t WHERE task_person = "'.$person->person_fullname.'" AND STR_TO_DATE(date_now, "%d/%m/%Y") BETWEEN STR_TO_DATE("01/'.$month.'/'.$year.'", "%d/%m/%Y") AND STR_TO_DATE("31/'.$month.'/'.$year.'", "%d/%m/%Y") AND task_name = "Tidbank"');
 		$current_date = $wpdb->get_row('SELECT 
 				ROUND(SUM(time_to_sec(task_hour) / (60 * 60)), 2) as total_hours
 				FROM '.TIMESHEET_TABLE.' 
@@ -2258,6 +2288,15 @@ function save_timesheet_entry($entry){
 			$tidbank_total_hrs = "-".(string)$Tidbank_hours->tidbank_total_hrs;
 			$tid_bank_class = 'red_text';
 		}
+
+		if($Tidbank_current_month_hours->tidbank_total_hrs <= 0){
+			$tidbank_total_month_hrs = abs($Tidbank_current_month_hours->tidbank_total_hrs);
+			$tid_bank_month_class= "";
+		}else{
+			$tidbank_total_month_hrs = "-".(string)$Tidbank_current_month_hours->tidbank_total_hrs;
+			$tid_bank_month_class = 'red_text';
+		}
+
 
 		$week = getStartAndEndDate($week_number, $year);
 
@@ -2298,6 +2337,8 @@ function save_timesheet_entry($entry){
 		$save_add_timesheet_form_data['side_panel_total_hour_balance_color'] = $hour_balance_color;
 		$save_add_timesheet_form_data['side_panel_total_hours_tidbank'] = floatval(number_format($tidbank_total_hrs, 2));
 		$save_add_timesheet_form_data['side_panel_tid_bank_class'] = $tid_bank_class;
+		$save_add_timesheet_form_data['side_panel_total_hours_tidbank_month'] = floatval(number_format($tidbank_total_month_hrs, 2));
+		$save_add_timesheet_form_data['side_panel_tid_bank_month_class'] = $tid_bank_month_class;
 		$save_add_timesheet_form_data['dwork_percent'] = $dwork_percent;
 		return $save_add_timesheet_form_data;
 	}else{
