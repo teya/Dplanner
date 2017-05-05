@@ -629,7 +629,7 @@ if(isset($_GET['deleteID'])) {
 
 				$timesheet_month_details = $wpdb->get_row($timesheet_month_details_sql);
 
-				$Tidbank_hours = $wpdb->get_row("SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM {$table_name} as t WHERE task_person = '$current_user_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$month_number/$year', '%d/%m/%Y') AND task_name = 'Tidbank'");
+				$Tidbank_hours = $wpdb->get_row("SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM {$table_name} as t WHERE task_person = '$current_user_name' AND task_name = 'Tidbank'");
 
 				if($Tidbank_hours->tidbank_total_hrs <= 0){
 					$tidbank_total_hrs = abs($Tidbank_hours->tidbank_total_hrs);
@@ -677,7 +677,7 @@ if(isset($_GET['deleteID'])) {
 
 				$timesheet_month_details = $wpdb->get_row($timesheet_month_details_sql);
 
-				$Tidbank_hours = $wpdb->get_row("SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM {$table_name} as t WHERE task_person = '$current_user_name' AND STR_TO_DATE(date_now, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/$month_number/$year', '%d/%m/%Y') AND STR_TO_DATE('31/$month_number/$year', '%d/%m/%Y') AND task_name = 'Tidbank'");
+				$Tidbank_hours = $wpdb->get_row("SELECT ROUND(SUM(time_to_sec(t.task_hour) / (60 * 60)), 2) as tidbank_total_hrs FROM {$table_name} as t WHERE task_person = '$current_user_name' AND task_name = 'Tidbank'");
 
 				if($Tidbank_hours->tidbank_total_hrs <= 0){
 					$tidbank_total_hrs = abs($Tidbank_hours->tidbank_total_hrs);

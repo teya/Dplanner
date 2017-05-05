@@ -230,7 +230,8 @@ jQuery(document).on('change', '.new_entry_taskname_1', function(){
 					}				
 				});	
 			}else{
-
+				jQuery('.tab_content.active .person_task_timesheet .new_entry_button_1 .save_button_timesheet').show();
+				jQuery('.tab_content.active .person_task_timesheet .new_entry_button_1 .loader-save-entry').hide();
 			}
 		}
 	}
@@ -1724,7 +1725,18 @@ jQuery(document).ready(function(){
 
 					var total_hour_sunday = parsed.total_hour_sunday;
 
+					var current_month_workable_total_hours = parsed.current_month_workable_total_hours;
+					var current_month_working_total_hours = parsed.current_month_working_total_hours;
+					var current_worked_hours_balance = parsed.current_worked_hours_balance;
+					var current_worked_hours_balance_class = parsed.current_worked_hours_balance_class;
+					var tidbank_hours = parsed.tidbank_hours;
+					var tidbank_class = parsed.tidbank_class;
+					var vacation_hours = parsed.vacation_hours;
+					var ledig_hours = parsed.ledig_hours;
+					var hour_sjuk = parsed.sick_hours;
+
 					var edited_by = parsed.edited_by;
+
 
 
 					var day_date = jQuery('.tabs_li.active').find('.day_date').text();
@@ -1990,15 +2002,7 @@ jQuery(document).ready(function(){
 
 							}
 
-						}
-
-						jQuery('.month_name').html(month_name +" - "+ year_name);
-
-					
-
-						jQuery('.total_month_hour').html(rounded_total_month_hour);
-
-						
+						}						
 
 						if(rounded_total_month_hour < '176'){
 
@@ -2041,6 +2045,30 @@ jQuery(document).ready(function(){
 						jQuery('.month_stat .holiday_hours').html(holiday_hours);
 
 						jQuery('.month_stat .holiday_balance').html(total_holiday_work);
+
+						// Widget Total Hours
+						jQuery('.month_stat h1').html(month_name +" "+ year_name);
+						jQuery('.total_month_hour').html(rounded_total_month_hour);
+						
+						jQuery('.month_details .worked_hours').html(current_month_workable_total_hours);
+						jQuery('.month_details .total_hours_worked').html(current_month_working_total_hours);
+						jQuery('.month_details .hour_balance').html(current_worked_hours_balance);
+						jQuery('.month_details .hour_vacation').html(vacation_hours);
+						jQuery('.month_details .hour_ledig').html(ledig_hours);
+						jQuery('.month_details .hour_sjuk').html(hour_sjuk);
+
+
+						if(current_worked_hours_balance_class == "red_text"){
+							jQuery('.month_details .hour_balance').addClass('text_red');
+						}else{
+							jQuery('.month_details .hour_balance').removeClass('text_red');
+						}
+						jQuery('.month_details .hour_tidbank').html(tidbank_hours);
+						if(tidbank_class == "red_text"){
+							jQuery('.month_details .hour_tidbank').addClass('text_red');
+						}else{
+							jQuery('.month_details .hour_tidbank').removeClass('text_red');
+						}
 
 						//jQuery('.month_summary').show();
 
