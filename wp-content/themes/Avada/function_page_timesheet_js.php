@@ -162,20 +162,20 @@ jQuery(document).ready(function(){
 		}
 	});	
 
-	jQuery(document).keypress(function(e){
-		if(e.charCode == 43){
-			var taskname = jQuery('.tab_content.active .person_task_timesheet .task_name .new_entry_taskname_1 select').val();
-			var clientname = jQuery('.tab_content.active .person_task_timesheet .task_label .new_entry_client_1 select').find('option:selected').text();
-			// if(clientname == '0 Digerati' && taskname =='Ledig'){
-			// 	jQuery('.tab_content.active .person_task_timesheet .task_color .new_entry_project_1 select').prop("selectedIndex", 2);
-			// 	jQuery('.tab_content.active .person_task_timesheet .task_name .new_entry_taskname_1 select').prop("selectedIndex", 7);
-			// }
-			if(clientname == '0 Digerati'){
-				jQuery('.tab_content.active .person_task_timesheet .task_color .new_entry_project_1 select').prop("selectedIndex", 2);
-				jQuery('.tab_content.active .person_task_timesheet .task_name .new_entry_taskname_1 select').prop("selectedIndex", 7);
-			}
-		}
-	});
+	// jQuery(document).keypress(function(e){
+	// 	if(e.charCode == 43){
+	// 		var taskname = jQuery('.tab_content.active .person_task_timesheet .task_name .new_entry_taskname_1 select').val();
+	// 		var clientname = jQuery('.tab_content.active .person_task_timesheet .task_label .new_entry_client_1 select').find('option:selected').text();
+	// 		// if(clientname == '0 Digerati' && taskname =='Ledig'){
+	// 		// 	jQuery('.tab_content.active .person_task_timesheet .task_color .new_entry_project_1 select').prop("selectedIndex", 2);
+	// 		// 	jQuery('.tab_content.active .person_task_timesheet .task_name .new_entry_taskname_1 select').prop("selectedIndex", 7);
+	// 		// }
+	// 		if(clientname == '0 Digerati'){
+	// 			jQuery('.tab_content.active .person_task_timesheet .task_color .new_entry_project_1 select').prop("selectedIndex", 2);
+	// 			jQuery('.tab_content.active .person_task_timesheet .task_name .new_entry_taskname_1 select').prop("selectedIndex", 7);
+	// 		}
+	// 	}
+	// });
 });
 
 
@@ -2571,7 +2571,8 @@ jQuery(document).on('click', '.tab_content.active .save_button_timesheet', funct
 				if(parsed.day_total_work_hours_dec >= 8){
 					jQuery('#tabs .tabs_li.active a').removeClass('red-day').addClass('green-day');
 				}
-
+				jQuery('.tab_content.active .person_task_timesheet .task_color .new_entry_project_1 select').prop("selectedIndex", 2);
+				jQuery('.tab_content.active .person_task_timesheet .task_name .new_entry_taskname_1 select').prop("selectedIndex", 7);
 			},
 
 			error: function (data) {
